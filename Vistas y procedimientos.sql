@@ -1465,6 +1465,176 @@ END
 
 -----------------------------------------------------------------------------------------------------------------------------
 --***************ESCALAS POR TRAYECTO*****************--
+
+--************** VIEW *****************--
+GO
+CREATE OR ALTER VIEW flet.VW_tbEscalasPorTrayecto
+AS
+SELECT	estr_Id, 
+		tray_Id,
+		muni_Escala, 
+		estr_UsuCreacion, 
+		estr_FechaCreacion, 
+		estr_UsuModificacion, 
+		estr_FechaModificacion, 
+		estr_Estado,
+		t2.user_NombreUsuario AS user_Creacion,
+		t3.user_NombreUsuario AS user_Modificacion
+  FROM flet.tbEscalasPorTrayecto T1 INNER JOIN acce.tbUsuarios T2
+  ON T1.estr_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
+  ON T1.estr_UsuModificacion = T3.[user_Id]
+
+
+
+--************** INDEX *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_Index
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbEmpleados
+	WHERE empe_Estado = 1
+END
+
+
+--************** FIND *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_Find
+(@empe_Id	INT)
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbEmpleados
+	WHERE empe_Id = @empe_Id
+END
+
+
+--************** INSERT *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_Insert 
+(@empe_Nombres NVARCHAR(200),
+ @empe_Apellidos NVARCHAR(200),
+ @empe_Identidad NVARCHAR(15),
+ @empe_FechaNacimiento DATE,
+ @empe_Sexo char(1),
+ @eciv_Id INT,
+ @muni_Id INT,
+ @empe_DireccionExacta NVARCHAR(250),
+ @empe_Telefono NVARCHAR(20),
+ @sucu_Id INT,
+ @carg_Id INT,
+ @empe_UsuCreacion INT)
+AS
+BEGIN
+	BEGIN TRY
+        
+		INSERT INTO [flet].[tbEmpleados]
+				([empe_Nombres]
+				,[empe_Apellidos]
+				,[empe_Identidad]
+				,[empe_FechaNacimiento]
+				,[empe_Sexo]
+				,[eciv_Id]
+				,[muni_Id]
+				,[empe_DireccionExacta]
+				,[empe_Telefono]
+				,[sucu_Id]
+				,[carg_Id]
+				,[empe_UsuCreacion]
+				,[empe_FechaCreacion]
+				,[empe_UsuModificacion]
+				,[empe_FechaModificacion]
+				,[empe_Estado])
+			VALUES
+				(@empe_Nombres
+				,@empe_Apellidos
+				,@empe_Identidad
+				,@empe_FechaNacimiento
+				,@empe_Sexo
+				,@eciv_Id
+				,@muni_Id
+				,@empe_DireccionExacta
+				,@empe_Telefono
+				,@sucu_Id
+				,@carg_Id
+				,@empe_UsuCreacion
+				,GETDATE()
+				,NULL
+				,NULL
+				,1)
+
+		SELECT 1 codeStatus
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codeStatus
+	END CATCH
+END
+
+--************** UPDATE *****************--
+Go
+CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_Update
+(@empe_Id INT,
+ @empe_Nombres NVARCHAR(200),
+ @empe_Apellidos NVARCHAR(200),
+ @empe_Identidad NVARCHAR(15),
+ @empe_FechaNacimiento DATE,
+ @empe_Sexo char(1),
+ @eciv_Id INT,
+ @muni_Id INT,
+ @empe_DireccionExacta NVARCHAR(250),
+ @empe_Telefono NVARCHAR(20),
+ @sucu_Id INT,
+ @carg_Id INT,
+ @empe_UsuModificacion INT)
+AS
+BEGIN
+	BEGIN TRY
+      
+		UPDATE [flet].[tbEmpleados]
+		SET [empe_Nombres] = @empe_Nombres
+			,[empe_Apellidos] = @empe_Apellidos
+			,[empe_Identidad] = @empe_Identidad
+			,[empe_FechaNacimiento] = @empe_FechaNacimiento
+			,[empe_Sexo] = @empe_Sexo
+			,[eciv_Id] = @eciv_Id
+			,[muni_Id] = @muni_Id
+			,[empe_DireccionExacta] = @empe_DireccionExacta
+			,[empe_Telefono] = @empe_Telefono
+			,[sucu_Id] = @sucu_Id
+			,[carg_Id] = @carg_Id
+			,[empe_UsuModificacion] =  @empe_UsuModificacion
+			,[empe_FechaModificacion] = GETDATE()
+		WHERE empe_Id = @empe_Id
+
+		SELECT 1 codeStatus
+
+	END TRY
+	BEGIN CATCH
+		SELECT 0  codeStatus
+	END CATCH
+END
+
+
+--************** DELETE *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_Delete
+(@empe_Id INT)
+AS
+BEGIN
+	BEGIN TRY
+		
+		UPDATE flet.tbEmpleados
+		SET empe_Estado = 0
+		WHERE empe_Id = @empe_Id
+		
+		SELECT 1 codestatus
+	
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codestatus
+	END CATCH
+END
+
+
+
 -----------------------------------------------------------------------------------------------------------------------------
 --*******************FLETE DETALLES*******************--
 -----------------------------------------------------------------------------------------------------------------------------
