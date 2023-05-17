@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5sI3D84r2s1zoZMq2i5ImBJ2xAXJYiu9dsIXlNZHW2ELpIHmYasOI/3suKrBg8FvP2xncAfZuUgwxVm9bnC8JQ==",
+  "dgSpecHash": "NNubVL7uR0IrRsdlUHXD68SRmOPPTbxaU5Vov7lVQ+3M5puPElBntkXxTj1alIV1Bkel0YIdmuKso31IpnNRkA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\danie\\source\\repos\\FletesNacionalesAPI\\FletesNacionales.API\\FletesNacionales.API.csproj",
+  "projectFilePath": "C:\\Users\\danie\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.API\\FletesNacionales.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\danie\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\danie\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
