@@ -1488,78 +1488,41 @@ SELECT	estr_Id,
 
 --************** INDEX *****************--
 GO
-CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_Index
+CREATE OR ALTER PROCEDURE flet.UDP_tbEscalasPorTrayecto_Index
 AS 
 BEGIN
-	SELECT * FROM flet.VW_tbEmpleados
-	WHERE empe_Estado = 1
+	SELECT * FROM flet.VW_tbEscalasPorTrayecto
+	WHERE estr_Estado = 1
 END
 
 
 --************** FIND *****************--
 GO
-CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_Find
-(@empe_Id	INT)
+CREATE OR ALTER PROCEDURE flet.UDP_tbEscalasPorTrayecto_Find
+(
+@estr_Id	INT
+)
 AS 
 BEGIN
-	SELECT * FROM flet.VW_tbEmpleados
-	WHERE empe_Id = @empe_Id
+	SELECT * FROM flet.VW_tbEscalasPorTrayecto
+	WHERE estr_Id = @estr_Id
 END
 
 
 --************** INSERT *****************--
 GO
-CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_Insert 
-(@empe_Nombres NVARCHAR(200),
- @empe_Apellidos NVARCHAR(200),
- @empe_Identidad NVARCHAR(15),
- @empe_FechaNacimiento DATE,
- @empe_Sexo char(1),
- @eciv_Id INT,
- @muni_Id INT,
- @empe_DireccionExacta NVARCHAR(250),
- @empe_Telefono NVARCHAR(20),
- @sucu_Id INT,
- @carg_Id INT,
- @empe_UsuCreacion INT)
+CREATE OR ALTER PROCEDURE flet.UDP_tbEscalasPorTrayecto_Insert 
+(
+@tray_Id			INT,
+@muni_Escala		INT,
+@estr_UsuCreacion	INT
+)
 AS
 BEGIN
 	BEGIN TRY
         
-		INSERT INTO [flet].[tbEmpleados]
-				([empe_Nombres]
-				,[empe_Apellidos]
-				,[empe_Identidad]
-				,[empe_FechaNacimiento]
-				,[empe_Sexo]
-				,[eciv_Id]
-				,[muni_Id]
-				,[empe_DireccionExacta]
-				,[empe_Telefono]
-				,[sucu_Id]
-				,[carg_Id]
-				,[empe_UsuCreacion]
-				,[empe_FechaCreacion]
-				,[empe_UsuModificacion]
-				,[empe_FechaModificacion]
-				,[empe_Estado])
-			VALUES
-				(@empe_Nombres
-				,@empe_Apellidos
-				,@empe_Identidad
-				,@empe_FechaNacimiento
-				,@empe_Sexo
-				,@eciv_Id
-				,@muni_Id
-				,@empe_DireccionExacta
-				,@empe_Telefono
-				,@sucu_Id
-				,@carg_Id
-				,@empe_UsuCreacion
-				,GETDATE()
-				,NULL
-				,NULL
-				,1)
+		INSERT INTO flet.tbEscalasPorTrayecto (tray_Id, muni_Escala, estr_UsuCreacion)
+		VALUES	(@tray_Id, @muni_Escala, @estr_UsuCreacion)
 
 		SELECT 1 codeStatus
 	END TRY
@@ -1570,39 +1533,23 @@ END
 
 --************** UPDATE *****************--
 Go
-CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_Update
-(@empe_Id INT,
- @empe_Nombres NVARCHAR(200),
- @empe_Apellidos NVARCHAR(200),
- @empe_Identidad NVARCHAR(15),
- @empe_FechaNacimiento DATE,
- @empe_Sexo char(1),
- @eciv_Id INT,
- @muni_Id INT,
- @empe_DireccionExacta NVARCHAR(250),
- @empe_Telefono NVARCHAR(20),
- @sucu_Id INT,
- @carg_Id INT,
- @empe_UsuModificacion INT)
+CREATE OR ALTER PROCEDURE flet.UDP_tbEscalasPorTrayecto_Update
+(
+@estr_Id				INT,
+@tray_Id				INT,
+@muni_Escala			INT,
+@estr_UsuModificacion	INT
+ )
 AS
 BEGIN
 	BEGIN TRY
       
-		UPDATE [flet].[tbEmpleados]
-		SET [empe_Nombres] = @empe_Nombres
-			,[empe_Apellidos] = @empe_Apellidos
-			,[empe_Identidad] = @empe_Identidad
-			,[empe_FechaNacimiento] = @empe_FechaNacimiento
-			,[empe_Sexo] = @empe_Sexo
-			,[eciv_Id] = @eciv_Id
-			,[muni_Id] = @muni_Id
-			,[empe_DireccionExacta] = @empe_DireccionExacta
-			,[empe_Telefono] = @empe_Telefono
-			,[sucu_Id] = @sucu_Id
-			,[carg_Id] = @carg_Id
-			,[empe_UsuModificacion] =  @empe_UsuModificacion
-			,[empe_FechaModificacion] = GETDATE()
-		WHERE empe_Id = @empe_Id
+		UPDATE	flet.tbEscalasPorTrayecto
+		SET		tray_Id = @tray_Id,
+				muni_Escala  = @muni_Escala,
+				estr_UsuModificacion = @estr_UsuModificacion,
+				estr_FechaModificacion = GETDATE()
+		WHERE	estr_Id = @estr_Id
 
 		SELECT 1 codeStatus
 
@@ -1615,15 +1562,17 @@ END
 
 --************** DELETE *****************--
 GO
-CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_Delete
-(@empe_Id INT)
+CREATE OR ALTER PROCEDURE flet.UDP_tbEscalasPorTrayecto_Delete
+(
+@estr_Id INT
+)
 AS
 BEGIN
 	BEGIN TRY
 		
-		UPDATE flet.tbEmpleados
-		SET empe_Estado = 0
-		WHERE empe_Id = @empe_Id
+		UPDATE	flet.tbEscalasPorTrayecto
+		SET		estr_Estado = 0
+		WHERE	estr_Id = @estr_Id
 		
 		SELECT 1 codestatus
 	
