@@ -1,4 +1,9 @@
-﻿USE FletesNacionales
+﻿/*
+USE master
+DROP DATABASE FletesNacionales
+*/
+
+USE FletesNacionales
 
 
 --****************************************INSERTS GENERALES****************************************--
@@ -567,7 +572,7 @@ VALUES	('Lavadora Samsung','Modelo X$/AE LGBT',70,2.8, 1),
 INSERT INTO flet.tbSucursales (sucu_Nombre, muni_Id, sucu_Direccion, sucu_UsuCreacion)
 VALUES	('Fletes Horizon San Pedro Sula',62 ),
 ('Fletes Horizon Tegucigalpa',109 ),
-('Fletes Horizon Puerto Cortes',109 ),
+('Fletes Horizon Puerto Cortes',67),
 
 
 GO
