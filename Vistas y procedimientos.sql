@@ -1586,14 +1586,638 @@ END
 
 -----------------------------------------------------------------------------------------------------------------------------
 --*******************FLETE DETALLES*******************--
+
+--************** VIEW *****************--
+GO
+CREATE OR ALTER VIEW flet.VW_tbFleteDetalles
+AS
+SELECT	fdet_Id, 
+		flet_Id, 
+		pedi_Id, 
+		fdet_UsuCreacion, 
+		fdet_FechaCreacion, 
+		fdet_UsuModificacion, 
+		fdet_FechaModificacion, 
+		fdet_Estado,
+		t2.user_NombreUsuario AS user_Creacion,
+		t3.user_NombreUsuario AS user_Modificacion
+  FROM flet.tbFleteDetalles T1 INNER JOIN acce.tbUsuarios T2
+  ON T1.fdet_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
+  ON T1.fdet_UsuModificacion = T3.[user_Id]
+
+
+--************** INDEX *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFleteDetalles_Index
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbFleteDetalles
+	WHERE fdet_Estado = 1
+END
+
+
+--************** FIND *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFleteDetalles_Find
+(
+@fdet_Id	INT
+)
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbFleteDetalles
+	WHERE fdet_Id = @fdet_Id
+END
+
+
+--************** INSERT *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFleteDetalles_Insert 
+(
+@flet_Id			INT, 
+@pedi_Id			INT, 
+@fdet_UsuCreacion	INT
+)
+AS
+BEGIN
+	BEGIN TRY
+        
+		INSERT INTO flet.tbFleteDetalles (flet_Id, pedi_Id, fdet_UsuCreacion)
+		VALUES	(@flet_Id, @pedi_Id, @fdet_UsuCreacion)
+
+		SELECT 1 codeStatus
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codeStatus
+	END CATCH
+END
+
+--************** UPDATE *****************--
+Go
+CREATE OR ALTER PROCEDURE flet.UDP_tbFleteDetalles_Update
+(
+@fdet_Id				INT,
+@flet_Id				INT, 
+@pedi_Id				INT, 
+@fdet_UsuModificacion	INT
+ )
+AS
+BEGIN
+	BEGIN TRY
+      
+		UPDATE	flet.tbFleteDetalles
+		SET		flet_Id = @flet_Id,
+				pedi_Id  = @pedi_Id,
+				fdet_UsuModificacion = @fdet_UsuModificacion,
+				fdet_FechaModificacion = GETDATE()
+		WHERE	fdet_Id = @fdet_Id
+
+		SELECT 1 codeStatus
+
+	END TRY
+	BEGIN CATCH
+		SELECT 0  codeStatus
+	END CATCH
+END
+
+
+--************** DELETE *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFleteDetalles_Delete
+(
+@fdet_Id INT
+)
+AS
+BEGIN
+	BEGIN TRY
+		
+		UPDATE	flet.tbFleteDetalles
+		SET		fdet_Estado = 0
+		WHERE	fdet_Id = @fdet_Id
+		
+		SELECT 1 codestatus
+	
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codestatus
+	END CATCH
+END
+
+
 -----------------------------------------------------------------------------------------------------------------------------
 --**********************FLETES************************--
+
+--************** VIEW *****************--
+GO
+CREATE OR ALTER VIEW flet.VW_tbFletes
+AS
+SELECT	flet_Id, 
+		vehi_Id, 
+		T1.empe_Id, 
+		tray_Id, 
+		flet_FechaDeSalida, 
+		flet_UsuCreacion, 
+		flet_FechaCreacion, 
+		flet_UsuModificacion, 
+		flet_FechaModificacion, 
+		flet_Estado,
+		t2.user_NombreUsuario AS user_Creacion,
+		t3.user_NombreUsuario AS user_Modificacion
+  FROM flet.tbFletes T1 INNER JOIN acce.tbUsuarios T2
+  ON T1.flet_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
+  ON T1.flet_UsuModificacion = T3.[user_Id] 
+
+
+--************** INDEX *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_Index
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbFletes
+	WHERE flet_Estado = 1
+END
+
+
+--************** FIND *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_Find
+(
+@flet_Id	INT
+)
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbFletes
+	WHERE flet_Id = @flet_Id
+END
+
+
+--************** INSERT *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_Insert 
+(
+@vehi_Id			INT, 
+@empe_Id			INT, 
+@tray_Id			INT, 
+@flet_FechaDeSalida DATE, 
+@flet_UsuCreacion	INT
+)
+AS
+BEGIN
+	BEGIN TRY
+        
+		INSERT INTO flet.tbFletes (vehi_Id, empe_Id, tray_Id, flet_FechaDeSalida, flet_UsuCreacion)
+		VALUES	(@vehi_Id, @empe_Id, @tray_Id, @flet_FechaDeSalida, @flet_UsuCreacion)
+
+		SELECT 1 codeStatus
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codeStatus
+	END CATCH
+END
+
+--************** UPDATE *****************--
+Go
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_Update
+(
+@flet_Id				INT,
+@vehi_Id				INT, 
+@empe_Id				INT, 
+@tray_Id				INT, 
+@flet_FechaDeSalida		DATE, 
+@flet_UsuModificacion	INT
+ )
+AS
+BEGIN
+	BEGIN TRY
+      
+		UPDATE	flet.tbFletes
+		SET		vehi_Id = @vehi_Id,
+				empe_Id	= @empe_Id,
+				tray_Id	= @tray_Id,
+				flet_FechaDeSalida = @flet_FechaDeSalida,
+				flet_UsuModificacion = @flet_UsuModificacion,
+				flet_FechaModificacion = GETDATE()
+		WHERE	flet_Id = @flet_Id
+
+		SELECT 1 codeStatus
+
+	END TRY
+	BEGIN CATCH
+		SELECT 0  codeStatus
+	END CATCH
+END
+
+
+--************** DELETE *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_Delete
+(
+@flet_Id INT
+)
+AS
+BEGIN
+	BEGIN TRY
+		
+		UPDATE	flet.tbFletes
+		SET		flet_Estado = 0
+		WHERE	flet_Id = @flet_Id
+		
+		SELECT 1 codestatus
+	
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codestatus
+	END CATCH
+END
+
 -----------------------------------------------------------------------------------------------------------------------------
 --***********************ITEMS************************--
+
+--************** VIEW *****************--
+GO
+CREATE OR ALTER VIEW flet.VW_tbItems
+AS
+SELECT	item_Id, 
+		item_Nombre, 
+		item_Descripcion,
+		item_Peso, 
+		item_Volumen, 
+		item_UsuCreacion, 
+		item_FechaCreacion, 
+		item_UsuModificacion, 
+		item_FechaModificacion, 
+		item_Estado,
+		t2.user_NombreUsuario AS user_Creacion,
+		t3.user_NombreUsuario AS user_Modificacion
+  FROM flet.tbItems T1 INNER JOIN acce.tbUsuarios T2
+  ON T1.item_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
+  ON T1.item_UsuModificacion = T3.[user_Id] 
+
+
+--************** INDEX *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbItems_Index
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbItems
+	WHERE item_Estado = 1
+END
+
+
+--************** FIND *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbItems_Find
+(
+@item_Id	INT
+)
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbItems
+	WHERE item_Id = @item_Id
+END
+
+
+--************** INSERT *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbItems_Insert 
+(
+@item_Nombre		NVARCHAR(100), 
+@item_Descripcion	NVARCHAR(100),
+@item_Peso			DECIMAL(18,2), 
+@item_Volumen		DECIMAL(18,2), 
+@item_UsuCreacion	INT
+)
+AS
+BEGIN
+	BEGIN TRY
+        
+		INSERT INTO flet.tbItems (item_Nombre, item_Descripcion, item_Peso, item_Volumen, item_UsuCreacion)
+		VALUES	(@item_Nombre, @item_Descripcion, @item_Peso, @item_Volumen, @item_UsuCreacion)
+
+		SELECT 1 codeStatus
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codeStatus
+	END CATCH
+END
+
+--************** UPDATE *****************--
+Go
+CREATE OR ALTER PROCEDURE flet.UDP_tbItems_Update
+(
+@item_Id				INT,
+@item_Nombre			NVARCHAR(100), 
+@item_Descripcion		NVARCHAR(100),
+@item_Peso				DECIMAL(18,2), 
+@item_Volumen			DECIMAL(18,2), 
+@item_UsuModificacion	INT 
+ )
+AS
+BEGIN
+	BEGIN TRY
+      
+		UPDATE	flet.tbItems
+		SET		item_Id = @item_Id,
+				item_Nombre	= @item_Nombre,
+				item_Descripcion = @item_Descripcion,
+				item_Peso = @item_Peso,
+				item_Volumen = @item_Volumen,
+				item_UsuModificacion = @item_UsuModificacion,
+				item_FechaModificacion  = GETDATE()
+		WHERE	item_Id = @item_Id
+
+		SELECT 1 codeStatus
+
+	END TRY
+	BEGIN CATCH
+		SELECT 0  codeStatus
+	END CATCH
+END
+
+
+--************** DELETE *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbItems_Delete
+(
+@item_Id INT
+)
+AS
+BEGIN
+	BEGIN TRY
+		
+		UPDATE	flet.tbItems
+		SET		item_Estado = 0
+		WHERE	item_Id = @item_Id
+		
+		SELECT 1 codestatus
+	
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codestatus
+	END CATCH
+END
+
+
 -----------------------------------------------------------------------------------------------------------------------------
 --******************PEDIDO DETALLES*******************--
+
+--************** VIEW *****************--
+GO
+CREATE OR ALTER VIEW flet.VW_tbPedidoDetalles
+AS
+SELECT	pdet_Id,
+		T1.item_Id,
+		item_Nombre,
+		item_Descripcion,
+		item_Peso,
+		item_Volumen, 
+		pdet_UsuCreacion, 
+		pdet_FechaCreacion, 
+		pdet_UsuModificacion, 
+		pdet_FechaModificacion, 
+		pdet_Estado,
+		t2.user_NombreUsuario AS user_Creacion,
+		t3.user_NombreUsuario AS user_Modificacion
+  FROM flet.tbPedidoDetalles T1 INNER JOIN acce.tbUsuarios T2
+  ON T1.pdet_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
+  ON T1.pdet_UsuModificacion = T3.[user_Id] INNER JOIN flet.tbItems T4
+  ON T1.item_Id = T4.item_Id
+
+
+--************** INDEX *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbPedidoDetalles_Index
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbPedidoDetalles
+	WHERE pdet_Estado = 1
+END
+
+
+--************** FIND *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbPedidoDetalles_Find
+(
+@pdet_Id	INT
+)
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbPedidoDetalles
+	WHERE pdet_Id = @pdet_Id
+END
+
+
+--************** INSERT *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbPedidoDetalles_Insert 
+(
+@item_Id			INT,
+@pdet_UsuCreacion	INT
+)
+AS
+BEGIN
+	BEGIN TRY
+        
+		INSERT INTO flet.tbPedidoDetalles (item_Id, pdet_UsuCreacion)
+		VALUES	(@item_Id, @pdet_UsuCreacion)
+
+		SELECT 1 codeStatus
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codeStatus
+	END CATCH
+END
+
+--************** UPDATE *****************--
+Go
+CREATE OR ALTER PROCEDURE flet.UDP_tbPedidoDetalles_Update
+(
+@pdet_Id				INT,
+@item_Id				INT,
+@pdet_UsuModificacion	INT
+ )
+AS
+BEGIN
+	BEGIN TRY
+      
+		UPDATE	flet.tbPedidoDetalles
+		SET		item_Id = @item_Id,
+				pdet_UsuModificacion = @pdet_UsuModificacion,
+				pdet_FechaModificacion  = GETDATE()
+		WHERE	pdet_Id = @pdet_Id
+
+		SELECT 1 codeStatus
+
+	END TRY
+	BEGIN CATCH
+		SELECT 0  codeStatus
+	END CATCH
+END
+
+
+--************** DELETE *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbPedidoDetalles_Delete
+(
+@pdet_Id INT
+)
+AS
+BEGIN
+	BEGIN TRY
+		
+		UPDATE	flet.tbPedidoDetalles
+		SET		pdet_Estado = 0
+		WHERE	pdet_Id = @pdet_Id
+		
+		SELECT 1 codestatus
+	
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codestatus
+	END CATCH
+END
+
+
 -----------------------------------------------------------------------------------------------------------------------------
 --**********************PEDIDOS***********************--
+
+--************** VIEW *****************--
+GO
+CREATE OR ALTER VIEW flet.VW_tbPedidos
+AS
+SELECT	pedi_Id, 
+		T1.clie_Id,
+		clie_Nombres + ' ' + clie_Apellidos AS clie_NombreCompleto,
+		clie_Identidad, 
+		clie_FechaNacimiento, 
+		clie_Sexo, 
+		eciv_Id,  
+		clie_DireccionExacta, 
+		clie_Telefono, 
+		muni_Origen, 
+		T5.muni_Nombre AS pedi_OrigenNombre,
+		T6.depa_Id AS pedi_DepaOrigenId,
+		T6.depa_Nombre AS pedi_DepaOrigen,
+		muni_Destino, 
+		T7.muni_Nombre AS pedi_DestinoNombre,
+		T8.depa_Id AS pedi_DepaDestinoId,
+		T8.depa_Nombre   AS pedi_DepaDestino,
+		pedi_DestinoFinal, 
+		pedi_UsuCreacion, 
+		pedi_FechaCreacion, 
+		pedi_UsuModificacion, 
+		pedi_FechaModificacion, 
+		pedi_Estado,
+		t2.user_NombreUsuario AS user_Creacion,
+		t3.user_NombreUsuario AS user_Modificacion
+  FROM flet.tbPedidos T1 INNER JOIN acce.tbUsuarios T2
+  ON T1.pedi_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
+  ON T1.pedi_UsuModificacion = T3.[user_Id] INNER JOIN flet.tbClientes T4
+  ON T1.clie_Id = T4.clie_Id  INNER JOIN gral.tbMunicipios T5
+  ON T1.muni_Origen = T5.muni_Id  INNER JOIN gral.tbDepartamentos T6
+  ON T5.depa_Id = T6.depa_Id INNER JOIN gral.tbMunicipios T7
+  ON T1.muni_Destino = T7.muni_Id  INNER JOIN gral.tbDepartamentos T8
+  ON T7.depa_Id = T8.depa_Id
+
+
+--************** INDEX *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_Index
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbPedidos
+	WHERE pedi_Estado = 1
+END
+
+
+--************** FIND *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_Find
+(
+@pedi_Id	INT
+)
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbPedidos
+	WHERE pedi_Id = @pedi_Id
+END
+
+
+--************** INSERT *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_Insert 
+(
+@clie_Id			INT,
+@muni_Origen		INT,
+@muni_Destino		INT,
+@pedi_DestinoFinal	NVARCHAR(250),
+@pedi_UsuCreacion	INT
+)
+AS
+BEGIN
+	BEGIN TRY
+        
+		INSERT INTO flet.tbPedidos (clie_Id, muni_Origen, muni_Destino, pedi_DestinoFinal, pedi_UsuCreacion)
+		VALUES	(@clie_Id, @muni_Origen, @muni_Destino, @pedi_DestinoFinal, @pedi_UsuCreacion)
+
+		SELECT 1 codeStatus
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codeStatus
+	END CATCH
+END
+
+--************** UPDATE *****************--
+Go
+CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_Update
+(
+@pedi_Id				INT,
+@clie_Id				INT,
+@muni_Origen			INT,
+@muni_Destino			INT,
+@pedi_DestinoFinal		NVARCHAR(250),
+@pedi_UsuModificacion	INT
+ )
+AS
+BEGIN
+	BEGIN TRY
+      
+		UPDATE	flet.tbPedidos
+		SET		item_Id = @item_Id,
+				pdet_UsuModificacion = @pdet_UsuModificacion,
+				pdet_FechaModificacion  = GETDATE()
+		WHERE	pdet_Id = @pdet_Id
+
+		SELECT 1 codeStatus
+
+	END TRY
+	BEGIN CATCH
+		SELECT 0  codeStatus
+	END CATCH
+END
+
+
+--************** DELETE *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_Delete
+(
+@pdet_Id INT
+)
+AS
+BEGIN
+	BEGIN TRY
+		
+		UPDATE	flet.tbPedidos
+		SET		pdet_Estado = 0
+		WHERE	pdet_Id = @pdet_Id
+		
+		SELECT 1 codestatus
+	
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codestatus
+	END CATCH
+END
+
 -----------------------------------------------------------------------------------------------------------------------------
 --*********************SUCURSALES*********************--
 -----------------------------------------------------------------------------------------------------------------------------
