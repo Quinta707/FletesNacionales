@@ -562,10 +562,7 @@ CONSTRAINT FK_flet_tbUbicacionPorFlete_acce_tbUsuarios_pdet_UsuModificacion     
 --Pantallas ✓
 --Usuarios ✓
 
-
-
 ----------------SOLO INSERTS-----------------
-
 ------------------GENERALES-----------------
 --Departamento ✓
 --Municipio ✓
@@ -574,26 +571,26 @@ CONSTRAINT FK_flet_tbUbicacionPorFlete_acce_tbUsuarios_pdet_UsuModificacion     
 --Cargos ✓
 
 ------------------EQUIPO---------------------
---Modelos
---Marcas
+--Modelos ✓
+--Marcas ✓
 --Vehiculos
---Tipo de vehiculo
+--Tipo de vehiculo ✓
 
 ------------------Empresa--------------------
---Empleados
---Clientes
---Sucursales
---Items
+--Empleados ✓
+--Clientes ✓
+--Sucursales ✓
+--Items ✓
 --Pedidos
 --PedidosDetalles
 --Fletes
 --Flete detalle
---Trayectos
+--Trayectos ✓
 --EscalasPorTrayecto
 --Ubicacion por flete
 
 ------------------ACCESO--------------------
---Roles 
+--Roles  ✓
 --RolesPorPantalla 
 --Pantallas 
 --Usuarios ✓

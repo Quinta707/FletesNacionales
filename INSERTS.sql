@@ -501,41 +501,6 @@ VALUES	('Cristian', 'Aguilar', '0501-2004-98213', '02-02-2004', 'M', '1', '63', 
 		('Carlos', 'Herrera', '0314-1990-62712', '04-22-1990', 'M', '1', '63', 'Sps',  '+504 9623-9956', '1'),
 		('Ana', 'Fajardo', '0913-1990-92738', '09-23-1998', 'F', '1', '63', 'Sps',  '+504 9027-8867', '1');
 
---****************************************EMPLEADO****************************************--
-GO
-INSERT INTO flet.tbEmpleados(empe_Nombres, empe_Apellidos, empe_Identidad, empe_FechaNacimiento, empe_Sexo, eciv_Id, muni_Id, empe_DireccionExacta, empe_Telefono, sucu_Id, carg_Id, empe_UsuCreacion)
-VALUES	('Maria Antonia', 'Aguilar', '0101-1990-01238', '02-16-1990', 'F', '4', '1', 'Col. El Sauce, La Ceiba', '+504 3892-0126', '1', '1', '1'),
-		('Oscar', 'Blanco', '0101-1992-23743', '12-30-1992', 'M', '1', '1', 'Col. La Esperanza, La Ceiba', '+504 7892-2839', '1', '2', '1'),
-		('Lisa', 'Caballero', '0101-1989-73982', '04-25-1989', 'F', '1', '1', 'Col. La Flor, La Ceiba', '+504 6389-2948', '1', '2', '1'),
-		('José', 'Antúnez', '0101-2000-00021', '01-01-2000', 'M', '1', '1', 'Col. Libertad, La Ceiba', '+504 8946-3846', '1', '2', '1'),
-		('Lorna', 'Chaín', '0101-2002-00293', '02-05-2002', 'F', '1', '1', 'Residencial El Toronjal, La Ceiba', '+504 3628-3826', '1', '2', '1'),
-		----
-		('Rafael', 'Caballero', '0501-2005-00293', '01-13-2005', 'M', '1', '63', 'Col. Santa Marta, San Pedro Sula', '+504 6372-3792', '2', '1', '1'),
-		('Melissa', 'Torres', '0501-2000-02353', '05-10-2000', 'F', '1', '63', 'Col. El Carmen, San Pedro Sula', '+504 5739-3827', '2', '2', '1'),
-		('Junior', 'Estrada', '0501-2004-07384', '07-28-2004', 'M', '2', '63', 'Los Alamos, San Pedro Sula', '+504 3728-9303', '2', '2', '1'),
-		('Jesús', 'Barreda', '0501-1975-27394', '10-10-1975', 'M', '1', '63', 'Ticamaya, San Pedro Sula', '+504 7293-8567', '2', '2', '1'),
-		('Jessica', 'Ángeles', '0501-1995-83923', '11-05-1995', 'F', '2', '63', 'Casa Maya 3, San Pedro Sula', '+504 4729-8395', '2', '2', '1'),
-		----
-		('Wiliam', 'Afton', '0801-1985-03647', '10-05-1985', 'M', '1', '110', 'Kennedy, Tegucigalpa', '+504 6473-7483', '3', '1', '1'),
-		('Roberto', 'Contreras', '0801-1974-00947', '04-15-1974', 'M', '1', '110', 'Col. Ulloa, Tegucigalpa', '+504 9858-8465', '3', '2', '1'),
-		('Karen', 'Mejía', '0801-1995-09273', '03-25-1995', 'F', '1', '110', 'Col. Divino Paraíso, Tegucigalpa', '+504 7234-8212', '3', '2', '1'),
-		('Roxana', 'Martínez', '0801-1980-15263', '08-12-1980', 'F', '1', '110', 'Col. Arturo Quezada, Tegucigalpa', '+504 7483-9837', '3', '2', '1'),
-		('Julia', 'Calderón', '0801-1981-11823', '09-09-1981', 'F', '1', '110', 'Col. Arturo Quezada, Tegucigalpa', '+504 8790-9085', '3', '2', '1'),
-		----
-		('Sheila', 'Torres', '0503-1981-09283', '02-09-1981', 'F', '1', '65', 'Buena Vista, Omoa', '+504 7384-8974', '4', '1', '1'),
-		('Victor', 'Mateo', '0503-1997-00829', '03-09-1997', 'M', '1', '65', 'Corinto, Omoa', '+504 9087-9056', '4', '2', '1'),
-		('Amelia', 'Lara', '0503-1998-00023', '04-09-1998', 'F', '1', '65', 'La Venada, Omoa', '+504 9585-7456', '4', '2', '1'),
-		('Laura', 'Serrano', '0503-1999-01724', '05-09-1999', 'F', '1', '65', 'Col. La Loma, Omoa', '+504 8869-9504', '4', '2', '1'),
-		('Karla', 'Menjivar', '0503-2000-72834', '06-09-2000', 'F', '1', '65', 'Chivana, Omoa', '+504 9090-2524', '4', '2', '1'),
-		----
-		('Laura', 'Marano', '1804-1995-83629', '11-29-1995', 'F', '1', '291', 'Arenas Blancas, El Progreso', '+504 7384-9382', '5', '1', '1'),
-		('Ross', 'Lynch', '1804-1995-18294', '12-29-1995', 'M', '1', '291', 'Diez Alborotos, El Progreso', '+504 9283-9472', '5', '2', '1'),
-		('Timothée', 'Chalamet', '1804-1995-18200', '12-27-1995', 'M', '1', '291', 'Diez Alborotos, El Progreso', '+504 8273-9488', '5', '2', '1'),
-		('Bill', 'Kaulitz', '1804-1989-00283', '09-01-1989', 'M', '1', '291', 'Campo Amapa, El Progreso', '+504 9984-7383', '5', '2', '1'),
-		('Tom', 'Kaulitz', '1804-1989-00284', '09-01-1989', 'M', '2', '291', 'Campo Amapa, El Progreso', '+504 9863-7482', '5', '2', '1');
-		----
-GO
-
 --****************************************ITEMS****************************************--
 INSERT INTO flet.tbItems (item_Nombre, item_Descripcion, item_Peso, item_Volumen, item_UsuCreacion)
 VALUES	('Lavadora Samsung','Modelo X$/AE LGBT',70,2.8, 1),
@@ -570,14 +535,164 @@ VALUES	('Lavadora Samsung','Modelo X$/AE LGBT',70,2.8, 1),
 
 --****************************************SUCURSALES****************************************--
 INSERT INTO flet.tbSucursales (sucu_Nombre, muni_Id, sucu_Direccion, sucu_UsuCreacion)
-VALUES	('Fletes Horizon San Pedro Sula',62 ),
-('Fletes Horizon Tegucigalpa',109 ),
-('Fletes Horizon Puerto Cortes',67),
-
-
+VALUES	('Fletes Horizon San Pedro Sula',62,'123 Calle Ficticia, Barrio Imaginario, San Pedro Sula, Honduras',1),
+('Fletes Horizon Tegucigalpa',109,'Avenida Ejemplo 123, Colonia Imaginaria, Tegucigalpa, Honduras',1),
+('Fletes Horizon Santa Rosa De Copan',39,'Calle Ficticia 456, Barrio Imaginario, Santa Rosa de Copán, Honduras',1),
+('Fletes Horizon Puerto Cortes',67,'Avenida Imaginaria 789, Colonia Ficticia, Puerto Cortés, Honduras',1),
+('Fletes Horizon Santa Barbara',250,'Calle Principal 456, Colonia Santa Rosa, Santa Bárbara, Honduras',1),
+('Fletes Horizon El Progreso',290,'Calle Ficticia 123, Barrio Imaginario, El Progreso, Honduras',1),
+('Fletes Horizon Tocoa',17,'Avenida Central 789, Barrio San Juan, Tocoa, Honduras',1),
+('Fletes Horizon La Ceiba',1,'Calle Principal 123, Barrio El Paraíso, La Ceiba, Honduras',1),
+('Fletes Horizon Tela',3,'Avenida Costera 456, Colonia Playa Azul, Tela, Honduras',1),
+('Fletes Horizon Siguatepeque',36,'Calle Principal 789, Barrio El Carmen, Siguatepeque, Honduras',1)
 GO
 
-SELECT * FROM GRAL.tbMunicipios where muni_Codigo = '0506'
+select t1.muni_Id , t2.muni_Nombre from flet.tbSucursales t1 inner join gral.tbMunicipios t2 on t1.muni_id = t2.muni_Id
+ where t1.muni_Id in (62,109,39,67,250,290,17,1,3,36)
+
+--****************************************EMPLEADO****************************************--
+INSERT INTO flet.tbEmpleados(empe_Nombres, empe_Apellidos, empe_Identidad, empe_FechaNacimiento, empe_Sexo, eciv_Id, muni_Id, empe_DireccionExacta, empe_Telefono, sucu_Id, carg_Id, empe_UsuCreacion)
+VALUES	('Maria Antonia', 'Aguilar', '0101-1990-01238', '02-16-1990', 'F', '4', '1', 'Col. El Sauce, La Ceiba', '+504 3892-0126', '1', '1', '1'),
+		('Oscar', 'Blanco', '0101-1992-23743', '12-30-1992', 'M', '1', '1', 'Col. La Esperanza, La Ceiba', '+504 7892-2839', '1', '2', '1'),
+		('Lisa', 'Caballero', '0101-1989-73982', '04-25-1989', 'F', '1', '1', 'Col. La Flor, La Ceiba', '+504 6389-2948', '1', '2', '1'),
+		('José', 'Antúnez', '0101-2000-00021', '01-01-2000', 'M', '1', '1', 'Col. Libertad, La Ceiba', '+504 8946-3846', '1', '2', '1'),
+		('Lorna', 'Chaín', '0101-2002-00293', '02-05-2002', 'F', '1', '1', 'Residencial El Toronjal, La Ceiba', '+504 3628-3826', '1', '2', '1'),
+		----
+		('Rafael', 'Caballero', '0501-2005-00293', '01-13-2005', 'M', '1', '63', 'Col. Santa Marta, San Pedro Sula', '+504 6372-3792', '2', '1', '1'),
+		('Melissa', 'Torres', '0501-2000-02353', '05-10-2000', 'F', '1', '63', 'Col. El Carmen, San Pedro Sula', '+504 5739-3827', '2', '2', '1'),
+		('Junior', 'Estrada', '0501-2004-07384', '07-28-2004', 'M', '2', '63', 'Los Alamos, San Pedro Sula', '+504 3728-9303', '2', '2', '1'),
+		('Jesús', 'Barreda', '0501-1975-27394', '10-10-1975', 'M', '1', '63', 'Ticamaya, San Pedro Sula', '+504 7293-8567', '2', '2', '1'),
+		('Jessica', 'Ángeles', '0501-1995-83923', '11-05-1995', 'F', '2', '63', 'Casa Maya 3, San Pedro Sula', '+504 4729-8395', '2', '2', '1'),
+		----
+		('Wiliam', 'Afton', '0801-1985-03647', '10-05-1985', 'M', '1', '110', 'Kennedy, Tegucigalpa', '+504 6473-7483', '3', '1', '1'),
+		('Roberto', 'Contreras', '0801-1974-00947', '04-15-1974', 'M', '1', '110', 'Col. Ulloa, Tegucigalpa', '+504 9858-8465', '3', '2', '1'),
+		('Karen', 'Mejía', '0801-1995-09273', '03-25-1995', 'F', '1', '110', 'Col. Divino Paraíso, Tegucigalpa', '+504 7234-8212', '3', '2', '1'),
+		('Roxana', 'Martínez', '0801-1980-15263', '08-12-1980', 'F', '1', '110', 'Col. Arturo Quezada, Tegucigalpa', '+504 7483-9837', '3', '2', '1'),
+		('Julia', 'Calderón', '0801-1981-11823', '09-09-1981', 'F', '1', '110', 'Col. Arturo Quezada, Tegucigalpa', '+504 8790-9085', '3', '2', '1'),
+		----
+		('Sheila', 'Torres', '0503-1981-09283', '02-09-1981', 'F', '1', '65', 'Buena Vista, Omoa', '+504 7384-8974', '4', '1', '1'),
+		('Victor', 'Mateo', '0503-1997-00829', '03-09-1997', 'M', '1', '65', 'Corinto, Omoa', '+504 9087-9056', '4', '2', '1'),
+		('Amelia', 'Lara', '0503-1998-00023', '04-09-1998', 'F', '1', '65', 'La Venada, Omoa', '+504 9585-7456', '4', '2', '1'),
+		('Laura', 'Serrano', '0503-1999-01724', '05-09-1999', 'F', '1', '65', 'Col. La Loma, Omoa', '+504 8869-9504', '4', '2', '1'),
+		('Karla', 'Menjivar', '0503-2000-72834', '06-09-2000', 'F', '1', '65', 'Chivana, Omoa', '+504 9090-2524', '4', '2', '1'),
+		----
+		('Laura', 'Marano', '1804-1995-83629', '11-29-1995', 'F', '1', '291', 'Arenas Blancas, El Progreso', '+504 7384-9382', '5', '1', '1'),
+		('Ross', 'Lynch', '1804-1995-18294', '12-29-1995', 'M', '1', '291', 'Diez Alborotos, El Progreso', '+504 9283-9472', '5', '2', '1'),
+		('Timothée', 'Chalamet', '1804-1995-18200', '12-27-1995', 'M', '1', '291', 'Diez Alborotos, El Progreso', '+504 8273-9488', '5', '2', '1'),
+		('Bill', 'Kaulitz', '1804-1989-00283', '09-01-1989', 'M', '1', '291', 'Campo Amapa, El Progreso', '+504 9984-7383', '5', '2', '1'),
+		('Tom', 'Kaulitz', '1804-1989-00284', '09-01-1989', 'M', '2', '291', 'Campo Amapa, El Progreso', '+504 9863-7482', '5', '2', '1');
+		----
+GO
+INSERT INTO [flet].[tbTrayectos](muni_Inicio, muni_Final, tray_UsuCreacion)
+VALUES	(62,109,1),
+		(62,39,1),
+		(62,67,1),
+		(62,250,1),
+		(62,290,1),
+		(62,17,1),
+		(62,1,1),
+		(62,3,1),
+		(62,36,1),
+
+		(109,62 ,1),
+		(109,39 ,1),
+		(109,67 ,1),
+		(109,250 ,1),
+		(109,290 ,1),
+		(109,17 ,1),
+		(109,1 ,1),
+		(109,3 ,1),
+		(109,36 ,1)
+
+GO
+INSERT INTO [flet].[tbTrayectos](muni_Inicio, muni_Final, tray_UsuCreacion)
+VALUES
+		(39,62 ,1),
+		(39,109 ,1),
+		(39,67 ,1),
+		(39,250 ,1),
+		(39,290 ,1),
+		(39,17 ,1),
+		(39,1 ,1),
+		(39,3 ,1),
+		(39,36 ,1),
+
+		(67,62 ,1),
+		(67,109 ,1),
+		(67,39 ,1),
+		(67,250 ,1),
+		(67,290 ,1),
+		(67,17 ,1),
+		(67,1 ,1),
+		(67,3 ,1),
+		(67,36 ,1)
+
+GO
+INSERT INTO [flet].[tbTrayectos](muni_Inicio, muni_Final, tray_UsuCreacion)
+VALUES
+		(250,62 ,1),
+		(250,109 ,1),
+		(250,39 ,1),
+		(250,290 ,1),
+		(250,67 ,1),
+		(250,17 ,1),
+		(250,1 ,1),
+		(250,3 ,1),
+		(250,36 ,1),
+
+		(290,62 ,1),
+		(290,109 ,1),
+		(290,39 ,1),
+		(290,250 ,1),
+		(290,67 ,1),
+		(290,17 ,1),
+		(290,1 ,1),
+		(290,3 ,1),
+		(290,36 ,1)
+GO
+INSERT INTO [flet].[tbTrayectos](muni_Inicio, muni_Final, tray_UsuCreacion)
+VALUES
+		(17,62 ,1),
+		(17,109 ,1),
+		(17,39 ,1),
+		(17,250 ,1),
+		(17,67 ,1),
+		(17,290 ,1),
+		(17,1 ,1),
+		(17,3 ,1),
+		(17,36 ,1),
+
+		(1,62 ,1),
+		(1,109 ,1),
+		(1,39 ,1),
+		(1,250 ,1),
+		(1,67 ,1),
+		(1,290 ,1),
+		(1,17 ,1),
+		(1,3 ,1),
+		(1,36 ,1)
+GO
+INSERT INTO [flet].[tbTrayectos](muni_Inicio, muni_Final, tray_UsuCreacion)
+VALUES
+		(3,62 ,1),
+		(3,109 ,1),
+		(3,39 ,1),
+		(3,250 ,1),
+		(3,67 ,1),
+		(3,290 ,1),
+		(3,17 ,1),
+		(3,1 ,1),
+		(3,36 ,1),
+
+		(36,62 ,1),
+		(36,109 ,1),
+		(36,39 ,1),
+		(36,250 ,1),
+		(36,67 ,1),
+		(36,290 ,1),
+		(36,17 ,1),
+		(36,1 ,1),
+		(36,3 ,1)
 
 GO
 ALTER TABLE [acce].[tbUsuarios]
