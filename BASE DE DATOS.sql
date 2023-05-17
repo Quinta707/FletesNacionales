@@ -1,4 +1,9 @@
-﻿CREATE DATABASE FletesNacionales
+﻿/*
+USE master
+DROP DATABASE FletesNacionales
+*/
+
+CREATE DATABASE FletesNacionales
 GO
 USE FletesNacionales
 GO
@@ -33,7 +38,6 @@ CREATE TABLE acce.tbPantallas(
 	pant_Url				NVARCHAR(300) NOT NULL,
 	pant_Menu				NVARCHAR(300) NOT NULL,
 	pant_Icono				NVARCHAR(300) NOT NULL,
-	pant_reactId			NVARCHAR(80) NOT NULL,
 	pant_UsuCreacion		INT NOT NULL,
 	pant_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_pant_FechaCreacion DEFAULT(GETDATE()),
 	pant_UsuModificacion	INT,
@@ -91,6 +95,18 @@ END;
 GO
 
 EXEC acce.UDP_tbUsuarios_Insert 'Admin', '123', 1, NULL, 1;
+
+EXEC acce.UDP_tbUsuarios_Insert 'Javier', 'Javier', 1, NULL, 1;
+
+EXEC acce.UDP_tbUsuarios_Insert 'Sarai', 'Sarai', 1, NULL, 1;
+
+EXEC acce.UDP_tbUsuarios_Insert 'Ian', 'Ian', 1, NULL, 1;
+
+EXEC acce.UDP_tbUsuarios_Insert 'Daniel', 'Daniel', 1, NULL, 1;
+
+EXEC acce.UDP_tbUsuarios_Insert 'Phynomo', 'Phynomo', 1, NULL, 1;
+
+EXEC acce.UDP_tbUsuarios_Insert 'Javinto7', 'Javinto7', 1, NULL, 1;
 GO
 
 GO
@@ -447,7 +463,7 @@ CONSTRAINT FK_flet_tbItems_acce_tbUsuarios_item_UsuModificacion     FOREIGN KEY(
 --Ubicacion por flete
 
 ------------------ACCESO--------------------
---Roles 
+--Roles ✓
 --RolesPorPantalla 
---Pantallas 
+--Pantallas ✓maomeno
 --Usuarios ✓
