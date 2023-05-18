@@ -474,6 +474,19 @@ VALUES ('Serie 2 Gran Tourer',1,1,1),
 	   ('Camaro',1,2,1)
 
 GO
+--****************************************VEHICULO****************************************--
+
+INSERT INTO equi.tbVehiculos (mode_Id,vehi_Placa,vehi_UsuCreacion) 
+VALUES (1,'PAA-1234',1),
+(2,'BVM-7890',1),
+(3,'LNH-9012',1),
+(4,'RTD-3456',1),
+(5,'PAA-4321',1),
+(6,'JIK-2345',1),
+(7,'XSY-6789',1),
+(8,'ZAN-0123',1),
+(9 ,'DFR-4567',1),
+(10 ,'RFD-4237',1)
 
 --****************************************INSERTS FLETES****************************************--
 --****************************************CLIENTE****************************************--
@@ -532,6 +545,8 @@ VALUES	('Lavadora Samsung','Modelo X$/AE LGBT',70,2.8, 1),
 		('Aspiradora Miele','Modelo Miele XBRBVCBCV55X950H ',2.5 ,5,1),
 		('Aspiradora Hoover','Modelo Hoover 65R66635 PRO',2.5,5,1),
 		('Aspiradora Bissell','Modelo Bissell DISCORD CELL',2.5,5,1)
+
+
 
 --****************************************SUCURSALES****************************************--
 INSERT INTO flet.tbSucursales (sucu_Nombre, muni_Id, sucu_Direccion, sucu_UsuCreacion)
@@ -695,6 +710,40 @@ VALUES
 		(36,3 ,1)
 
 GO
+
+
+--****************************************PEDIDO****************************************--
+INSERT INTO [flet].[tbPedidos](clie_Id, muni_Origen, muni_Destino, pedi_DestinoFinal,estp_Id, pedi_UsuCreacion)
+VALUES	(1,62,109,'Dirección: Avenida Principal 123, Colonia Bella Vista, Tegucigalpa. Referencias: Cerca del parque central, al lado del supermercado "El Sol", frente a la escuela "San José".',1,1),
+		(2,39,62,'Dirección: Calle Principal 456, Barrio San Miguel, San Pedro Sula. Referencias: A una cuadra del parque central, cerca de la iglesia "San Juan", frente al centro comercial "La Plaza".',1,1),
+		(3,290,36,'Dirección: Avenida Central 789, Colonia El Bosque, Siguatepeque.	Referencias: Cerca del parque central, al lado del restaurante "El Rincón del Sabor", frente a la escuela "Miguel Paz Barahona".',1,1),
+		(4,1,290,'Dirección: Calle Principal 123, Barrio El Centro, El Progreso. Referencias: Junto al parque central, cerca de la iglesia "San Pedro", frente al mercado municipal.',1,1),
+		(5,39,3,'Dirección: Avenida Costera 456, Colonia Playa Azul, Tela. Referencias: Cerca de la playa principal, al lado del hotel "Mar Azul", frente al restaurante "La Brisa".',1,1),
+		(6,250,36,'Dirección: Calle Flores 789, Barrio San Francisco, Siguatepeque. Referencias: Cerca del parque central, al lado de la tienda "El Encanto", frente a la escuela "San José".',1,1),
+		(7,3,1,'Dirección: Avenida Principal 123, Colonia Los Pinos, La Ceiba. Referencias: Cerca del malecón, al lado del supermercado "El Mar", frente al parque "La Libertad".',1,1),
+		(8,62,250,'Dirección: Calle Principal 456, Barrio El Centro, Santa Bárbara. Referencias: Cerca del parque central, al lado del centro de salud, frente a la iglesia "San Juan".',1,1),
+		(9,67,62,'Dirección: Avenida Roosevelt 789, Colonia El Bosque, San Pedro Sula. Referencias: Cerca del parque central, al lado del centro comercial "Mega Plaza", frente al hospital "San Pedro".',1,1),
+		(10,62,62,'Dirección: Calle Principal 123, Colonia El Carmen, San Pedro Sula. Referencias: Cerca del parque central, al lado del supermercado "El Sol", frente a la escuela "San José".',1,1)	
+GO
+--****************************************PEDIDO DETALLES****************************************--
+INSERT INTO [flet].[tbPedidoDetalles](pdet_Id, item_Id, pdet_Cantidad, pdet_UsuCreacion)
+VALUES	(1,1,1,1),
+		(1,7,1,1),
+		(1,9,1,1),
+
+		(2,3,2,1),
+		(2,8,2,1),
+		(2,4,2,1),
+		
+		(3,2,7,1),
+		(3,10,5,1),
+		(3,5,6,1),
+		(3,12,2,1),
+		(3,11,1,1)
+
+
+				select * from flet.tbItems 
+
 ALTER TABLE [acce].[tbUsuarios]
 ADD CONSTRAINT FK_acce_tbUsuarios_flet_tbEmpleados_empe_Id FOREIGN KEY(empe_Id) REFERENCES flet.tbEmpleados(empe_Id)
 
