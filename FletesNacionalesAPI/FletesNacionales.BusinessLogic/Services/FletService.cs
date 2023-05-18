@@ -1,4 +1,6 @@
-﻿using FletesNacionales.DataAccess.Repository;
+﻿using Agence.BusinessLogic;
+using FletesNacionales.DataAccess.Repository;
+using System;
 
 namespace FletesNacionales.BusinessLogic.Services
 {
@@ -31,6 +33,22 @@ namespace FletesNacionales.BusinessLogic.Services
             _sucursalesRepository = sucursalesRepository;
             _estadoDelPedidoRepository = estadoDelPedidoRepository;
         }
+
+        #region Clientes
+        public ServiceResult ListadoClientes()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _clientesRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        #endregion
 
     }
 }

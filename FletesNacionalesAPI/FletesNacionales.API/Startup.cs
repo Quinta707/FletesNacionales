@@ -1,3 +1,5 @@
+using Agence.BusinessLogic;
+using FletesNacionales.API.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,9 +29,9 @@ namespace FletesNacionales.API
         {
             services.AddControllers();
             AddSwagger(services);
-            //services.DataAccess(Configuration.GetConnectionString("AgenceConn"));
-            //services.BusinessLogic();
-            //services.AddAutoMapper(x => x.AddProfile<MappingProfileExtensions>(), AppDomain.CurrentDomain.GetAssemblies());
+            services.DataAccess(Configuration.GetConnectionString("FletesConn"));
+            services.BusinessLogic();
+            services.AddAutoMapper(x => x.AddProfile<MappingProfileExtensions>(), AppDomain.CurrentDomain.GetAssemblies());
             services.AddSession();
 
             services.AddControllersWithViews();

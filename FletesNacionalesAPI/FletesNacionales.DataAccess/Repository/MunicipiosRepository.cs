@@ -1,36 +1,39 @@
 ﻿using Agence.DataAccess.Repository;
+using Dapper;
 using FletesNacionales.Entities.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FletesNacionales.DataAccess.Repository
 {
-    public class MunicipiosRepository : IRepository<VW_tbMunicipios, tbMunicipios>
+    public class MunicipiosRepository : IRepository<tbMunicipios, VW_tbMunicipios>
     {
-        public RequestStatus Delete(VW_tbMunicipios item)
+        public RequestStatus Delete(tbMunicipios item)
         {
             throw new NotImplementedException();
         }
 
-        public tbMunicipios find(int? id)
+        public VW_tbMunicipios find(int? id)
         {
             throw new NotImplementedException();
         }
 
-        public RequestStatus Insert(VW_tbMunicipios item)
+        public RequestStatus Insert(tbMunicipios item)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<tbMunicipios> List()
+        public IEnumerable<VW_tbMunicipios> List()
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+            return db.Query<VW_tbMunicipios>(ScriptsDataBase.MunicipiosIndex, null, commandType: System.Data.CommandType.StoredProcedure);
         }
 
-        public RequestStatus Update(VW_tbMunicipios item)
+        public RequestStatus Update(tbMunicipios item)
         {
             throw new NotImplementedException();
         }

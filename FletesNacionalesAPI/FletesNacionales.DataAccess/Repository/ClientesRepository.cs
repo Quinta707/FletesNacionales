@@ -1,36 +1,39 @@
 ﻿using Agence.DataAccess.Repository;
+using Dapper;
 using FletesNacionales.Entities.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FletesNacionales.DataAccess.Repository
 {
-    public class ClientesRepository : IRepository<VW_tbClientes, tbClientes>
+    public class ClientesRepository : IRepository<tbClientes, VW_tbClientes>
     {
-        public RequestStatus Delete(VW_tbClientes item)
+        public RequestStatus Delete(tbClientes item)
         {
             throw new NotImplementedException();
         }
 
-        public tbClientes find(int? id)
+        public VW_tbClientes find(int? id)
         {
             throw new NotImplementedException();
         }
 
-        public RequestStatus Insert(VW_tbClientes item)
+        public RequestStatus Insert(tbClientes item)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<tbClientes> List()
+        public IEnumerable<VW_tbClientes> List()
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+            return db.Query<VW_tbClientes>(ScriptsDataBase.ClientesIndex, null, commandType: System.Data.CommandType.StoredProcedure);
         }
 
-        public RequestStatus Update(VW_tbClientes item)
+        public RequestStatus Update(tbClientes item)
         {
             throw new NotImplementedException();
         }

@@ -1,4 +1,6 @@
-﻿using FletesNacionales.DataAccess.Repository;
+﻿using Agence.BusinessLogic;
+using FletesNacionales.DataAccess.Repository;
+using System;
 
 namespace FletesNacionales.BusinessLogic.Services
 {
@@ -23,6 +25,23 @@ namespace FletesNacionales.BusinessLogic.Services
             _estadosCivilesRepository = estadosCivilesRepository;
             _metodosDePagoRepository = metodosDePagoRepository;
         }
+
+        #region cargos
+        public ServiceResult ListadoCargos()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _cargosRespository.List();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        #endregion
+
 
     }
 }

@@ -1,36 +1,39 @@
 ﻿using Agence.DataAccess.Repository;
+using Dapper;
 using FletesNacionales.Entities.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FletesNacionales.DataAccess.Repository
 {
-    public class EstadosCivilesRepository : IRepository<VW_tbEstadosCiviles, tbEstadosCiviles>
+    public class EstadosCivilesRepository : IRepository<tbEstadosCiviles, VW_tbEstadosCiviles>
     {
-        public RequestStatus Delete(VW_tbEstadosCiviles item)
+        public RequestStatus Delete(tbEstadosCiviles item)
         {
             throw new NotImplementedException();
         }
 
-        public tbEstadosCiviles find(int? id)
+        public VW_tbEstadosCiviles find(int? id)
         {
             throw new NotImplementedException();
         }
 
-        public RequestStatus Insert(VW_tbEstadosCiviles item)
+        public RequestStatus Insert(tbEstadosCiviles item)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<tbEstadosCiviles> List()
+        public IEnumerable<VW_tbEstadosCiviles> List()
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+            return db.Query<VW_tbEstadosCiviles>(ScriptsDataBase.EstadosCivileseIndex, null, commandType: System.Data.CommandType.StoredProcedure);
         }
 
-        public RequestStatus Update(VW_tbEstadosCiviles item)
+        public RequestStatus Update(tbEstadosCiviles item)
         {
             throw new NotImplementedException();
         }
