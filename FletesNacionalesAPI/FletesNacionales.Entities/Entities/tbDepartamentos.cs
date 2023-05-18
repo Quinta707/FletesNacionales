@@ -20,6 +20,7 @@ namespace FletesNacionales.Entities.Entities
         public DateTime depa_FechaCreacion { get; set; }
         public int? depa_UsuModificacion { get; set; }
         public DateTime? depa_FechaModificacion { get; set; }
+        public bool? depa_Habilitado { get; set; }
         public bool? depa_Estado { get; set; }
 
         public virtual tbUsuarios depa_UsuCreacionNavigation { get; set; }

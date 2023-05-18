@@ -14,6 +14,7 @@ namespace FletesNacionales.Entities.Entities
         public DateTime? meto_FechaCreacion { get; set; }
         public int? meto_UsuModificacion { get; set; }
         public DateTime? meto_FechaModificacion { get; set; }
+        public bool? meto_Habilitado { get; set; }
         public bool? meto_Estado { get; set; }
 
         public virtual tbUsuarios meto_UsuCreacionNavigation { get; set; }

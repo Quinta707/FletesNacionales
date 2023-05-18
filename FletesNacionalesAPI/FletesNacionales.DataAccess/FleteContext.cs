@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FletesNacionales.DataAccess
 {
-    class FleteContext: FletesnacionalesContext
+    public class FleteContext: FletesnacionalesContext
     {
         public static string ConnectionString { get; set; }
 

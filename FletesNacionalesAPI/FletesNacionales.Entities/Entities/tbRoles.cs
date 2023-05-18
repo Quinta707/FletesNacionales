@@ -20,6 +20,7 @@ namespace FletesNacionales.Entities.Entities
         public DateTime role_FechaCreacion { get; set; }
         public int? role_UsuModificacion { get; set; }
         public DateTime? role_FechaModificacion { get; set; }
+        public bool? role_Habilitado { get; set; }
         public bool? role_Estado { get; set; }
 
         public virtual tbUsuarios role_UsuCreacionNavigation { get; set; }

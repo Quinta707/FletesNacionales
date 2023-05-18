@@ -18,7 +18,6 @@ namespace FletesNacionales.Entities.Entities
         public string pant_Url { get; set; }
         public string pant_Menu { get; set; }
         public string pant_Icono { get; set; }
-        public string pant_reactId { get; set; }
         public int pant_UsuCreacion { get; set; }
         public DateTime pant_FechaCreacion { get; set; }
         public int? pant_UsuModificacion { get; set; }

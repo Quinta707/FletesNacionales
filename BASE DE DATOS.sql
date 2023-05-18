@@ -170,7 +170,7 @@ CREATE TABLE gral.tbMunicipios(
 	muni_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_muni_FechaCreacion DEFAULT(GETDATE()),
 	muni_UsuModificacion	INT,
 	muni_FechaModificacion	DATETIME,
-	muini_Habilitado		BIT NOT NULL CONSTRAINT DF_muni_Habilitado DEFAULT(1),
+	muni_Habilitado		BIT NOT NULL CONSTRAINT DF_muni_Habilitado DEFAULT(1),
 	muni_Estado				BIT	NOT NULL CONSTRAINT DF_muni_Estado DEFAULT(1)
 	CONSTRAINT PK_gral_tbMunicipios_muni_Id 										PRIMARY KEY(muni_Id),
 	CONSTRAINT FK_gral_tbMunicipios_gral_tbDepartamentos_depa_Id 					FOREIGN KEY (depa_Id) 						REFERENCES gral.tbDepartamentos(depa_Id),
@@ -420,6 +420,7 @@ estp_UsuCreacion			INT NOT NULL,
 estp_FechaCreacion			DATETIME CONSTRAINT DF_flet_tbEstadosDelPedido_estp_FechaCreacion DEFAULT(GETDATE()),
 estp_UsuModificacion		INT ,
 estp_FechaModificacion		DATETIME,
+estp_Habilitado				BIT NOT NULL CONSTRAINT DF_estp_Habilitado DEFAULT(1),
 estp_Estado					BIT CONSTRAINT DF_flet_tbEstadosDelPedido_estp_Estado DEFAULT(1),
 
 CONSTRAINT PK_flet_tbEstadosDelPedido_pedi_Id                                  PRIMARY KEY(estp_Id),

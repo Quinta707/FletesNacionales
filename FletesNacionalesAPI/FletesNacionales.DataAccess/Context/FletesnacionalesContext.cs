@@ -19,19 +19,686 @@ namespace FletesNacionales.DataAccess.Context
         {
         }
 
+        public virtual DbSet<VW_tbCargos> VW_tbCargos { get; set; }
+        public virtual DbSet<VW_tbClientes> VW_tbClientes { get; set; }
+        public virtual DbSet<VW_tbDepartamentos> VW_tbDepartamentos { get; set; }
+        public virtual DbSet<VW_tbEmpleados> VW_tbEmpleados { get; set; }
+        public virtual DbSet<VW_tbEscalasPorTrayecto> VW_tbEscalasPorTrayecto { get; set; }
+        public virtual DbSet<VW_tbEstadosCiviles> VW_tbEstadosCiviles { get; set; }
+        public virtual DbSet<VW_tbEstadosDelPedido> VW_tbEstadosDelPedido { get; set; }
+        public virtual DbSet<VW_tbFleteDetalles> VW_tbFleteDetalles { get; set; }
+        public virtual DbSet<VW_tbFletes> VW_tbFletes { get; set; }
+        public virtual DbSet<VW_tbItems> VW_tbItems { get; set; }
+        public virtual DbSet<VW_tbMarcas> VW_tbMarcas { get; set; }
+        public virtual DbSet<VW_tbMetodosdePago> VW_tbMetodosdePago { get; set; }
+        public virtual DbSet<VW_tbModelos> VW_tbModelos { get; set; }
+        public virtual DbSet<VW_tbMunicipios> VW_tbMunicipios { get; set; }
+        public virtual DbSet<VW_tbPedidoDetalles> VW_tbPedidoDetalles { get; set; }
+        public virtual DbSet<VW_tbPedidos> VW_tbPedidos { get; set; }
+        public virtual DbSet<VW_tbTipoDeVehiculo> VW_tbTipoDeVehiculo { get; set; }
+        public virtual DbSet<VW_tbVehiculos> VW_tbVehiculos { get; set; }
         public virtual DbSet<tbCargos> tbCargos { get; set; }
+        public virtual DbSet<tbClientes> tbClientes { get; set; }
         public virtual DbSet<tbDepartamentos> tbDepartamentos { get; set; }
+        public virtual DbSet<tbEmpleados> tbEmpleados { get; set; }
+        public virtual DbSet<tbEscalasPorTrayecto> tbEscalasPorTrayecto { get; set; }
         public virtual DbSet<tbEstadosCiviles> tbEstadosCiviles { get; set; }
+        public virtual DbSet<tbEstadosDelPedido> tbEstadosDelPedido { get; set; }
+        public virtual DbSet<tbFleteDetalles> tbFleteDetalles { get; set; }
+        public virtual DbSet<tbFletes> tbFletes { get; set; }
+        public virtual DbSet<tbItems> tbItems { get; set; }
+        public virtual DbSet<tbMarcas> tbMarcas { get; set; }
         public virtual DbSet<tbMetodosdePago> tbMetodosdePago { get; set; }
+        public virtual DbSet<tbModelos> tbModelos { get; set; }
         public virtual DbSet<tbMunicipios> tbMunicipios { get; set; }
         public virtual DbSet<tbPantallas> tbPantallas { get; set; }
         public virtual DbSet<tbPantallasPorRoles> tbPantallasPorRoles { get; set; }
+        public virtual DbSet<tbPedidoDetalles> tbPedidoDetalles { get; set; }
+        public virtual DbSet<tbPedidos> tbPedidos { get; set; }
         public virtual DbSet<tbRoles> tbRoles { get; set; }
+        public virtual DbSet<tbSucursales> tbSucursales { get; set; }
+        public virtual DbSet<tbTipoDeVehiculo> tbTipoDeVehiculo { get; set; }
+        public virtual DbSet<tbTrayectos> tbTrayectos { get; set; }
+        public virtual DbSet<tbUbicacionPorFlete> tbUbicacionPorFlete { get; set; }
         public virtual DbSet<tbUsuarios> tbUsuarios { get; set; }
+        public virtual DbSet<tbVehiculos> tbVehiculos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Modern_Spanish_CI_AS");
+
+            modelBuilder.Entity<VW_tbCargos>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbCargos", "gral");
+
+                entity.Property(e => e.carg_Descripcion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.carg_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.carg_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.carg_Visible)
+                    .IsRequired()
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbClientes>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbClientes", "flet");
+
+                entity.Property(e => e.clie_Apellidos)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.clie_DireccionExacta)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.clie_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.clie_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.clie_FechaNacimiento).HasColumnType("date");
+
+                entity.Property(e => e.clie_Identidad)
+                    .IsRequired()
+                    .HasMaxLength(15);
+
+                entity.Property(e => e.clie_NombreCompleto)
+                    .IsRequired()
+                    .HasMaxLength(401);
+
+                entity.Property(e => e.clie_Nombres)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.clie_Sexo)
+                    .IsRequired()
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.clie_Telefono)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.clie_Visible)
+                    .IsRequired()
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.depa_Codigo)
+                    .IsRequired()
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.depa_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.eciv_Descripcion)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.muni_Codigo)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.muni_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(80);
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbDepartamentos>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbDepartamentos", "gral");
+
+                entity.Property(e => e.depa_Codigo)
+                    .IsRequired()
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.depa_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.depa_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.depa_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.depa_Visible)
+                    .IsRequired()
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbEmpleados>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbEmpleados", "flet");
+
+                entity.Property(e => e.carg_Descripcion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.depa_Codigo)
+                    .IsRequired()
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.depa_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.eciv_Descripcion)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.empe_Apellidos)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.empe_DireccionExacta)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.empe_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.empe_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.empe_FechaNacimiento).HasColumnType("date");
+
+                entity.Property(e => e.empe_Identidad)
+                    .IsRequired()
+                    .HasMaxLength(15);
+
+                entity.Property(e => e.empe_NombreCompleto)
+                    .IsRequired()
+                    .HasMaxLength(401);
+
+                entity.Property(e => e.empe_Nombres)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.empe_Sexo)
+                    .IsRequired()
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.empe_Telefono)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.empe_Visible)
+                    .IsRequired()
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.muni_Codigo)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.muni_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(80);
+
+                entity.Property(e => e.sucu_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbEscalasPorTrayecto>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbEscalasPorTrayecto", "flet");
+
+                entity.Property(e => e.estr_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.estr_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbEstadosCiviles>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbEstadosCiviles", "gral");
+
+                entity.Property(e => e.eciv_Descripcion)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.eciv_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.eciv_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.eciv_Visible)
+                    .IsRequired()
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbEstadosDelPedido>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbEstadosDelPedido", "flet");
+
+                entity.Property(e => e.estp_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.estp_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.estp_Nombre).HasMaxLength(150);
+
+                entity.Property(e => e.estp_Visible)
+                    .IsRequired()
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbFleteDetalles>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbFleteDetalles", "flet");
+
+                entity.Property(e => e.fdet_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.fdet_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbFletes>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbFletes", "flet");
+
+                entity.Property(e => e.flet_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.flet_FechaDeSalida).HasColumnType("date");
+
+                entity.Property(e => e.flet_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbItems>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbItems", "flet");
+
+                entity.Property(e => e.item_Descripcion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.item_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.item_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.item_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.item_Peso).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.item_Visible)
+                    .IsRequired()
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.item_Volumen).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbMarcas>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbMarcas", "equi");
+
+                entity.Property(e => e.marc_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.marc_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.marc_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.marc_Visible)
+                    .IsRequired()
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbMetodosdePago>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbMetodosdePago", "gral");
+
+                entity.Property(e => e.meto_Descripcion).HasMaxLength(100);
+
+                entity.Property(e => e.meto_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.meto_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.meto_Visible)
+                    .IsRequired()
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbModelos>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbModelos", "equi");
+
+                entity.Property(e => e.marc_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.mode_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.mode_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.mode_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.mode_Visible)
+                    .IsRequired()
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.tipv_Descripcion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbMunicipios>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbMunicipios", "gral");
+
+                entity.Property(e => e.muni_Codigo)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.muni_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.muni_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.muni_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(80);
+
+                entity.Property(e => e.muni_UsuCreacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.muni_Visible)
+                    .IsRequired()
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbPedidoDetalles>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbPedidoDetalles", "flet");
+
+                entity.Property(e => e.item_Descripcion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.item_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.item_Peso).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.item_Volumen).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.pdet_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.pdet_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbPedidos>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbPedidos", "flet");
+
+                entity.Property(e => e.clie_DireccionExacta)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.clie_FechaNacimiento).HasColumnType("date");
+
+                entity.Property(e => e.clie_Identidad)
+                    .IsRequired()
+                    .HasMaxLength(15);
+
+                entity.Property(e => e.clie_NombreCompleto)
+                    .IsRequired()
+                    .HasMaxLength(401);
+
+                entity.Property(e => e.clie_Sexo)
+                    .IsRequired()
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.clie_Telefono)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.estp_Nombre).HasMaxLength(150);
+
+                entity.Property(e => e.pedi_DepaDestino)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.pedi_DepaOrigen)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.pedi_DestinoFinal).HasMaxLength(250);
+
+                entity.Property(e => e.pedi_DestinoNombre)
+                    .IsRequired()
+                    .HasMaxLength(80);
+
+                entity.Property(e => e.pedi_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.pedi_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.pedi_OrigenNombre)
+                    .IsRequired()
+                    .HasMaxLength(80);
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbTipoDeVehiculo>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbTipoDeVehiculo", "equi");
+
+                entity.Property(e => e.tipv_Descripcion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.tipv_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.tipv_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.tipv_Visible)
+                    .IsRequired()
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbVehiculos>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbVehiculos", "equi");
+
+                entity.Property(e => e.marc_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.mode_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.tipv_Descripcion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+
+                entity.Property(e => e.vehi_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.vehi_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.vehi_Placa)
+                    .IsRequired()
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.vehi_Usado)
+                    .IsRequired()
+                    .HasMaxLength(5)
+                    .IsUnicode(false);
+            });
 
             modelBuilder.Entity<tbCargos>(entity =>
             {
@@ -52,6 +719,10 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.Property(e => e.carg_FechaModificacion).HasColumnType("datetime");
 
+                entity.Property(e => e.carg_Habilitado)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
                 entity.HasOne(d => d.carg_UsuCreacionNavigation)
                     .WithMany(p => p.tbCargoscarg_UsuCreacionNavigation)
                     .HasForeignKey(d => d.carg_UsuCreacion)
@@ -62,6 +733,79 @@ namespace FletesNacionales.DataAccess.Context
                     .WithMany(p => p.tbCargoscarg_UsuModificacionNavigation)
                     .HasForeignKey(d => d.carg_UsuModificacion)
                     .HasConstraintName("PK_gral_tbCargos_acce_tbUsuarios_carg_UsuModificacion");
+            });
+
+            modelBuilder.Entity<tbClientes>(entity =>
+            {
+                entity.HasKey(e => e.clie_Id)
+                    .HasName("PK_flet_tbClientes_clie_Id");
+
+                entity.ToTable("tbClientes", "flet");
+
+                entity.Property(e => e.clie_Apellidos)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.clie_DireccionExacta)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.clie_Estado)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.clie_FechaCreacion)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.clie_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.clie_FechaNacimiento).HasColumnType("date");
+
+                entity.Property(e => e.clie_Habilitado)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.clie_Identidad)
+                    .IsRequired()
+                    .HasMaxLength(15);
+
+                entity.Property(e => e.clie_Nombres)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.clie_Sexo)
+                    .IsRequired()
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.clie_Telefono)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.HasOne(d => d.clie_UsuCreacionNavigation)
+                    .WithMany(p => p.tbClientesclie_UsuCreacionNavigation)
+                    .HasForeignKey(d => d.clie_UsuCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbClientes_acce_tbUsuarios_UserCreate");
+
+                entity.HasOne(d => d.clie_UsuModificacionNavigation)
+                    .WithMany(p => p.tbClientesclie_UsuModificacionNavigation)
+                    .HasForeignKey(d => d.clie_UsuModificacion)
+                    .HasConstraintName("FK_flet_tbClientes_acce_tbUsuarios_UserUpdate");
+
+                entity.HasOne(d => d.eciv)
+                    .WithMany(p => p.tbClientes)
+                    .HasForeignKey(d => d.eciv_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbClientes_gral_tbEstadosCiviles_eciv_Id");
+
+                entity.HasOne(d => d.muni)
+                    .WithMany(p => p.tbClientes)
+                    .HasForeignKey(d => d.muni_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbClientes_gral_tbMunicipios_muni_Id");
             });
 
             modelBuilder.Entity<tbDepartamentos>(entity =>
@@ -87,6 +831,10 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.Property(e => e.depa_FechaModificacion).HasColumnType("datetime");
 
+                entity.Property(e => e.depa_Habilitado)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
                 entity.Property(e => e.depa_Nombre)
                     .IsRequired()
                     .HasMaxLength(100);
@@ -101,6 +849,130 @@ namespace FletesNacionales.DataAccess.Context
                     .WithMany(p => p.tbDepartamentosdepa_UsuModificacionNavigation)
                     .HasForeignKey(d => d.depa_UsuModificacion)
                     .HasConstraintName("FK_gral_tbDepartamentos_acce_tbUsuarios_depa_UsuModificacion_user_Id");
+            });
+
+            modelBuilder.Entity<tbEmpleados>(entity =>
+            {
+                entity.HasKey(e => e.empe_Id)
+                    .HasName("PK_flet_tbEmpleados_empe_Id");
+
+                entity.ToTable("tbEmpleados", "flet");
+
+                entity.Property(e => e.empe_Apellidos)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.empe_DireccionExacta)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.empe_Estado)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.empe_FechaCreacion)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.empe_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.empe_FechaNacimiento).HasColumnType("date");
+
+                entity.Property(e => e.empe_Habilitado)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.empe_Identidad)
+                    .IsRequired()
+                    .HasMaxLength(15);
+
+                entity.Property(e => e.empe_Nombres)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.empe_Sexo)
+                    .IsRequired()
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.empe_Telefono)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.HasOne(d => d.carg)
+                    .WithMany(p => p.tbEmpleados)
+                    .HasForeignKey(d => d.carg_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbEmpleados_gral_tbCargos_carg_Id");
+
+                entity.HasOne(d => d.eciv)
+                    .WithMany(p => p.tbEmpleados)
+                    .HasForeignKey(d => d.eciv_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbEmpleados_gral_tbEstadosCiviles_eciv_Id");
+
+                entity.HasOne(d => d.empe_UsuCreacionNavigation)
+                    .WithMany(p => p.tbEmpleadosempe_UsuCreacionNavigation)
+                    .HasForeignKey(d => d.empe_UsuCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbEmpleados_acce_tbUsuarios_empe_UsuCreacion");
+
+                entity.HasOne(d => d.empe_UsuModificacionNavigation)
+                    .WithMany(p => p.tbEmpleadosempe_UsuModificacionNavigation)
+                    .HasForeignKey(d => d.empe_UsuModificacion)
+                    .HasConstraintName("FK_flet_tbEmpleados_acce_tbUsuarios_empe_UsuModificacion");
+
+                entity.HasOne(d => d.muni)
+                    .WithMany(p => p.tbEmpleados)
+                    .HasForeignKey(d => d.muni_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbEmpleados_gral_tbMunicipios_muni_Id");
+
+                entity.HasOne(d => d.sucu)
+                    .WithMany(p => p.tbEmpleados)
+                    .HasForeignKey(d => d.sucu_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbEmpleados_flet_tbSucursales_sucu_Id");
+            });
+
+            modelBuilder.Entity<tbEscalasPorTrayecto>(entity =>
+            {
+                entity.HasKey(e => e.estr_Id)
+                    .HasName("PK_flet_tbEscalasPorTrayecto_estr_Id");
+
+                entity.ToTable("tbEscalasPorTrayecto", "flet");
+
+                entity.Property(e => e.estr_Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.estr_FechaCreacion)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.estr_FechaModificacion).HasColumnType("datetime");
+
+                entity.HasOne(d => d.estr_UsuCreacionNavigation)
+                    .WithMany(p => p.tbEscalasPorTrayectoestr_UsuCreacionNavigation)
+                    .HasForeignKey(d => d.estr_UsuCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbEscalasPorTrayecto_acce_tbUsuarios_pedi_UsuCreacion");
+
+                entity.HasOne(d => d.estr_UsuModificacionNavigation)
+                    .WithMany(p => p.tbEscalasPorTrayectoestr_UsuModificacionNavigation)
+                    .HasForeignKey(d => d.estr_UsuModificacion)
+                    .HasConstraintName("FK_flet_tbEscalasPorTrayecto_acce_tbUsuarios_pedi_UsuModificacion");
+
+                entity.HasOne(d => d.muni_EscalaNavigation)
+                    .WithMany(p => p.tbEscalasPorTrayecto)
+                    .HasForeignKey(d => d.muni_Escala)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbEscalasPorTrayecto_gral_tbMunicipios_muni_Escala");
+
+                entity.HasOne(d => d.tray)
+                    .WithMany(p => p.tbEscalasPorTrayecto)
+                    .HasForeignKey(d => d.tray_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbEscalasPorTrayecto_flet_tbTrayectos_tray_Id");
             });
 
             modelBuilder.Entity<tbEstadosCiviles>(entity =>
@@ -124,6 +996,10 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.Property(e => e.eciv_FechaModificacion).HasColumnType("datetime");
 
+                entity.Property(e => e.eciv_Habilitado)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
                 entity.HasOne(d => d.eciv_UsuCreacionNavigation)
                     .WithMany(p => p.tbEstadosCivileseciv_UsuCreacionNavigation)
                     .HasForeignKey(d => d.eciv_UsuCreacion)
@@ -134,6 +1010,203 @@ namespace FletesNacionales.DataAccess.Context
                     .WithMany(p => p.tbEstadosCivileseciv_UsuModificacionNavigation)
                     .HasForeignKey(d => d.eciv_UsuModificacion)
                     .HasConstraintName("FK_gral_tbEstadosCiviles_UsuModificacion_usua_Id");
+            });
+
+            modelBuilder.Entity<tbEstadosDelPedido>(entity =>
+            {
+                entity.HasKey(e => e.estp_Id)
+                    .HasName("PK_flet_tbEstadosDelPedido_pedi_Id");
+
+                entity.ToTable("tbEstadosDelPedido", "flet");
+
+                entity.Property(e => e.estp_Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.estp_FechaCreacion)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.estp_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.estp_Habilitado)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.estp_Nombre).HasMaxLength(150);
+
+                entity.HasOne(d => d.estp_UsuCreacionNavigation)
+                    .WithMany(p => p.tbEstadosDelPedidoestp_UsuCreacionNavigation)
+                    .HasForeignKey(d => d.estp_UsuCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbEstadosDelPedido_acce_tbUsuarios_pedi_UsuCreacion");
+
+                entity.HasOne(d => d.estp_UsuModificacionNavigation)
+                    .WithMany(p => p.tbEstadosDelPedidoestp_UsuModificacionNavigation)
+                    .HasForeignKey(d => d.estp_UsuModificacion)
+                    .HasConstraintName("FK_flet_tbEstadosDelPedido_acce_tbUsuarios_pedi_UsuModificacion");
+            });
+
+            modelBuilder.Entity<tbFleteDetalles>(entity =>
+            {
+                entity.HasKey(e => e.fdet_Id)
+                    .HasName("PK_flet_tbFleteDetalles_fdet_Id");
+
+                entity.ToTable("tbFleteDetalles", "flet");
+
+                entity.Property(e => e.fdet_Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.fdet_FechaCreacion)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.fdet_FechaModificacion).HasColumnType("datetime");
+
+                entity.HasOne(d => d.fdet_UsuCreacionNavigation)
+                    .WithMany(p => p.tbFleteDetallesfdet_UsuCreacionNavigation)
+                    .HasForeignKey(d => d.fdet_UsuCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbFleteDetalles_acce_tbUsuarios_pdet_UsuCreacion");
+
+                entity.HasOne(d => d.fdet_UsuModificacionNavigation)
+                    .WithMany(p => p.tbFleteDetallesfdet_UsuModificacionNavigation)
+                    .HasForeignKey(d => d.fdet_UsuModificacion)
+                    .HasConstraintName("FK_flet_tbFleteDetalles_acce_tbUsuarios_pdet_UsuModificacion");
+
+                entity.HasOne(d => d.flet)
+                    .WithMany(p => p.tbFleteDetalles)
+                    .HasForeignKey(d => d.flet_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbFleteDetalles_flet_tbFletes_flet_Id");
+
+                entity.HasOne(d => d.pedi)
+                    .WithMany(p => p.tbFleteDetalles)
+                    .HasForeignKey(d => d.pedi_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbFleteDetalles_flet_tbPedidos_pedi_Id");
+            });
+
+            modelBuilder.Entity<tbFletes>(entity =>
+            {
+                entity.HasKey(e => e.flet_Id)
+                    .HasName("PK_flet_tbFletes_flet_Id");
+
+                entity.ToTable("tbFletes", "flet");
+
+                entity.Property(e => e.flet_Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.flet_FechaCreacion)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.flet_FechaDeSalida).HasColumnType("date");
+
+                entity.Property(e => e.flet_FechaModificacion).HasColumnType("datetime");
+
+                entity.HasOne(d => d.empe)
+                    .WithMany(p => p.tbFletes)
+                    .HasForeignKey(d => d.empe_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbFletes_flet_tbEmpleados_empe_Id");
+
+                entity.HasOne(d => d.flet_UsuCreacionNavigation)
+                    .WithMany(p => p.tbFletesflet_UsuCreacionNavigation)
+                    .HasForeignKey(d => d.flet_UsuCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbFletes_acce_tbUsuarios_pdet_UsuCreacion");
+
+                entity.HasOne(d => d.flet_UsuModificacionNavigation)
+                    .WithMany(p => p.tbFletesflet_UsuModificacionNavigation)
+                    .HasForeignKey(d => d.flet_UsuModificacion)
+                    .HasConstraintName("FK_flet_tbFletes_acce_tbUsuarios_pdet_UsuModificacion");
+
+                entity.HasOne(d => d.tray)
+                    .WithMany(p => p.tbFletes)
+                    .HasForeignKey(d => d.tray_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbFletes_flet_tbTrayectos_tray_Id");
+
+                entity.HasOne(d => d.vehi)
+                    .WithMany(p => p.tbFletes)
+                    .HasForeignKey(d => d.vehi_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbFletes_equi_tbVehiculos_vehi_Id");
+            });
+
+            modelBuilder.Entity<tbItems>(entity =>
+            {
+                entity.HasKey(e => e.item_Id)
+                    .HasName("PK_flet_tbItems_item_Id");
+
+                entity.ToTable("tbItems", "flet");
+
+                entity.Property(e => e.item_Descripcion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.item_Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.item_FechaCreacion)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.item_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.item_Habilitado)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.item_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.item_Peso).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.item_Volumen).HasColumnType("decimal(18, 2)");
+
+                entity.HasOne(d => d.item_UsuCreacionNavigation)
+                    .WithMany(p => p.tbItemsitem_UsuCreacionNavigation)
+                    .HasForeignKey(d => d.item_UsuCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbItems_acce_tbUsuarios_item_UsuCreacion");
+
+                entity.HasOne(d => d.item_UsuModificacionNavigation)
+                    .WithMany(p => p.tbItemsitem_UsuModificacionNavigation)
+                    .HasForeignKey(d => d.item_UsuModificacion)
+                    .HasConstraintName("FK_flet_tbItems_acce_tbUsuarios_item_UsuModificacion");
+            });
+
+            modelBuilder.Entity<tbMarcas>(entity =>
+            {
+                entity.HasKey(e => e.marc_Id)
+                    .HasName("PK_equi_tbMarcas_marc_Id");
+
+                entity.ToTable("tbMarcas", "equi");
+
+                entity.Property(e => e.marc_Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.marc_FechaCreacion)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.marc_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.marc_Habilitado)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.marc_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.HasOne(d => d.marc_UsuCreacionNavigation)
+                    .WithMany(p => p.tbMarcasmarc_UsuCreacionNavigation)
+                    .HasForeignKey(d => d.marc_UsuCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_equi_tbMarcas_acce_tbUsuarios_marc_UsuCreacion");
+
+                entity.HasOne(d => d.marc_UsuModificacionNavigation)
+                    .WithMany(p => p.tbMarcasmarc_UsuModificacionNavigation)
+                    .HasForeignKey(d => d.marc_UsuModificacion)
+                    .HasConstraintName("FK_equi_tbMarcas_acce_tbUsuarios_marc_UsuModificacion");
             });
 
             modelBuilder.Entity<tbMetodosdePago>(entity =>
@@ -153,16 +1226,67 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.Property(e => e.meto_FechaModificacion).HasColumnType("datetime");
 
+                entity.Property(e => e.meto_Habilitado)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
                 entity.HasOne(d => d.meto_UsuCreacionNavigation)
                     .WithMany(p => p.tbMetodosdePagometo_UsuCreacionNavigation)
                     .HasForeignKey(d => d.meto_UsuCreacion)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("PK_gral_tbMetodosdePago_acce_tbUsuarios_meto_UsuCreacion");
+                    .HasConstraintName("FK_gral_tbMetodosdePago_acce_tbUsuarios_meto_UsuCreacion");
 
                 entity.HasOne(d => d.meto_UsuModificacionNavigation)
                     .WithMany(p => p.tbMetodosdePagometo_UsuModificacionNavigation)
                     .HasForeignKey(d => d.meto_UsuModificacion)
-                    .HasConstraintName("PK_gral_tbMetodosdePago_acce_tbUsuarios_meto_UsuModificacion");
+                    .HasConstraintName("FK_gral_tbMetodosdePago_acce_tbUsuarios_meto_UsuModificacion");
+            });
+
+            modelBuilder.Entity<tbModelos>(entity =>
+            {
+                entity.HasKey(e => e.mode_Id)
+                    .HasName("PK_equi_tbModelos_mode_Id");
+
+                entity.ToTable("tbModelos", "equi");
+
+                entity.Property(e => e.mode_Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.mode_FechaCreacion)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.mode_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.mode_Habilitado)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.mode_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.HasOne(d => d.marc)
+                    .WithMany(p => p.tbModelos)
+                    .HasForeignKey(d => d.marc_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_equi_tbModelos_equi_tbMarcas_marc_Id");
+
+                entity.HasOne(d => d.mode_UsuCreacionNavigation)
+                    .WithMany(p => p.tbModelosmode_UsuCreacionNavigation)
+                    .HasForeignKey(d => d.mode_UsuCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_equi_tbModelos_acce_tbUsuarios_mode_UsuCreacion");
+
+                entity.HasOne(d => d.mode_UsuModificacionNavigation)
+                    .WithMany(p => p.tbModelosmode_UsuModificacionNavigation)
+                    .HasForeignKey(d => d.mode_UsuModificacion)
+                    .HasConstraintName("FK_equi_tbModelos_acce_tbUsuarios_mode_UsuModificacion");
+
+                entity.HasOne(d => d.tipv)
+                    .WithMany(p => p.tbModelos)
+                    .HasForeignKey(d => d.tipv_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_equi_tbModelos_equi_tbTipoDeVehiculo_tipv_Id");
             });
 
             modelBuilder.Entity<tbMunicipios>(entity =>
@@ -187,6 +1311,10 @@ namespace FletesNacionales.DataAccess.Context
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.muni_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.muni_Habilitado)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.muni_Nombre)
                     .IsRequired()
@@ -242,10 +1370,6 @@ namespace FletesNacionales.DataAccess.Context
                 entity.Property(e => e.pant_Url)
                     .IsRequired()
                     .HasMaxLength(300);
-
-                entity.Property(e => e.pant_reactId)
-                    .IsRequired()
-                    .HasMaxLength(80);
             });
 
             modelBuilder.Entity<tbPantallasPorRoles>(entity =>
@@ -289,6 +1413,86 @@ namespace FletesNacionales.DataAccess.Context
                     .HasConstraintName("FK_acce_tbPantallasPorRoles_acce_tbRoles_role_Id");
             });
 
+            modelBuilder.Entity<tbPedidoDetalles>(entity =>
+            {
+                entity.HasKey(e => e.pdet_Id)
+                    .HasName("PK_flet_tbPedidoDetalles_pdet_Id");
+
+                entity.ToTable("tbPedidoDetalles", "flet");
+
+                entity.Property(e => e.pdet_Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.pdet_FechaCreacion)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.pdet_FechaModificacion).HasColumnType("datetime");
+
+                entity.HasOne(d => d.item)
+                    .WithMany(p => p.tbPedidoDetalles)
+                    .HasForeignKey(d => d.item_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbPedidoDetalles_flet_tbItems_item_Id");
+
+                entity.HasOne(d => d.pdet_UsuCreacionNavigation)
+                    .WithMany(p => p.tbPedidoDetallespdet_UsuCreacionNavigation)
+                    .HasForeignKey(d => d.pdet_UsuCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbPedidoDetalles_acce_tbUsuarios_pdet_UsuCreacion");
+
+                entity.HasOne(d => d.pdet_UsuModificacionNavigation)
+                    .WithMany(p => p.tbPedidoDetallespdet_UsuModificacionNavigation)
+                    .HasForeignKey(d => d.pdet_UsuModificacion)
+                    .HasConstraintName("FK_flet_tbPedidoDetalles_acce_tbUsuarios_pdet_UsuModificacion");
+            });
+
+            modelBuilder.Entity<tbPedidos>(entity =>
+            {
+                entity.HasKey(e => e.pedi_Id)
+                    .HasName("PK_flet_tbPedidos_pedi_Id");
+
+                entity.ToTable("tbPedidos", "flet");
+
+                entity.Property(e => e.pedi_DestinoFinal).HasMaxLength(250);
+
+                entity.Property(e => e.pedi_Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.pedi_FechaCreacion)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.pedi_FechaModificacion).HasColumnType("datetime");
+
+                entity.HasOne(d => d.estp)
+                    .WithMany(p => p.tbPedidos)
+                    .HasForeignKey(d => d.estp_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbPedidos_flet_tbEstadosDelPedido_estp_Id");
+
+                entity.HasOne(d => d.muni_DestinoNavigation)
+                    .WithMany(p => p.tbPedidosmuni_DestinoNavigation)
+                    .HasForeignKey(d => d.muni_Destino)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbPedidos_gral_tbMunicipios_muni_Destino");
+
+                entity.HasOne(d => d.muni_OrigenNavigation)
+                    .WithMany(p => p.tbPedidosmuni_OrigenNavigation)
+                    .HasForeignKey(d => d.muni_Origen)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbPedidos_gral_tbMunicipios_muni_Origen");
+
+                entity.HasOne(d => d.pedi_UsuCreacionNavigation)
+                    .WithMany(p => p.tbPedidospedi_UsuCreacionNavigation)
+                    .HasForeignKey(d => d.pedi_UsuCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbPedidos_acce_tbUsuarios_pedi_UsuCreacion");
+
+                entity.HasOne(d => d.pedi_UsuModificacionNavigation)
+                    .WithMany(p => p.tbPedidospedi_UsuModificacionNavigation)
+                    .HasForeignKey(d => d.pedi_UsuModificacion)
+                    .HasConstraintName("FK_flet_tbPedidos_acce_tbUsuarios_pedi_UsuModificacion");
+            });
+
             modelBuilder.Entity<tbRoles>(entity =>
             {
                 entity.HasKey(e => e.role_Id)
@@ -296,7 +1500,7 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToTable("tbRoles", "acce");
 
-                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82EA1A9236F")
+                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E09745935")
                     .IsUnique();
 
                 entity.Property(e => e.role_Estado)
@@ -308,6 +1512,10 @@ namespace FletesNacionales.DataAccess.Context
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.role_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.role_Habilitado)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.role_Nombre)
                     .IsRequired()
@@ -323,6 +1531,154 @@ namespace FletesNacionales.DataAccess.Context
                     .WithMany(p => p.tbRolesrole_UsuModificacionNavigation)
                     .HasForeignKey(d => d.role_UsuModificacion)
                     .HasConstraintName("FK_acce_tbRoles_acce_tbUsuarios_role_UsuModificacion_user_Id");
+            });
+
+            modelBuilder.Entity<tbSucursales>(entity =>
+            {
+                entity.HasKey(e => e.sucu_Id)
+                    .HasName("PK_flet_tbSucursales_sucu_Id");
+
+                entity.ToTable("tbSucursales", "flet");
+
+                entity.Property(e => e.sucu_Direccion)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.sucu_Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.sucu_FechaCreacion)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.sucu_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.sucu_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.HasOne(d => d.muni)
+                    .WithMany(p => p.tbSucursales)
+                    .HasForeignKey(d => d.muni_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbSucursales_gral_tbMunicipios_muni_Id");
+
+                entity.HasOne(d => d.sucu_UsuCreacionNavigation)
+                    .WithMany(p => p.tbSucursalessucu_UsuCreacionNavigation)
+                    .HasForeignKey(d => d.sucu_UsuCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbSucursales_acce_tbUsuarios_sucu_UsuCreacion");
+
+                entity.HasOne(d => d.sucu_UsuModificacionNavigation)
+                    .WithMany(p => p.tbSucursalessucu_UsuModificacionNavigation)
+                    .HasForeignKey(d => d.sucu_UsuModificacion)
+                    .HasConstraintName("FK_flet_tbSucursales_acce_tbUsuarios_sucu_UsuModificacion");
+            });
+
+            modelBuilder.Entity<tbTipoDeVehiculo>(entity =>
+            {
+                entity.HasKey(e => e.tipv_Id)
+                    .HasName("PK_equi_TipoDeVehiculo_tipv_Id");
+
+                entity.ToTable("tbTipoDeVehiculo", "equi");
+
+                entity.Property(e => e.tipv_Descripcion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.tipv_Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.tipv_FechaCreacion)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.tipv_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.tipv_Habilitado)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.HasOne(d => d.tipv_UsuCreacionNavigation)
+                    .WithMany(p => p.tbTipoDeVehiculotipv_UsuCreacionNavigation)
+                    .HasForeignKey(d => d.tipv_UsuCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_equi_TipoDeVehiculo_acce_tbUsuarios_tipv_UsuCreacion");
+
+                entity.HasOne(d => d.tipv_UsuModificacionNavigation)
+                    .WithMany(p => p.tbTipoDeVehiculotipv_UsuModificacionNavigation)
+                    .HasForeignKey(d => d.tipv_UsuModificacion)
+                    .HasConstraintName("FK_equi_TipoDeVehiculo_acce_tbUsuarios_tipv_UsuModificacion");
+            });
+
+            modelBuilder.Entity<tbTrayectos>(entity =>
+            {
+                entity.HasKey(e => e.tray_Id)
+                    .HasName("PK_flet_tbTrayectos_tray_Id");
+
+                entity.ToTable("tbTrayectos", "flet");
+
+                entity.Property(e => e.tray_Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.tray_FechaCreacion)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.tray_FechaModificacion).HasColumnType("datetime");
+
+                entity.HasOne(d => d.muni_FinalNavigation)
+                    .WithMany(p => p.tbTrayectosmuni_FinalNavigation)
+                    .HasForeignKey(d => d.muni_Final)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbTrayectos_gral_tbMunicipios_muni_Final");
+
+                entity.HasOne(d => d.muni_InicioNavigation)
+                    .WithMany(p => p.tbTrayectosmuni_InicioNavigation)
+                    .HasForeignKey(d => d.muni_Inicio)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbTrayectos_gral_tbMunicipios_muni_Inicio");
+
+                entity.HasOne(d => d.tray_UsuCreacionNavigation)
+                    .WithMany(p => p.tbTrayectostray_UsuCreacionNavigation)
+                    .HasForeignKey(d => d.tray_UsuCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbTrayectos_acce_tbUsuarios_pedi_UsuCreacion");
+
+                entity.HasOne(d => d.tray_UsuModificacionNavigation)
+                    .WithMany(p => p.tbTrayectostray_UsuModificacionNavigation)
+                    .HasForeignKey(d => d.tray_UsuModificacion)
+                    .HasConstraintName("FK_flet_tbTrayectos_acce_tbUsuarios_pedi_UsuModificacion");
+            });
+
+            modelBuilder.Entity<tbUbicacionPorFlete>(entity =>
+            {
+                entity.HasKey(e => e.ubif_Id)
+                    .HasName("PK_flet_tbUbicacionPorFlete_ubif_Id");
+
+                entity.ToTable("tbUbicacionPorFlete", "flet");
+
+                entity.Property(e => e.ubif_Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.ubif_FechaCreacion)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.ubif_FechaModificacion).HasColumnType("datetime");
+
+                entity.HasOne(d => d.flet)
+                    .WithMany(p => p.tbUbicacionPorFlete)
+                    .HasForeignKey(d => d.flet_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbUbicacionPorFlete_flet_tbFletes_flet_Id");
+
+                entity.HasOne(d => d.ubif_UsuCreacionNavigation)
+                    .WithMany(p => p.tbUbicacionPorFleteubif_UsuCreacionNavigation)
+                    .HasForeignKey(d => d.ubif_UsuCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbUbicacionPorFlete_acce_tbUsuarios_pdet_UsuCreacion");
+
+                entity.HasOne(d => d.ubif_UsuModificacionNavigation)
+                    .WithMany(p => p.tbUbicacionPorFleteubif_UsuModificacionNavigation)
+                    .HasForeignKey(d => d.ubif_UsuModificacion)
+                    .HasConstraintName("FK_flet_tbUbicacionPorFlete_acce_tbUsuarios_pdet_UsuModificacion");
             });
 
             modelBuilder.Entity<tbUsuarios>(entity =>
@@ -348,6 +1704,11 @@ namespace FletesNacionales.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(100);
 
+                entity.HasOne(d => d.empe)
+                    .WithMany(p => p.tbUsuarios)
+                    .HasForeignKey(d => d.empe_Id)
+                    .HasConstraintName("FK_acce_tbUsuarios_flet_tbEmpleados_empe_Id");
+
                 entity.HasOne(d => d.role)
                     .WithMany(p => p.tbUsuarios)
                     .HasForeignKey(d => d.role_Id)
@@ -363,6 +1724,43 @@ namespace FletesNacionales.DataAccess.Context
                     .WithMany(p => p.Inverseuser_UsuModificacionNavigation)
                     .HasForeignKey(d => d.user_UsuModificacion)
                     .HasConstraintName("FK_acce_tbUsuarios_acce_tbUsuarios_user_UsuModificacion_user_Id");
+            });
+
+            modelBuilder.Entity<tbVehiculos>(entity =>
+            {
+                entity.HasKey(e => e.vehi_Id)
+                    .HasName("PK_equi_tbVehiculos_vehi_Id");
+
+                entity.ToTable("tbVehiculos", "equi");
+
+                entity.Property(e => e.vehi_Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.vehi_FechaCreacion)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.vehi_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.vehi_Placa)
+                    .IsRequired()
+                    .HasMaxLength(30);
+
+                entity.HasOne(d => d.mode)
+                    .WithMany(p => p.tbVehiculos)
+                    .HasForeignKey(d => d.mode_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_equi_tbVehiculos_equi_tbMarcas_marc_Id");
+
+                entity.HasOne(d => d.vehi_UsuCreacionNavigation)
+                    .WithMany(p => p.tbVehiculosvehi_UsuCreacionNavigation)
+                    .HasForeignKey(d => d.vehi_UsuCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_equi_tbVehiculos_acce_tbUsuarios_mode_UsuCreacion");
+
+                entity.HasOne(d => d.vehi_UsuModificacionNavigation)
+                    .WithMany(p => p.tbVehiculosvehi_UsuModificacionNavigation)
+                    .HasForeignKey(d => d.vehi_UsuModificacion)
+                    .HasConstraintName("FK_equi_tbVehiculos_acce_tbUsuarios_mode_UsuModificacion");
             });
 
             OnModelCreatingPartial(modelBuilder);

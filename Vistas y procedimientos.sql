@@ -12,6 +12,12 @@ CREATE OR ALTER VIEW gral.VW_tbCargos
 AS
 SELECT	carg_Id, 
 		carg_Descripcion, 
+		carg_Habilitado,
+		CASE
+			WHEN carg_Habilitado = 1 THEN 'Habilitado'
+			WHEN carg_Habilitado = 0 THEN 'Deshabilitado'
+			ELSE 'error'
+		END AS carg_Visible,
 		carg_UsuCreacion, 
 		T2.user_NombreUsuario AS user_Creacion,
 		carg_FechaCreacion, 
@@ -114,6 +120,12 @@ SELECT	depa_Id,
 		depa_Nombre, 
 		depa_Codigo, 
 		depa_UsuCreacion, 
+		depa_Habilitado,
+		CASE
+			WHEN depa_Habilitado = 1 THEN 'Habilitado'
+			WHEN depa_Habilitado = 0 THEN 'Deshabilitado'
+			ELSE 'error'
+		END AS depa_Visible,
 		T2.user_NombreUsuario AS user_Creacion,
 		depa_FechaCreacion, 
 		depa_UsuModificacion, 
@@ -245,6 +257,12 @@ SELECT	muni_Id,
 		T1.depa_Id, 
 		T2.depa_Nombre
 		muni_UsuCreacion, 
+		muni_Habilitado,
+		CASE
+			WHEN muni_Habilitado = 1 THEN 'Habilitado'
+			WHEN muni_Habilitado = 0 THEN 'Deshabilitado'
+			ELSE 'error'
+		END AS muni_Visible,
 		T3.user_NombreUsuario AS user_Creacion,
 		muni_FechaCreacion, 
 		muni_UsuModificacion, 
@@ -373,7 +391,13 @@ SELECT	eciv_Id,
 		eciv_UsuCreacion, 
 		T2.user_NombreUsuario AS user_Creacion,
 		eciv_FechaCreacion, 
-		eciv_UsuModificacion, 
+		eciv_UsuModificacion,
+		eciv_Habilitado,
+		CASE
+			WHEN eciv_Habilitado = 1 THEN 'Habilitado'
+			WHEN eciv_Habilitado = 0 THEN 'Deshabilitado'
+			ELSE 'error'
+		END AS eciv_Visible,
 		T3.user_NombreUsuario AS user_Modificacion,
 		eciv_FechaModificacion, 
 		eciv_Estado
@@ -471,6 +495,12 @@ CREATE OR ALTER VIEW gral.VW_tbMetodosdePago
 AS
 SELECT	meto_Id, 
 		meto_Descripcion, 
+		meto_Habilitado,
+		CASE
+			WHEN meto_Habilitado = 1 THEN 'Habilitado'
+			WHEN meto_Habilitado = 0 THEN 'Deshabilitado'
+			ELSE 'error'
+		END AS meto_Visible,
 		meto_UsuCreacion, 
 		t2.user_NombreUsuario AS user_Creacion,
 		meto_FechaCreacion, 
@@ -574,6 +604,12 @@ CREATE OR ALTER VIEW equi.VW_tbTipoDeVehiculo
 AS
 SELECT	tipv_Id, 
 		tipv_Descripcion, 
+		tipv_Habilitado,
+		CASE
+			WHEN tipv_Habilitado = 1 THEN 'Habilitado'
+			WHEN tipv_Habilitado = 0 THEN 'Deshabilitado'
+			ELSE 'error'
+		END AS tipv_Visible,
 		tipv_UsuCreacion,
 		t2.user_NombreUsuario AS user_Creacion, 
 		tipv_FechaCreacion, 
@@ -698,6 +734,12 @@ CREATE OR ALTER VIEW equi.VW_tbMarcas
 AS
 SELECT	marc_Id, 
 		marc_Nombre, 
+		marc_Habilitado,
+		CASE
+			WHEN marc_Habilitado = 1 THEN 'Habilitado'
+			WHEN marc_Habilitado = 0 THEN 'Deshabilitado'
+			ELSE 'error'
+		END AS marc_Visible,
 		marc_UsuCreacion, 
 		t2.user_NombreUsuario AS user_Creacion, 
 		marc_FechaCreacion, 
@@ -821,6 +863,12 @@ CREATE OR ALTER VIEW equi.VW_tbModelos
 AS
 SELECT	mode_Id, 
 		mode_Nombre, 
+		mode_Habilitado,
+		CASE
+			WHEN mode_Habilitado = 1 THEN 'Habilitado'
+			WHEN mode_Habilitado = 0 THEN 'Deshabilitado'
+			ELSE 'error'
+		END AS mode_Visible,
 		T1.marc_Id,
 		T4.marc_Nombre, 
 		T1.tipv_Id, 
@@ -970,6 +1018,12 @@ SELECT	vehi_Id,
 		T4.[marc_Id],
 		T5.marc_Nombre,
 		vehi_Placa, 
+		vehi_EnUso,
+		CASE
+			WHEN vehi_EnUso = 1 THEN 'Si'
+			WHEN vehi_EnUso = 0 THEN 'No'
+			ELSE 'error'
+		END AS vehi_Usado,
 		vehi_UsuCreacion, 
 		vehi_FechaCreacion, 
 		vehi_UsuModificacion, 
@@ -1128,6 +1182,12 @@ SELECT	clie_Id,
 		T5.depa_Nombre,
 		clie_DireccionExacta, 
 		clie_Telefono,
+		clie_Habilitado,
+		CASE
+			WHEN clie_Habilitado = 1 THEN 'Habilitado'
+			WHEN clie_Habilitado = 0 THEN 'Deshabilitado'
+			ELSE 'error'
+		END AS clie_Visible,
 		clie_UsuCreacion, 
 		T2.user_NombreUsuario AS user_Creacion,
 		clie_FechaCreacion, 
@@ -1296,6 +1356,12 @@ SELECT T1.[empe_Id]
 	  ,T7.sucu_Nombre
       ,T8.[carg_Id]
 	  ,T8.carg_Descripcion
+	  ,empe_Habilitado,
+		CASE
+			WHEN empe_Habilitado = 1 THEN 'Habilitado'
+			WHEN empe_Habilitado = 0 THEN 'Deshabilitado'
+			ELSE 'error'
+		END AS empe_Visible
       ,[empe_UsuCreacion]
 	  ,t2.user_NombreUsuario AS user_Creacion
       ,[empe_FechaCreacion]
@@ -1841,6 +1907,12 @@ SELECT	item_Id,
 		item_Descripcion,
 		item_Peso, 
 		item_Volumen, 
+		item_Habilitado,
+		CASE
+			WHEN item_Habilitado = 1 THEN 'Habilitado'
+			WHEN item_Habilitado = 0 THEN 'Deshabilitado'
+			ELSE 'error'
+		END AS item_Visible,
 		item_UsuCreacion, 
 		item_FechaCreacion, 
 		item_UsuModificacion, 
@@ -1916,8 +1988,7 @@ BEGIN
 	BEGIN TRY
       
 		UPDATE	flet.tbItems
-		SET		item_Id = @item_Id,
-				item_Nombre	= @item_Nombre,
+		SET		item_Nombre	= @item_Nombre,
 				item_Descripcion = @item_Descripcion,
 				item_Peso = @item_Peso,
 				item_Volumen = @item_Volumen,
@@ -2102,6 +2173,8 @@ SELECT	pedi_Id,
 		T8.depa_Id AS pedi_DepaDestinoId,
 		T8.depa_Nombre   AS pedi_DepaDestino,
 		pedi_DestinoFinal, 
+		T1.estp_Id,
+		T9.estp_Nombre,
 		pedi_UsuCreacion, 
 		pedi_FechaCreacion, 
 		pedi_UsuModificacion, 
@@ -2116,7 +2189,8 @@ SELECT	pedi_Id,
   ON T1.muni_Origen = T5.muni_Id  INNER JOIN gral.tbDepartamentos T6
   ON T5.depa_Id = T6.depa_Id INNER JOIN gral.tbMunicipios T7
   ON T1.muni_Destino = T7.muni_Id  INNER JOIN gral.tbDepartamentos T8
-  ON T7.depa_Id = T8.depa_Id
+  ON T7.depa_Id = T8.depa_Id INNER JOIN flet.tbEstadosDelPedido T9
+  ON T1.estp_Id = T9.estp_Id
 
 
 --************** INDEX *****************--
@@ -2156,8 +2230,8 @@ AS
 BEGIN
 	BEGIN TRY
         
-		INSERT INTO flet.tbPedidos (clie_Id, muni_Origen, muni_Destino, pedi_DestinoFinal, pedi_UsuCreacion)
-		VALUES	(@clie_Id, @muni_Origen, @muni_Destino, @pedi_DestinoFinal, @pedi_UsuCreacion)
+		INSERT INTO flet.tbPedidos (clie_Id, muni_Origen, muni_Destino, pedi_DestinoFinal, pedi_UsuCreacion, estp_Id)
+		VALUES	(@clie_Id, @muni_Origen, @muni_Destino, @pedi_DestinoFinal, @pedi_UsuCreacion, 1)
 
 		SELECT 1 codeStatus
 	END TRY
@@ -2174,6 +2248,7 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_Update
 @clie_Id				INT,
 @muni_Origen			INT,
 @muni_Destino			INT,
+@estp_Id				INT,
 @pedi_DestinoFinal		NVARCHAR(250),
 @pedi_UsuModificacion	INT
  )
@@ -2182,10 +2257,14 @@ BEGIN
 	BEGIN TRY
       
 		UPDATE	flet.tbPedidos
-		SET		item_Id = @item_Id,
-				pdet_UsuModificacion = @pdet_UsuModificacion,
-				pdet_FechaModificacion  = GETDATE()
-		WHERE	pdet_Id = @pdet_Id
+		SET		clie_Id = @clie_Id,
+				muni_Origen = @muni_Origen,
+				muni_Destino = @muni_Destino,
+				estp_Id = @estp_Id,
+				pedi_DestinoFinal = @pedi_DestinoFinal,
+				pedi_UsuModificacion = @pedi_UsuModificacion,
+				pedi_FechaModificacion  = GETDATE()
+		WHERE	pedi_Id = @pedi_Id
 
 		SELECT 1 codeStatus
 
@@ -2200,15 +2279,15 @@ END
 GO
 CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_Delete
 (
-@pdet_Id INT
+@pedi_Id INT
 )
 AS
 BEGIN
 	BEGIN TRY
 		
 		UPDATE	flet.tbPedidos
-		SET		pdet_Estado = 0
-		WHERE	pdet_Id = @pdet_Id
+		SET		pedi_Estado = 0
+		WHERE	pedi_Id = @pedi_Id
 		
 		SELECT 1 codestatus
 	
@@ -2217,6 +2296,169 @@ BEGIN
 		SELECT 0 codestatus
 	END CATCH
 END
+-----------------------------------------------------------------------------------------------------------------------------
+--*********************ESTADOS DEL PEDIDO*********************--
+GO
+CREATE OR ALTER VIEW flet.VW_tbEstadosDelPedido
+AS
+SELECT [estp_Id]
+      ,[estp_Nombre]
+      ,[estp_UsuCreacion]
+	  ,estp_Habilitado,
+		CASE
+			WHEN estp_Habilitado = 1 THEN 'Habilitado'
+			WHEN estp_Habilitado = 0 THEN 'Deshabilitado'
+			ELSE 'error'
+		END AS estp_Visible,
+	  T2.user_NombreUsuario AS user_Creacion,
+		estp_FechaCreacion, 
+		estp_UsuModificacion, 
+		T3.user_NombreUsuario AS user_Modificacion,
+		estp_FechaModificacion, 
+		estp_Estado
+FROM [flet].[tbEstadosDelPedido] AS T1 INNER JOIN acce.tbUsuarios AS T2
+ON T1.estp_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios AS T3
+ON T1.estp_UsuModificacion = T3.[user_Id]
+
+GO
+
+
+--************** INDEX *****************--
+
+CREATE OR ALTER PROCEDURE flet.UDP_tbEstadosDelPedido_Index
+AS
+BEGIN
+	SELECT *
+	FROM flet.VW_tbEstadosDelPedido
+	WHERE estp_Estado = 1
+END
+GO
+
+--************** FIND *****************--
+
+CREATE OR ALTER PROCEDURE flet.UDP_tbEstadosDelPedido_Find
+(
+@estp_Id INT
+)
+AS
+BEGIN
+	SELECT *
+	FROM flet.VW_tbEstadosDelPedido
+	WHERE estp_Id = @estp_Id
+END
+GO
+
+--************** INSERT *****************--
+
+CREATE OR ALTER PROCEDURE flet.UDP_tbEstadosDelPedido_Insert
+(
+@estp_Nombre nvarchar(150),
+@estp_UsuCreacion int
+)
+AS
+BEGIN
+
+	BEGIN TRY
+	IF EXISTS (SELECT * FROM flet.tbEstadosDelPedido WHERE estp_Nombre = @estp_Nombre AND estp_Estado = 1)
+	BEGIN
+		SELECT -2
+	END
+	ELSE IF NOT EXISTS (SELECT * FROM flet.tbEstadosDelPedido WHERE estp_Nombre = @estp_Nombre)
+	BEGIN
+		INSERT INTO [flet].[tbEstadosDelPedido]
+					   ([estp_Nombre]
+					   ,[estp_UsuCreacion]
+					   ,[estp_FechaCreacion])
+				 VALUES
+					   (@estp_Nombre
+					   ,@estp_UsuCreacion
+					   ,GETDATE())
+
+	SELECT 1
+	END
+	ELSE 
+	BEGIN 
+		UPDATE [flet].[tbEstadosDelPedido]
+		SET estp_Estado = 1
+		WHERE estp_Nombre = @estp_Nombre
+			
+	SELECT 1
+	END
+	END TRY
+	BEGIN CATCH
+		SELECT 0
+	END CATCH
+	
+END
+GO
+
+
+--************** Update *****************--
+
+CREATE OR ALTER PROCEDURE flet.UDP_tbEstadosDelPedido_Update
+(
+@estp_Id int,
+@estp_Nombre nvarchar(150),
+@estp_UsuModificacion int
+)
+AS
+BEGIN
+
+	BEGIN TRY
+	IF EXISTS (SELECT * FROM flet.tbEstadosDelPedido WHERE estp_Nombre = @estp_Nombre AND estp_Id != @estp_Id AND estp_Estado = 1)
+	BEGIN
+		SELECT -2
+	END
+	ELSE
+	BEGIN
+			UPDATE [flet].[tbEstadosDelPedido]
+		SET estp_Nombre = @estp_Nombre,
+			estp_UsuModificacion = @estp_UsuModificacion,
+			estp_FechaModificacion = GETDATE()
+		WHERE estp_Id = @estp_Id
+
+	SELECT 1
+	END
+	END TRY
+	BEGIN CATCH
+		SELECT 0
+	END CATCH
+	
+END
+GO
+
+
+--************** Delete *****************--
+CREATE OR ALTER PROCEDURE flet.UDP_tbEstadosDelPedido_Delete
+(
+@estp_Id int
+)
+AS
+BEGIN
+
+	BEGIN TRY
+	IF EXISTS (SELECT * FROM flet.tbPedidos WHERE estp_Id = @estp_Id AND pedi_Estado = 1)
+	BEGIN
+		SELECT -2
+	END
+	ELSE 
+	BEGIN 
+		UPDATE [flet].[tbEstadosDelPedido]
+		SET estp_Estado = 0
+		WHERE estp_Id = @estp_Id
+			
+	SELECT 1
+	END
+	END TRY
+	BEGIN CATCH
+		SELECT 0
+	END CATCH
+	
+END
+GO
+
+
+
 
 -----------------------------------------------------------------------------------------------------------------------------
 --*********************SUCURSALES*********************--

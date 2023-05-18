@@ -30,6 +30,70 @@
          "ObjectType": 0
       },
       {
+         "Name": "[equi].[tbMarcas]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[equi].[tbModelos]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[equi].[tbTipoDeVehiculo]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[equi].[tbVehiculos]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[flet].[tbClientes]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[flet].[tbEmpleados]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[flet].[tbEscalasPorTrayecto]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[flet].[tbEstadosDelPedido]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[flet].[tbFleteDetalles]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[flet].[tbFletes]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[flet].[tbItems]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[flet].[tbPedidoDetalles]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[flet].[tbPedidos]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[flet].[tbSucursales]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[flet].[tbTrayectos]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[flet].[tbUbicacionPorFlete]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[gral].[tbCargos]",
          "ObjectType": 0
       },
@@ -48,6 +112,78 @@
       {
          "Name": "[gral].[tbMunicipios]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[equi].[VW_tbMarcas]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[equi].[VW_tbModelos]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[equi].[VW_tbTipoDeVehiculo]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[equi].[VW_tbVehiculos]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[flet].[VW_tbClientes]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[flet].[VW_tbEmpleados]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[flet].[VW_tbEscalasPorTrayecto]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[flet].[VW_tbEstadosDelPedido]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[flet].[VW_tbFleteDetalles]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[flet].[VW_tbFletes]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[flet].[VW_tbItems]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[flet].[VW_tbPedidoDetalles]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[flet].[VW_tbPedidos]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[gral].[VW_tbCargos]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[gral].[VW_tbDepartamentos]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[gral].[VW_tbEstadosCiviles]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[gral].[VW_tbMetodosdePago]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[gral].[VW_tbMunicipios]",
+         "ObjectType": 3
       }
    ],
    "UiHint": "DESKTOP-51051C3\\SQLEXPRESS.FletesNacionales",
