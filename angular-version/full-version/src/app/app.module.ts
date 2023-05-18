@@ -30,6 +30,8 @@ import { ContextMenuComponent } from 'app/main/extensions/context-menu/context-m
 import { AnimatedCustomContextMenuComponent } from './main/extensions/context-menu/custom-context-menu/animated-custom-context-menu/animated-custom-context-menu.component';
 import { BasicCustomContextMenuComponent } from './main/extensions/context-menu/custom-context-menu/basic-custom-context-menu/basic-custom-context-menu.component';
 import { SubMenuCustomContextMenuComponent } from './main/extensions/context-menu/custom-context-menu/sub-menu-custom-context-menu/sub-menu-custom-context-menu.component';
+import { ListComponent } from './Cargos/list/list.component';
+import { CreateComponent } from './Cargos/create/create.component';
 
 const appRoutes: Routes = [
   {
@@ -92,7 +94,9 @@ const appRoutes: Routes = [
         ContextMenuComponent,
         BasicCustomContextMenuComponent,
         AnimatedCustomContextMenuComponent,
-        SubMenuCustomContextMenuComponent
+        SubMenuCustomContextMenuComponent,
+        ListComponent,
+        CreateComponent
     ],
     imports: [
         BrowserModule,
