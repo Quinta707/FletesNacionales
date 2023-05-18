@@ -293,6 +293,8 @@ GO
 CREATE TABLE equi.tbVehiculos(
 vehi_Id						INT IDENTITY(1,1),
 mode_Id						INT NOT NULL,
+vehi_PexoMaximo				DECIMAL(18,2)NOT NULL,
+vehi_VolumenMaximo			DECIMAL(18,2)NOT NULL,
 vehi_Placa					NVARCHAR(30) NOT NULL,
 vehi_UsuCreacion			INT NOT NULL,
 vehi_FechaCreacion			DATETIME CONSTRAINT DF_equi_tbVehiculos_vehi_FechaCreacion DEFAULT(GETDATE()),
@@ -609,21 +611,24 @@ CONSTRAINT FK_flet_tbEscalasPorTrayecto_acce_tbUsuarios_pedi_UsuModificacion    
 ------------------EQUIPO---------------------
 --Modelos ✓
 --Marcas ✓
---Vehiculos
+--Vehiculos ✓
 --Tipo de vehiculo ✓
 
-------------------Empresa--------------------
---Empleados ✓
+------------------FLETE--------------------
 --Clientes ✓
---Sucursales ✓
---Items ✓
---Pedidos
---PedidosDetalles
---Fletes
+--Empleados ✓
+--EscalasPorTrayecto X
+
+--Estado del Pedido ✓
+
 --Flete detalle
+--Fletes
+--Items ✓
+--PedidosDetalles ✓
+--Pedidos ✓
+--Sucursales ✓
 --Trayectos ✓
---EscalasPorTrayecto
---Ubicacion por flete
+--Ubicacion por flete X
 
 ------------------ACCESO--------------------
 --Roles  ✓

@@ -387,55 +387,6 @@ VALUES	('Tarjeta de crédito', '1'),
 		('Cheque', 1),
 		('Efectivo', 1);
 		
---****************************************INSERTS ACCESO****************************************--
---****************************************ROLES****************************************--
-INSERT INTO acce.tbRoles (role_Nombre,role_UsuCreacion)
-VALUES	('Admin', 1),
-		('Digitador', 1),
-		('Empleado',1);
-		
---****************************************PANTALLAS****************************************--
-INSERT INTO acce.tbPantallas (pant_Nombre, pant_Url, pant_Menu, pant_Icono, pant_UsuCreacion)
-VALUES ('Departamentos',' ',' ',' ',1),
-	   ('Direcciones',' ',' ',' ',1),
-	   ('Estado Civiles',' ',' ',' ',1),
-	   ('Municipios',' ',' ',' ',1),
-	   ('Tipo de Pagos',' ',' ',' ',1) ,
-
-	   ('Clientes',' ',' ',' ',1),
-	   ('Empleados',' ',' ',' ',1),
-	   ('Modelos',' ',' ',' ',1),
-	   ('Marcas',' ',' ',' ',1),
-	   ('Vehiculos',' ',' ',' ',1),
-	   ('Tipos de Vehiculos',' ',' ',' ',1),
-
-	   ('Usuarios',' ',' ',' ',1),
-       ('Roles Por Pantalla',' ',' ',' ',1)
-	   --('Grafica',1) --17
-GO
-	    
---****************************************ROLES POR PANTALLAS****************************************--
---INSERT INTO acce.tbPantallasPorRoles(role_Id, pant_Id, prol_UsuCreacion)
---VALUES	( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1)
-GO
 --****************************************INSERTS EQUIPO****************************************--
 --****************************************MARCA****************************************--
 INSERT INTO equi.tbMarcas(marc_Nombre, marc_UsuCreacion)
@@ -476,17 +427,20 @@ VALUES ('Serie 2 Gran Tourer',1,1,1),
 GO
 --****************************************VEHICULO****************************************--
 
-INSERT INTO equi.tbVehiculos (mode_Id,vehi_Placa,vehi_UsuCreacion) 
-VALUES (1,'PAA-1234',1),
-(2,'BVM-7890',1),
-(3,'LNH-9012',1),
-(4,'RTD-3456',1),
-(5,'PAA-4321',1),
-(6,'JIK-2345',1),
-(7,'XSY-6789',1),
-(8,'ZAN-0123',1),
-(9 ,'DFR-4567',1),
-(10 ,'RFD-4237',1)
+SELECT mode_Nombre, marc_Id, tdv.tipv_Id, tipv_Descripcion FROM equi.tbModelos mdl INNER JOIN equi.tbTipoDeVehiculo tdv on mdl.tipv_Id = tdv.tipv_Id
+GO
+
+INSERT INTO equi.tbVehiculos (mode_Id,vehi_PexoMaximo,vehi_VolumenMaximo,vehi_Placa,vehi_UsuCreacion) 
+VALUES (1,500,400,'PAA-1234',1),
+(2,1000,900,'BVM-7890',1),
+(3,2000,1900,'LNH-9012',1),
+(4,7000,6900,'RTD-3456',1),
+(5,35000,30000,'PAA-4321',1),
+(6,8000,7500,'JIK-2345',1),
+(7,9000,8700,'XSY-6789',1),
+(8,10000,9000,'ZAN-0123',1),
+(9 ,30000,27000,'DFR-4567',1),
+(10 ,40000,34000,'RFD-4237',1)
 
 --****************************************INSERTS FLETES****************************************--
 --****************************************CLIENTE****************************************--
@@ -516,35 +470,35 @@ VALUES	('Cristian', 'Aguilar', '0501-2004-98213', '02-02-2004', 'M', '1', '63', 
 
 --****************************************ITEMS****************************************--
 INSERT INTO flet.tbItems (item_Nombre, item_Descripcion, item_Peso, item_Volumen, item_UsuCreacion)
-VALUES	('Lavadora Samsung','Modelo X$/AE LGBT',70,2.8, 1),
-		('Lavadora LG','Modelo X$/AE LGBT',70,2.8, 1),
-		('Lavadora Whirlpool','Modelo X$/AE LGBT',70,2.8, 1),
-		('Lavadora Electrolux','Modelo X$/AE LGBT',70,2.8, 1),
-		('Lavadora Bosch','Modelo X$/AE LGBT',70,2.8, 1),
+VALUES	('Lavadora Samsung','Modelo X$/AE LGBT',700,20.8, 1),
+		('Lavadora LG','Modelo X$/AE LGBT',700,20.8, 1),
+		('Lavadora Whirlpool','Modelo X$/AE LGBT',700,20.8, 1),
+		('Lavadora Electrolux','Modelo X$/AE LGBT',700,20.8, 1),
+		('Lavadora Bosch','Modelo X$/AE LGBT',700,20.8, 1),
 
-		('Refrigerador Samsung','Modelo Samsung RF28R7551SR',40 ,7.6 ,1),
-		('Refrigerador LG','Modelo LG LFXS28968S',40,7.6 ,1),
-		('Refrigerador Whirlpool','Modelo Whirlpool WRF535SWHZ',40 ,7.6,1),
-		('Refrigerador Electrolux','Modelo Electrolux EI23BC82SS',40,7.6 ,1),
-		('Refrigerador Bosch','Modelo Bosch B36CT80SNS',40,7.6 ,1),
+		('Refrigerador Samsung','Modelo Samsung RF28R7551SR',400 ,70.6 ,1),
+		('Refrigerador LG','Modelo LG LFXS28968S',400,70.6 ,1),
+		('Refrigerador Whirlpool','Modelo Whirlpool WRF535SWHZ',400 ,70.6,1),
+		('Refrigerador Electrolux','Modelo Electrolux EI23BC82SS',400,70.6 ,1),
+		('Refrigerador Bosch','Modelo Bosch B36CT80SNS',400,70.6 ,1),
 
-		('Horno KitchenAid','Modelo KitchenAid KOSE500ESS',35.3 ,7.6,1),
-		('Horno Bosch','Modelo Bosch HBL8453UC',35.3 ,7.6,1),
-		('Horno Whirlpool','Modelo Whirlpool WOS51EC0AS',38.3 ,7.6,1),
-		('Horno LG','Modelo LG LWS3063ST',36.3 ,7.6,1),
-		('Horno GE Appliances','Modelo GE JT5000SFSS',37.3 ,7.6,1),
+		('Horno KitchenAid','Modelo KitchenAid KOSE500ESS',350.3 ,70.6,1),
+		('Horno Bosch','Modelo Bosch HBL8453UC',350.3 ,70.6,1),
+		('Horno Whirlpool','Modelo Whirlpool WOS51EC0AS',380.3 ,70.6,1),
+		('Horno LG','Modelo LG LWS3063ST',360.3 ,70.6,1),
+		('Horno GE Appliances','Modelo GE JT5000SFSS',370.3 ,70.6,1),
 
-		('Televisor Samsung',' Samsung QN65Q80A ',1.61 ,15,1),
-		('Televisor Bosch','Modelo Bosch HBL8453UC',1.59,15,1),
-		('Televisor Sony','Modelo Sony XBR55X950H ',1.5 ,15,1),
-		('Televisor LG','Modelo TCL 65R635',1.3 ,15,1),
-		('Televisor TCL','Modelo LG NanoCell 85 Series 75NANO85UNA ',1 ,15,1),
+		('Televisor Samsung',' Samsung QN65Q80A ',10.61 ,150,1),
+		('Televisor Bosch','Modelo Bosch HBL8453UC',10.59,150,1),
+		('Televisor Sony','Modelo Sony XBR55X950H ',10.5 ,150,1),
+		('Televisor LG','Modelo TCL 65R635',10.3 ,150,1),
+		('Televisor TCL','Modelo LG NanoCell 85 Series 75NANO85UNA ',10 ,150,1),
 
-		('Aspiradora Dyson',' Dyson QN6WEREW5Q80A XBOX',2.5 ,5,1),
-		('Aspiradora Shark','Modelo Shark HBLHGHFG8453UC',2.5,5,1),
-		('Aspiradora Miele','Modelo Miele XBRBVCBCV55X950H ',2.5 ,5,1),
-		('Aspiradora Hoover','Modelo Hoover 65R66635 PRO',2.5,5,1),
-		('Aspiradora Bissell','Modelo Bissell DISCORD CELL',2.5,5,1)
+		('Aspiradora Dyson',' Dyson QN6WEREW5Q80A XBOX',20.5 ,50,1),
+		('Aspiradora Shark','Modelo Shark HBLHGHFG8453UC',20.5,50,1),
+		('Aspiradora Miele','Modelo Miele XBRBVCBCV55X950H ',20.50 ,5,1),
+		('Aspiradora Hoover','Modelo Hoover 65R66635 PRO',20.5,50,1),
+		('Aspiradora Bissell','Modelo Bissell DISCORD CELL',20.5,50,1)
 
 
 
@@ -561,9 +515,6 @@ VALUES	('Fletes Horizon San Pedro Sula',62,'123 Calle Ficticia, Barrio Imaginari
 ('Fletes Horizon Tela',3,'Avenida Costera 456, Colonia Playa Azul, Tela, Honduras',1),
 ('Fletes Horizon Siguatepeque',36,'Calle Principal 789, Barrio El Carmen, Siguatepeque, Honduras',1)
 GO
-
-select t1.muni_Id , t2.muni_Nombre from flet.tbSucursales t1 inner join gral.tbMunicipios t2 on t1.muni_id = t2.muni_Id
- where t1.muni_Id in (62,109,39,67,250,290,17,1,3,36)
 
 --****************************************EMPLEADO****************************************--
 INSERT INTO flet.tbEmpleados(empe_Nombres, empe_Apellidos, empe_Identidad, empe_FechaNacimiento, empe_Sexo, eciv_Id, muni_Id, empe_DireccionExacta, empe_Telefono, sucu_Id, carg_Id, empe_UsuCreacion)
@@ -711,6 +662,15 @@ VALUES
 
 GO
 
+--****************************************ESTADO DEL PEDIDO****************************************--
+
+INSERT INTO flet.tbEstadosDelPedido(estp_Nombre,estp_UsuCreacion)
+VALUES
+		('Pendiente',1),
+		('En proceso',1),
+		('En tránsito',1),
+		('Entregado',1),
+		('Cancelado',1)
 
 --****************************************PEDIDO****************************************--
 INSERT INTO [flet].[tbPedidos](clie_Id, muni_Origen, muni_Destino, pedi_DestinoFinal,estp_Id, pedi_UsuCreacion)
@@ -726,7 +686,7 @@ VALUES	(1,62,109,'Dirección: Avenida Principal 123, Colonia Bella Vista, Teguci
 		(10,62,62,'Dirección: Calle Principal 123, Colonia El Carmen, San Pedro Sula. Referencias: Cerca del parque central, al lado del supermercado "El Sol", frente a la escuela "San José".',1,1)	
 GO
 --****************************************PEDIDO DETALLES****************************************--
-INSERT INTO [flet].[tbPedidoDetalles](pdet_Id, item_Id, pdet_Cantidad, pdet_UsuCreacion)
+INSERT INTO [flet].[tbPedidoDetalles](pedi_Id, item_Id, pdet_Cantidad, pdet_UsuCreacion)
 VALUES	(1,1,1,1),
 		(1,7,1,1),
 		(1,9,1,1),
@@ -739,19 +699,150 @@ VALUES	(1,1,1,1),
 		(3,10,5,1),
 		(3,5,6,1),
 		(3,12,2,1),
-		(3,11,1,1)
+		(3,11,1,1),
 
+		(4,17,1,1),
 
-				select * from flet.tbItems 
+		(5,19,3,1),
+
+		(6,25,1,1),
+		(6,24,2,1),
+
+		(7,23,2,1),
+		(7,20,1,1),
+
+		(8,14,1,1),
+		(8,16,1,1),
+
+		(9,13,2,1),
+		(9,15,3,1),
+		(9,18,5,1),
+
+		(10,21,3,1),
+		(10,22,4,1)
+
+		
+--****************************************FLETE****************************************--
+
+select mun.muni_Nombre, [muni_Origen],fin.muni_Nombre, [muni_Destino],sum(item_Peso)item_Peso, sum(item_Volumen)item_Volumen
+from flet.tbItems itm inner join flet.tbPedidoDetalles pdt on itm.item_Id = pdt.item_Id 
+inner join flet.tbPedidos pdd on   pdd.pedi_Id = pdt.pedi_Id 
+inner join gral.tbMunicipios mun on mun.muni_Id = pdd.[muni_Origen]
+inner join gral.tbMunicipios fin on fin.muni_Id = pdd.[muni_Destino]
+group by pdd.pedi_Id ,[muni_Origen],[muni_Destino],mun.muni_Nombre, fin.muni_Nombre
+
+select tray_Id,mun.muni_Nombre, muni_Inicio, fin.muni_Nombre, muni_Final from [flet].[tbTrayectos] tra 
+inner join gral.tbMunicipios mun on mun.muni_Id = tra.muni_Inicio
+inner join gral.tbMunicipios fin on fin.muni_Id = tra.muni_Final
+WHERE muni_Inicio = 62 and muni_Final = 109 or
+muni_Inicio = 39 and muni_Final = 62 or
+muni_Inicio = 290 and muni_Final = 36 or
+muni_Inicio = 1 and muni_Final = 290 or
+muni_Inicio = 39 and muni_Final = 3 or
+muni_Inicio = 250 and muni_Final = 36 or
+muni_Inicio = 3 and muni_Final = 1 or
+muni_Inicio = 62 and muni_Final = 250 or
+muni_Inicio = 67 and muni_Final = 62 or
+muni_Inicio = 62 and muni_Final = 62 
+
+select * from equi.tbVehiculos
+
+INSERT INTO flet.tbFletes(vehi_Id, empe_Id, tray_Id, flet_FechaDeSalida, flet_UsuCreacion)
+VALUES 
+(1,1,1,'18/05/2023',1),
+(2,2,19,'19/05/2023',1), --EN PARADAS HAY QUE HACER QUE ESTE FLETE (CON LOS ID DE PEDIDO 2 Y 3) VAYA PARA TELA TMB XD (EL TRAYECTO ES 26)
+(3,3,36,'20/05/2023',1), 
+(4,4,69,'21/05/2023',1),
+(5,5,5,'21/05/2023',1),
+(2,2,80,'22/05/2023',1),
+(5,5,45,'22/05/2023',1)
+
+INSERT INTO [flet].[tbFleteDetalles] (flet_Id, pedi_Id, fdet_UsuCreacion)
+VALUES 
+(1,1,1),
+(2,2,1),
+(2,6,1),
+(3,3,1),
+(4,4,1),
+()
+--****************************************FLETE DETALLES****************************************--
+
 
 ALTER TABLE [acce].[tbUsuarios]
 ADD CONSTRAINT FK_acce_tbUsuarios_flet_tbEmpleados_empe_Id FOREIGN KEY(empe_Id) REFERENCES flet.tbEmpleados(empe_Id)
 
 GO
-INSERT INTO flet.tbEstadosDelPedido(estp_Nombre,estp_UsuCreacion)
-VALUES
-		('Pendiente',1),
-		('En proceso',1),
-		('En tránsito',1),
-		('Entregado',1),
-		('Cancelado',1)
+
+
+--****************************************INSERTS ACCESO****************************************--
+--****************************************ROLES****************************************--
+INSERT INTO acce.tbRoles (role_Nombre,role_UsuCreacion)
+VALUES	('Admin', 1),
+		('Digitador', 1),
+		('Empleado',1);
+		
+--****************************************PANTALLAS****************************************--
+INSERT INTO acce.tbPantallas (pant_Nombre, pant_Url, pant_Menu, pant_Icono, pant_UsuCreacion)
+VALUES ('Departamentos',' ',' ',' ',1),
+	   ('Direcciones',' ',' ',' ',1),
+	   ('Estado Civiles',' ',' ',' ',1),
+	   ('Municipios',' ',' ',' ',1),
+	   ('Tipo de Pagos',' ',' ',' ',1) ,
+
+	   ('Clientes',' ',' ',' ',1),
+	   ('Empleados',' ',' ',' ',1),
+	   ('Modelos',' ',' ',' ',1),
+	   ('Marcas',' ',' ',' ',1),
+	   ('Vehiculos',' ',' ',' ',1),
+	   ('Tipos de Vehiculos',' ',' ',' ',1),
+
+	   ('Usuarios',' ',' ',' ',1),
+       ('Roles Por Pantalla',' ',' ',' ',1)
+	   --('Grafica',1) --17
+GO
+	    
+--****************************************ROLES POR PANTALLAS****************************************--
+--INSERT INTO acce.tbPantallasPorRoles(role_Id, pant_Id, prol_UsuCreacion)
+--VALUES	( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1)
+GO
+/*
+POR SI NO FUNCIONA
+
+
+SELECT * FROM gral.tbDepartamentos
+
+
+SELECT * FROM gral.tbMunicipios
+SELECT * FROM gral.tbEstadosCiviles
+		SELECT * FROM gral.tbCargos
+		SELECT * FROM gral.tbMetodosdePago
+		SELECT * FROM equi.tbMarcas
+		SELECT * FROM equi.tbTipoDeVehiculo
+		SELECT * FROM equi.tbModelos
+		SELECT * FROM equi.tbVehiculos
+		SELECT * FROM flet.tbClientes
+		SELECT * FROM flet.tbItems
+		SELECT * FROM flet.tbSucursales
+		SELECT * FROM flet.tbEmpleados
+		SELECT * FROM flet.tbTrayectos
+		SELECT * FROM flet.tbEstadosDelPedido		SELECT * FROM flet.[tbPedidos]
+				SELECT * FROM flet.[tbPedidoDetalles][tbPedidoDetalles]
+*/
