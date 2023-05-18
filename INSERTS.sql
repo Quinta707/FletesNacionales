@@ -697,3 +697,12 @@ VALUES
 GO
 ALTER TABLE [acce].[tbUsuarios]
 ADD CONSTRAINT FK_acce_tbUsuarios_flet_tbEmpleados_empe_Id FOREIGN KEY(empe_Id) REFERENCES flet.tbEmpleados(empe_Id)
+
+GO
+INSERT INTO flet.tbEstadosDelPedido(estp_Nombre,estp_UsuCreacion)
+VALUES
+		('Pendiente',1),
+		('En proceso',1),
+		('En tránsito',1),
+		('Entregado',1),
+		('Cancelado',1)

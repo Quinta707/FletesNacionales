@@ -27,6 +27,7 @@ CREATE TABLE acce.tbRoles(
 	role_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_role_FechaCreacion DEFAULT(GETDATE()),
 	role_UsuModificacion	INT,
 	role_FechaModificacion	DATETIME,
+	role_Habilitado			BIT NOT NULL CONSTRAINT DF_role_Habilitado DEFAULT(1),
 	role_Estado				BIT NOT NULL CONSTRAINT DF_role_Estado DEFAULT(1)
 	CONSTRAINT PK_acce_tbRoles_role_Id PRIMARY KEY(role_Id)
 );
@@ -150,6 +151,7 @@ CREATE TABLE [gral].[tbDepartamentos](
 	depa_FechaCreacion			DATETIME NOT NULL CONSTRAINT DF_depa_FechaCreacion DEFAULT(GETDATE()),
 	depa_UsuModificacion		INT,
 	depa_FechaModificacion		DATETIME,
+	depa_Habilitado				BIT NOT NULL CONSTRAINT DF_depa_Habilitado DEFAULT(1),
 	depa_Estado					BIT NOT NULL CONSTRAINT DF_depa_Estado DEFAULT(1)
 	CONSTRAINT PK_gral_tbDepartamentos_depa_Id 									PRIMARY KEY(depa_Id),
 	CONSTRAINT FK_gral_tbDepartamentos_acce_tbUsuarios_depa_UsuCreacion_user_Id  		FOREIGN KEY(depa_UsuCreacion) 		REFERENCES acce.tbUsuarios(user_Id),
@@ -168,6 +170,7 @@ CREATE TABLE gral.tbMunicipios(
 	muni_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_muni_FechaCreacion DEFAULT(GETDATE()),
 	muni_UsuModificacion	INT,
 	muni_FechaModificacion	DATETIME,
+	muini_Habilitado		BIT NOT NULL CONSTRAINT DF_muni_Habilitado DEFAULT(1),
 	muni_Estado				BIT	NOT NULL CONSTRAINT DF_muni_Estado DEFAULT(1)
 	CONSTRAINT PK_gral_tbMunicipios_muni_Id 										PRIMARY KEY(muni_Id),
 	CONSTRAINT FK_gral_tbMunicipios_gral_tbDepartamentos_depa_Id 					FOREIGN KEY (depa_Id) 						REFERENCES gral.tbDepartamentos(depa_Id),
@@ -185,6 +188,7 @@ eciv_UsuCreacion				INT NOT NULL,
 eciv_FechaCreacion				DATETIME NOT NULL CONSTRAINT DF_gral_TbEstadosCiviles_eciv_FechaCreacion    DEFAULT(GETDATE()),
 eciv_UsuModificacion			INT,
 eciv_FechaModificacion			DATETIME,
+eciv_Habilitado					BIT NOT NULL CONSTRAINT DF_eciv_Habilitado DEFAULT(1),
 eciv_Estado						BIT NOT NULL CONSTRAINT DF_gral_TbEstadosCiviles_eciv_Estado    DEFAULT(1)
 CONSTRAINT     PK_gral_tbEstadosCiviles_ectv_Id					   PRIMARY KEY(eciv_Id),
 CONSTRAINT     FK_gral_tbEstadosCiviles_UsuCreacion_usua_Id        FOREIGN KEY(eciv_UsuCreacion) REFERENCES acce.tbUsuarios(user_Id),
@@ -201,6 +205,7 @@ carg_UsuCreacion			INT NOT NULL,
 carg_FechaCreacion			DATETIME CONSTRAINT DF_gral_tbCargos_carg_FechaCreacion DEFAULT(GETDATE()),
 carg_UsuModificacion		INT ,
 carg_FechaModificacion		DATETIME,
+carg_Habilitado				BIT NOT NULL CONSTRAINT DF_carg_Habilitado DEFAULT(1),
 carg_Estado					BIT CONSTRAINT DF_gral_tbCargos_carg_Estado DEFAULT(1)
 CONSTRAINT PK_gral_tbcargos_carg_Id                                  PRIMARY KEY(carg_Id),
 CONSTRAINT PK_gral_tbCargos_acce_tbUsuarios_carg_UsuCreacion         FOREIGN KEY(carg_UsuCreacion) REFERENCES acce.tbUsuarios(User_Id),
@@ -216,6 +221,7 @@ meto_UsuCreacion			INT NOT NULL,
 meto_FechaCreacion			DATETIME CONSTRAINT DF_gral_tbMetodosdePago_meto_FechaCreacion DEFAULT(GETDATE()),
 meto_UsuModificacion		INT ,
 meto_FechaModificacion		DATETIME,
+meto_Habilitado				BIT NOT NULL CONSTRAINT DF_meto_Habilitado DEFAULT(1),
 meto_Estado					BIT CONSTRAINT DF_gral_tbMetodosdePago_meto_Estado DEFAULT(1)
 CONSTRAINT PK_gral_tbMetodosdePago_meto_Id                                  PRIMARY KEY(meto_Id ),
 CONSTRAINT FK_gral_tbMetodosdePago_acce_tbUsuarios_meto_UsuCreacion         FOREIGN KEY(meto_UsuCreacion) REFERENCES acce.tbUsuarios(User_Id),
@@ -238,6 +244,7 @@ marc_UsuCreacion			INT NOT NULL,
 marc_FechaCreacion			DATETIME CONSTRAINT DF_equi_tbMarcas_marc_FechaCreacion DEFAULT(GETDATE()),
 marc_UsuModificacion		INT ,
 marc_FechaModificacion		DATETIME,
+marc_Habilitado				BIT NOT NULL CONSTRAINT DF_marc_Habilitado DEFAULT(1),
 marc_Estado					BIT CONSTRAINT DF_equi_tbMarcas_marc_Estado DEFAULT(1)
 CONSTRAINT PK_equi_tbMarcas_marc_Id                                  PRIMARY KEY(marc_Id),
 CONSTRAINT FK_equi_tbMarcas_acce_tbUsuarios_marc_UsuCreacion         FOREIGN KEY(marc_UsuCreacion) REFERENCES acce.tbUsuarios(User_Id),
@@ -253,6 +260,7 @@ tipv_UsuCreacion			INT NOT NULL,
 tipv_FechaCreacion			DATETIME CONSTRAINT DF_equi_TipoDeVehiculo_tipv_FechaCreacion DEFAULT(GETDATE()),
 tipv_UsuModificacion		INT ,
 tipv_FechaModificacion		DATETIME,
+tipv_Habilitado				BIT NOT NULL CONSTRAINT DF_tipv_Habilitado DEFAULT(1),
 tipv_Estado					BIT CONSTRAINT DF_equi_TipoDeVehiculo_tipv_Estado DEFAULT(1)
 CONSTRAINT PK_equi_TipoDeVehiculo_tipv_Id                                  PRIMARY KEY(tipv_Id),
 CONSTRAINT FK_equi_TipoDeVehiculo_acce_tbUsuarios_tipv_UsuCreacion         FOREIGN KEY(tipv_UsuCreacion) REFERENCES acce.tbUsuarios(User_Id),
@@ -270,6 +278,7 @@ mode_UsuCreacion			INT NOT NULL,
 mode_FechaCreacion			DATETIME CONSTRAINT DF_equi_tbModelos_mode_FechaCreacion DEFAULT(GETDATE()),
 mode_UsuModificacion		INT ,
 mode_FechaModificacion		DATETIME,
+mode_Habilitado				BIT NOT NULL CONSTRAINT DF_mode_Habilitado DEFAULT(1),
 mode_Estado					BIT CONSTRAINT DF_equi_tbModelos_mode_Estado DEFAULT(1)
 CONSTRAINT PK_equi_tbModelos_mode_Id                                  PRIMARY KEY(mode_Id),
 CONSTRAINT FK_equi_tbModelos_equi_tbMarcas_marc_Id					  FOREIGN KEY(marc_Id) REFERENCES equi.tbMarcas(marc_Id),
@@ -289,6 +298,7 @@ vehi_UsuCreacion			INT NOT NULL,
 vehi_FechaCreacion			DATETIME CONSTRAINT DF_equi_tbVehiculos_vehi_FechaCreacion DEFAULT(GETDATE()),
 vehi_UsuModificacion		INT ,
 vehi_FechaModificacion		DATETIME,
+vehi_EnUso					BIT NOT NULL CONSTRAINT DF_role_Habilitado DEFAULT(0),
 vehi_Estado					BIT CONSTRAINT DF_equi_tbVehiculos_vehi_Estado DEFAULT(1)
 CONSTRAINT PK_equi_tbVehiculos_vehi_Id                                  PRIMARY KEY(vehi_Id),
 CONSTRAINT FK_equi_tbVehiculos_equi_tbMarcas_marc_Id					FOREIGN KEY(mode_Id) REFERENCES equi.tbModelos(mode_Id),
@@ -340,6 +350,7 @@ empe_UsuCreacion			INT				NOT NULL,
 empe_FechaCreacion			DATETIME		NOT NULL CONSTRAINT DF_flet_tbEmpleados_empe_FechaCreacion DEFAULT(GETDATE()),
 empe_UsuModificacion		INT,
 empe_FechaModificacion		DATETIME,
+empe_Habilitado				BIT NOT NULL CONSTRAINT DF_empe_Habilitado DEFAULT(1),
 empe_Estado					BIT				NOT NULL CONSTRAINT DF_flet_tbEmpleados_empe_Estado DEFAULT(1),
 	
 CONSTRAINT PK_flet_tbEmpleados_empe_Id 										PRIMARY KEY(empe_Id),
@@ -369,6 +380,7 @@ clie_UsuCreacion			INT				NOT NULL,
 clie_FechaCreacion			DATETIME		NOT NULL CONSTRAINT DF_flet_tbClientes_clie_FechaCreacion DEFAULT(GETDATE()),
 clie_UsuModificacion		INT,
 clie_FechaModificacion		DATETIME,
+clie_Habilitado				BIT NOT NULL CONSTRAINT DF_clie_Habilitado DEFAULT(1),
 clie_Estado					BIT				NOT NULL CONSTRAINT DF_flet_tbClientes_clie_Estado DEFAULT(1),
 	
 CONSTRAINT PK_flet_tbClientes_clie_Id 										PRIMARY KEY(clie_Id),
@@ -391,12 +403,30 @@ item_UsuCreacion			INT NOT NULL,
 item_FechaCreacion			DATETIME CONSTRAINT DF_flet_tbItems_item_FechaCreacion DEFAULT(GETDATE()),
 item_UsuModificacion		INT ,
 item_FechaModificacion		DATETIME,
+item_Habilitado				BIT NOT NULL CONSTRAINT DF_marc_Habilitado DEFAULT(1),
 item_Estado					BIT CONSTRAINT DF_flet_tbItems_item_Estado DEFAULT(1)
 CONSTRAINT PK_flet_tbItems_item_Id                                  PRIMARY KEY(item_Id),
 CONSTRAINT FK_flet_tbItems_acce_tbUsuarios_item_UsuCreacion         FOREIGN KEY(item_UsuCreacion) REFERENCES acce.tbUsuarios(User_Id),
 CONSTRAINT FK_flet_tbItems_acce_tbUsuarios_item_UsuModificacion     FOREIGN KEY(item_UsuModificacion) REFERENCES acce.tbUsuarios(User_Id)
 );
 
+
+--********** ESTADOS DEL PEDIDOS ************--
+GO
+CREATE TABLE flet.tbEstadosDelPedido(
+estp_Id						INT IDENTITY(1,1),
+estp_Nombre					NVARCHAR (150),
+estp_UsuCreacion			INT NOT NULL,
+estp_FechaCreacion			DATETIME CONSTRAINT DF_flet_tbEstadosDelPedido_estp_FechaCreacion DEFAULT(GETDATE()),
+estp_UsuModificacion		INT ,
+estp_FechaModificacion		DATETIME,
+estp_Estado					BIT CONSTRAINT DF_flet_tbEstadosDelPedido_estp_Estado DEFAULT(1),
+
+CONSTRAINT PK_flet_tbEstadosDelPedido_pedi_Id                                  PRIMARY KEY(estp_Id),
+CONSTRAINT FK_flet_tbEstadosDelPedido_acce_tbUsuarios_pedi_UsuCreacion         FOREIGN KEY(estp_UsuCreacion) REFERENCES acce.tbUsuarios(User_Id),
+CONSTRAINT FK_flet_tbEstadosDelPedido_acce_tbUsuarios_pedi_UsuModificacion     FOREIGN KEY(estp_UsuModificacion) REFERENCES acce.tbUsuarios(User_Id)
+
+)
 
 --********** PEDIDOS ************--
 GO
@@ -406,12 +436,14 @@ clie_Id						INT NOT NULL,
 muni_Origen					INT NOT NULL, --Municipio de recogida del producto
 muni_Destino				INT NOT NULL, --Municipio de entrega del producto
 pedi_DestinoFinal			NVARCHAR(250), --Direccion exacta del destino final
+estp_Id						INT NOT NULL, --Dice el estado del pedido 
 pedi_UsuCreacion			INT NOT NULL,
 pedi_FechaCreacion			DATETIME CONSTRAINT DF_flet_tbPedidos_pedi_FechaCreacion DEFAULT(GETDATE()),
 pedi_UsuModificacion		INT ,
 pedi_FechaModificacion		DATETIME,
 pedi_Estado					BIT CONSTRAINT DF_flet_tbPedidos_pedi_Estado DEFAULT(1)
 CONSTRAINT PK_flet_tbPedidos_pedi_Id                                  PRIMARY KEY(pedi_Id),
+CONSTRAINT FK_flet_tbPedidos_flet_tbEstadosDelPedido_estp_Id			FOREIGN KEY(estp_Id) REFERENCES flet.tbEstadosDelPedido(estp_Id),
 CONSTRAINT FK_flet_tbPedidos_gral_tbMunicipios_muni_Origen			  FOREIGN KEY(muni_Origen) REFERENCES gral.tbMunicipios(muni_Id),
 CONSTRAINT FK_flet_tbPedidos_gral_tbMunicipios_muni_Destino			  FOREIGN KEY(muni_Destino) REFERENCES gral.tbMunicipios(muni_Id),
 CONSTRAINT FK_flet_tbPedidos_acce_tbUsuarios_pedi_UsuCreacion         FOREIGN KEY(pedi_UsuCreacion) REFERENCES acce.tbUsuarios(User_Id),
