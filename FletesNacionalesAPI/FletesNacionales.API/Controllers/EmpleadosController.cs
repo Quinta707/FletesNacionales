@@ -10,12 +10,12 @@ namespace FletesNacionales.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientesController : Controller
+    public class EmpleadosController : Controller
     {
         private readonly FletService _fletService;
         private readonly IMapper _mapper;
 
-        public ClientesController(FletService gralService, IMapper mapper)
+        public EmpleadosController(FletService gralService, IMapper mapper)
         {
             _fletService = gralService;
             _mapper = mapper;
@@ -24,7 +24,7 @@ namespace FletesNacionales.API.Controllers
         [HttpGet("Listado")]
         public IActionResult List()
         {
-            var list = _fletService.ListadoClientes();
+            var list = _fletService.ListadoEmpleados();
             return Ok(list);
         }
     }

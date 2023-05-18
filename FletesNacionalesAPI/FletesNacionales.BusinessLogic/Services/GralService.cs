@@ -41,6 +41,67 @@ namespace FletesNacionales.BusinessLogic.Services
             }
         }
         #endregion
+        
+        #region Departamentos
+        public ServiceResult ListadoDepartamentos()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _departamentosRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        #endregion
+        #region Municipios
+        public ServiceResult ListadoMunicipios()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _municipiosRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        #endregion
+        #region EstadosCiviles
+        public ServiceResult ListadoEstadosCiviles()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _estadosCivilesRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        #endregion
+        #region EstadosCiviles
+        public ServiceResult ListadoMetodosPago()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _metodosDePagoRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        #endregion
 
 
     }

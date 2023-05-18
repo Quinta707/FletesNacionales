@@ -10,12 +10,12 @@ namespace FletesNacionales.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientesController : Controller
+    public class TrayectosController : Controller
     {
         private readonly FletService _fletService;
         private readonly IMapper _mapper;
 
-        public ClientesController(FletService gralService, IMapper mapper)
+        public TrayectosController(FletService gralService, IMapper mapper)
         {
             _fletService = gralService;
             _mapper = mapper;

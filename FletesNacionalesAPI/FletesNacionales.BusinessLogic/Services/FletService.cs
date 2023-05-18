@@ -49,6 +49,111 @@ namespace FletesNacionales.BusinessLogic.Services
             }
         }
         #endregion
+        #region Empleados
+        public ServiceResult ListadoEmpleados()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _empleadosRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        #endregion
+        #region Estados del pedido
+        public ServiceResult ListadoEstadoDelPedido()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _estadoDelPedidoRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        #endregion
+        #region Fletes
+        public ServiceResult ListadoFletes()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _fletesRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        #endregion
+        #region Items
+        public ServiceResult ListadoItems()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _itemsRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        #endregion
+        #region Pedidos
+        public ServiceResult ListadoPedidos()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _pedidosRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        #endregion
+        #region Sucursales
+        public ServiceResult ListadoSucursales()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _sucursalesRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        #endregion
+        #region Trayectos
+        public ServiceResult ListadoTrayectos()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _trayectosRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        #endregion
 
     }
 }
