@@ -293,7 +293,7 @@ GO
 CREATE TABLE equi.tbVehiculos(
 vehi_Id						INT IDENTITY(1,1),
 mode_Id						INT NOT NULL,
-vehi_PexoMaximo				DECIMAL(18,2)NOT NULL,
+vehi_PesoMaximo				DECIMAL(18,2)NOT NULL,
 vehi_VolumenMaximo			DECIMAL(18,2)NOT NULL,
 vehi_Placa					NVARCHAR(30) NOT NULL,
 vehi_UsuCreacion			INT NOT NULL,
