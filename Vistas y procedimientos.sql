@@ -2762,7 +2762,7 @@ BEGIN
 
 	BEGIN TRY
 	
-		IF EXISTS ()
+		IF EXISTS (SELECT * FROM flet.tbPedidos where estp_Id = @estp_Id)
 		BEGIN
 			SELECT - 3
 		END
@@ -3477,13 +3477,7 @@ BEGIN
 END
 
 
---************** 
-
-
-
-
-
- *****************--
+--**************  *****************--
 GO
 CREATE OR ALTER PROCEDURE flet.UDP_tbTrayectos_Delete
 (
