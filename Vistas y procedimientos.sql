@@ -99,7 +99,7 @@ END
 
 --**************  FIND ******************--
 GO
-CREATE OR ALTER PROCEDURE gral.UDP_tbCargos_Find 
+CREATE OR ALTER PROCEDURE gral.UDP_tbCargos_Find
 (@carg_Id INT)
 AS
 BEGIN
@@ -1013,6 +1013,8 @@ AS
 SELECT	vehi_Id, 
 		T1.mode_Id,
 		T4.[mode_Nombre],
+		vehi_PesoMaximo,
+		vehi_VolumenMaximo,
 		T4.tipv_Id,
 		T6.tipv_Descripcion,
 		T4.[marc_Id],
@@ -1043,14 +1045,16 @@ GO
 CREATE OR ALTER PROCEDURE equi.UDP_tbVehiculos_Insert
 (
 @mode_Id			INT,
+@vehi_PesoMaximo	DECIMAL(18,2),
+@vehi_VolumenMaximo	DECIMAL(18,2),
 @vehi_Placa			NVARCHAR(MAX),
 @vehi_UsuCreacion	INT
 )
 AS
 BEGIN
 	BEGIN TRY 
-		INSERT INTO equi.tbVehiculos(mode_Id, vehi_Placa, vehi_UsuCreacion)
-		VALUES	(@mode_Id, @vehi_Placa, @vehi_UsuCreacion)
+		INSERT INTO equi.tbVehiculos(mode_Id, vehi_PesoMaximo, vehi_VolumenMaximo, vehi_Placa, vehi_UsuCreacion)
+		VALUES	(@mode_Id, @vehi_PesoMaximo, @vehi_VolumenMaximo, @vehi_Placa, @vehi_UsuCreacion)
 		SELECT 1 AS codeStatus
 	END TRY
 	BEGIN CATCH
@@ -1064,6 +1068,8 @@ CREATE OR ALTER PROCEDURE equi.UDP_tbVehiculos_Update
 (
 @vehi_Id				INT,
 @mode_Id				INT,
+@vehi_PesoMaximo		DECIMAL(18,2),
+@vehi_VolumenMaximo		DECIMAL(18,2),
 @vehi_Placa				NVARCHAR(MAX),
 @vehi_UsuModificacion	INT
 )
@@ -1072,6 +1078,8 @@ BEGIN
 	BEGIN TRY	
 		UPDATE	equi.tbVehiculos
 		SET		mode_Id = @mode_Id, 
+				vehi_PesoMaximo = @vehi_PesoMaximo,
+				vehi_VolumenMaximo = @vehi_VolumenMaximo,
 				vehi_Placa = @vehi_Placa,
 				vehi_UsuModificacion = @vehi_UsuModificacion, 
 				vehi_FechaModificacion = GETDATE()
@@ -1537,8 +1545,11 @@ GO
 CREATE OR ALTER VIEW flet.VW_tbEscalasPorTrayecto
 AS
 SELECT	estr_Id, 
-		tray_Id,
-		muni_Escala, 
+		flet_Id, 
+		muni_Escala,
+		muni_Nombre,
+		T4.depa_Id,
+		depa_Nombre,
 		estr_UsuCreacion, 
 		estr_FechaCreacion, 
 		estr_UsuModificacion, 
@@ -1548,7 +1559,9 @@ SELECT	estr_Id,
 		t3.user_NombreUsuario AS user_Modificacion
   FROM flet.tbEscalasPorTrayecto T1 INNER JOIN acce.tbUsuarios T2
   ON T1.estr_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
-  ON T1.estr_UsuModificacion = T3.[user_Id]
+  ON T1.estr_UsuModificacion = T3.[user_Id] INNER JOIN gral.tbMunicipios T4
+  ON T1.muni_Escala = T4.muni_Id INNER JOIN gral.tbDepartamentos T5
+  ON T4.depa_Id = T5.depa_Id
 
 
 
@@ -1579,7 +1592,7 @@ END
 GO
 CREATE OR ALTER PROCEDURE flet.UDP_tbEscalasPorTrayecto_Insert 
 (
-@tray_Id			INT,
+@flet_Id			INT,
 @muni_Escala		INT,
 @estr_UsuCreacion	INT
 )
@@ -1587,8 +1600,8 @@ AS
 BEGIN
 	BEGIN TRY
         
-		INSERT INTO flet.tbEscalasPorTrayecto (tray_Id, muni_Escala, estr_UsuCreacion)
-		VALUES	(@tray_Id, @muni_Escala, @estr_UsuCreacion)
+		INSERT INTO flet.tbEscalasPorTrayecto (flet_Id, muni_Escala, estr_UsuCreacion)
+		VALUES	(@flet_Id, @muni_Escala, @estr_UsuCreacion)
 
 		SELECT 1 codeStatus
 	END TRY
@@ -1602,7 +1615,7 @@ Go
 CREATE OR ALTER PROCEDURE flet.UDP_tbEscalasPorTrayecto_Update
 (
 @estr_Id				INT,
-@tray_Id				INT,
+@flet_Id				INT,
 @muni_Escala			INT,
 @estr_UsuModificacion	INT
  )
@@ -1611,7 +1624,7 @@ BEGIN
 	BEGIN TRY
       
 		UPDATE	flet.tbEscalasPorTrayecto
-		SET		tray_Id = @tray_Id,
+		SET		flet_Id = @flet_Id,
 				muni_Escala  = @muni_Escala,
 				estr_UsuModificacion = @estr_UsuModificacion,
 				estr_FechaModificacion = GETDATE()
@@ -1658,8 +1671,30 @@ GO
 CREATE OR ALTER VIEW flet.VW_tbFleteDetalles
 AS
 SELECT	fdet_Id, 
-		flet_Id, 
-		pedi_Id, 
+		T1.flet_Id,
+		T4.vehi_Id,
+		T6.vehi_Placa,
+		T6.mode_Id,
+		T7.mode_Nombre,
+		T7.marc_Id,
+		T8.marc_Nombre,
+		T7.tipv_Id,
+		T9.tipv_Descripcion,
+		T4.empe_Id,
+		T5.empe_Nombres  + ' ' + T5.empe_Apellidos AS empe_NombreCompleto,
+		T5.empe_Identidad, 
+		T5.empe_FechaNacimiento, 
+		T5.empe_Sexo, 
+		T5.eciv_Id, 
+		T5.muni_Id, 
+		T5.empe_DireccionExacta, 
+		T5.empe_Telefono, 
+		T5.sucu_Id, 
+		T10.sucu_Nombre,
+		T5.carg_Id, 
+		T11.carg_Descripcion,
+		T4.flet_FechaDeSalida,
+		pedi_Id,
 		fdet_UsuCreacion, 
 		fdet_FechaCreacion, 
 		fdet_UsuModificacion, 
@@ -1669,7 +1704,15 @@ SELECT	fdet_Id,
 		t3.user_NombreUsuario AS user_Modificacion
   FROM flet.tbFleteDetalles T1 INNER JOIN acce.tbUsuarios T2
   ON T1.fdet_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
-  ON T1.fdet_UsuModificacion = T3.[user_Id]
+  ON T1.fdet_UsuModificacion = T3.[user_Id] INNER JOIN flet.tbFletes T4
+  ON T1.flet_Id = T4.flet_Id INNER JOIN flet.tbEmpleados T5
+  ON T4.empe_Id = T5.empe_Id INNER JOIN equi.tbVehiculos T6
+  ON T4.vehi_Id = T6.vehi_Id INNER JOIN equi.tbModelos T7
+  ON T6.mode_Id	= T7.mode_Id INNER JOIN equi.tbMarcas T8
+  ON T7.marc_Id	= T8.marc_Id INNER JOIN equi.tbTipoDeVehiculo T9
+  ON T7.tipv_Id	= T9.tipv_Id INNER JOIN flet.tbSucursales T10
+  ON T5.sucu_Id = T10.sucu_Id INNER JOIN gral.tbCargos T11
+  ON T5.carg_Id = T11.carg_Id
 
 
 --************** INDEX *****************--
@@ -1779,6 +1822,18 @@ AS
 SELECT	flet_Id, 
 		vehi_Id, 
 		T1.empe_Id, 
+		T4.empe_Nombres  + ' ' + T4.empe_Apellidos AS empe_NombreCompleto,
+		T4.empe_Identidad, 
+		T4.empe_FechaNacimiento, 
+		T4.empe_Sexo, 
+		T4.eciv_Id, 
+		T4.muni_Id, 
+		T4.empe_DireccionExacta, 
+		T4.empe_Telefono, 
+		T4.sucu_Id, 
+		T5.sucu_Nombre,
+		T4.carg_Id, 
+		T6.carg_Descripcion,
 		tray_Id, 
 		flet_FechaDeSalida, 
 		flet_UsuCreacion, 
@@ -1790,7 +1845,10 @@ SELECT	flet_Id,
 		t3.user_NombreUsuario AS user_Modificacion
   FROM flet.tbFletes T1 INNER JOIN acce.tbUsuarios T2
   ON T1.flet_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
-  ON T1.flet_UsuModificacion = T3.[user_Id] 
+  ON T1.flet_UsuModificacion = T3.[user_Id] INNER JOIN flet.tbEmpleados T4
+  ON T1.empe_Id = T4.empe_Id INNER JOIN flet.tbSucursales T5
+  ON T4.sucu_Id = T5.sucu_Id INNER JOIN gral.tbCargos T6
+  ON T4.carg_Id = T6.carg_Id
 
 
 --************** INDEX *****************--
@@ -2462,8 +2520,386 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 --*********************SUCURSALES*********************--
+
+--************** VIEW *****************--
+GO
+CREATE OR ALTER VIEW flet.VW_tbSucursales
+AS
+SELECT	sucu_Id, 
+		sucu_Nombre, 
+		T1.muni_Id,
+		muni_Nombre,
+		T4.depa_Id,
+		depa_Nombre, 
+		sucu_Direccion, 
+		sucu_UsuCreacion, 
+		sucu_FechaCreacion, 
+		sucu_UsuModificacion, 
+		sucu_FechaModificacion, 
+		sucu_Estado,
+		t2.user_NombreUsuario AS user_Creacion,
+		t3.user_NombreUsuario AS user_Modificacion
+  FROM flet.tbSucursales T1 INNER JOIN acce.tbUsuarios T2
+  ON T1.sucu_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
+  ON T1.sucu_UsuModificacion = T3.[user_Id] INNER JOIN gral.tbMunicipios T4
+  ON T1.muni_Id= T4.muni_Id INNER JOIN gral.tbDepartamentos T5
+  ON T4.depa_Id= T5.depa_Id
+
+
+--************** INDEX *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbSucursales_Index
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbSucursales
+	WHERE sucu_Estado = 1
+END
+
+
+--************** FIND *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbSucursales_Find
+(
+@sucu_Id	INT
+)
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbSucursales
+	WHERE sucu_Id = @sucu_Id
+END
+
+
+--************** INSERT *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbSucursales_Insert
+(
+@sucu_Nombre		NVARCHAR(200),
+@muni_Id			INT,
+@sucu_Direccion		NVARCHAR(200), 
+@sucu_UsuCreacion	INT
+)
+AS
+BEGIN
+	BEGIN TRY
+        
+		INSERT INTO flet.tbSucursales (sucu_Nombre, muni_Id, sucu_Direccion, sucu_UsuCreacion)
+		VALUES	(@sucu_Nombre, @muni_Id, @sucu_Direccion, @sucu_UsuCreacion)
+
+		SELECT 1 codeStatus
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codeStatus
+	END CATCH
+END
+
+--************** UPDATE *****************--
+Go
+CREATE OR ALTER PROCEDURE flet.UDP_tbSucursales_Update
+(
+@sucu_Id				INT,
+@sucu_Nombre			NVARCHAR(200),
+@muni_Id				INT,
+@sucu_Direccion			NVARCHAR(200), 
+@sucu_UsuModificacion	INT
+ )
+AS
+BEGIN
+	BEGIN TRY
+      
+		UPDATE	flet.tbSucursales
+		SET		sucu_Nombre  = @sucu_Nombre,
+				muni_Id = @muni_Id,
+				sucu_Direccion= @sucu_Direccion,
+				sucu_UsuModificacion = @sucu_UsuModificacion,
+				sucu_FechaModificacion  = GETDATE()
+		WHERE	sucu_Id = @sucu_Id
+
+		SELECT 1 codeStatus
+
+	END TRY
+	BEGIN CATCH
+		SELECT 0  codeStatus
+	END CATCH
+END
+
+
+--************** DELETE *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbSucursales_Delete
+(
+@sucu_Id INT
+)
+AS
+BEGIN
+	BEGIN TRY
+		
+		UPDATE	flet.tbSucursales
+		SET		sucu_Estado = 0
+		WHERE	sucu_Id = @sucu_Id
+		
+		SELECT 1 codestatus
+	
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codestatus
+	END CATCH
+END
+
+
 -----------------------------------------------------------------------------------------------------------------------------
 --*********************TRAYECTOS**********************--
+
+--************** VIEW *****************--
+GO
+CREATE OR ALTER VIEW flet.VW_tbTrayectos
+AS
+SELECT	tray_Id,
+		'Trayecto de ' + T4.muni_Nombre + ' a ' + T6.muni_Nombre AS tray_Descripcion,
+		muni_Inicio, 
+		T4.muni_Nombre AS muni_InicioNombre,
+		T5.depa_Id AS depa_Inicio,
+		T5.depa_Nombre AS depa_InicioNombre,
+		muni_Final, 
+		T6.muni_Nombre AS muni_FinalNombre,
+		T7.depa_Id AS depa_Final,
+		T7.depa_Nombre AS depa_FinalNombre,
+		tray_UsuCreacion, 
+		tray_FechaCreacion, 
+		tray_UsuModificacion, 
+		tray_FechaModificacion, 
+		tray_Estado,
+		t2.user_NombreUsuario AS user_Creacion,
+		t3.user_NombreUsuario AS user_Modificacion
+  FROM flet.tbTrayectos T1 INNER JOIN acce.tbUsuarios T2
+  ON T1.tray_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
+  ON T1.tray_UsuModificacion = T3.[user_Id] INNER JOIN gral.tbMunicipios T4
+  ON T1.muni_Inicio= T4.muni_Id INNER JOIN gral.tbDepartamentos T5
+  ON T4.depa_Id= T5.depa_Id INNER JOIN gral.tbMunicipios T6
+  ON T1.muni_Inicio= T6.muni_Id INNER JOIN gral.tbDepartamentos T7
+  ON T6.depa_Id= T7.depa_Id
+
+
+--************** INDEX *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbTrayectos_Index
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbTrayectos
+	WHERE tray_Estado = 1
+END
+
+
+--************** FIND *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbTrayectos_Find
+(
+@tray_Id	INT
+)
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbTrayectos
+	WHERE tray_Id = @tray_Id
+END
+
+
+--************** INSERT *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbTrayectos_Insert
+(
+@muni_Inicio		INT,
+@muni_Final			INT, 
+@tray_UsuCreacion	INT
+)
+AS
+BEGIN
+	BEGIN TRY
+        
+		INSERT INTO flet.tbTrayectos (muni_Inicio, muni_Final, tray_UsuCreacion)
+		VALUES	(@muni_Inicio, @muni_Final, @tray_UsuCreacion)
+
+		SELECT 1 codeStatus
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codeStatus
+	END CATCH
+END
+
+--************** UPDATE *****************--
+Go
+CREATE OR ALTER PROCEDURE flet.UDP_tbTrayectos_Update
+(
+@tray_Id				INT,
+@muni_Inicio			INT,
+@muni_Final				INT, 
+@tray_UsuModificacion	INT
+ )
+AS
+BEGIN
+	BEGIN TRY
+      
+		UPDATE	flet.tbTrayectos
+		SET		muni_Inicio  = @muni_Inicio,
+				muni_Final = @muni_Final,
+				tray_UsuModificacion = @tray_UsuModificacion,
+				tray_FechaModificacion  = GETDATE()
+		WHERE	tray_Id = @tray_Id
+
+		SELECT 1 codeStatus
+
+	END TRY
+	BEGIN CATCH
+		SELECT 0  codeStatus
+	END CATCH
+END
+
+
+--************** DELETE *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbTrayectos_Delete
+(
+@tray_Id INT
+)
+AS
+BEGIN
+	BEGIN TRY
+		
+		UPDATE	flet.tbTrayectos
+		SET		tray_Estado = 0
+		WHERE	tray_Id = @tray_Id
+		
+		SELECT 1 codestatus
+	
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codestatus
+	END CATCH
+END
+
+
 -----------------------------------------------------------------------------------------------------------------------------
 --****************UBICACION POR FLETE*****************--
+
+--************** VIEW *****************--
+GO
+CREATE OR ALTER VIEW flet.VW_tbUbicacionPorFlete
+AS
+SELECT	ubif_Id, 
+		flet_Id, 
+		T1.muni_Id, 
+		muni_Nombre,
+		T4.depa_Id,
+		depa_Nombre,
+		ubif_UbicacionExacta, 
+		ubif_UsuCreacion, 
+		ubif_FechaCreacion, 
+		ubif_UsuModificacion, 
+		ubif_FechaModificacion, 
+		ubif_Estado,
+		t2.user_NombreUsuario AS user_Creacion,
+		t3.user_NombreUsuario AS user_Modificacion
+  FROM flet.tbUbicacionPorFlete T1 INNER JOIN acce.tbUsuarios T2
+  ON T1.ubif_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
+  ON T1.ubif_UsuModificacion = T3.[user_Id] INNER JOIN gral.tbMunicipios T4
+  ON T1.muni_Id = T4.muni_Id INNER JOIN gral.tbDepartamentos T5
+  ON T4.depa_Id= T5.depa_Id 
+
+
+--************** INDEX *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbUbicacionPorFlete_Index
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbUbicacionPorFlete
+	WHERE ubif_Estado = 1
+END
+
+
+--************** FIND *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbUbicacionPorFlete_Find
+(
+@ubif_Id	INT
+)
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbUbicacionPorFlete
+	WHERE ubif_Id = @ubif_Id
+END
+
+
+--************** INSERT *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbUbicacionPorFlete_Insert
+(
+@flet_Id				INT, 
+@muni_Id				INT, 
+@ubif_UbicacionExacta	NVARCHAR(MAX), 
+@ubif_UsuCreacion		INT
+)
+AS
+BEGIN
+	BEGIN TRY
+        
+		INSERT INTO flet.tbUbicacionPorFlete (flet_Id, muni_Id, ubif_UbicacionExacta, ubif_UsuCreacion)
+		VALUES	(@flet_Id, @muni_Id, @ubif_UbicacionExacta, @ubif_UsuCreacion)
+
+		SELECT 1 codeStatus
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codeStatus
+	END CATCH
+END
+
+--************** UPDATE *****************--
+Go
+CREATE OR ALTER PROCEDURE flet.UDP_tbUbicacionPorFlete_Update
+(
+@ubif_Id				INT,
+@flet_Id				INT, 
+@muni_Id				INT, 
+@ubif_UbicacionExacta	NVARCHAR(MAX), 
+@ubif_UsuModificacion	INT
+ )
+AS
+BEGIN
+	BEGIN TRY
+      
+		UPDATE	flet.tbUbicacionPorFlete
+		SET		flet_Id = @flet_Id, 
+				muni_Id = @muni_Id, 
+				ubif_UbicacionExacta = @ubif_UbicacionExacta,
+				ubif_UsuModificacion = @ubif_UsuModificacion,
+				ubif_FechaModificacion  = GETDATE()
+		WHERE	ubif_Id = @ubif_Id
+
+		SELECT 1 codeStatus
+
+	END TRY
+	BEGIN CATCH
+		SELECT 0  codeStatus
+	END CATCH
+END
+
+
+--************** DELETE *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbUbicacionPorFlete_Delete
+(
+@ubif_Id INT
+)
+AS
+BEGIN
+	BEGIN TRY
+		
+		UPDATE	flet.tbUbicacionPorFlete
+		SET		ubif_Estado = 0
+		WHERE	ubif_Id = @ubif_Id
+		
+		SELECT 1 codestatus
+	
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codestatus
+	END CATCH
+END
 
