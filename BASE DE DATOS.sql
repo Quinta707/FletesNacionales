@@ -300,7 +300,7 @@ vehi_UsuCreacion			INT NOT NULL,
 vehi_FechaCreacion			DATETIME CONSTRAINT DF_equi_tbVehiculos_vehi_FechaCreacion DEFAULT(GETDATE()),
 vehi_UsuModificacion		INT ,
 vehi_FechaModificacion		DATETIME,
-vehi_EnUso					BIT NOT NULL CONSTRAINT DF_role_Habilitado DEFAULT(0),
+vehi_EnUso					BIT NOT NULL CONSTRAINT DF_vehi_EnUso DEFAULT(0),
 vehi_Estado					BIT CONSTRAINT DF_equi_tbVehiculos_vehi_Estado DEFAULT(1)
 CONSTRAINT PK_equi_tbVehiculos_vehi_Id                                  PRIMARY KEY(vehi_Id),
 CONSTRAINT FK_equi_tbVehiculos_equi_tbMarcas_marc_Id					FOREIGN KEY(mode_Id) REFERENCES equi.tbModelos(mode_Id),

@@ -110,11 +110,11 @@ namespace FletesNacionales.BusinessLogic.Services
                 var insert = _rolesRepository.Delete(item);
 
                 if (insert.CodeStatus == 1)
-                    return result.SetMessage("Registro eliminado", ServiceResultType.Success);
-                else if (insert.CodeStatus == -2)
-                    return result.SetMessage("enuso", ServiceResultType.Success);
+                    return result.SetMessage("Eliminado", ServiceResultType.Success);
+                else if (insert.CodeStatus == -3)
+                    return result.SetMessage("EnUso", ServiceResultType.Success);
                 else if (insert.CodeStatus == 0)
-                    return result.SetMessage("Error Inesperado", ServiceResultType.Error);
+                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
                 else
                     return result.SetMessage("Conexión perdida", ServiceResultType.Error);
             }
@@ -179,9 +179,9 @@ namespace FletesNacionales.BusinessLogic.Services
                 var insert = _pantallasRepository.PantallasPorRolDelete(item);
 
                 if (insert.CodeStatus == 1)
-                    return result.SetMessage("Registro eliminado", ServiceResultType.Success);
+                    return result.SetMessage("RegistroEliminado", ServiceResultType.Success);
                 else if (insert.CodeStatus == 0)
-                    return result.SetMessage("Error Inesperado", ServiceResultType.Error);
+                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
                 else
                     return result.SetMessage("Conexión perdida", ServiceResultType.Error);
             }
@@ -276,9 +276,11 @@ namespace FletesNacionales.BusinessLogic.Services
                 var insert = _usuariosRepository.Delete(item);
 
                 if (insert.CodeStatus == 1)
-                    return result.SetMessage("Registro eliminado", ServiceResultType.Success);
+                    return result.SetMessage("Eliminado", ServiceResultType.Success);
+                else if (insert.CodeStatus == -3)
+                    return result.SetMessage("EnUso", ServiceResultType.Success);
                 else if (insert.CodeStatus == 0)
-                    return result.SetMessage("Error Inesperado", ServiceResultType.Error);
+                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
                 else
                     return result.SetMessage("Conexión perdida", ServiceResultType.Error);
             }

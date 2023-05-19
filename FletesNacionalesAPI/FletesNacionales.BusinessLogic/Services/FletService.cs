@@ -69,11 +69,11 @@ namespace FletesNacionales.BusinessLogic.Services
                 }
                 else if (list.CodeStatus == 0)
                 {
-                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
                 }
                 else
                 {
-                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
                 }
             }
             catch (Exception xe)
@@ -99,11 +99,11 @@ namespace FletesNacionales.BusinessLogic.Services
                 }
                 else if (list.CodeStatus == 0)
                 {
-                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
                 }
                 else
                 {
-                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
                 }
             }
             catch (Exception xe)
@@ -123,9 +123,11 @@ namespace FletesNacionales.BusinessLogic.Services
                 var insert = _clientesRepository.Delete(id);
 
                 if (insert.CodeStatus == 1)
-                    return result.SetMessage("Registro eliminado", ServiceResultType.Success);
+                    return result.SetMessage("Eliminado", ServiceResultType.Success);
+                else if (insert.CodeStatus == -3)
+                    return result.SetMessage("EnUso", ServiceResultType.Success);
                 else if (insert.CodeStatus == 0)
-                    return result.SetMessage("Error Inesperado", ServiceResultType.Error);
+                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
                 else
                     return result.SetMessage("Conexión perdida", ServiceResultType.Error);
             }
@@ -530,9 +532,11 @@ namespace FletesNacionales.BusinessLogic.Services
                 var insert = _itemsRepository.Delete(id);
 
                 if (insert.CodeStatus == 1)
-                    return result.SetMessage("Registro eliminado", ServiceResultType.Success);
+                    return result.SetMessage("Eliminado", ServiceResultType.Success);
+                else if (insert.CodeStatus == -3)
+                    return result.SetMessage("EnUso", ServiceResultType.Success);
                 else if (insert.CodeStatus == 0)
-                    return result.SetMessage("Error Inesperado", ServiceResultType.Error);
+                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
                 else
                     return result.SetMessage("Conexión perdida", ServiceResultType.Error);
             }
@@ -578,15 +582,14 @@ namespace FletesNacionales.BusinessLogic.Services
             try
             {
                 var map = _sucursalesRepository.Delete(item);
-                if (map.CodeStatus > 0)
-                {
-                    return result.Ok(map);
-                }
+                if (map.CodeStatus == 1)
+                    return result.SetMessage("Eliminado", ServiceResultType.Success);
+                else if (map.CodeStatus == -3)
+                    return result.SetMessage("EnUso", ServiceResultType.Success);
+                else if (map.CodeStatus == 0)
+                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
                 else
-                {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
-                }
+                    return result.SetMessage("Conexión perdida", ServiceResultType.Error);
             }
             catch (Exception)
             {
@@ -602,12 +605,19 @@ namespace FletesNacionales.BusinessLogic.Services
                 var map = _sucursalesRepository.Insert(item);
                 if (map.CodeStatus > 0)
                 {
-                    return result.Ok(map);
+                    return result.SetMessage("Exitoso", ServiceResultType.Success);
+                }
+                else if (map.CodeStatus == -2)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
+                }
+                else if (map.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
                 else
                 {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
             }
             catch (Exception)
@@ -623,12 +633,19 @@ namespace FletesNacionales.BusinessLogic.Services
                 var map = _sucursalesRepository.Update(item);
                 if (map.CodeStatus > 0)
                 {
-                    return result.Ok(map);
+                    return result.SetMessage("Exitoso", ServiceResultType.Success);
+                }
+                else if (map.CodeStatus == -2)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
+                }
+                else if (map.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
                 else
                 {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
             }
             catch (Exception)
