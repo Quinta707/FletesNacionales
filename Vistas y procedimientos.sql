@@ -2095,6 +2095,7 @@ CREATE OR ALTER VIEW flet.VW_tbPedidoDetalles
 AS
 SELECT	pdet_Id,
 		T1.item_Id,
+		pedi_Id,
 		item_Nombre,
 		item_Descripcion,
 		item_Peso,
@@ -2139,6 +2140,7 @@ END
 GO
 CREATE OR ALTER PROCEDURE flet.UDP_tbPedidoDetalles_Insert 
 (
+@pedi_Id			INT,
 @item_Id			INT,
 @pdet_UsuCreacion	INT
 )
@@ -2146,8 +2148,8 @@ AS
 BEGIN
 	BEGIN TRY
         
-		INSERT INTO flet.tbPedidoDetalles (item_Id, pdet_UsuCreacion)
-		VALUES	(@item_Id, @pdet_UsuCreacion)
+		INSERT INTO flet.tbPedidoDetalles (pedi_Id, item_Id, pdet_UsuCreacion)
+		VALUES	(@pedi_Id, @item_Id, @pdet_UsuCreacion)
 
 		SELECT 1 codeStatus
 	END TRY
@@ -2161,6 +2163,7 @@ Go
 CREATE OR ALTER PROCEDURE flet.UDP_tbPedidoDetalles_Update
 (
 @pdet_Id				INT,
+@pedi_Id				INT,
 @item_Id				INT,
 @pdet_UsuModificacion	INT
  )
@@ -2169,7 +2172,8 @@ BEGIN
 	BEGIN TRY
       
 		UPDATE	flet.tbPedidoDetalles
-		SET		item_Id = @item_Id,
+		SET		pedi_Id = @pedi_Id,
+				item_Id = @item_Id,
 				pdet_UsuModificacion = @pdet_UsuModificacion,
 				pdet_FechaModificacion  = GETDATE()
 		WHERE	pdet_Id = @pdet_Id
