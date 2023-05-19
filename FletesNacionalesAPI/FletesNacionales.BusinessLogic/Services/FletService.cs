@@ -15,6 +15,7 @@ namespace FletesNacionales.BusinessLogic.Services
         private readonly PedidosRepository _pedidosRepository;
         private readonly SucursalesRepository _sucursalesRepository;
         private readonly EstadoDelPedidoRepository _estadoDelPedidoRepository;
+        private readonly PedidoDetallesRepository _pedidoDetallesRepository;
 
         public FletService(ClientesRepository clientesRepository,
                             EmpleadosRepository empleadosRepository,
@@ -23,7 +24,8 @@ namespace FletesNacionales.BusinessLogic.Services
                             ItemsRepository itemsRepository,
                             PedidosRepository pedidosRepository,
                             SucursalesRepository sucursalesRepository,
-                            EstadoDelPedidoRepository estadoDelPedidoRepository)
+                            EstadoDelPedidoRepository estadoDelPedidoRepository,
+                            PedidoDetallesRepository pedidoDetallesRepository)
         {
             _clientesRepository = clientesRepository;
             _empleadosRepository = empleadosRepository;
@@ -33,6 +35,7 @@ namespace FletesNacionales.BusinessLogic.Services
             _pedidosRepository = pedidosRepository;
             _sucursalesRepository = sucursalesRepository;
             _estadoDelPedidoRepository = estadoDelPedidoRepository;
+            _pedidoDetallesRepository = pedidoDetallesRepository;
         }
 
         #region Clientes
@@ -131,8 +134,21 @@ namespace FletesNacionales.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
+        public VW_tbClientes BuscarClientes(int? id)
+        {
+            try
+            {
+                var list = _clientesRepository.find(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
         #endregion
+
         #region Empleados
         public ServiceResult ListadoEmpleados()
         {
@@ -225,6 +241,7 @@ namespace FletesNacionales.BusinessLogic.Services
             }
         }
         #endregion
+
         #region Estados del pedido
         public ServiceResult ListadoEstadoDelPedido()
         {
@@ -317,6 +334,7 @@ namespace FletesNacionales.BusinessLogic.Services
             }
         }
         #endregion
+
         #region Fletes
         public ServiceResult ListadoFletes()
         {
@@ -412,8 +430,21 @@ namespace FletesNacionales.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
+        public VW_tbFletes BuscarFlete(int? id)
+        {
+            try
+            {
+                var list = _fletesRepository.find(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
         #endregion
+
         #region Items
         public ServiceResult ListadoItems()
         {
@@ -511,22 +542,21 @@ namespace FletesNacionales.BusinessLogic.Services
             }
         }
 
-        #endregion
-        #region Pedidos
-        public ServiceResult ListadoPedidos()
+        public VW_tbItems BuscarItems(int? id)
         {
-            var result = new ServiceResult();
             try
             {
-                var list = _pedidosRepository.List();
-                return result.Ok(list);
+                var list = _itemsRepository.find(id);
+                return list;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return result.Error(e.Message);
+                return null;
             }
         }
+
         #endregion
+
         #region Sucursales
         public ServiceResult ListadoSucursales()
         {
@@ -541,7 +571,180 @@ namespace FletesNacionales.BusinessLogic.Services
                 return result.Error(e.Message);
             }
         }
+
+        public ServiceResult EliminarSucursal(tbSucursales item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _sucursalesRepository.Delete(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public ServiceResult InsertarSucursal(tbSucursales item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _sucursalesRepository.Insert(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public ServiceResult EditarSucursal(tbSucursales item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _sucursalesRepository.Update(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public VW_tbSucursales BuscarSucursal(int? id)
+        {
+            try
+            {
+                var list = _sucursalesRepository.find(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
         #endregion
+
+        #region Pedidos
+        public ServiceResult ListadoPedidos()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _pedidosRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+
+        public ServiceResult EliminarPedidos(tbPedidos item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _pedidosRepository.Delete(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public ServiceResult InsertarPedidos(tbPedidos item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _pedidosRepository.Insert(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public ServiceResult EditarPedidos(tbPedidos item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _pedidosRepository.Update(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public VW_tbPedidos BuscarPedidos(int? id)
+        {
+            try
+            {
+                var list = _pedidosRepository.find(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        #endregion
+
         #region Trayectos
         public ServiceResult ListadoTrayectos()
         {
@@ -554,6 +757,178 @@ namespace FletesNacionales.BusinessLogic.Services
             catch (Exception e)
             {
                 return result.Error(e.Message);
+            }
+        }
+
+        public ServiceResult EliminarTrayectos(tbTrayectos item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _trayectosRepository.Delete(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public ServiceResult InsertarTrayectos(tbTrayectos item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _trayectosRepository.Insert(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public ServiceResult EditarTrayectos(tbTrayectos item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _trayectosRepository.Update(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public VW_tbTrayectos BuscarTrayectos(int? id)
+        {
+            try
+            {
+                var list = _trayectosRepository.find(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        #endregion
+
+        #region PedidosDetalle
+        public ServiceResult ListadoPedidoDetalles()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _pedidoDetallesRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+
+        public ServiceResult EliminarPedidoDetalles(tbPedidoDetalles item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _pedidoDetallesRepository.Delete(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public ServiceResult InsertarPedidoDetalles(tbPedidoDetalles item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _pedidoDetallesRepository.Insert(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public ServiceResult EditarPedidoDetalles(tbPedidoDetalles item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _pedidoDetallesRepository.Update(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public VW_tbPedidoDetalles BuscarPedidoDetalles(int? id)
+        {
+            try
+            {
+                var list = _pedidoDetallesRepository.find(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
         #endregion

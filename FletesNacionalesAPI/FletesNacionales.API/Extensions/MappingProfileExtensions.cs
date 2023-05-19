@@ -19,6 +19,14 @@ namespace FletesNacionales.API.Extensions
             CreateMap<FletesViewModel, tbFleteDetalles>().ReverseMap();
             CreateMap<FletesViewModel, tbFletes>().ReverseMap();
             CreateMap<ItemsViewModel, tbItems>().ReverseMap();
+            CreateMap<CargosViewModel, tbCargos>().ReverseMap();
+            CreateMap<DepartamentosViewModel, tbDepartamentos>().ReverseMap();
+            CreateMap<EmpleadoViewModel, tbEmpleados>().ReverseMap();
+            CreateMap<EstadoCivilViewModel, tbEstadosCiviles>().ReverseMap();
+            CreateMap<EstadoDelPedidoViewModel, tbEstadosDelPedido>().ReverseMap();
+            CreateMap<MetodoDePagoViewModel, tbMetodosdePago>().ReverseMap();
+            CreateMap<MunicipiosViewModel, tbMunicipios>().ReverseMap();
+            CreateMap<SucursalesViewModel, tbSucursales>().ReverseMap();
             #region equi
             CreateMap<MarcasViewModel, tbMarcas>().ReverseMap();
             CreateMap<ModelosViewModel, tbModelos>().ReverseMap();

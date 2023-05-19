@@ -54,5 +54,12 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("Buscar")]
+        public IActionResult Find(int? id)
+        {
+            var list = _acceService.BuscarRoles(id);
+            return Ok(list);
+        }
+
     }
 }

@@ -123,6 +123,19 @@ namespace FletesNacionales.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
+
+        public VW_tbRoles BuscarRoles(int? id)
+        {
+            try
+            {
+                var list = _rolesRepository.find(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
         #endregion
 
 
@@ -272,6 +285,18 @@ namespace FletesNacionales.BusinessLogic.Services
             catch (Exception ex)
             {
                 return result.Error(ex.Message);
+            }
+        }
+        public VW_tbUsuarios BuscarUsuario(int? id)
+        {
+            try
+            {
+                var list = _usuariosRepository.find(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
 

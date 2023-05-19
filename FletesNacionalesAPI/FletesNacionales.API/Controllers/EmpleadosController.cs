@@ -29,13 +29,6 @@ namespace FletesNacionales.API.Controllers
             var list = _fletService.ListadoEmpleados();
             return Ok(list);
         }
-        [HttpPost("Eliminar")]
-        public IActionResult Delete(EmpleadoViewModel Pedidos)
-        {
-            var item = _mapper.Map<tbEmpleados>(Pedidos);
-            var result = _fletService.EliminarEmpleados(item);
-            return Ok(result);
-        }
 
         [HttpPost("Insertar")]
         public IActionResult Insert(EmpleadoViewModel Pedidos)
@@ -45,12 +38,20 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("Editar")]
+        [HttpPut("Editar")]
         public IActionResult Update(EmpleadoViewModel Pedidos)
         {
             var item = _mapper.Map<tbEmpleados>(Pedidos);
             var response = _fletService.EditarEmpleados(item);
             return Ok(response);
+        }
+
+        [HttpPut("Eliminar")]
+        public IActionResult Delete(EmpleadoViewModel Pedidos)
+        {
+            var item = _mapper.Map<tbEmpleados>(Pedidos);
+            var result = _fletService.EliminarEmpleados(item);
+            return Ok(result);
         }
 
         [HttpGet("Buscar")]

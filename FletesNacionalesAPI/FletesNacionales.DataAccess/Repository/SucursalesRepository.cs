@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FletesNacionales.DataAccess.Repository
 {
-    public class SucursalesRepository : IRepository<tbSucursales, tbSucursales>
+    public class SucursalesRepository : IRepository<tbSucursales, VW_tbSucursales>
     {
         public RequestStatus Delete(tbSucursales item)
         {
@@ -25,12 +25,12 @@ namespace FletesNacionales.DataAccess.Repository
             return result;
         }
 
-        public tbSucursales find(int? id)
+        public VW_tbSucursales find(int? id)
         {
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@sucu_Id", id, DbType.Int32, ParameterDirection.Input);
-            return db.QueryFirst<tbSucursales>(ScriptsDataBase.SucursalesFind, parametros, commandType: System.Data.CommandType.StoredProcedure);
+            return db.QueryFirst<VW_tbSucursales>(ScriptsDataBase.SucursalesFind, parametros, commandType: System.Data.CommandType.StoredProcedure);
         }
 
         public RequestStatus Insert(tbSucursales item)
@@ -48,10 +48,10 @@ namespace FletesNacionales.DataAccess.Repository
             return result;
         }
 
-        public IEnumerable<tbSucursales> List()
+        public IEnumerable<VW_tbSucursales> List()
         {
             using var db = new SqlConnection(FleteContext.ConnectionString);
-            return db.Query<tbSucursales>(ScriptsDataBase.SucursalesIndex, null, commandType: System.Data.CommandType.StoredProcedure);
+            return db.Query<VW_tbSucursales>(ScriptsDataBase.SucursalesIndex, null, commandType: System.Data.CommandType.StoredProcedure);
         }
 
         public RequestStatus Update(tbSucursales item)

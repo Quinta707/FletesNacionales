@@ -52,5 +52,13 @@ namespace FletesNacionales.API.Controllers
             var result = _fletService.EliminarFlete(item);
             return Ok(result);
         }
+
+        [HttpGet("Buscar")]
+        public IActionResult Find(int? id)
+        {
+            var list = _fletService.BuscarFlete(id);
+            return Ok(list);
+        }
+
     }
 }

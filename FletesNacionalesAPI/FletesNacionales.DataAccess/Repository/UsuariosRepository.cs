@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FletesNacionales.DataAccess.Repository
 {
-    public class UsuariosRepository : IRepository<tbUsuarios, tbUsuarios>
+    public class UsuariosRepository : IRepository<tbUsuarios, VW_tbUsuarios>
     {
         public RequestStatus Delete(tbUsuarios item)
         {
@@ -25,12 +25,12 @@ namespace FletesNacionales.DataAccess.Repository
             return result;
         }
 
-        public tbUsuarios find(int? id)
+        public VW_tbUsuarios find(int? id)
         {
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@user_Id", id, DbType.Int32, ParameterDirection.Input);
-            return db.QueryFirst<tbUsuarios>(ScriptsDataBase.UsuraiosFind, parametros, commandType: System.Data.CommandType.StoredProcedure);
+            return db.QueryFirst<VW_tbUsuarios>(ScriptsDataBase.UsuraiosFind, parametros, commandType: System.Data.CommandType.StoredProcedure);
         }
 
         public RequestStatus Insert(tbUsuarios item)
@@ -51,10 +51,10 @@ namespace FletesNacionales.DataAccess.Repository
             return result;
         }
 
-        public IEnumerable<tbUsuarios> List()
+        public IEnumerable<VW_tbUsuarios> List()
         {
             using var db = new SqlConnection(FleteContext.ConnectionString);
-            return db.Query<tbUsuarios>(ScriptsDataBase.ClientesIndex, null, commandType: System.Data.CommandType.StoredProcedure);
+            return db.Query<VW_tbUsuarios>(ScriptsDataBase.ClientesIndex, null, commandType: System.Data.CommandType.StoredProcedure);
         }
 
         public RequestStatus Update(tbUsuarios item)

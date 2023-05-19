@@ -17,9 +17,6 @@ namespace FletesNacionales.API.Controllers
         private readonly FletService _fletService;
         private readonly IMapper _mapper;
 
-        public TrayectosController(FletService gralService, IMapper mapper)
-        {
-            _fletService = gralService;
         public TrayectosController(FletService fletService, IMapper mapper)
         {
             _fletService = fletService;
@@ -33,14 +30,6 @@ namespace FletesNacionales.API.Controllers
             return Ok(list);
         }
 
-        [HttpPost("Eliminar")]
-        public IActionResult Delete(TrayectosViewModel Trayectos)
-        {
-            var item = _mapper.Map<tbTrayectos>(Trayectos);
-            var result = _fletService.EliminarTrayectos(item);
-            return Ok(result);
-        }
-
         [HttpPost("Insertar")]
         public IActionResult Insert(TrayectosViewModel Trayectos)
         {
@@ -49,12 +38,20 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("Editar")]
+        [HttpPut("Editar")]
         public IActionResult Update(TrayectosViewModel Trayectos)
         {
             var item = _mapper.Map<tbTrayectos>(Trayectos);
             var response = _fletService.EditarTrayectos(item);
             return Ok(response);
+        }
+
+        [HttpPut("Eliminar")]
+        public IActionResult Delete(TrayectosViewModel Trayectos)
+        {
+            var item = _mapper.Map<tbTrayectos>(Trayectos);
+            var result = _fletService.EliminarTrayectos(item);
+            return Ok(result);
         }
 
         [HttpGet("Buscar")]

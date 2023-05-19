@@ -29,13 +29,6 @@ namespace FletesNacionales.API.Controllers
             var list = _gralService.ListadoEstadosCiviles();
             return Ok(list);
         }
-        [HttpPost("Eliminar")]
-        public IActionResult Delete(EstadoCivilViewModel Pedidos)
-        {
-            var item = _mapper.Map<tbEstadosCiviles>(Pedidos);
-            var result = _gralService.EliminarEstadosCiviles(item);
-            return Ok(result);
-        }
 
         [HttpPost("Insertar")]
         public IActionResult Insert(EstadoCivilViewModel Pedidos)
@@ -45,12 +38,20 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("Editar")]
+        [HttpPut("Editar")]
         public IActionResult Update(EstadoCivilViewModel Pedidos)
         {
             var item = _mapper.Map<tbEstadosCiviles>(Pedidos);
             var response = _gralService.EditarEstadosCiviles(item);
             return Ok(response);
+        }
+
+        [HttpPut("Eliminar")]
+        public IActionResult Delete(EstadoCivilViewModel Pedidos)
+        {
+            var item = _mapper.Map<tbEstadosCiviles>(Pedidos);
+            var result = _gralService.EliminarEstadosCiviles(item);
+            return Ok(result);
         }
 
         [HttpGet("Buscar")]

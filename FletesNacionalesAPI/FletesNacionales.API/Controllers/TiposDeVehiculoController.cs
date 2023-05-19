@@ -31,14 +31,6 @@ namespace FletesNacionales.API.Controllers
             return Ok(list);
         }
 
-        [HttpPost("Eliminar")]
-        public IActionResult Delete(TipoDeVehiculoViewModel tipovehiculo)
-        {
-            var item = _mapper.Map<tbTipoDeVehiculo>(tipovehiculo);
-            var result = _equiService.EliminarTipoDeVehiculo(item);
-            return Ok(result);
-        }
-
         [HttpPost("Insertar")]
         public IActionResult Insert(TipoDeVehiculoViewModel tipovehiculo)
         {
@@ -47,12 +39,20 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("Editar")]
+        [HttpPut("Editar")]
         public IActionResult Update(TipoDeVehiculoViewModel tipovehiculo)
         {
             var item = _mapper.Map<tbTipoDeVehiculo>(tipovehiculo);
             var response = _equiService.EditarTipoDeVehiculo(item);
             return Ok(response);
+        }
+
+        [HttpPut("Eliminar")]
+        public IActionResult Delete(TipoDeVehiculoViewModel tipovehiculo)
+        {
+            var item = _mapper.Map<tbTipoDeVehiculo>(tipovehiculo);
+            var result = _equiService.EliminarTipoDeVehiculo(item);
+            return Ok(result);
         }
 
         [HttpGet("Buscar")]

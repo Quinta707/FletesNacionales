@@ -38,6 +38,14 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
+        [HttpPut("Editar")]
+        public IActionResult Update(UsuariosViewModel usuarios)
+        {
+            var item = _mapper.Map<tbUsuarios>(usuarios);
+            var result = _acceService.EditarUsuarios(item);
+            return Ok(result);
+        }
+
         [HttpPut("Eliminar")]
         public IActionResult Delete(UsuariosViewModel usuarios)
         {
@@ -46,12 +54,11 @@ namespace FletesNacionales.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut("Editar")]
-        public IActionResult Update(UsuariosViewModel usuarios)
+        [HttpGet("Buscar")]
+        public IActionResult Find(int? id)
         {
-            var item = _mapper.Map<tbUsuarios>(usuarios);
-            var result = _acceService.EditarUsuarios(item);
-            return Ok(result);
+            var list = _acceService.BuscarUsuario(id);
+            return Ok(list);
         }
 
     }

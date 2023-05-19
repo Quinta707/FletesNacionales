@@ -30,13 +30,6 @@ namespace FletesNacionales.API.Controllers
             return Ok(list);
 
         }
-        [HttpPost("Eliminar")]
-        public IActionResult Delete(MunicipiosViewModel Pedidos)
-        {
-            var item = _mapper.Map<tbMunicipios>(Pedidos);
-            var result = _gralService.EliminarMunicipio(item);
-            return Ok(result);
-        }
 
         [HttpPost("Insertar")]
         public IActionResult Insert(MunicipiosViewModel Pedidos)
@@ -46,12 +39,20 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("Editar")]
+        [HttpPut("Editar")]
         public IActionResult Update(MunicipiosViewModel Pedidos)
         {
             var item = _mapper.Map<tbMunicipios>(Pedidos);
             var response = _gralService.EditarMunicipio(item);
             return Ok(response);
+        }
+
+        [HttpPut("Eliminar")]
+        public IActionResult Delete(MunicipiosViewModel Pedidos)
+        {
+            var item = _mapper.Map<tbMunicipios>(Pedidos);
+            var result = _gralService.EliminarMunicipio(item);
+            return Ok(result);
         }
 
         [HttpGet("Buscar")]

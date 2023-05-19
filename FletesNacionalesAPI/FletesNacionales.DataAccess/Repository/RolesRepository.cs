@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FletesNacionales.DataAccess.Repository
 {
-    public class RolesRepository : IRepository<tbRoles, tbRoles>
+    public class RolesRepository : IRepository<tbRoles, VW_tbRoles>
     {
         public RequestStatus Delete(tbRoles item)
         {
@@ -25,12 +25,12 @@ namespace FletesNacionales.DataAccess.Repository
             return result;
         }
 
-        public tbRoles find(int? id)
+        public VW_tbRoles find(int? id)
         {
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@role_Id", id, DbType.Int32, ParameterDirection.Input);
-            return db.QueryFirst<tbRoles>(ScriptsDataBase.RolesFind, parametros, commandType: System.Data.CommandType.StoredProcedure);
+            return db.QueryFirst<VW_tbRoles>(ScriptsDataBase.RolesFind, parametros, commandType: System.Data.CommandType.StoredProcedure);
         }
 
         public RequestStatus Insert(tbRoles item)
@@ -46,10 +46,10 @@ namespace FletesNacionales.DataAccess.Repository
             return result;
         }
 
-        public IEnumerable<tbRoles> List()
+        public IEnumerable<VW_tbRoles> List()
         {
             using var db = new SqlConnection(FleteContext.ConnectionString);
-            return db.Query<tbRoles>(ScriptsDataBase.RolesIndex, null, commandType: System.Data.CommandType.StoredProcedure);
+            return db.Query<VW_tbRoles>(ScriptsDataBase.RolesIndex, null, commandType: System.Data.CommandType.StoredProcedure);
         }
 
         public RequestStatus Update(tbRoles item)

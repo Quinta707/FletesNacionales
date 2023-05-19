@@ -30,14 +30,6 @@ namespace FletesNacionales.API.Controllers
             return Ok(list);
         }
 
-        [HttpPost("Eliminar")]
-        public IActionResult Delete(CargosViewModel Pedidos)
-        {
-            var item = _mapper.Map<tbCargos>(Pedidos);
-            var result = _gralService.EliminarCargos(item);
-            return Ok(result);
-        }
-
         [HttpPost("Insertar")]
         public IActionResult Insert(CargosViewModel Pedidos)
         {
@@ -46,12 +38,20 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("Editar")]
+        [HttpPut("Editar")]
         public IActionResult Update(CargosViewModel Pedidos)
         {
             var item = _mapper.Map<tbCargos>(Pedidos);
             var response = _gralService.EditarCargos(item);
             return Ok(response);
+        }
+
+        [HttpPut("Eliminar")]
+        public IActionResult Delete(CargosViewModel Pedidos)
+        {
+            var item = _mapper.Map<tbCargos>(Pedidos);
+            var result = _gralService.EliminarCargos(item);
+            return Ok(result);
         }
 
         [HttpGet("Buscar")]

@@ -29,13 +29,6 @@ namespace FletesNacionales.API.Controllers
             var list = _gralService.ListadoDepartamentos();
             return Ok(list);
         }
-        [HttpPost("Eliminar")]
-        public IActionResult Delete(DepartamentosViewModel Pedidos)
-        {
-            var item = _mapper.Map<tbDepartamentos>(Pedidos);
-            var result = _gralService.EliminarDepartamentos(item);
-            return Ok(result);
-        }
 
         [HttpPost("Insertar")]
         public IActionResult Insert(DepartamentosViewModel Pedidos)
@@ -45,12 +38,20 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("Editar")]
+        [HttpPut("Editar")]
         public IActionResult Update(DepartamentosViewModel Pedidos)
         {
             var item = _mapper.Map<tbDepartamentos>(Pedidos);
             var response = _gralService.EditarDepartamentos(item);
             return Ok(response);
+        }
+
+        [HttpPut("Eliminar")]
+        public IActionResult Delete(DepartamentosViewModel Pedidos)
+        {
+            var item = _mapper.Map<tbDepartamentos>(Pedidos);
+            var result = _gralService.EliminarDepartamentos(item);
+            return Ok(result);
         }
 
         [HttpGet("Buscar")]
