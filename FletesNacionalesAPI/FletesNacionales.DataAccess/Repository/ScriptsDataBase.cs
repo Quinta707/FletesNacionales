@@ -7,8 +7,8 @@
 
         #region Usuarios
 
-        public static string UsuraiosFind =   "acce.UDP_tbUsuarios_Find";
-        public static string UsuraiosIndex =  "acce.UDP_tbUsuarios_Index";
+        public static string UsuraiosFind = "acce.UDP_tbUsuarios_Find";
+        public static string UsuraiosIndex = "acce.UDP_tbUsuarios_Index";
         public static string UsuraiosInsert = "acce.UDP_tbUsuarios_Insert";
         public static string UsuraiosUpdate = "acce.UDP_tbUsuarios_Update";
         public static string UsuraiosDelete = "acce.UDP_tbUsuarios_Delete";
@@ -17,12 +17,26 @@
 
         #region Roles
 
-        public static string RolesFind =    "acce.UDP_tbRoles_Find";
-        public static string RolesIndex =   "acce.UDP_tbRoles_Index";
-        public static string RolesInsert =  "acce.UDP_tbRoles_Insert";
-        public static string RolesUpdate =  "acce.UDP_tbRoles_Update";
-        public static string RolesDelete =  "acce.UDP_tbRoles_Delete";
+        public static string RolesFind = "acce.UDP_tbRoles_Find";
+        public static string RolesIndex = "acce.UDP_tbRoles_Index";
+        public static string RolesInsert = "acce.UDP_tbRoles_Insert";
+        public static string RolesUpdate = "acce.UDP_tbRoles_Update";
+        public static string RolesDelete = "acce.UDP_tbRoles_Delete";
 
+
+        #endregion
+
+        #region
+
+        public static string PantallasFind = "acce.UDP_tbPantallas_Find";
+        public static string PantallasIndex = "acce.UDP_tbPantallas_Index";
+        public static string PantallasInsert = "acce.UDP_tbPantallas_Insert";
+        public static string PantallasUpdate = "acce.UDP_tbPantallas_Update";
+        public static string PantallasDelete = "acce.UDP_tbPantallas_Delete";
+
+        public static string PantallaXRolesInsert = "acce.UDP_tbPantallasPorRoles_Insert";
+        public static string PantallaXRolesDelete = "acce.UDP_tbPantallasPorRoles_Delete";
+        public static string PantallaXRolesFind = "acce.UDP_tbPantallasPorRoles_Delete";
         #endregion
 
         #endregion
@@ -120,6 +134,14 @@
         public static string FletesInsert = "flet.UDP_tbFletes_Insert";
         public static string FletesUpdate = "flet.UDP_tbFletes_Update";
         public static string FletesDelete = "flet.UDP_tbFletes_Delete";
+
+
+        public static string FletesDetallesFind = "flet.UDP_tbFleteDetalles_Find";
+        public static string FletesDetallesFindxFlete = "flet.UDP_tbFleteDetalles_FindxFlete";
+        public static string FletesDetallesIndex = "flet.UDP_tbFleteDetalles_Index";
+        public static string FletesDetallesInsert = "flet.UDP_tbFleteDetalles_Insert";
+        public static string FletesDetallesUpdate = "flet.UDP_tbFleteDetalles_Update";
+        public static string FletesDetallesDelete = "flet.UDP_tbFleteDetalles_Delete";
 
         #endregion
 

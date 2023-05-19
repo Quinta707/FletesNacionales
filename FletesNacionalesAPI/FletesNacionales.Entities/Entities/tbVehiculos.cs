@@ -15,6 +15,8 @@ namespace FletesNacionales.Entities.Entities
 
         public int vehi_Id { get; set; }
         public int mode_Id { get; set; }
+        public decimal vehi_PesoMaximo { get; set; }
+        public decimal vehi_VolumenMaximo { get; set; }
         public string vehi_Placa { get; set; }
         public int vehi_UsuCreacion { get; set; }
         public DateTime? vehi_FechaCreacion { get; set; }

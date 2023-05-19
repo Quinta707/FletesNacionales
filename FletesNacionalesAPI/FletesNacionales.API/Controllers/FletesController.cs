@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using FletesNacionales.API.Models;
 using FletesNacionales.BusinessLogic.Services;
+using FletesNacionales.Entities.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -26,6 +28,29 @@ namespace FletesNacionales.API.Controllers
         {
             var list = _fletService.ListadoFletes();
             return Ok(list);
+        }
+
+        [HttpPost("Insertar")]
+        public IActionResult Insert(FletesViewModel flete)
+        {
+            var item = _mapper.Map<tbFletes>(flete);
+            var response = _fletService.InsertarFletes(item);
+            return Ok(response);
+        }
+        [HttpPut("Editar")]
+        public IActionResult Update(FletesViewModel flete)
+        {
+            var item = _mapper.Map<tbFletes>(flete);
+            var response = _fletService.EditarFletes(item);
+            return Ok(response);
+        }
+
+        [HttpPut("Eliminar")]
+        public IActionResult Delete(FletesViewModel flete)
+        {
+            var item = _mapper.Map<tbFletes>(flete);
+            var result = _fletService.EliminarFlete(item);
+            return Ok(result);
         }
     }
 }

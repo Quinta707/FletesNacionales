@@ -10,6 +10,7 @@ namespace FletesNacionales.Entities.Entities
     {
         public tbFletes()
         {
+            tbEscalasPorTrayecto = new HashSet<tbEscalasPorTrayecto>();
             tbFleteDetalles = new HashSet<tbFleteDetalles>();
             tbUbicacionPorFlete = new HashSet<tbUbicacionPorFlete>();
         }
@@ -30,6 +31,7 @@ namespace FletesNacionales.Entities.Entities
         public virtual tbUsuarios flet_UsuModificacionNavigation { get; set; }
         public virtual tbTrayectos tray { get; set; }
         public virtual tbVehiculos vehi { get; set; }
+        public virtual ICollection<tbEscalasPorTrayecto> tbEscalasPorTrayecto { get; set; }
         public virtual ICollection<tbFleteDetalles> tbFleteDetalles { get; set; }
         public virtual ICollection<tbUbicacionPorFlete> tbUbicacionPorFlete { get; set; }
     }

@@ -114,6 +114,14 @@
          "ObjectType": 0
       },
       {
+         "Name": "[acce].[VW_tbRoles]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[acce].[VW_tbUsuarios]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[equi].[VW_tbMarcas]",
          "ObjectType": 3
       },

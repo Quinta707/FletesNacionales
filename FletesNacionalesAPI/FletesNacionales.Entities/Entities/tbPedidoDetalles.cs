@@ -9,6 +9,7 @@ namespace FletesNacionales.Entities.Entities
     public partial class tbPedidoDetalles
     {
         public int pdet_Id { get; set; }
+        public int pedi_Id { get; set; }
         public int item_Id { get; set; }
         public int pdet_Cantidad { get; set; }
         public int pdet_UsuCreacion { get; set; }
@@ -20,5 +21,6 @@ namespace FletesNacionales.Entities.Entities
         public virtual tbItems item { get; set; }
         public virtual tbUsuarios pdet_UsuCreacionNavigation { get; set; }
         public virtual tbUsuarios pdet_UsuModificacionNavigation { get; set; }
+        public virtual tbPedidos pedi { get; set; }
     }
 }
