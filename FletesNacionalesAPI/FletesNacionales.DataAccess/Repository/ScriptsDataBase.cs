@@ -52,6 +52,11 @@
         #endregion
 
         #region Trayectos
+        public static string TrayectosFind = "flet.UDP_tbTrayectos_Find";
+        public static string TrayectosIndex = "flet.UDP_tbTrayectos_Index";
+        public static string TrayectosInsert = "flet.UDP_tbTrayectos_Insert";
+        public static string TrayectosUpdate = "flet.UDP_tbTrayectos_Update";
+        public static string TrayectosDelete = "flet.UDP_tbTrayectos_Delete";
         #endregion
 
         #region Fletes
@@ -67,6 +72,16 @@
         #endregion
 
         #region Estados Del Pedido
+        #endregion
+
+        #region PedidoDetalles
+
+        public static string PedidoDetallesFind = "flet.UDP_tbPedidoDetalles_Find";
+        public static string PedidoDetallesIndex = "flet.UDP_tbPedidoDetalles_Index";
+        public static string PedidoDetallesInsert = "flet.UDP_tbPedidoDetalles_Insert";
+        public static string PedidoDetallesUpdate = "flet.UDP_tbPedidoDetalles_Update";
+        public static string PedidoDetallesDelete = "flet.UDP_tbPedidoDetalles_Delete";
+
         #endregion
 
         #endregion

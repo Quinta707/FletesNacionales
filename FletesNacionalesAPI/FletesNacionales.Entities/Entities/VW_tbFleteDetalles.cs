@@ -10,6 +10,28 @@ namespace FletesNacionales.Entities.Entities
     {
         public int fdet_Id { get; set; }
         public int flet_Id { get; set; }
+        public int vehi_Id { get; set; }
+        public string vehi_Placa { get; set; }
+        public int mode_Id { get; set; }
+        public string mode_Nombre { get; set; }
+        public int marc_Id { get; set; }
+        public string marc_Nombre { get; set; }
+        public int tipv_Id { get; set; }
+        public string tipv_Descripcion { get; set; }
+        public int empe_Id { get; set; }
+        public string empe_NombreCompleto { get; set; }
+        public string empe_Identidad { get; set; }
+        public DateTime empe_FechaNacimiento { get; set; }
+        public string empe_Sexo { get; set; }
+        public int eciv_Id { get; set; }
+        public int muni_Id { get; set; }
+        public string empe_DireccionExacta { get; set; }
+        public string empe_Telefono { get; set; }
+        public int sucu_Id { get; set; }
+        public string sucu_Nombre { get; set; }
+        public int carg_Id { get; set; }
+        public string carg_Descripcion { get; set; }
+        public DateTime flet_FechaDeSalida { get; set; }
         public int pedi_Id { get; set; }
         public int fdet_UsuCreacion { get; set; }
         public DateTime? fdet_FechaCreacion { get; set; }
