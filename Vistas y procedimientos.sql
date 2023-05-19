@@ -2214,41 +2214,53 @@ GO
 CREATE OR ALTER VIEW flet.VW_tbPedidos
 AS
 SELECT	pedi_Id, 
-		T1.clie_Id,
-		clie_Nombres + ' ' + clie_Apellidos AS clie_NombreCompleto,
-		clie_Identidad, 
-		clie_FechaNacimiento, 
-		clie_Sexo, 
-		eciv_Id,  
-		clie_DireccionExacta, 
-		clie_Telefono, 
+		T1.clie_Id, 
 		muni_Origen, 
-		T5.muni_Nombre AS pedi_OrigenNombre,
-		T6.depa_Id AS pedi_DepaOrigenId,
-		T6.depa_Nombre AS pedi_DepaOrigen,
 		muni_Destino, 
-		T7.muni_Nombre AS pedi_DestinoNombre,
-		T8.depa_Id AS pedi_DepaDestinoId,
-		T8.depa_Nombre   AS pedi_DepaDestino,
 		pedi_DestinoFinal, 
-		T1.estp_Id,
-		T9.estp_Nombre,
+		T1.estp_Id, 
 		pedi_UsuCreacion, 
 		pedi_FechaCreacion, 
 		pedi_UsuModificacion, 
 		pedi_FechaModificacion, 
 		pedi_Estado,
+--		pedi_Id, 
+--		T1.clie_Id,
+--		clie_Nombres + ' ' + clie_Apellidos AS clie_NombreCompleto,
+--		clie_Identidad, 
+--		clie_FechaNacimiento, 
+--		clie_Sexo, 
+--		eciv_Id,  
+--		clie_DireccionExacta, 
+--		clie_Telefono, 
+--		muni_Origen, 
+--		T5.muni_Nombre AS pedi_OrigenNombre,
+--		T6.depa_Id AS pedi_DepaOrigenId,
+--		T6.depa_Nombre AS pedi_DepaOrigen,
+--		muni_Destino, 
+--		T7.muni_Nombre AS pedi_DestinoNombre,
+--		T8.depa_Id AS pedi_DepaDestinoId,
+--		T8.depa_Nombre   AS pedi_DepaDestino,
+--		pedi_DestinoFinal, 
+--		T1.estp_Id,
+--		T9.estp_Nombre,
+--		pedi_UsuCreacion, 
+--		pedi_FechaCreacion, 
+--		pedi_UsuModificacion, 
+--		pedi_FechaModificacion, 
+--		pedi_Estado,
 		t2.user_NombreUsuario AS user_Creacion,
 		t3.user_NombreUsuario AS user_Modificacion
   FROM flet.tbPedidos T1 INNER JOIN acce.tbUsuarios T2
   ON T1.pedi_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
-  ON T1.pedi_UsuModificacion = T3.[user_Id] INNER JOIN flet.tbClientes T4
-  ON T1.clie_Id = T4.clie_Id  INNER JOIN gral.tbMunicipios T5
-  ON T1.muni_Origen = T5.muni_Id  INNER JOIN gral.tbDepartamentos T6
-  ON T5.depa_Id = T6.depa_Id INNER JOIN gral.tbMunicipios T7
-  ON T1.muni_Destino = T7.muni_Id  INNER JOIN gral.tbDepartamentos T8
-  ON T7.depa_Id = T8.depa_Id INNER JOIN flet.tbEstadosDelPedido T9
-  ON T1.estp_Id = T9.estp_Id
+  ON T1.pedi_UsuModificacion = T3.[user_Id] 
+  --INNER JOIN flet.tbClientes T4
+  --ON T1.clie_Id = T4.clie_Id  INNER JOIN gral.tbMunicipios T5
+  --ON T1.muni_Origen = T5.muni_Id  INNER JOIN gral.tbDepartamentos T6
+  --ON T5.depa_Id = T6.depa_Id INNER JOIN gral.tbMunicipios T7
+  --ON T1.muni_Destino = T7.muni_Id  INNER JOIN gral.tbDepartamentos T8
+  --ON T7.depa_Id = T8.depa_Id INNER JOIN flet.tbEstadosDelPedido T9
+  --ON T1.estp_Id = T9.estp_Id
 
 
 --************** INDEX *****************--
@@ -2675,7 +2687,7 @@ SELECT	tray_Id,
   ON T1.tray_UsuModificacion = T3.[user_Id] INNER JOIN gral.tbMunicipios T4
   ON T1.muni_Inicio= T4.muni_Id INNER JOIN gral.tbDepartamentos T5
   ON T4.depa_Id= T5.depa_Id INNER JOIN gral.tbMunicipios T6
-  ON T1.muni_Inicio= T6.muni_Id INNER JOIN gral.tbDepartamentos T7
+  ON T1.muni_Final= T6.muni_Id INNER JOIN gral.tbDepartamentos T7
   ON T6.depa_Id= T7.depa_Id
 
 
