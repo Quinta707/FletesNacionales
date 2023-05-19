@@ -21,13 +21,13 @@ namespace FletesNacionales.DataAccess.Repository
 
             parametros.Add("@empe_Id", item.empe_Id, DbType.Int16, ParameterDirection.Input);
 
-            var resultado = db.QueryFirst<string>(ScriptsDataBase.EmpleadosDelete, parametros, commandType: CommandType.StoredProcedure);
+            var resultado = db.QueryFirst<int>(ScriptsDataBase.EmpleadosDelete, parametros, commandType: CommandType.StoredProcedure);
 
             RequestStatus request = new()
             {
-                MessageStatus = resultado
+                CodeStatus = resultado
             };
-                
+
             return request;
         }
 
@@ -64,11 +64,11 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@carg_Id", item.carg_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@empe_UsuModificacion", 1, DbType.Int32, ParameterDirection.Input);
 
-            var resultado = db.QueryFirst<string>(ScriptsDataBase.EmpleadosInsert, parametros, commandType: CommandType.StoredProcedure);
+            var resultado = db.QueryFirst<int>(ScriptsDataBase.EmpleadosInsert, parametros, commandType: CommandType.StoredProcedure);
 
             RequestStatus request = new()
             {
-                MessageStatus = resultado
+                CodeStatus = resultado
             };
 
             return request;
@@ -100,11 +100,11 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@carg_Id", item.carg_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@empe_UsuModificacion", 1, DbType.Int32, ParameterDirection.Input);
 
-            var resultado = db.QueryFirst<string>(ScriptsDataBase.EmpleadosUpdate, parametros, commandType: CommandType.StoredProcedure);
+            var resultado = db.QueryFirst<int>(ScriptsDataBase.EmpleadosUpdate, parametros, commandType: CommandType.StoredProcedure);
 
             RequestStatus request = new()
             {
-                MessageStatus = resultado
+                CodeStatus = resultado
             };
 
             return request;

@@ -21,11 +21,11 @@ namespace FletesNacionales.DataAccess.Repository
 
             parametros.Add("@muni_Id", item.muni_Id, DbType.Int32, ParameterDirection.Input);
 
-            var resultado = db.QueryFirst<string>(ScriptsDataBase.MunicipiosDelete, parametros, commandType: CommandType.StoredProcedure);
+            var resultado = db.QueryFirst<int>(ScriptsDataBase.MunicipiosDelete, parametros, commandType: CommandType.StoredProcedure);
 
             RequestStatus request = new()
             {
-                MessageStatus = resultado
+                CodeStatus = resultado
             };
 
             return request;
@@ -55,11 +55,11 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@depa_Id", item.depa_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@muni_UsuCreacion", 1 , DbType.Int32, ParameterDirection.Input);
 
-            var resultado = db.QueryFirst<string>(ScriptsDataBase.MunicipiosInsert, parametros, commandType: CommandType.StoredProcedure);
+            var resultado = db.QueryFirst<int>(ScriptsDataBase.MunicipiosInsert, parametros, commandType: CommandType.StoredProcedure);
 
             RequestStatus request = new()
             {
-                MessageStatus = resultado
+                CodeStatus = resultado
             };
 
             return request;
@@ -82,11 +82,11 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@depa_Id", item.depa_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@muni_UsuModificacion", 1, DbType.Int32, ParameterDirection.Input);
 
-            var resultado = db.QueryFirst<string>(ScriptsDataBase.MunicipiosUpdate, parametros, commandType: CommandType.StoredProcedure);
+            var resultado = db.QueryFirst<int>(ScriptsDataBase.MunicipiosUpdate, parametros, commandType: CommandType.StoredProcedure);
 
             RequestStatus request = new()
             {
-                MessageStatus = resultado
+                CodeStatus = resultado
             };
 
             return request;

@@ -105,7 +105,7 @@ CREATE OR ALTER PROCEDURE gral.UDP_tbCargos_Delete
 AS
 BEGIN
 	BEGIN TRY
-		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('gral.tbCargos') AND EXISTS ( SELECT 1 FROM gral.tbCargos WHERE carg_Id = @carg_Id))
+		IF EXISTS (select * FROM flet.tbEmpleados WHERE carg_Id = @carg_Id )
 			BEGIN
 				SELECT - 3
 			END
@@ -253,7 +253,7 @@ AS
 BEGIN
 	BEGIN TRY
 		
-		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('gral.tbDepartamentos') AND EXISTS ( SELECT * FROM gral.tbDepartamentos WHERE depa_Id = 19))
+		IF EXISTS (SELECT * FROM gral.tbDepartamentos WHERE depa_Id = @depa_Id)
 		BEGIN
 			SELECT - 3
 		END
@@ -404,7 +404,7 @@ AS
 BEGIN
 	BEGIN TRY
 		
-		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('gral.tbMunicipios') AND EXISTS ( SELECT 1 FROM gral.tbMunicipios WHERE muni_Id = @muni_Id))
+		IF EXISTS (select * from flet.tbSucursales where muni_Id = @muni_Id ) or exists (select * from flet.tbEmpleados where muni_Id = @muni_Id ) or exists (select * from flet.tbClientes where muni_Id = @muni_Id ) or exists (select * from flet.tbPedidos where muni_Origen = @muni_Id or muni_Destino = @muni_Id) or exists (select * from flet.tbTrayectos where muni_Inicio = @muni_Id or muni_Final = @muni_Id) or exists (select * from flet.tbEscalasPorTrayecto where muni_Escala = @muni_Id )
 		BEGIN
 			SELECT - 3
 		END
@@ -548,21 +548,23 @@ END
 
 --**************  DELETE ******************--
 GO
-CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_Delete
+CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_Delete 
 (@eciv_Id INT)
 AS
 BEGIN
 	BEGIN TRY
-		 IF EXISTS (SELECT * FROM gral.tbEstadosCiviles WHERE (eciv_Id = @eciv_Id))
+		 IF EXISTS (SELECT * FROM flet.tbEmpleados WHERE eciv_Id = @eciv_Id) and EXISTS (SELECT * FROM flet.tbClientes WHERE eciv_Id = @eciv_Id)
 				BEGIN
 					SELECT -3
 				END
 		ELSE
+		begin
 		UPDATE	gral.tbEstadosCiviles
 		SET		eciv_Estado = 0
 		WHERE	eciv_Id = @eciv_Id
 
 		SELECT 1 
+		end
 	END TRY
 	BEGIN CATCH
 		SELECT 0 
@@ -1805,7 +1807,7 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_Delete
 AS
 BEGIN
 	BEGIN TRY
-		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('flet.tbEmpleados') AND EXISTS ( SELECT 1 FROM flet.tbEmpleados WHERE @empe_Id = @empe_Id))
+		IF EXISTS (SELECT * FROM flet.tbFletes WHERE empe_Id = @empe_Id) and EXISTS (SELECT * FROM acce.tbUsuarios WHERE empe_Id = @empe_Id)
 		BEGIN
 			SELECT - 3
 		END
@@ -2857,7 +2859,7 @@ BEGIN
 
 	BEGIN TRY
 	
-		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('flet.tbEstadosDelPedido') AND EXISTS ( SELECT 1 FROM flet.tbEstadosDelPedido WHERE estp_Id = @estp_Id))
+		IF EXISTS (SELECT * FROM flet.tbPedidos where estp_Id = @estp_Id)
 		BEGIN
 			SELECT - 3
 		END
@@ -3439,12 +3441,18 @@ AS
 BEGIN
 	BEGIN TRY
 		
+			IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('flet.tbSucursales') AND EXISTS ( SELECT 1 FROM flet.tbSucursales WHERE sucu_Id = 11))
+		BEGIN
+			SELECT - 3
+		END
+		ELSE 
+			BEGIN
 			UPDATE	flet.tbSucursales
 			SET		sucu_Estado = 0
 			WHERE	sucu_Id = @sucu_Id
 		
 			SELECT 1 
-	
+	end
 	END TRY
 	BEGIN CATCH
 		SELECT 0 
@@ -3570,7 +3578,7 @@ BEGIN
 END
 
 
---************** DELETE *****************--
+--**************  *****************--
 GO
 CREATE OR ALTER PROCEDURE flet.UDP_tbTrayectos_Delete
 (
