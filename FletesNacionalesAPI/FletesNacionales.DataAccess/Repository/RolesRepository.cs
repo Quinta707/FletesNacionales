@@ -60,8 +60,8 @@ namespace FletesNacionales.DataAccess.Repository
             var parametros = new DynamicParameters();
             parametros.Add("@role_Id", item.role_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@role_Nombre", item.role_Nombre, DbType.String, ParameterDirection.Input);
-            parametros.Add("@role_UsuCreacion", item.role_UsuCreacion, DbType.Int32, ParameterDirection.Input);
-            result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.RolesInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
+            parametros.Add("@role_UsuModificacion", item.role_UsuModificacion, DbType.Int32, ParameterDirection.Input);
+            result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.RolesUpdate, parametros, commandType: System.Data.CommandType.StoredProcedure);
 
             return result;
         }

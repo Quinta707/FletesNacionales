@@ -155,9 +155,11 @@ namespace FletesNacionales.BusinessLogic.Services
                 var insert = _departamentosRepository.Delete(item);
 
                 if (insert.CodeStatus == 1)
-                    return result.SetMessage("Registro eliminado", ServiceResultType.Success);
+                    return result.SetMessage("Eliminado", ServiceResultType.Success);
+                else if (insert.CodeStatus == -3)
+                    return result.SetMessage("EnUso", ServiceResultType.Success);
                 else if (insert.CodeStatus == 0)
-                    return result.SetMessage("Error Inesperado", ServiceResultType.Error);
+                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
                 else
                     return result.SetMessage("Conexión perdida", ServiceResultType.Error);
 
@@ -173,7 +175,7 @@ namespace FletesNacionales.BusinessLogic.Services
             var result = new ServiceResult();
             try
             {
-                var map = _departamentosRepository.Delete(item);
+                var map = _departamentosRepository.Insert(item);
                 if (map.CodeStatus > 0)
                 {
                     return result.Ok(map);
