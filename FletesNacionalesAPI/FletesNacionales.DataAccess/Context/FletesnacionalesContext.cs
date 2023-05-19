@@ -35,7 +35,9 @@ namespace FletesNacionales.DataAccess.Context
         public virtual DbSet<VW_tbMunicipios> VW_tbMunicipios { get; set; }
         public virtual DbSet<VW_tbPedidoDetalles> VW_tbPedidoDetalles { get; set; }
         public virtual DbSet<VW_tbPedidos> VW_tbPedidos { get; set; }
+        public virtual DbSet<VW_tbRoles> VW_tbRoles { get; set; }
         public virtual DbSet<VW_tbTipoDeVehiculo> VW_tbTipoDeVehiculo { get; set; }
+        public virtual DbSet<VW_tbUsuarios> VW_tbUsuarios { get; set; }
         public virtual DbSet<VW_tbVehiculos> VW_tbVehiculos { get; set; }
         public virtual DbSet<tbCargos> tbCargos { get; set; }
         public virtual DbSet<tbClientes> tbClientes { get; set; }
@@ -295,9 +297,29 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToView("VW_tbEscalasPorTrayecto", "flet");
 
+                entity.Property(e => e.depa_Codigo)
+                    .IsRequired()
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.depa_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
                 entity.Property(e => e.estr_FechaCreacion).HasColumnType("datetime");
 
                 entity.Property(e => e.estr_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.muni_Codigo)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.muni_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(80);
 
                 entity.Property(e => e.user_Creacion)
                     .IsRequired()
@@ -636,6 +658,27 @@ namespace FletesNacionales.DataAccess.Context
                 entity.Property(e => e.user_Modificacion).HasMaxLength(100);
             });
 
+            modelBuilder.Entity<VW_tbRoles>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbRoles", "acce");
+
+                entity.Property(e => e.role_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.role_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.role_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
             modelBuilder.Entity<VW_tbTipoDeVehiculo>(entity =>
             {
                 entity.HasNoKey();
@@ -660,6 +703,45 @@ namespace FletesNacionales.DataAccess.Context
                     .HasMaxLength(100);
 
                 entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbUsuarios>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbUsuarios", "acce");
+
+                entity.Property(e => e.carg_Descripcion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.empe_Apellidos)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.empe_NombreCompleto)
+                    .IsRequired()
+                    .HasMaxLength(401);
+
+                entity.Property(e => e.empe_Nombres)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.role_Nombre).HasMaxLength(100);
+
+                entity.Property(e => e.sucu_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.user_Contrasena).IsRequired();
+
+                entity.Property(e => e.user_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.user_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.user_NombreUsuario)
+                    .IsRequired()
+                    .HasMaxLength(100);
             });
 
             modelBuilder.Entity<VW_tbVehiculos>(entity =>
@@ -962,17 +1044,17 @@ namespace FletesNacionales.DataAccess.Context
                     .HasForeignKey(d => d.estr_UsuModificacion)
                     .HasConstraintName("FK_flet_tbEscalasPorTrayecto_acce_tbUsuarios_pedi_UsuModificacion");
 
+                entity.HasOne(d => d.flet)
+                    .WithMany(p => p.tbEscalasPorTrayecto)
+                    .HasForeignKey(d => d.flet_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbEscalasPorTrayecto_flet_Id_flet_tbFletes_flet_Id");
+
                 entity.HasOne(d => d.muni_EscalaNavigation)
                     .WithMany(p => p.tbEscalasPorTrayecto)
                     .HasForeignKey(d => d.muni_Escala)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_flet_tbEscalasPorTrayecto_gral_tbMunicipios_muni_Escala");
-
-                entity.HasOne(d => d.tray)
-                    .WithMany(p => p.tbEscalasPorTrayecto)
-                    .HasForeignKey(d => d.tray_Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_flet_tbEscalasPorTrayecto_flet_tbTrayectos_tray_Id");
             });
 
             modelBuilder.Entity<tbEstadosCiviles>(entity =>
@@ -1444,6 +1526,12 @@ namespace FletesNacionales.DataAccess.Context
                     .WithMany(p => p.tbPedidoDetallespdet_UsuModificacionNavigation)
                     .HasForeignKey(d => d.pdet_UsuModificacion)
                     .HasConstraintName("FK_flet_tbPedidoDetalles_acce_tbUsuarios_pdet_UsuModificacion");
+
+                entity.HasOne(d => d.pedi)
+                    .WithMany(p => p.tbPedidoDetalles)
+                    .HasForeignKey(d => d.pedi_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbPedidoDetalles_pedi_Id_flet_tbPedidos_pedi_Id");
             });
 
             modelBuilder.Entity<tbPedidos>(entity =>
@@ -1500,7 +1588,7 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToTable("tbRoles", "acce");
 
-                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E09745935")
+                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E63936E8E")
                     .IsUnique();
 
                 entity.Property(e => e.role_Estado)
@@ -1704,11 +1792,6 @@ namespace FletesNacionales.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(100);
 
-                entity.HasOne(d => d.empe)
-                    .WithMany(p => p.tbUsuarios)
-                    .HasForeignKey(d => d.empe_Id)
-                    .HasConstraintName("FK_acce_tbUsuarios_flet_tbEmpleados_empe_Id");
-
                 entity.HasOne(d => d.role)
                     .WithMany(p => p.tbUsuarios)
                     .HasForeignKey(d => d.role_Id)
@@ -1741,9 +1824,13 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.Property(e => e.vehi_FechaModificacion).HasColumnType("datetime");
 
+                entity.Property(e => e.vehi_PesoMaximo).HasColumnType("decimal(18, 2)");
+
                 entity.Property(e => e.vehi_Placa)
                     .IsRequired()
                     .HasMaxLength(30);
+
+                entity.Property(e => e.vehi_VolumenMaximo).HasColumnType("decimal(18, 2)");
 
                 entity.HasOne(d => d.mode)
                     .WithMany(p => p.tbVehiculos)

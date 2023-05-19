@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FletesNacionales.API.Models;
+using FletesNacionales.Entities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,13 @@ namespace FletesNacionales.API.Extensions
     {
         public MappingProfileExtensions()
         {
-            //CreateMap<UsuarioViewModel, tbUsuarios>().ReverseMap();
+            CreateMap<RolesViewModel, tbRoles>().ReverseMap();
+            CreateMap<PantallasPorRolesViewModel, tbPantallas>().ReverseMap();
+            CreateMap<UsuariosViewModel, tbUsuarios>().ReverseMap();
+            CreateMap<ClienteViewModel, tbClientes>().ReverseMap();
+            CreateMap<FletesViewModel, tbFleteDetalles>().ReverseMap();
+            CreateMap<FletesViewModel, tbFletes>().ReverseMap();
+            CreateMap<ItemsViewModel, tbItems>().ReverseMap();
         }
     }
 }

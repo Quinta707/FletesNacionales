@@ -1212,7 +1212,7 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbClientes_Insert
 @clie_Identidad			VARCHAR(15), 
 @clie_FechaNacimiento	DATE, 
 @clie_Sexo				CHAR(1),
-@eciv_Id				INT,
+@eciv_Id					INT,
 @muni_Id				INT, 
 @clie_DireccionExacta	NVARCHAR(250),
 @clie_Telefono			NVARCHAR(20),
@@ -1700,6 +1700,18 @@ AS
 BEGIN
 	SELECT * FROM flet.VW_tbFleteDetalles
 	WHERE fdet_Id = @fdet_Id
+END
+
+--************** FIND POR FLETE *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFleteDetalles_FindxFlete
+(
+@flet_Id	INT
+)
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbFleteDetalles
+	WHERE flet_Id = @flet_Id
 END
 
 
@@ -2464,6 +2476,410 @@ BEGIN
 	
 END
 GO
+
+
+-- ************* TABLA ROLES *****************--
+
+GO
+CREATE OR ALTER VIEW acce.VW_tbRoles
+AS
+SELECT T1.[role_Id]
+      ,[role_Nombre]
+	  ,[role_Habilitado]
+      ,[role_UsuCreacion]
+	  ,t2.user_NombreUsuario AS user_Creacion
+      ,[role_FechaCreacion]
+      ,[role_UsuModificacion]
+	  ,t3.user_NombreUsuario AS user_Modificacion
+      ,[role_FechaModificacion]
+      ,[role_Estado]
+  FROM [acce].[tbRoles] T1 INNER JOIN acce.tbUsuarios T2
+  ON T1.role_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
+  ON T1.role_UsuModificacion = T3.[user_Id]
+
+
+--************** INDEX *****************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbRoles_Index
+AS 
+BEGIN
+	SELECT * FROM acce.VW_tbRoles
+	WHERE role_Estado = 1
+END
+
+
+--************** FIND *****************--
+
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbRoles_Find
+(@role_Id	INT)
+AS 
+BEGIN
+	SELECT * FROM acce.VW_tbRoles
+	WHERE role_Id = @role_Id
+END
+
+
+
+--************** INSERT *****************--
+
+Go
+CREATE OR ALTER PROCEDURE acce.UDP_tbRoles_Insert
+ (@role_Nombre NVARCHAR(100),
+  @role_UsuCreacion INT)
+AS
+BEGIN
+    BEGIN TRY
+        IF EXISTS (SELECT * FROM acce.tbRoles WHERE role_Nombre = @role_Nombre AND role_Estado = 1)
+        BEGIN
+
+            SELECT -2 codeStatus
+
+        END
+        ELSE IF NOT EXISTS (SELECT * FROM acce.tbRoles WHERE role_Nombre = @role_Nombre)
+        BEGIN
+		INSERT INTO [acce].[tbRoles]
+				   ([role_Nombre]
+				   ,[role_UsuCreacion]
+				   ,[role_FechaCreacion]
+				   ,[role_UsuModificacion]
+				   ,[role_FechaModificacion]
+				   ,[role_Estado])
+			 VALUES
+				   (@role_Nombre
+				   ,@role_UsuCreacion
+				   ,GETDATE()
+				   ,Null
+				   ,Null
+				   ,1)
+
+            SELECT SCOPE_IDENTITY() codeStatus
+			END
+        ELSE
+        BEGIN
+            UPDATE acce.tbRoles
+            SET  role_Estado = 1
+				,role_Nombre = @role_Nombre
+				,role_UsuCreacion = @role_UsuCreacion
+				,role_FechaCreacion = GETDATE()
+				,role_UsuModificacion = NULL
+				,role_FechaModificacion = NULL
+            WHERE role_Nombre = @role_Nombre
+
+            select role_Id codeStatus From acce.tbRoles  WHERE role_Nombre = @role_Nombre 
+        END
+
+    END TRY
+    BEGIN CATCH
+        SELECT 0 codeStatus
+    END CATCH
+END
+GO
+
+--************** UPDATE *****************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbRoles_Update
+  (@role_Id				INT,
+  @role_Nombre			NVARCHAR(100),
+  @role_UsuModificacion INT)
+AS
+BEGIN
+    BEGIN TRY
+        IF EXISTS (SELECT * FROM acce.tbRoles WHERE (role_Nombre = @role_Nombre AND role_Id != @role_Id))
+			BEGIN
+				SELECT -2 codeStatus
+			END
+        ELSE
+			BEGIN
+
+				UPDATE acce.tbRoles
+					SET  role_Estado = 1
+						,role_Nombre = @role_Nombre
+						,role_UsuModificacion = @role_UsuModificacion
+						,role_FechaModificacion = GETDATE()
+					WHERE role_Id = @role_Id
+
+
+				SELECT 1 codeStatus
+			END
+    END TRY
+    BEGIN CATCH
+        SELECT 0 codeStatus
+    END CATCH
+END
+
+
+
+--************** DELETE *****************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbRoles_Delete
+  @role_Id INT
+AS
+BEGIN
+	BEGIN TRY
+		  IF EXISTS (SELECT * FROM acce.tbUsuarios WHERE (role_Id = @role_Id))
+			BEGIN
+				SELECT -3
+			END
+		ELSE
+			BEGIN 
+				UPDATE acce.tbRoles
+				SET role_Estado = 0
+				WHERE role_Id = @role_Id
+		
+				DELETE FROM [acce].[tbPantallasPorRoles]
+				WHERE role_Id = @role_Id
+
+				SELECT 1 codeStatus
+			END
+	
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codeStaus
+	END CATCH
+END
+
+
+
+-- ************* TABLA USUARIOS *****************--
+
+
+--************  INSERT **************---
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbUsuarios_Insert
+(@user_NombreUsuario NVARCHAR(100),
+ @user_Contrasena NVARCHAR(MAX),
+ @user_Url NVARCHAR(MAX),
+ @user_EsAdmin BIT,
+ @role_Id INT,
+ @empe_Id INT,
+ @user_UsuCreacion INT)
+AS
+BEGIN
+	BEGIN TRY
+		IF EXISTS (SELECT * FROM acce.tbUsuarios WHERE user_NombreUsuario = @user_NombreUsuario AND user_Estado = 1 )
+			BEGIN
+				SELECT -2 AS Proceso
+			END
+
+		ELSE IF NOT EXISTS (SELECT * FROM acce.tbUsuarios WHERE user_NombreUsuario = @user_NombreUsuario)
+			BEGIN
+				INSERT INTO [acce].[tbUsuarios] (user_NombreUsuario, user_Contrasena, user_EsAdmin, role_Id, empe_Id, user_UsuCreacion, user_UsuModificacion, user_FechaModificacion,user_Url)
+				VALUES (@user_NombreUsuario, HASHBYTES('SHA2_512',@user_Contrasena), @user_EsAdmin, @role_Id, @empe_Id, @user_UsuCreacion, NULL, NULL,@user_Url)
+				SELECT 1 AS Proceso
+
+				SELECT 1 AS Proceso
+			END
+		ELSE
+			BEGIN
+				UPDATE [acce].[tbUsuarios]
+				SET [user_Estado] = 1,
+					[user_UsuCreacion] = @user_UsuCreacion,
+					[user_FechaCreacion] = GETDATE(),
+					[user_UsuModificacion] = NULL,
+					[user_FechaModificacion] = NULL
+				WHERE [user_NombreUsuario] = @user_NombreUsuario;
+
+				SELECT 1 AS Proceso;
+			END
+
+	END TRY
+	BEGIN CATCH
+		SELECT 0 AS Processo
+	END CATCH
+END
+
+--*********** UPDATE  ****************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbusuarios_Update
+(@user_Id INT,
+ @user_EsAdmin INT,
+ @user_Url NVARCHAR(MAX),
+ @role_Id INT,
+ @empe_Id INT,
+ @user_UsuModificacion INT)
+AS
+BEGIN
+	BEGIN TRY
+		UPDATE [acce].[tbUsuarios]
+		SET [user_EsAdmin] = @user_EsAdmin,
+			[role_Id] = @role_Id,
+			[empe_Id] = @empe_Id,
+			[user_Url] = @user_Url,
+			[user_UsuModificacion] = @user_UsuModificacion,
+			[user_FechaModificacion] = GETDATE()
+		WHERE [user_Id] = @user_Id;
+		SELECT 1 AS Proceso;
+
+	END TRY
+	BEGIN CATCH
+		SELECT 0 AS Proceso;
+
+	END CATCH
+END
+
+
+--********** DELETE ***********--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbusuarios_Delete
+(@user_Id INT)
+AS
+BEGIN
+	BEGIN TRY
+		UPDATE [acce].[tbUsuarios]
+		SET [user_Estado]  = 0,
+			[user_FechaModificacion] = GETDATE()
+		WHERE [user_Id] = @user_Id
+
+		SELECT 1 AS Proceso
+
+	END TRY
+	BEGIN CATCH
+		SELECT 0 AS Proceso
+	END CATCH
+END
+
+
+--*********** VIEW ********************---
+GO
+CREATE OR ALTER VIEW acce.VW_tbUsuarios
+AS
+SELECT T1.[user_Id]
+      ,T1.[user_NombreUsuario]
+      ,T1.[user_Contrasena]
+      ,T1.[user_EsAdmin]
+      ,T1.[role_Id]
+	  ,T4.role_Nombre
+      ,T1.[empe_Id]
+	  ,T5.empe_Nombres
+	  ,T5.empe_Apellidos
+	  ,T5.empe_Nombres + ' ' + T5.empe_Apellidos As empe_NombreCompleto
+	  ,T5.sucu_Id
+	  ,T7.sucu_Nombre
+	  ,T5.carg_Id
+	  ,T6.carg_Descripcion
+      ,T1.[user_UsuCreacion]
+      ,T1.[user_FechaCreacion]
+      ,T1.[user_UsuModificacion]
+      ,T1.[user_FechaModificacion]
+      ,T1.[user_Estado]
+  FROM [acce].[tbUsuarios] T1 LEFT JOIN acce.tbRoles T4
+  ON T1.role_Id = T4.role_Id INNER JOIN flet.tbEmpleados T5
+  ON T1.empe_Id = T5.empe_Id INNER JOIN gral.tbCargos T6
+  ON T5.carg_Id = T6.carg_Id INNER JOIN flet.tbSucursales T7 
+  ON T5.sucu_Id = T7.sucu_Id INNER JOIN acce.tbUsuarios T2
+  ON T1.user_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
+  ON T1.user_UsuModificacion = T3.[user_Id]
+
+
+--************* INDEX ***********--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbUsuarios_Index
+AS
+BEGIN
+	SELECT * FROM acce.VW_tbUsuarios
+	WHERE user_Estado = 1
+END
+
+
+--************** FIND *****************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbUsuarios_Find
+(@user_Id INT)
+AS
+BEGIN
+	SELECT * FROM acce.VW_tbUsuarios
+	WHERE [user_Id] = @user_Id;
+END
+
+
+
+
+
+--************** PANTALLAS *****************--
+
+
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallas_Index
+AS
+BEGIN
+	SELECT * FROM acce.tbPantallas
+	WHERE pant_Estado = 1
+END
+
+-- ************* TABLA ROLES/PANTALLA *****************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Insert 
+	@role_Id int,
+	@pant_Id int,
+	@prol_UsuCreacion int
+AS
+BEGIN
+    BEGIN TRY
+        IF EXISTS (SELECT * FROM acce.tbPantallasPorRoles WHERE role_Id = @role_Id AND pant_Id = @pant_Id AND prol_Estado = 1)
+        BEGIN
+
+            SELECT 2 as codeStatus
+
+        END
+        ELSE IF NOT EXISTS (SELECT * FROM acce.tbPantallasPorRoles WHERE role_Id = @role_Id AND pant_Id = @pant_Id)
+        BEGIN
+		INSERT INTO [acce].[tbPantallasPorRoles]
+           ([role_Id]
+           ,[pant_Id]
+           ,[prol_UsuCreacion]
+           ,[prol_FechaCreacion]
+           ,[prol_UsuModificacion]
+           ,[prol_FechaModificacion]
+           ,[prol_Estado])
+     VALUES
+           (@role_Id
+           ,@pant_Id
+           ,@prol_UsuCreacion
+           ,GETDATE()
+           ,NULL
+           ,NULL
+           ,1)
+
+            SELECT 1 codeStatus
+        END
+        ELSE
+        BEGIN
+            UPDATE acce.tbPantallasPorRoles
+            SET  prol_Estado = 1
+				,prol_UsuCreacion = @prol_UsuCreacion
+				,prol_FechaCreacion = GETDATE()
+				,prol_UsuModificacion = NULL
+				,prol_FechaModificacion = NULL
+            WHERE role_Id = @role_Id AND pant_Id = @pant_Id
+
+            select 1 codeStatus
+        END
+
+    END TRY
+    BEGIN CATCH
+        SELECT 0 codeStatus
+    END CATCH
+END
+GO
+
+--*********************DELETE*********************--
+
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Delete
+(@role_Id INT)
+AS
+BEGIN
+	BEGIN TRY
+		DELETE FROM acce.tbPantallasPorRoles
+		WHERE role_Id = @role_Id
+
+		SELECT 1 codeStatus
+	END TRY
+	BEGIN CATCH
+		SELECT 1 codeStatus
+	END CATCH
+END
 
 
 
