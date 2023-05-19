@@ -1013,6 +1013,8 @@ AS
 SELECT	vehi_Id, 
 		T1.mode_Id,
 		T4.[mode_Nombre],
+		vehi_PesoMaximo,
+		vehi_VolumenMaximo,
 		T4.tipv_Id,
 		T6.tipv_Descripcion,
 		T4.[marc_Id],
@@ -1043,14 +1045,16 @@ GO
 CREATE OR ALTER PROCEDURE equi.UDP_tbVehiculos_Insert
 (
 @mode_Id			INT,
+@vehi_PesoMaximo	DECIMAL(18,2),
+@vehi_VolumenMaximo	DECIMAL(18,2),
 @vehi_Placa			NVARCHAR(MAX),
 @vehi_UsuCreacion	INT
 )
 AS
 BEGIN
 	BEGIN TRY 
-		INSERT INTO equi.tbVehiculos(mode_Id, vehi_Placa, vehi_UsuCreacion)
-		VALUES	(@mode_Id, @vehi_Placa, @vehi_UsuCreacion)
+		INSERT INTO equi.tbVehiculos(mode_Id, vehi_PesoMaximo, vehi_VolumenMaximo, vehi_Placa, vehi_UsuCreacion)
+		VALUES	(@mode_Id, @vehi_PesoMaximo, @vehi_VolumenMaximo, @vehi_Placa, @vehi_UsuCreacion)
 		SELECT 1 AS codeStatus
 	END TRY
 	BEGIN CATCH
@@ -1064,6 +1068,8 @@ CREATE OR ALTER PROCEDURE equi.UDP_tbVehiculos_Update
 (
 @vehi_Id				INT,
 @mode_Id				INT,
+@vehi_PesoMaximo		DECIMAL(18,2),
+@vehi_VolumenMaximo		DECIMAL(18,2),
 @vehi_Placa				NVARCHAR(MAX),
 @vehi_UsuModificacion	INT
 )
@@ -1072,6 +1078,8 @@ BEGIN
 	BEGIN TRY	
 		UPDATE	equi.tbVehiculos
 		SET		mode_Id = @mode_Id, 
+				vehi_PesoMaximo = @vehi_PesoMaximo,
+				vehi_VolumenMaximo = @vehi_VolumenMaximo,
 				vehi_Placa = @vehi_Placa,
 				vehi_UsuModificacion = @vehi_UsuModificacion, 
 				vehi_FechaModificacion = GETDATE()
