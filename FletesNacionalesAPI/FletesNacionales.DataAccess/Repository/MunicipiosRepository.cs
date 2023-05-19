@@ -3,6 +3,7 @@ using Dapper;
 using FletesNacionales.Entities.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -14,17 +15,54 @@ namespace FletesNacionales.DataAccess.Repository
     {
         public RequestStatus Delete(tbMunicipios item)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+
+            parametros.Add("@muni_Id", item.muni_Id, DbType.Int32, ParameterDirection.Input);
+
+            var resultado = db.QueryFirst<string>(ScriptsDataBase.MunicipiosDelete, parametros, commandType: CommandType.StoredProcedure);
+
+            RequestStatus request = new()
+            {
+                MessageStatus = resultado
+            };
+
+            return request;
         }
 
         public VW_tbMunicipios find(int? id)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+
+            parametros.Add("@muni_Id", id, DbType.Int32, ParameterDirection.Input);
+
+            var resultado = db.QueryFirst<VW_tbMunicipios>(ScriptsDataBase.MunicipiosFind, parametros, commandType: CommandType.StoredProcedure);
+
+            return resultado;
         }
 
         public RequestStatus Insert(tbMunicipios item)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+
+            parametros.Add("@muni_Nombre", item.muni_Nombre, DbType.String, ParameterDirection.Input);
+            parametros.Add("@muni_Codigo", item.muni_Codigo, DbType.String, ParameterDirection.Input);
+            parametros.Add("@depa_Id", item.depa_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@muni_UsuCreacion", 1 , DbType.Int32, ParameterDirection.Input);
+
+            var resultado = db.QueryFirst<string>(ScriptsDataBase.MunicipiosInsert, parametros, commandType: CommandType.StoredProcedure);
+
+            RequestStatus request = new()
+            {
+                MessageStatus = resultado
+            };
+
+            return request;
         }
 
         public IEnumerable<VW_tbMunicipios> List()
@@ -35,7 +73,23 @@ namespace FletesNacionales.DataAccess.Repository
 
         public RequestStatus Update(tbMunicipios item)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+
+            parametros.Add("@muni_Id", item.muni_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@muni_Nombre", item.muni_Nombre, DbType.String, ParameterDirection.Input);
+            parametros.Add("@depa_Id", item.depa_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@muni_UsuModificacion", 1, DbType.Int32, ParameterDirection.Input);
+
+            var resultado = db.QueryFirst<string>(ScriptsDataBase.MunicipiosUpdate, parametros, commandType: CommandType.StoredProcedure);
+
+            RequestStatus request = new()
+            {
+                MessageStatus = resultado
+            };
+
+            return request;
         }
     }
 }

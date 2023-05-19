@@ -430,7 +430,7 @@ GO
 SELECT mode_Nombre, marc_Id, tdv.tipv_Id, tipv_Descripcion FROM equi.tbModelos mdl INNER JOIN equi.tbTipoDeVehiculo tdv on mdl.tipv_Id = tdv.tipv_Id
 GO
 
-INSERT INTO equi.tbVehiculos (mode_Id,vehi_PexoMaximo,vehi_VolumenMaximo,vehi_Placa,vehi_UsuCreacion) 
+INSERT INTO equi.tbVehiculos (mode_Id,vehi_PesoMaximo,vehi_VolumenMaximo,vehi_Placa,vehi_UsuCreacion) 
 VALUES (1,500,400,'PAA-1234',1),
 (2,1000,900,'BVM-7890',1),
 (3,2000,1900,'LNH-9012',1),
@@ -749,13 +749,15 @@ select * from equi.tbVehiculos
 
 INSERT INTO flet.tbFletes(vehi_Id, empe_Id, tray_Id, flet_FechaDeSalida, flet_UsuCreacion)
 VALUES 
-(1,1,1,'18/05/2023',1),
-(2,2,19,'19/05/2023',1), --EN PARADAS HAY QUE HACER QUE ESTE FLETE (CON LOS ID DE PEDIDO 2 Y 3) VAYA PARA TELA TMB XD (EL TRAYECTO ES 26)
-(3,3,36,'20/05/2023',1), 
-(4,4,69,'21/05/2023',1),
-(5,5,5,'21/05/2023',1),
-(2,2,80,'22/05/2023',1),
-(5,5,45,'22/05/2023',1)
+(1,1,1,	'05-18-2023',1),
+(2,2,19,'05-19-2023',1), --EN PARADAS HAY QUE HACER QUE ESTE FLETE (CON LOS ID DE PEDIDO 2 Y 3) VAYA PARA TELA TMB XD (EL TRAYECTO ES 26)
+(3,3,36,'05-20-2023',1), 
+(4,4,69,'05-21-2023',1),
+(5,5,5,	'05-21-2023',1),
+(2,2,80,'05-22-2023',1),
+(5,5,45,'05-22-2023',1)
+
+select * from flet.tbFletes
 
 INSERT INTO [flet].[tbFleteDetalles] (flet_Id, pedi_Id, fdet_UsuCreacion)
 VALUES 
@@ -763,8 +765,7 @@ VALUES
 (2,2,1),
 (2,6,1),
 (3,3,1),
-(4,4,1),
-()
+(4,4,1)
 --****************************************FLETE DETALLES****************************************--
 
 
@@ -843,6 +844,8 @@ SELECT * FROM gral.tbEstadosCiviles
 		SELECT * FROM flet.tbSucursales
 		SELECT * FROM flet.tbEmpleados
 		SELECT * FROM flet.tbTrayectos
-		SELECT * FROM flet.tbEstadosDelPedido		SELECT * FROM flet.[tbPedidos]
-				SELECT * FROM flet.[tbPedidoDetalles][tbPedidoDetalles]
+		SELECT * FROM flet.tbEstadosDelPedido		
+		SELECT * FROM flet.[tbPedidos]
+				SELECT * FROM flet.[tbPedidoDetalles]
+				
 */

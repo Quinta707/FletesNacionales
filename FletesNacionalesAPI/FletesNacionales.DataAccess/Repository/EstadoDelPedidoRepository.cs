@@ -3,6 +3,7 @@ using Dapper;
 using FletesNacionales.Entities.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -14,17 +15,52 @@ namespace FletesNacionales.DataAccess.Repository
     {
         public RequestStatus Delete(tbEstadosDelPedido item)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+
+            parametros.Add("@estp_Id", item.estp_Id, DbType.String, ParameterDirection.Input);
+
+            var resultado = db.QueryFirst<string>(ScriptsDataBase.EstadosDelPedidoDelete, parametros, commandType: CommandType.StoredProcedure);
+
+            RequestStatus request = new()
+            {
+                MessageStatus = resultado
+            };
+
+            return request;
         }
 
         public VW_tbEstadosDelPedido find(int? id)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+
+            parametros.Add("@estp_Id", id, DbType.String, ParameterDirection.Input);
+
+            var resultado = db.QueryFirst<VW_tbEstadosDelPedido>(ScriptsDataBase.EstadosDelPedidoFind, parametros, commandType: CommandType.StoredProcedure);
+
+            return resultado;
         }
 
         public RequestStatus Insert(tbEstadosDelPedido item)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+
+            parametros.Add("@estp_Nombre", item.estp_Nombre, DbType.String, ParameterDirection.Input);
+            parametros.Add("@estp_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
+
+            var resultado = db.QueryFirst<string>(ScriptsDataBase.EstadosDelPedidoInsert, parametros, commandType: CommandType.StoredProcedure);
+
+            RequestStatus request = new()
+            {
+                MessageStatus = resultado
+            };
+
+            return request;
         }
 
         public IEnumerable<VW_tbEstadosDelPedido> List()
@@ -35,7 +71,22 @@ namespace FletesNacionales.DataAccess.Repository
 
         public RequestStatus Update(tbEstadosDelPedido item)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+
+            parametros.Add("@estp_Id", item.estp_Id, DbType.String, ParameterDirection.Input);
+            parametros.Add("@estp_Nombre", item.estp_Nombre, DbType.String, ParameterDirection.Input);
+            parametros.Add("@estp_UsuModificacion", 1, DbType.Int32, ParameterDirection.Input);
+
+            var resultado = db.QueryFirst<string>(ScriptsDataBase.EstadosDelPedidoUpdate, parametros, commandType: CommandType.StoredProcedure);
+
+            RequestStatus request = new()
+            {
+                MessageStatus = resultado
+            };
+
+            return request;
         }
     }
 }

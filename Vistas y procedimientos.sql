@@ -140,8 +140,8 @@ ON T1.depa_UsuModificacion = T3.[user_Id];
 --**************  INSERT ******************--
 GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbDepartamentos_Insert
-(@depa_Nombre NVARCHAR(100),
- @depa_UsuCreacion	INT)
+(@depa_Nombre			NVARCHAR(100),
+ @depa_UsuCreacion		INT)
 AS
 BEGIN
 	BEGIN TRY
