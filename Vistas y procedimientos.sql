@@ -1537,8 +1537,13 @@ GO
 CREATE OR ALTER VIEW flet.VW_tbEscalasPorTrayecto
 AS
 SELECT	estr_Id, 
-		tray_Id,
+		T1.flet_Id,
 		muni_Escala, 
+		T5.muni_Codigo,
+		T5.muni_Nombre,
+		T6.depa_Id,
+		T6.depa_Codigo,
+		T6.depa_Nombre,
 		estr_UsuCreacion, 
 		estr_FechaCreacion, 
 		estr_UsuModificacion, 
@@ -1548,7 +1553,10 @@ SELECT	estr_Id,
 		t3.user_NombreUsuario AS user_Modificacion
   FROM flet.tbEscalasPorTrayecto T1 INNER JOIN acce.tbUsuarios T2
   ON T1.estr_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
-  ON T1.estr_UsuModificacion = T3.[user_Id]
+  ON T1.estr_UsuModificacion = T3.[user_Id] INNER JOIN flet.tbFletes T4
+  ON T4.flet_Id = T1.flet_Id INNER JOIN gral.tbMunicipios T5
+  ON T5.muni_Id = muni_Escala INNER JOIN gral.tbDepartamentos T6
+  ON T6.depa_Id = T5.depa_Id
 
 
 
@@ -1579,7 +1587,7 @@ END
 GO
 CREATE OR ALTER PROCEDURE flet.UDP_tbEscalasPorTrayecto_Insert 
 (
-@tray_Id			INT,
+@flet_Id			INT,
 @muni_Escala		INT,
 @estr_UsuCreacion	INT
 )
@@ -1587,8 +1595,8 @@ AS
 BEGIN
 	BEGIN TRY
         
-		INSERT INTO flet.tbEscalasPorTrayecto (tray_Id, muni_Escala, estr_UsuCreacion)
-		VALUES	(@tray_Id, @muni_Escala, @estr_UsuCreacion)
+		INSERT INTO flet.tbEscalasPorTrayecto (flet_Id, muni_Escala, estr_UsuCreacion)
+		VALUES	(@flet_Id, @muni_Escala, @estr_UsuCreacion)
 
 		SELECT 1 codeStatus
 	END TRY
@@ -1602,7 +1610,7 @@ Go
 CREATE OR ALTER PROCEDURE flet.UDP_tbEscalasPorTrayecto_Update
 (
 @estr_Id				INT,
-@tray_Id				INT,
+@flet_Id				INT,
 @muni_Escala			INT,
 @estr_UsuModificacion	INT
  )
@@ -1611,7 +1619,7 @@ BEGIN
 	BEGIN TRY
       
 		UPDATE	flet.tbEscalasPorTrayecto
-		SET		tray_Id = @tray_Id,
+		SET		flet_Id = @flet_Id,
 				muni_Escala  = @muni_Escala,
 				estr_UsuModificacion = @estr_UsuModificacion,
 				estr_FechaModificacion = GETDATE()
