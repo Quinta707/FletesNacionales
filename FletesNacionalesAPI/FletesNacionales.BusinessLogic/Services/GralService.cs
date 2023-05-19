@@ -46,20 +46,19 @@ namespace FletesNacionales.BusinessLogic.Services
             var result = new ServiceResult();
             try
             {
-                var map = _cargosRespository.Delete(item);
-                if (map.CodeStatus > 0)
-                {
-                    return result.Ok(map);
-                }
+                var insert = _cargosRespository.Delete(item);
+
+                if (insert.CodeStatus == 1)
+                    return result.SetMessage("Registro eliminado", ServiceResultType.Success);
+                else if (insert.CodeStatus == 0)
+                    return result.SetMessage("Error Inesperado", ServiceResultType.Error);
                 else
-                {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
-                }
+                    return result.SetMessage("Conexión perdida", ServiceResultType.Error);
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                return result.Error(ex.Message);
             }
         }
 
@@ -73,15 +72,22 @@ namespace FletesNacionales.BusinessLogic.Services
                 {
                     return result.Ok(map);
                 }
+                else if (map.CodeStatus == -2)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
+                }
+                else if (map.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                }
                 else
                 {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
             }
-            catch (Exception)
+            catch (Exception xe)
             {
-                throw;
+                return result.Error(xe.Message);
             }
         }
         public ServiceResult EditarCargos(tbCargos item)
@@ -94,15 +100,22 @@ namespace FletesNacionales.BusinessLogic.Services
                 {
                     return result.Ok(map);
                 }
+                else if (map.CodeStatus == -2)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
+                }
+                else if (map.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                }
                 else
                 {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
             }
-            catch (Exception)
+            catch (Exception xe)
             {
-                throw;
+                return result.Error(xe.Message);
             }
         }
 
@@ -139,20 +152,19 @@ namespace FletesNacionales.BusinessLogic.Services
             var result = new ServiceResult();
             try
             {
-                var map = _departamentosRepository.Delete(item);
-                if (map.CodeStatus > 0)
-                {
-                    return result.Ok(map);
-                }
+                var insert = _departamentosRepository.Delete(item);
+
+                if (insert.CodeStatus == 1)
+                    return result.SetMessage("Registro eliminado", ServiceResultType.Success);
+                else if (insert.CodeStatus == 0)
+                    return result.SetMessage("Error Inesperado", ServiceResultType.Error);
                 else
-                {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
-                }
+                    return result.SetMessage("Conexión perdida", ServiceResultType.Error);
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                return result.Error(ex.Message);
             }
         }
 
@@ -161,20 +173,27 @@ namespace FletesNacionales.BusinessLogic.Services
             var result = new ServiceResult();
             try
             {
-                var map = _departamentosRepository.Insert(item);
+                var map = _departamentosRepository.Delete(item);
                 if (map.CodeStatus > 0)
                 {
                     return result.Ok(map);
                 }
+                else if (map.CodeStatus == -2)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
+                }
+                else if (map.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                }
                 else
                 {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
             }
-            catch (Exception)
+            catch (Exception xe)
             {
-                throw;
+                return result.Error(xe.Message);
             }
         }
         public ServiceResult EditarDepartamentos(tbDepartamentos item)
@@ -187,15 +206,22 @@ namespace FletesNacionales.BusinessLogic.Services
                 {
                     return result.Ok(map);
                 }
+                else if (map.CodeStatus == -2)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
+                }
+                else if (map.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                }
                 else
                 {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
             }
-            catch (Exception)
+            catch (Exception xe)
             {
-                throw;
+                return result.Error(xe.Message);
             }
         }
 
@@ -232,20 +258,18 @@ namespace FletesNacionales.BusinessLogic.Services
             var result = new ServiceResult();
             try
             {
-                var map = _municipiosRepository.Delete(item);
-                if (map.CodeStatus > 0)
-                {
-                    return result.Ok(map);
-                }
+                var insert = _municipiosRepository.Delete(item);
+                if (insert.CodeStatus == 1)
+                    return result.SetMessage("Registro eliminado", ServiceResultType.Success);
+                else if (insert.CodeStatus == 0)
+                    return result.SetMessage("Error Inesperado", ServiceResultType.Error);
                 else
-                {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
-                }
+                    return result.SetMessage("Conexión perdida", ServiceResultType.Error);
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                return result.Error(ex.Message);
             }
         }
 
@@ -259,15 +283,22 @@ namespace FletesNacionales.BusinessLogic.Services
                 {
                     return result.Ok(map);
                 }
+                else if (map.CodeStatus == -2)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
+                }
+                else if (map.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                }
                 else
                 {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
             }
-            catch (Exception)
+            catch (Exception xe)
             {
-                throw;
+                return result.Error(xe.Message);
             }
         }
         public ServiceResult EditarMunicipio(tbMunicipios item)
@@ -280,15 +311,23 @@ namespace FletesNacionales.BusinessLogic.Services
                 {
                     return result.Ok(map);
                 }
+                else if (map.CodeStatus == -2)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
+                }
+                else if (map.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                }
                 else
                 {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
             }
-            catch (Exception)
+            catch (Exception xe)
             {
-                throw;
+
+                return result.Error(xe.Message);
             }
         }
 
@@ -324,20 +363,19 @@ namespace FletesNacionales.BusinessLogic.Services
             var result = new ServiceResult();
             try
             {
-                var map = _estadosCivilesRepository.Delete(item);
-                if (map.CodeStatus > 0)
-                {
-                    return result.Ok(map);
-                }
+                var insert = _estadosCivilesRepository.Delete(item);
+
+                if (insert.CodeStatus == 1)
+                    return result.SetMessage("Registro eliminado", ServiceResultType.Success);
+                else if (insert.CodeStatus == 0)
+                    return result.SetMessage("Error Inesperado", ServiceResultType.Error);
                 else
-                {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
-                }
+                    return result.SetMessage("Conexión perdida", ServiceResultType.Error);
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                return result.Error(ex.Message);
             }
         }
 
@@ -351,15 +389,22 @@ namespace FletesNacionales.BusinessLogic.Services
                 {
                     return result.Ok(map);
                 }
+                else if (map.CodeStatus == -2)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
+                }
+                else if (map.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                }
                 else
                 {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
             }
-            catch (Exception)
+            catch (Exception xe)
             {
-                throw;
+                return result.Error(xe.Message);
             }
         }
         public ServiceResult EditarEstadosCiviles(tbEstadosCiviles item)
@@ -372,15 +417,22 @@ namespace FletesNacionales.BusinessLogic.Services
                 {
                     return result.Ok(map);
                 }
+                else if (map.CodeStatus == -2)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
+                }
+                else if (map.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                }
                 else
                 {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
             }
-            catch (Exception)
+            catch (Exception xe)
             {
-                throw;
+                return result.Error(xe.Message);
             }
         }
 
@@ -416,20 +468,19 @@ namespace FletesNacionales.BusinessLogic.Services
             var result = new ServiceResult();
             try
             {
-                var map = _metodosDePagoRepository.Delete(item);
-                if (map.CodeStatus > 0)
-                {
-                    return result.Ok(map);
-                }
+                var insert = _metodosDePagoRepository.Delete(item);
+
+                if (insert.CodeStatus == 1)
+                    return result.SetMessage("Registro eliminado", ServiceResultType.Success);
+                else if (insert.CodeStatus == 0)
+                    return result.SetMessage("Error Inesperado", ServiceResultType.Error);
                 else
-                {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
-                }
+                    return result.SetMessage("Conexión perdida", ServiceResultType.Error);
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                return result.Error(ex.Message);
             }
         }
 
@@ -443,15 +494,22 @@ namespace FletesNacionales.BusinessLogic.Services
                 {
                     return result.Ok(map);
                 }
+                else if (map.CodeStatus == -2)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
+                }
+                else if (map.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                }
                 else
                 {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
             }
-            catch (Exception)
+            catch (Exception xe)
             {
-                throw;
+                return result.Error(xe.Message);
             }
         }
         public ServiceResult EditarMetodosdePago(tbMetodosdePago item)
@@ -464,15 +522,22 @@ namespace FletesNacionales.BusinessLogic.Services
                 {
                     return result.Ok(map);
                 }
+                else if (map.CodeStatus == -2)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
+                }
+                else if (map.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                }
                 else
                 {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
             }
-            catch (Exception)
+            catch (Exception xe)
             {
-                throw;
+                return result.Error(xe.Message);
             }
         }
 
