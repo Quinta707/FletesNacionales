@@ -105,7 +105,7 @@ CREATE OR ALTER PROCEDURE gral.UDP_tbCargos_Delete
 AS
 BEGIN
 	BEGIN TRY
-		IF EXISTS (select * FROM gral.tbCargos WHERE carg_Id = @carg_Id )
+		IF EXISTS (select * FROM flet.tbEmpleados WHERE carg_Id = @carg_Id )
 			BEGIN
 				SELECT - 3
 			END
@@ -548,21 +548,23 @@ END
 
 --**************  DELETE ******************--
 GO
-CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_Delete
+CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_Delete 
 (@eciv_Id INT)
 AS
 BEGIN
 	BEGIN TRY
-		 IF EXISTS (SELECT * FROM flet.tbEmpleados WHERE eciv_Id = @eciv_Id) OR EXISTS (SELECT * FROM flet.tbClientes WHERE eciv_Id = @eciv_Id)
+		 IF EXISTS (SELECT * FROM flet.tbEmpleados WHERE eciv_Id = @eciv_Id) and EXISTS (SELECT * FROM flet.tbClientes WHERE eciv_Id = @eciv_Id)
 				BEGIN
 					SELECT -3
 				END
 		ELSE
+		begin
 		UPDATE	gral.tbEstadosCiviles
 		SET		eciv_Estado = 0
 		WHERE	eciv_Id = @eciv_Id
 
 		SELECT 1 
+		end
 	END TRY
 	BEGIN CATCH
 		SELECT 0 
@@ -1726,7 +1728,7 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_Delete
 AS
 BEGIN
 	BEGIN TRY
-		IF EXISTS (SELECT * FROM flet.tbFletes WHERE empe_Id = @empe_Id) OR EXISTS (SELECT * FROM acce.tbUsuarios WHERE empe_Id = @empe_Id)
+		IF EXISTS (SELECT * FROM flet.tbFletes WHERE empe_Id = @empe_Id) and EXISTS (SELECT * FROM acce.tbUsuarios WHERE empe_Id = @empe_Id)
 		BEGIN
 			SELECT - 3
 		END
@@ -3358,7 +3360,7 @@ BEGIN
 			WHERE	sucu_Id = @sucu_Id
 		
 			SELECT 1 
-	
+	end
 	END TRY
 	BEGIN CATCH
 		SELECT 0 

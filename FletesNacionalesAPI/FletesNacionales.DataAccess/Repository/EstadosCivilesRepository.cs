@@ -21,11 +21,11 @@ namespace FletesNacionales.DataAccess.Repository
 
             parametros.Add("@eciv_Id", item.eciv_Id, DbType.String, ParameterDirection.Input);
 
-            var resultado = db.QueryFirst<string>(ScriptsDataBase.EstadosCivileseDelete, parametros, commandType: CommandType.StoredProcedure);
+            var resultado = db.QueryFirst<int>(ScriptsDataBase.EstadosCivileseDelete, parametros, commandType: CommandType.StoredProcedure);
 
             RequestStatus request = new()
             {
-                MessageStatus = resultado
+                CodeStatus = resultado
             };
 
             return request;
@@ -53,12 +53,13 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@eciv_Descripcion", item.eciv_Descripcion, DbType.String, ParameterDirection.Input);
             parametros.Add("@eciv_UsuCreacion", 1, DbType.String, ParameterDirection.Input);
 
-            var resultado = db.QueryFirst<string>(ScriptsDataBase.EstadosCivileseInsert, parametros, commandType: CommandType.StoredProcedure);
+            var resultado = db.QueryFirst<int>(ScriptsDataBase.EstadosCivileseInsert, parametros, commandType: CommandType.StoredProcedure);
 
             RequestStatus request = new()
             {
-                MessageStatus = resultado
+                CodeStatus = resultado
             };
+
 
             return request;
         }
@@ -79,12 +80,13 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@eciv_Descripcion", item.eciv_Descripcion, DbType.String, ParameterDirection.Input);
             parametros.Add("@eciv_UsuModificacion", 1, DbType.String, ParameterDirection.Input);
 
-            var resultado = db.QueryFirst<string>(ScriptsDataBase.EstadosCivileseUpdate, parametros, commandType: CommandType.StoredProcedure);
+            var resultado = db.QueryFirst<int>(ScriptsDataBase.EstadosCivileseUpdate, parametros, commandType: CommandType.StoredProcedure);
 
             RequestStatus request = new()
             {
-                MessageStatus = resultado
+                CodeStatus = resultado
             };
+
 
             return request;
         }

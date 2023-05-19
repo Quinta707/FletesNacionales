@@ -21,11 +21,11 @@ namespace FletesNacionales.DataAccess.Repository
 
             parametros.Add("@carg_Id", item.carg_Id, DbType.Int32, ParameterDirection.Input);
 
-            var resultado = db.QueryFirst<string>(ScriptsDataBase.CargosDelete, parametros, commandType: CommandType.StoredProcedure);
+            var resultado = db.QueryFirst<int>(ScriptsDataBase.CargosDelete, parametros, commandType: CommandType.StoredProcedure);
 
             RequestStatus request = new()
             {
-                MessageStatus = resultado
+                CodeStatus = resultado
             };
 
             return request;
@@ -41,8 +41,6 @@ namespace FletesNacionales.DataAccess.Repository
 
             var resultado = db.QueryFirst<VW_tbCargos>(ScriptsDataBase.CargosFind, parametros, commandType: CommandType.StoredProcedure);
 
- 
-
             return resultado;
         }
 
@@ -55,11 +53,11 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@carg_Descripcion", item.carg_Descripcion, DbType.String, ParameterDirection.Input);
             parametros.Add("@carg_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
 
-            var resultado = db.QueryFirst<string>(ScriptsDataBase.CargosInsert, parametros, commandType: CommandType.StoredProcedure);
+            var resultado = db.QueryFirst<int>(ScriptsDataBase.CargosInsert, parametros, commandType: CommandType.StoredProcedure);
 
             RequestStatus request = new()
             {
-                MessageStatus = resultado
+                CodeStatus = resultado
             };
 
             return request;
@@ -81,11 +79,11 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@carg_Descripcion", item.carg_Descripcion, DbType.String, ParameterDirection.Input);
             parametros.Add("@carg_UsuModificacion", 1, DbType.Int32, ParameterDirection.Input);
 
-            var resultado = db.QueryFirst<string>(ScriptsDataBase.CargosUpdate, parametros, commandType: CommandType.StoredProcedure);
+            var resultado = db.QueryFirst<int>(ScriptsDataBase.CargosUpdate, parametros, commandType: CommandType.StoredProcedure);
 
             RequestStatus request = new()
             {
-                MessageStatus = resultado
+                CodeStatus = resultado
             };
 
             return request;
