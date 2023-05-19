@@ -39,8 +39,8 @@ namespace FletesNacionales.DataAccess.Repository
 
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
-            parametros.Add("@user_NombreUsuario", item.user_NombreUsuario, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@user_Contrasena", item.user_Contrasena, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@user_NombreUsuario", item.user_NombreUsuario, DbType.String, ParameterDirection.Input);
+            parametros.Add("@user_Contrasena", item.user_Contrasena, DbType.String, ParameterDirection.Input);
             parametros.Add("@user_EsAdmin", item.user_EsAdmin, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@user_Url", item.user_Url, DbType.String, ParameterDirection.Input);
             parametros.Add("@role_Id", item.role_Id, DbType.Int32, ParameterDirection.Input);

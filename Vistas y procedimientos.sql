@@ -3064,6 +3064,7 @@ SELECT T1.[user_Id]
       ,T1.[user_NombreUsuario]
       ,T1.[user_Contrasena]
       ,T1.[user_EsAdmin]
+	  ,T1.user_Url
       ,T1.[role_Id]
 	  ,T4.role_Nombre
       ,T1.[empe_Id]
