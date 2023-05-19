@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\LAB01\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj": {}
+    "C:\\Users\\Javinto\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj": {}
   },
   "projects": {
-    "C:\\Users\\LAB01\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj": {
+    "C:\\Users\\Javinto\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\LAB01\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj",
+        "projectUniqueName": "C:\\Users\\Javinto\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj",
         "projectName": "FletesNacionales.DataAccess",
-        "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj",
-        "packagesPath": "C:\\Users\\LAB01\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\LAB01\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\obj\\",
+        "projectPath": "C:\\Users\\Javinto\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj",
+        "packagesPath": "C:\\Users\\Javinto\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Javinto\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\LAB01\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Javinto\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -32,8 +32,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\LAB01\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj": {
-                "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj"
+              "C:\\Users\\Javinto\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj": {
+                "projectPath": "C:\\Users\\Javinto\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj"
               }
             }
           }
@@ -75,7 +75,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -84,24 +85,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\LAB01\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj": {
+    "C:\\Users\\Javinto\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\LAB01\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
+        "projectUniqueName": "C:\\Users\\Javinto\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
         "projectName": "FletesNacionales.Entities",
-        "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
-        "packagesPath": "C:\\Users\\LAB01\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\LAB01\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\obj\\",
+        "projectPath": "C:\\Users\\Javinto\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
+        "packagesPath": "C:\\Users\\Javinto\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Javinto\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\LAB01\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Javinto\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -133,7 +134,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -142,7 +144,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     }

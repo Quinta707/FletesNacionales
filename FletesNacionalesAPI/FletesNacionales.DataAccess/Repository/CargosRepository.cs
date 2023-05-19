@@ -3,6 +3,7 @@ using Dapper;
 using FletesNacionales.Entities.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -14,17 +15,54 @@ namespace FletesNacionales.DataAccess.Repository
     {
         public RequestStatus Delete(tbCargos item)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+
+            parametros.Add("@carg_Id", item.carg_Id, DbType.Int32, ParameterDirection.Input);
+
+            var resultado = db.QueryFirst<string>(ScriptsDataBase.CargosDelete, parametros, commandType: CommandType.StoredProcedure);
+
+            RequestStatus request = new()
+            {
+                MessageStatus = resultado
+            };
+
+            return request;
         }
 
         public VW_tbCargos find(int? id)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+
+            parametros.Add("@carg_Id", id, DbType.Int32, ParameterDirection.Input);
+
+            var resultado = db.QueryFirst<VW_tbCargos>(ScriptsDataBase.CargosFind, parametros, commandType: CommandType.StoredProcedure);
+
+ 
+
+            return resultado;
         }
 
         public RequestStatus Insert(tbCargos item)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+
+            parametros.Add("@carg_Descripcion", item.carg_Descripcion, DbType.String, ParameterDirection.Input);
+            parametros.Add("@carg_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
+
+            var resultado = db.QueryFirst<string>(ScriptsDataBase.CargosInsert, parametros, commandType: CommandType.StoredProcedure);
+
+            RequestStatus request = new()
+            {
+                MessageStatus = resultado
+            };
+
+            return request;
         }
 
         public IEnumerable<VW_tbCargos> List()
@@ -35,7 +73,22 @@ namespace FletesNacionales.DataAccess.Repository
 
         public RequestStatus Update(tbCargos item)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+
+            parametros.Add("@carg_Id", item.carg_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@carg_Descripcion", item.carg_Descripcion, DbType.String, ParameterDirection.Input);
+            parametros.Add("@carg_UsuModificacion", 1, DbType.Int32, ParameterDirection.Input);
+
+            var resultado = db.QueryFirst<string>(ScriptsDataBase.CargosUpdate, parametros, commandType: CommandType.StoredProcedure);
+
+            RequestStatus request = new()
+            {
+                MessageStatus = resultado
+            };
+
+            return request;
         }
     }
 }
