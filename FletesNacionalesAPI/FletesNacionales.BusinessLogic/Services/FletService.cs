@@ -1,5 +1,6 @@
 ﻿using Agence.BusinessLogic;
 using FletesNacionales.DataAccess.Repository;
+using FletesNacionales.Entities.Entities;
 using System;
 
 namespace FletesNacionales.BusinessLogic.Services
@@ -63,6 +64,83 @@ namespace FletesNacionales.BusinessLogic.Services
                 return result.Error(e.Message);
             }
         }
+        public ServiceResult EliminarEmpleados(tbEmpleados item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _empleadosRepository.Delete(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public ServiceResult InsertarEmpleados(tbEmpleados item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _empleadosRepository.Insert(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public ServiceResult EditarEmpleados(tbEmpleados item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _empleadosRepository.Update(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public VW_tbEmpleados BuscarEmpleados(int? id)
+        {
+            try
+            {
+                var list = _empleadosRepository.find(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
         #endregion
         #region Estados del pedido
         public ServiceResult ListadoEstadoDelPedido()
@@ -76,6 +154,83 @@ namespace FletesNacionales.BusinessLogic.Services
             catch (Exception e)
             {
                 return result.Error(e.Message);
+            }
+        }
+        public ServiceResult EliminarEstadoDelPedido(tbEstadosDelPedido item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _estadoDelPedidoRepository.Delete(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public ServiceResult InsertarEstadoDelPedido(tbEstadosDelPedido item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _estadoDelPedidoRepository.Insert(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public ServiceResult EditarEstadoDelPedido(tbEstadosDelPedido item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _estadoDelPedidoRepository.Update(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public VW_tbEstadosDelPedido BuscarEstadoDelPedido(int? id)
+        {
+            try
+            {
+                var list = _estadoDelPedidoRepository.find(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
         #endregion
