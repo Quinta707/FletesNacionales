@@ -37,13 +37,33 @@ CREATE OR ALTER PROCEDURE gral.UDP_tbCargos_Insert
 AS
 BEGIN
 	BEGIN TRY 
-		INSERT INTO [gral].[tbCargos] (carg_Descripcion, carg_UsuCreacion, carg_UsuModificacion, carg_FechaModificacion)
-		VALUES (@carg_Descripcion, @carg_UsuCreacion, NULL, NULL);
+	IF EXISTS (SELECT * FROM [gral].[tbCargos] WHERE carg_Descripcion  = @carg_Descripcion  AND carg_Estado = 1)
+        BEGIN
 
-		SELECT 1 AS codeStatus
+            SELECT -2 
+
+        END
+    ELSE IF NOT EXISTS (SELECT * FROM [gral].[tbCargos]  WHERE carg_Descripcion = @carg_Descripcion)
+        BEGIN
+			INSERT INTO [gral].[tbCargos] (carg_Descripcion, carg_UsuCreacion, carg_UsuModificacion, carg_FechaModificacion)
+			VALUES (@carg_Descripcion, @carg_UsuCreacion, NULL, NULL);
+
+			SELECT 1 
+		END
+	ELSE
+		BEGIN
+			 UPDATE [gral].[tbCargos]
+            SET  carg_Estado = 1
+				,carg_Descripcion = @carg_Descripcion
+				,carg_UsuCreacion = @carg_UsuCreacion
+				,carg_FechaCreacion = GETDATE()
+            WHERE carg_Descripcion = @carg_Descripcion
+
+            select carg_Id  From [gral].[tbCargos]  WHERE carg_Descripcion = @carg_Descripcion 
+		END
 	END TRY
 	BEGIN CATCH
-		SELECT 0 AS codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -57,16 +77,24 @@ CREATE OR ALTER PROCEDURE gral.UDP_tbCargos_Update
 AS
 BEGIN
 	BEGIN TRY
+	IF EXISTS (SELECT * FROM [gral].[tbCargos] WHERE (carg_Descripcion = @carg_Descripcion AND carg_Id != @carg_Id))
+			BEGIN
+				SELECT -2 
+			END
+        ELSE
+			BEGIN
+
 		UPDATE	gral.tbCargos
 		SET		carg_Descripcion = @carg_Descripcion, 
 				carg_UsuModificacion = @carg_UsuModificacion, 
 				carg_FechaModificacion = GETDATE()
 		WHERE	carg_Id = @carg_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
+		END
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -77,14 +105,21 @@ CREATE OR ALTER PROCEDURE gral.UDP_tbCargos_Delete
 AS
 BEGIN
 	BEGIN TRY
-		UPDATE	gral.tbCargos
-		SET		carg_Estado = 0
-		WHERE	carg_Id = @carg_Id
+		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('gral.tbCargos') AND EXISTS ( SELECT 1 FROM gral.tbCargos WHERE carg_Id = @carg_Id))
+			BEGIN
+				SELECT - 3
+			END
+		ELSE 
+			BEGIN
+			UPDATE	gral.tbCargos
+			SET		carg_Estado = 0
+			WHERE	carg_Id = @carg_Id
 
-		SELECT 1 codeStatus
+			SELECT 1 
+		END
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -147,14 +182,14 @@ BEGIN
 	BEGIN TRY
 		IF EXISTS (SELECT * FROM gral.tbDepartamentos WHERE depa_Nombre = @depa_Nombre AND depa_Estado = 1)
 			BEGIN
-				SELECT 2 codeStatus
+				SELECT 2 
 			END
 		ELSE IF NOT EXISTS (SELECT * FROM gral.tbDepartamentos WHERE depa_Nombre = @depa_Nombre)
 			BEGIN
 				INSERT INTO [gral].[tbDepartamentos] (depa_Nombre, depa_Codigo, depa_UsuCreacion, depa_UsuModificacion, depa_FechaModificacion)
 				VALUES (@depa_Nombre, (SELECT COUNT(depa_codigo) + 1 FROM gral.tbDepartamentos WHERE depa_Estado = 1), @depa_UsuCreacion, NULL, NULL);
 
-				SELECT 1 codeStatus
+				SELECT 1 
 			END
 		ELSE 
 			BEGIN
@@ -167,11 +202,11 @@ BEGIN
 					depa_Estado = 1
 				WHERE depa_Nombre = @depa_Nombre
 
-				SELECT 1 codeStatus
+				SELECT 1 
 			END
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -187,7 +222,7 @@ BEGIN
 	BEGIN TRY
 		IF EXISTS (SELECT * FROM gral.tbDepartamentos WHERE (depa_Nombre = @depa_Nombre AND depa_Id != @depa_Id))
 			BEGIN
-				SELECT 2 codeStatus
+				SELECT 2 
 			END
 		ELSE
 			BEGIN
@@ -197,30 +232,41 @@ BEGIN
 					  depa_FechaModificacion = GETDATE()
 				WHERE depa_Id = @depa_Id		
 
-				SELECT 1 codeStatus
+				SELECT 1 
 			END 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
 --**************  DELETE ******************--
 GO
-CREATE OR ALTER PROCEDURE gral.UDP_tbDepartamentos_Delete
+
+CREATE OR ALTER PROCEDURE  gral.UDP_tbDepartamentos_Delete
 (@depa_Id INT)
 AS
 BEGIN
- BEGIN TRY
-	UPDATE	gral.tbDepartamentos
-	SET		[depa_Estado] = 0
-	WHERE	depa_Id = @depa_Id
-
-	SELECT 1 codeStatus
- END TRY
- BEGIN CATCH
-	SELECT 0 codeStatus
- END CATCH
+	BEGIN TRY
+		
+		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('gral.tbDepartamentos') AND EXISTS ( SELECT 1 FROM gral.tbDepartamentos WHERE depa_Id = @depa_Id))
+		BEGIN
+			SELECT - 3
+		END
+		ELSE 
+			BEGIN
+				UPDATE	gral.tbDepartamentos
+				SET		[depa_Estado] = 0
+	
+				WHERE	depa_Id = @depa_Id
+		
+			SELECT 1 
+		END
+	
+	END TRY
+	BEGIN CATCH
+		SELECT 0 
+	END CATCH
 END
 
 --**************  INDEX ******************--
@@ -286,14 +332,14 @@ BEGIN
 	BEGIN TRY
 		IF EXISTS (SELECT * FROM gral.tbMunicipios WHERE muni_Codigo = @muni_Codigo AND muni_Estado = 1)
 			BEGIN
-				SELECT 2 codeStatus
+				SELECT 2 
 			END
 		ELSE IF NOT EXISTS (SELECT * FROM gral.tbMunicipios WHERE muni_Codigo = @muni_Codigo)
 			BEGIN
 				INSERT INTO [gral].[tbMunicipios] (muni_Nombre, muni_Codigo, depa_Id, muni_UsuCreacion, muni_UsuModificacion, muni_FechaModificacion)
 				VALUES (@muni_Nombre, @muni_Codigo, @depa_Id, @muni_UsuCreacion, NULL, NULL);
 
-				SELECT 1 codeStatus
+				SELECT 1 
 			END
 		ELSE 
 			BEGIN
@@ -308,11 +354,11 @@ BEGIN
 				WHERE muni_Codigo = @muni_Codigo
 				
 
-				SELECT 1 codeStatus
+				SELECT 1 
 			END
 	END TRY
 	BEGIN CATCH
-				SELECT 0 codeStatus
+				SELECT 0 
 	END CATCH
 END
 
@@ -326,37 +372,54 @@ CREATE OR ALTER PROCEDURE gral.UDP_tbMunicipios_Update
 AS
 BEGIN
 	BEGIN TRY
+	        IF EXISTS (SELECT * FROM gral.tbMunicipios WHERE (muni_Nombre = @muni_Nombre AND muni_Id != @muni_Id))
+			BEGIN
+				SELECT -2 
+			END
+        ELSE
+		BEGIN
 		UPDATE gral.tbMunicipios
 		SET muni_Nombre = @muni_Nombre, 
 			depa_Id = @depa_Id, 
 			muni_UsuModificacion = @muni_UsuModificacion, 
 			muni_FechaModificacion = GETDATE()
 		WHERE muni_Id = @muni_Id
-		
-		SELECT 1 codeStatus
+		SELECT 1 
+		END
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
 --**************  DELETE  ******************--
 GO
-CREATE OR ALTER PROCEDURE gral.UDP_tbMunicipios_Delete
+CREATE OR ALTER PROCEDURE  gral.UDP_tbMunicipios_Delete
 (@muni_Id INT)
 AS
 BEGIN
 	BEGIN TRY
-		UPDATE gral.tbMunicipios
+		
+		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('gral.tbMunicipios') AND EXISTS ( SELECT 1 FROM gral.tbMunicipios WHERE muni_Id = @muni_Id))
+		BEGIN
+			SELECT - 3
+		END
+		ELSE 
+			BEGIN
+				UPDATE gral.tbMunicipios
 		SET muni_Estado = 0
 		WHERE muni_Id = @muni_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
+		END
+	
 	END TRY
 	BEGIN CATCH
-		SELECT  0 codeStatus
+		SELECT 0 
 	END CATCH
 END
+
+
 
 --**************  INDEX  ******************--
 GO
@@ -415,13 +478,39 @@ CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_Insert
 AS
 BEGIN
 	BEGIN TRY 
-		INSERT INTO [gral].[tbEstadosCiviles] (eciv_Descripcion, eciv_UsuCreacion, eciv_UsuModificacion, eciv_FechaModificacion)
-		VALUES (@eciv_Descripcion, @eciv_UsuCreacion, NULL, NULL);
+		IF EXISTS(SELECT eciv_Id FROM gral.tbEstadosCiviles WHERE eciv_Descripcion = @eciv_Descripcion and eciv_Estado = 1) 
+			BEGIN
+				SELECT -2
+			END
+		ELSE IF NOT EXISTS (SELECT * FROM gral.tbEstadosCiviles WHERE eciv_Descripcion = @eciv_Descripcion)
+			BEGIN
+				INSERT INTO [gral].[tbEstadosCiviles] 
+				(eciv_Descripcion, 
+				eciv_UsuCreacion, 
+				eciv_UsuModificacion, 
+				eciv_FechaModificacion)
 
-		SELECT 1 AS codeStatus
+				VALUES 
+				(@eciv_Descripcion, 
+				@eciv_UsuCreacion, 
+				NULL, 
+				NULL);
+				SELECT SCOPE_IDENTITY() 
+			END
+		ELSE
+			BEGIN
+				UPDATE [gral].[tbEstadosCiviles] 
+				SET eciv_Estado = 1,
+				eciv_Descripcion = @eciv_Descripcion,
+				eciv_UsuCreacion = @eciv_UsuCreacion,
+				eciv_FechaCreacion = GETDATE()
+				WHERE eciv_Descripcion = @eciv_Descripcion
+
+				SELECT eciv_Id From [gral].[tbEstadosCiviles] WHERE eciv_Descripcion = @eciv_Descripcion
+			END
 	END TRY
 	BEGIN CATCH
-		SELECT 0 AS codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -434,16 +523,22 @@ CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_Update
 AS
 BEGIN
 	BEGIN TRY
-		UPDATE	gral.tbEstadosCiviles
-		SET		eciv_Descripcion = @eciv_Descripcion, 
-				eciv_UsuModificacion = @eciv_UsuModificacion, 
-				eciv_FechaModificacion = GETDATE()
-		WHERE	eciv_Id = @eciv_Id
-
-		SELECT 1 codeStatus
+	    IF EXISTS (SELECT * FROM gral.tbEstadosCiviles WHERE (eciv_Descripcion = @eciv_Descripcion AND eciv_Id != @eciv_Id))
+			BEGIN
+				SELECT -2 
+			END
+        ELSE
+			BEGIN
+				UPDATE	gral.tbEstadosCiviles
+				SET		eciv_Descripcion = @eciv_Descripcion, 
+						eciv_UsuModificacion = @eciv_UsuModificacion, 
+						eciv_FechaModificacion = GETDATE()
+				WHERE	eciv_Id = @eciv_Id
+			END
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -454,17 +549,46 @@ CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_Delete
 AS
 BEGIN
 	BEGIN TRY
+		 IF EXISTS (SELECT * FROM gral.tbEstadosCiviles WHERE (eciv_Id = @eciv_Id))
+				BEGIN
+					SELECT -3
+				END
+		ELSE
 		UPDATE	gral.tbEstadosCiviles
 		SET		eciv_Estado = 0
 		WHERE	eciv_Id = @eciv_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
+GO
 
+CREATE OR ALTER PROCEDURE  gral.UDP_tbEstadosCiviles_Delete
+(@eciv_Id INT)
+AS
+BEGIN
+	BEGIN TRY
+		
+		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('gral.tbEstadosCiviles') AND EXISTS ( SELECT 1 FROM gral.tbEstadosCiviles WHERE eciv_Id = @eciv_Id))
+		BEGIN
+			SELECT - 3
+		END
+		ELSE 
+			BEGIN
+				UPDATE	gral.tbEstadosCiviles
+				SET		eciv_Estado = 0
+				WHERE	eciv_Id = @eciv_Id
+
+				SELECT 1 
+			END
+	END TRY
+	BEGIN CATCH
+		SELECT 0 
+	END CATCH
+END
 --**************  INDEX ******************--
 GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_Index
@@ -520,13 +644,39 @@ CREATE OR ALTER PROCEDURE gral.UDP_tbMetodosdePago_Insert
 AS
 BEGIN
 	BEGIN TRY 
-		INSERT INTO gral.tbMetodosdePago (meto_Descripcion, meto_UsuCreacion, meto_UsuModificacion, meto_FechaModificacion)
-		VALUES (@meto_Descripcion, @meto_UsuCreacion, NULL, NULL);
+	   IF EXISTS (SELECT * FROM gral.tbMetodosdePago WHERE meto_Descripcion = @meto_Descripcion AND meto_Estado = 1)
+        BEGIN
+            SELECT -2 
+        END
+	ELSE IF NOT EXISTS (SELECT * FROM gral.tbMetodosdePago WHERE meto_Descripcion = @meto_Descripcion)
+		BEGIN
+			INSERT INTO gral.tbMetodosdePago 
+			(meto_Descripcion, 
+			meto_UsuCreacion, 
+			meto_UsuModificacion, 
+			meto_FechaModificacion
+			)
+			VALUES (@meto_Descripcion, 
+			@meto_UsuCreacion, 
+			NULL, 
+			NULL);
+		
+            SELECT SCOPE_IDENTITY() 
+		END
+	ELSE
+		BEGIN
+			UPDATE gral.tbMetodosdePago 
+			SET meto_Estado = 1,
+			meto_Descripcion = @meto_Descripcion,
+			meto_UsuCreacion =  @meto_UsuCreacion,
+			meto_FechaCreacion = GETDATE()
+			WHERE meto_Descripcion = @meto_Descripcion
+			select meto_Descripcion  From gral.tbMetodosdePago   WHERE meto_Descripcion = @meto_Descripcion 
 
-		SELECT 1 AS codeStatus
+		END
 	END TRY
 	BEGIN CATCH
-		SELECT 0 AS codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -539,16 +689,23 @@ CREATE OR ALTER PROCEDURE gral.UDP_tbMetodosdePago_Update
 AS
 BEGIN
 	BEGIN TRY	
-		UPDATE gral.tbMetodosdePago
-		SET meto_Descripcion = @meto_Descripcion, 
-			meto_UsuModificacion = @meto_UsuModificacion, 
-			meto_FechaModificacion = GETDATE()
-		WHERE meto_Id = @meto_Id
+	    IF EXISTS (SELECT * FROM gral.tbMetodosdePago WHERE (meto_Descripcion = @meto_Descripcion AND meto_Id != @meto_Id))
+			BEGIN
+				SELECT -2 
+			END
+        ELSE
+			BEGIN
+			UPDATE gral.tbMetodosdePago
+			SET meto_Descripcion = @meto_Descripcion, 
+				meto_UsuModificacion = @meto_UsuModificacion, 
+				meto_FechaModificacion = GETDATE()
+			WHERE meto_Id = @meto_Id
 
-		SELECT 1 codeStatus
+			SELECT 1 
+		END
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -559,14 +716,22 @@ CREATE OR ALTER PROCEDURE gral.UDP_tbMetodosdePago_Delete
 AS
 BEGIN
 	BEGIN TRY
-		UPDATE gral.tbMetodosdePago
-		SET meto_Estado = 0
-		WHERE meto_Id = @meto_Id
+	
+	IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('gral.tbMetodosdePago') AND EXISTS ( SELECT 1 FROM gral.tbMetodosdePago WHERE meto_Id = @meto_Id))
+		BEGIN
+			SELECT - 3
+		END
+	ELSE
+		BEGIN
+			UPDATE gral.tbMetodosdePago
+			SET meto_Estado = 0
+			WHERE meto_Id = @meto_Id
 
-		SELECT 1 codeStatus
+			SELECT 1 
+		END
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -633,10 +798,10 @@ BEGIN
 	BEGIN TRY 
 		INSERT INTO equi.tbTipoDeVehiculo (tipv_Descripcion, tipv_UsuCreacion)
 		VALUES	(@tipv_Descripcion, @tipv_UsuCreacion)
-		SELECT 1 AS codeStatus
+		SELECT 1
 	END TRY
 	BEGIN CATCH
-		SELECT 0 AS codeStatus
+		SELECT 0
 	END CATCH
 END 
 
@@ -657,10 +822,10 @@ BEGIN
 				tipv_FechaModificacion = GETDATE()
 		WHERE	tipv_Id = @tipv_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -677,10 +842,10 @@ BEGIN
 		SET		tipv_Estado = 0
 		WHERE	tipv_Id = @tipv_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -763,10 +928,10 @@ BEGIN
 	BEGIN TRY 
 		INSERT INTO equi.tbMarcas(marc_Nombre, marc_UsuCreacion)
 		VALUES	(@marc_Nombre, @marc_UsuCreacion)
-		SELECT 1 AS codeStatus
+		SELECT 1
 	END TRY
 	BEGIN CATCH
-		SELECT 0 AS codeStatus
+		SELECT 0
 	END CATCH
 END 
 
@@ -787,10 +952,10 @@ BEGIN
 				marc_FechaModificacion = GETDATE()
 		WHERE	marc_Id = @marc_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -807,10 +972,10 @@ BEGIN
 		SET		marc_Estado = 0
 		WHERE	marc_Id = @marc_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -900,10 +1065,10 @@ BEGIN
 	BEGIN TRY 
 		INSERT INTO equi.tbModelos(mode_Nombre, marc_Id, tipv_Id, mode_UsuCreacion)
 		VALUES	(@mode_Nombre, @marc_Id, @tipv_Id, @mode_UsuCreacion)
-		SELECT 1 AS codeStatus
+		SELECT 1
 	END TRY
 	BEGIN CATCH
-		SELECT 0 AS codeStatus
+		SELECT 0
 	END CATCH
 END 
 
@@ -928,10 +1093,10 @@ BEGIN
 				mode_FechaModificacion = GETDATE()
 		WHERE	mode_Id = @mode_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -948,10 +1113,10 @@ BEGIN
 		SET		mode_Estado = 0
 		WHERE	mode_Id = @mode_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -1055,10 +1220,10 @@ BEGIN
 	BEGIN TRY 
 		INSERT INTO equi.tbVehiculos(mode_Id, vehi_PesoMaximo, vehi_VolumenMaximo, vehi_Placa, vehi_UsuCreacion)
 		VALUES	(@mode_Id, @vehi_PesoMaximo, @vehi_VolumenMaximo, @vehi_Placa, @vehi_UsuCreacion)
-		SELECT 1 AS codeStatus
+		SELECT 1
 	END TRY
 	BEGIN CATCH
-		SELECT 0 AS codeStatus
+		SELECT 0
 	END CATCH
 END 
 
@@ -1085,10 +1250,10 @@ BEGIN
 				vehi_FechaModificacion = GETDATE()
 		WHERE	vehi_Id = @vehi_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -1105,10 +1270,10 @@ BEGIN
 		SET		vehi_Estado = 0
 		WHERE	vehi_Id = @vehi_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -1231,18 +1396,18 @@ BEGIN
 	BEGIN TRY 
 		IF EXISTS (SELECT * FROM flet.tbClientes WHERE clie_Identidad = @clie_Identidad AND clie_Estado = 1)
 			BEGIN
-				SELECT 2 codeStatus
+				SELECT 2 
 			END
 		ELSE IF NOT EXISTS (SELECT * FROM flet.tbClientes WHERE clie_Identidad = @clie_Identidad)
 			BEGIN
 				INSERT INTO [flet].[tbClientes](clie_Nombres, clie_Apellidos, clie_Identidad, clie_FechaNacimiento, clie_Sexo, eciv_Id, muni_Id, clie_DireccionExacta, clie_Telefono, clie_UsuCreacion)
 				VALUES	(@clie_Nombres, @clie_Apellidos, @clie_Identidad, @clie_FechaNacimiento, @clie_Sexo, @eciv_Id, @muni_Id, @clie_DireccionExacta, @clie_Telefono, @clie_UsuCreacion)
 
-				SELECT 1 codeStatus
+				SELECT 1 
 			END
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -1268,7 +1433,7 @@ BEGIN
 	BEGIN TRY
 		IF EXISTS (SELECT * FROM flet.tbClientes WHERE (clie_Identidad = @clie_Identidad AND clie_Id != @clie_Id))
 			BEGIN
-				SELECT 2 codeStatus
+				SELECT 2 
 			END
 		ELSE
 			BEGIN
@@ -1286,11 +1451,11 @@ BEGIN
 						clie_FechaModificacion = GETDATE()
 				WHERE	clie_Id = @clie_Id		
 
-				SELECT 1 codeStatus
+				SELECT 1 
 			END 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -1307,10 +1472,10 @@ BEGIN
 	SET		clie_Estado = 0
 	WHERE	clie_Id = @clie_Id
 
-	SELECT 1 codeStatus
+	SELECT 1 
  END TRY
  BEGIN CATCH
-	SELECT 0 codeStatus
+	SELECT 0 
  END CATCH
 END
 
@@ -1427,7 +1592,14 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_Insert
 AS
 BEGIN
 	BEGIN TRY
-        
+         IF EXISTS (SELECT * FROM [flet].[tbEmpleados] WHERE empe_Identidad = @empe_Identidad AND empe_Estado = 1)
+        BEGIN
+
+            SELECT -2 
+
+        END
+        ELSE IF NOT EXISTS (SELECT * FROM [flet].[tbEmpleados]  WHERE empe_Identidad = @empe_Identidad)
+        BEGIN
 		INSERT INTO [flet].[tbEmpleados]
 				([empe_Nombres]
 				,[empe_Apellidos]
@@ -1463,10 +1635,23 @@ BEGIN
 				,NULL
 				,1)
 
-		SELECT 1 codeStatus
+		SELECT 1 
+		END
+		ELSE
+		BEGIN
+			
+            UPDATE [flet].[tbEmpleados]
+            SET  empe_Estado = 1
+				,empe_UsuCreacion = @empe_UsuCreacion
+				,empe_FechaCreacion = GETDATE()
+            WHERE empe_Identidad = @empe_Identidad
+
+            select empe_Id From [flet].[tbEmpleados]  WHERE empe_Identidad = @empe_Identidad 
+        
+		END
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -1488,8 +1673,15 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_Update
  @empe_UsuModificacion INT)
 AS
 BEGIN
-	BEGIN TRY
       
+    BEGIN TRY
+        IF EXISTS (SELECT * FROM [flet].[tbEmpleados] WHERE (empe_Identidad = @empe_Identidad AND empe_Id != @empe_Id))
+			BEGIN
+				SELECT -2 
+			END
+        ELSE
+			BEGIN
+
 		UPDATE [flet].[tbEmpleados]
 		SET [empe_Nombres] = @empe_Nombres
 			,[empe_Apellidos] = @empe_Apellidos
@@ -1506,11 +1698,11 @@ BEGIN
 			,[empe_FechaModificacion] = GETDATE()
 		WHERE empe_Id = @empe_Id
 
-		SELECT 1 codeStatus
-
+		SELECT 1 
+		END
 	END TRY
 	BEGIN CATCH
-		SELECT 0  codeStatus
+		SELECT 0  
 	END CATCH
 END
 
@@ -1522,16 +1714,22 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_Delete
 AS
 BEGIN
 	BEGIN TRY
-		
+		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('flet.tbEmpleados') AND EXISTS ( SELECT 1 FROM flet.tbEmpleados WHERE @empe_Id = @empe_Id))
+		BEGIN
+			SELECT - 3
+		END
+		ELSE 
+			BEGIN
 		UPDATE flet.tbEmpleados
 		SET empe_Estado = 0
 		WHERE empe_Id = @empe_Id
 		
-		SELECT 1 codestatus
+		SELECT 1 
+		END
 	
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codestatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -1606,10 +1804,10 @@ BEGIN
 		INSERT INTO flet.tbEscalasPorTrayecto (flet_Id, muni_Escala, estr_UsuCreacion)
 		VALUES	(@flet_Id, @muni_Escala, @estr_UsuCreacion)
 
-		SELECT 1 codeStatus
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -1633,11 +1831,11 @@ BEGIN
 				estr_FechaModificacion = GETDATE()
 		WHERE	estr_Id = @estr_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
 
 	END TRY
 	BEGIN CATCH
-		SELECT 0  codeStatus
+		SELECT 0  
 	END CATCH
 END
 
@@ -1656,11 +1854,11 @@ BEGIN
 		SET		estr_Estado = 0
 		WHERE	estr_Id = @estr_Id
 		
-		SELECT 1 codestatus
+		SELECT 1 
 	
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codestatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -1768,10 +1966,10 @@ BEGIN
 		INSERT INTO flet.tbFleteDetalles (flet_Id, pedi_Id, fdet_UsuCreacion)
 		VALUES	(@flet_Id, @pedi_Id, @fdet_UsuCreacion)
 
-		SELECT 1 codeStatus
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -1795,11 +1993,11 @@ BEGIN
 				fdet_FechaModificacion = GETDATE()
 		WHERE	fdet_Id = @fdet_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
 
 	END TRY
 	BEGIN CATCH
-		SELECT 0  codeStatus
+		SELECT 0  
 	END CATCH
 END
 
@@ -1818,11 +2016,11 @@ BEGIN
 		SET		fdet_Estado = 0
 		WHERE	fdet_Id = @fdet_Id
 		
-		SELECT 1 codestatus
+		SELECT 1 
 	
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codestatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -1906,10 +2104,10 @@ BEGIN
 		INSERT INTO flet.tbFletes (vehi_Id, empe_Id, tray_Id, flet_FechaDeSalida, flet_UsuCreacion)
 		VALUES	(@vehi_Id, @empe_Id, @tray_Id, @flet_FechaDeSalida, @flet_UsuCreacion)
 
-		SELECT 1 codeStatus
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -1937,11 +2135,11 @@ BEGIN
 				flet_FechaModificacion = GETDATE()
 		WHERE	flet_Id = @flet_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
 
 	END TRY
 	BEGIN CATCH
-		SELECT 0  codeStatus
+		SELECT 0  
 	END CATCH
 END
 
@@ -1960,11 +2158,11 @@ BEGIN
 		SET		flet_Estado = 0
 		WHERE	flet_Id = @flet_Id
 		
-		SELECT 1 codestatus
+		SELECT 1 
 	
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codestatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -2038,10 +2236,10 @@ BEGIN
 		INSERT INTO flet.tbItems (item_Nombre, item_Descripcion, item_Peso, item_Volumen, item_UsuCreacion)
 		VALUES	(@item_Nombre, @item_Descripcion, @item_Peso, @item_Volumen, @item_UsuCreacion)
 
-		SELECT 1 codeStatus
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -2069,11 +2267,11 @@ BEGIN
 				item_FechaModificacion  = GETDATE()
 		WHERE	item_Id = @item_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
 
 	END TRY
 	BEGIN CATCH
-		SELECT 0  codeStatus
+		SELECT 0  
 	END CATCH
 END
 
@@ -2092,11 +2290,11 @@ BEGIN
 		SET		item_Estado = 0
 		WHERE	item_Id = @item_Id
 		
-		SELECT 1 codestatus
+		SELECT 1 
 	
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codestatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -2166,10 +2364,10 @@ BEGIN
 		INSERT INTO flet.tbPedidoDetalles (pedi_Id, item_Id, pdet_UsuCreacion)
 		VALUES	(@pedi_Id, @item_Id, @pdet_UsuCreacion)
 
-		SELECT 1 codeStatus
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -2193,11 +2391,11 @@ BEGIN
 				pdet_FechaModificacion  = GETDATE()
 		WHERE	pdet_Id = @pdet_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
 
 	END TRY
 	BEGIN CATCH
-		SELECT 0  codeStatus
+		SELECT 0  
 	END CATCH
 END
 
@@ -2216,11 +2414,11 @@ BEGIN
 		SET		pdet_Estado = 0
 		WHERE	pdet_Id = @pdet_Id
 		
-		SELECT 1 codestatus
+		SELECT 1 
 	
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codestatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -2310,10 +2508,10 @@ BEGIN
 		INSERT INTO flet.tbPedidos (clie_Id, muni_Origen, muni_Destino, pedi_DestinoFinal, pedi_UsuCreacion, estp_Id)
 		VALUES	(@clie_Id, @muni_Origen, @muni_Destino, @pedi_DestinoFinal, @pedi_UsuCreacion, 1)
 
-		SELECT 1 codeStatus
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -2343,11 +2541,11 @@ BEGIN
 				pedi_FechaModificacion  = GETDATE()
 		WHERE	pedi_Id = @pedi_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
 
 	END TRY
 	BEGIN CATCH
-		SELECT 0  codeStatus
+		SELECT 0  
 	END CATCH
 END
 
@@ -2366,11 +2564,11 @@ BEGIN
 		SET		pedi_Estado = 0
 		WHERE	pedi_Id = @pedi_Id
 		
-		SELECT 1 codestatus
+		SELECT 1 
 	
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codestatus
+		SELECT 0 
 	END CATCH
 END
 -----------------------------------------------------------------------------------------------------------------------------
@@ -2456,9 +2654,11 @@ BEGIN
 	ELSE 
 	BEGIN 
 		UPDATE [flet].[tbEstadosDelPedido]
-		SET estp_Estado = 1
+		SET estp_Estado = 1,
+		[estp_UsuCreacion] = @estp_UsuCreacion,
+		[estp_FechaCreacion] = GETDATE()
 		WHERE estp_Nombre = @estp_Nombre
-			
+		SELECT * FROM [flet].[tbEstadosDelPedido] WHERE estp_Nombre = @estp_Nombre
 	SELECT 1
 	END
 	END TRY
@@ -2514,18 +2714,21 @@ AS
 BEGIN
 
 	BEGIN TRY
-	IF EXISTS (SELECT * FROM flet.tbPedidos WHERE estp_Id = @estp_Id AND pedi_Estado = 1)
-	BEGIN
-		SELECT -2
-	END
-	ELSE 
-	BEGIN 
+	
+		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('flet.tbEstadosDelPedido') AND EXISTS ( SELECT 1 FROM flet.tbEstadosDelPedido WHERE estp_Id = @estp_Id))
+		BEGIN
+			SELECT - 3
+		END
+		ELSE 
+			BEGIN
 		UPDATE [flet].[tbEstadosDelPedido]
 		SET estp_Estado = 0
 		WHERE estp_Id = @estp_Id
 			
 	SELECT 1
+
 	END
+	
 	END TRY
 	BEGIN CATCH
 		SELECT 0
@@ -2590,7 +2793,7 @@ BEGIN
         IF EXISTS (SELECT * FROM acce.tbRoles WHERE role_Nombre = @role_Nombre AND role_Estado = 1)
         BEGIN
 
-            SELECT -2 codeStatus
+            SELECT -2 
 
         END
         ELSE IF NOT EXISTS (SELECT * FROM acce.tbRoles WHERE role_Nombre = @role_Nombre)
@@ -2610,7 +2813,7 @@ BEGIN
 				   ,Null
 				   ,1)
 
-            SELECT SCOPE_IDENTITY() codeStatus
+            SELECT SCOPE_IDENTITY() 
 			END
         ELSE
         BEGIN
@@ -2623,12 +2826,12 @@ BEGIN
 				,role_FechaModificacion = NULL
             WHERE role_Nombre = @role_Nombre
 
-            select role_Id codeStatus From acce.tbRoles  WHERE role_Nombre = @role_Nombre 
+            select role_Id  From acce.tbRoles  WHERE role_Nombre = @role_Nombre 
         END
 
     END TRY
     BEGIN CATCH
-        SELECT 0 codeStatus
+        SELECT 0 
     END CATCH
 END
 GO
@@ -2644,7 +2847,7 @@ BEGIN
     BEGIN TRY
         IF EXISTS (SELECT * FROM acce.tbRoles WHERE (role_Nombre = @role_Nombre AND role_Id != @role_Id))
 			BEGIN
-				SELECT -2 codeStatus
+				SELECT -2 
 			END
         ELSE
 			BEGIN
@@ -2657,11 +2860,11 @@ BEGIN
 					WHERE role_Id = @role_Id
 
 
-				SELECT 1 codeStatus
+				SELECT 1 
 			END
     END TRY
     BEGIN CATCH
-        SELECT 0 codeStatus
+        SELECT 0 
     END CATCH
 END
 
@@ -2687,7 +2890,7 @@ BEGIN
 				DELETE FROM [acce].[tbPantallasPorRoles]
 				WHERE role_Id = @role_Id
 
-				SELECT 1 codeStatus
+				SELECT 1 
 			END
 	
 	END TRY
@@ -2723,9 +2926,9 @@ BEGIN
 			BEGIN
 				INSERT INTO [acce].[tbUsuarios] (user_NombreUsuario, user_Contrasena, user_EsAdmin, role_Id, empe_Id, user_UsuCreacion, user_UsuModificacion, user_FechaModificacion,user_Url)
 				VALUES (@user_NombreUsuario, HASHBYTES('SHA2_512',@user_Contrasena), @user_EsAdmin, @role_Id, @empe_Id, @user_UsuCreacion, NULL, NULL,@user_Url)
-				SELECT 1 AS Proceso
+				SELECT 1Proceso
 
-				SELECT 1 AS Proceso
+				SELECT 1Proceso
 			END
 		ELSE
 			BEGIN
@@ -2737,12 +2940,12 @@ BEGIN
 					[user_FechaModificacion] = NULL
 				WHERE [user_NombreUsuario] = @user_NombreUsuario;
 
-				SELECT 1 AS Proceso;
+				SELECT 1Proceso;
 			END
 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 AS Processo
+		SELECT 0Processo
 	END CATCH
 END
 
@@ -2766,11 +2969,11 @@ BEGIN
 			[user_UsuModificacion] = @user_UsuModificacion,
 			[user_FechaModificacion] = GETDATE()
 		WHERE [user_Id] = @user_Id;
-		SELECT 1 AS Proceso;
+		SELECT 1Proceso;
 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 AS Proceso;
+		SELECT 0Proceso;
 
 	END CATCH
 END
@@ -2788,11 +2991,11 @@ BEGIN
 			[user_FechaModificacion] = GETDATE()
 		WHERE [user_Id] = @user_Id
 
-		SELECT 1 AS Proceso
+		SELECT 1Proceso
 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 AS Proceso
+		SELECT 0Proceso
 	END CATCH
 END
 
@@ -2876,7 +3079,7 @@ BEGIN
         IF EXISTS (SELECT * FROM acce.tbPantallasPorRoles WHERE role_Id = @role_Id AND pant_Id = @pant_Id AND prol_Estado = 1)
         BEGIN
 
-            SELECT 2 as codeStatus
+            SELECT 2
 
         END
         ELSE IF NOT EXISTS (SELECT * FROM acce.tbPantallasPorRoles WHERE role_Id = @role_Id AND pant_Id = @pant_Id)
@@ -2898,7 +3101,7 @@ BEGIN
            ,NULL
            ,1)
 
-            SELECT 1 codeStatus
+            SELECT 1 
         END
         ELSE
         BEGIN
@@ -2910,12 +3113,12 @@ BEGIN
 				,prol_FechaModificacion = NULL
             WHERE role_Id = @role_Id AND pant_Id = @pant_Id
 
-            select 1 codeStatus
+            select 1 
         END
 
     END TRY
     BEGIN CATCH
-        SELECT 0 codeStatus
+        SELECT 0 
     END CATCH
 END
 GO
@@ -2931,10 +3134,10 @@ BEGIN
 		DELETE FROM acce.tbPantallasPorRoles
 		WHERE role_Id = @role_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 1 codeStatus
+		SELECT 1 
 	END CATCH
 END
 
@@ -3008,10 +3211,10 @@ BEGIN
 		INSERT INTO flet.tbSucursales (sucu_Nombre, muni_Id, sucu_Direccion, sucu_UsuCreacion)
 		VALUES	(@sucu_Nombre, @muni_Id, @sucu_Direccion, @sucu_UsuCreacion)
 
-		SELECT 1 codeStatus
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -3037,11 +3240,11 @@ BEGIN
 				sucu_FechaModificacion  = GETDATE()
 		WHERE	sucu_Id = @sucu_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
 
 	END TRY
 	BEGIN CATCH
-		SELECT 0  codeStatus
+		SELECT 0  
 	END CATCH
 END
 
@@ -3060,11 +3263,11 @@ BEGIN
 		SET		sucu_Estado = 0
 		WHERE	sucu_Id = @sucu_Id
 		
-		SELECT 1 codestatus
+		SELECT 1 
 	
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codestatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -3140,10 +3343,10 @@ BEGIN
 		INSERT INTO flet.tbTrayectos (muni_Inicio, muni_Final, tray_UsuCreacion)
 		VALUES	(@muni_Inicio, @muni_Final, @tray_UsuCreacion)
 
-		SELECT 1 codeStatus
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -3167,11 +3370,11 @@ BEGIN
 				tray_FechaModificacion  = GETDATE()
 		WHERE	tray_Id = @tray_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
 
 	END TRY
 	BEGIN CATCH
-		SELECT 0  codeStatus
+		SELECT 0  
 	END CATCH
 END
 
@@ -3190,11 +3393,11 @@ BEGIN
 		SET		tray_Estado = 0
 		WHERE	tray_Id = @tray_Id
 		
-		SELECT 1 codestatus
+		SELECT 1 
 	
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codestatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -3266,10 +3469,10 @@ BEGIN
 		INSERT INTO flet.tbUbicacionPorFlete (flet_Id, muni_Id, ubif_UbicacionExacta, ubif_UsuCreacion)
 		VALUES	(@flet_Id, @muni_Id, @ubif_UbicacionExacta, @ubif_UsuCreacion)
 
-		SELECT 1 codeStatus
+		SELECT 1 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -3295,11 +3498,11 @@ BEGIN
 				ubif_FechaModificacion  = GETDATE()
 		WHERE	ubif_Id = @ubif_Id
 
-		SELECT 1 codeStatus
+		SELECT 1 
 
 	END TRY
 	BEGIN CATCH
-		SELECT 0  codeStatus
+		SELECT 0  
 	END CATCH
 END
 
@@ -3318,11 +3521,11 @@ BEGIN
 		SET		ubif_Estado = 0
 		WHERE	ubif_Id = @ubif_Id
 		
-		SELECT 1 codestatus
+		SELECT 1 
 	
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codestatus
+		SELECT 0 
 	END CATCH
 END
 
