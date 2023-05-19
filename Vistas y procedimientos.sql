@@ -176,18 +176,19 @@ ON T1.depa_UsuModificacion = T3.[user_Id];
 GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbDepartamentos_Insert
 (@depa_Nombre			NVARCHAR(100),
+@depa_Codigo			CHAR(2),
  @depa_UsuCreacion		INT)
 AS
 BEGIN
 	BEGIN TRY
-		IF EXISTS (SELECT * FROM gral.tbDepartamentos WHERE depa_Nombre = @depa_Nombre AND depa_Estado = 1)
+		IF EXISTS (SELECT * FROM gral.tbDepartamentos WHERE (depa_Nombre = @depa_Nombre OR depa_Codigo = @depa_Codigo) AND depa_Estado = 1)
 			BEGIN
 				SELECT -2 
 			END
 		ELSE IF NOT EXISTS (SELECT * FROM gral.tbDepartamentos WHERE depa_Nombre = @depa_Nombre)
 			BEGIN
 				INSERT INTO [gral].[tbDepartamentos] (depa_Nombre, depa_Codigo, depa_UsuCreacion, depa_UsuModificacion, depa_FechaModificacion)
-				VALUES (@depa_Nombre, (SELECT COUNT(depa_codigo) + 1 FROM gral.tbDepartamentos WHERE depa_Estado = 1), @depa_UsuCreacion, NULL, NULL);
+				VALUES (@depa_Nombre, @depa_Codigo, @depa_UsuCreacion, NULL, NULL);
 
 				SELECT 1 
 			END
@@ -195,6 +196,7 @@ BEGIN
 			BEGIN
 				UPDATE gral.tbDepartamentos
 				SET depa_Nombre = @depa_Nombre, 
+					depa_Codigo = @depa_Codigo,				
 					depa_UsuCreacion = @depa_UsuCreacion, 
 					depa_FechaCreacion = GETDATE(), 
 					depa_UsuModificacion = NULL, 
@@ -216,18 +218,20 @@ GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbDepartamentos_Update
 (@depa_Id INT,
  @depa_Nombre NVARCHAR(100),
+ @depa_Codigo CHAR(2),
  @depa_UsuModificacion INT)
 AS
 BEGIN
 	BEGIN TRY
-		IF EXISTS (SELECT * FROM gral.tbDepartamentos WHERE (depa_Nombre = @depa_Nombre AND depa_Id != @depa_Id))
+		IF EXISTS (SELECT * FROM gral.tbDepartamentos WHERE ((depa_Nombre = @depa_Nombre OR depa_Codigo = @depa_Codigo) AND depa_Id != @depa_Id))
 			BEGIN
-				SELECT 2 
+				SELECT -2 
 			END
 		ELSE
 			BEGIN
 				UPDATE gral.tbDepartamentos
 				SET   depa_Nombre = @depa_Nombre,  
+					  depa_Codigo = @depa_Codigo,
 					  depa_UsuModificacion = @depa_UsuModificacion, 
 					  depa_FechaModificacion = GETDATE()
 				WHERE depa_Id = @depa_Id		
@@ -249,7 +253,7 @@ AS
 BEGIN
 	BEGIN TRY
 		
-		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('gral.tbDepartamentos') AND EXISTS ( SELECT 1 FROM gral.tbDepartamentos WHERE depa_Id = @depa_Id))
+		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('gral.tbDepartamentos') AND EXISTS ( SELECT * FROM gral.tbDepartamentos WHERE depa_Id = 19))
 		BEGIN
 			SELECT - 3
 		END
@@ -332,7 +336,7 @@ BEGIN
 	BEGIN TRY
 		IF EXISTS (SELECT * FROM gral.tbMunicipios WHERE muni_Codigo = @muni_Codigo AND muni_Estado = 1)
 			BEGIN
-				SELECT 2 
+				SELECT -2 
 			END
 		ELSE IF NOT EXISTS (SELECT * FROM gral.tbMunicipios WHERE muni_Codigo = @muni_Codigo)
 			BEGIN
@@ -1469,8 +1473,8 @@ AS
 BEGIN
  BEGIN TRY
 
- IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('flet.tbClientes') AND EXISTS ( SELECT 1 FROM flet.tbClientes WHERE clie_Id = @clie_Id))
-		BEGIN
+ IF EXISTS (SELECT * FROM flet.tbPedidos WHERE clie_Id = @clie_Id)
+	BEGIN
 			SELECT - 3
 		END
 		ELSE 
@@ -2326,7 +2330,7 @@ AS
 BEGIN
 	BEGIN TRY
 		
-		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('flet.tbItems') AND EXISTS ( SELECT 1 FROM flet.tbItems WHERE item_Id = @item_Id))
+		IF EXISTS (SELECT * FROM flet.tbPedidoDetalles WHERE item_Id = @item_Id)
 		BEGIN
 			SELECT - 3
 		END
@@ -2926,8 +2930,8 @@ BEGIN
 	BEGIN TRY
 
 
-	IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('acce.tbRoles') AND EXISTS ( SELECT 1 FROM acce.tbRoles WHERE role_Id = @role_Id))
-			BEGIN
+	IF EXISTS (SELECT * FROM acce.tbUsuarios WHERE role_Id = @role_Id)
+	BEGIN
 				SELECT -3
 			END
 		ELSE
@@ -3038,19 +3042,12 @@ AS
 BEGIN
 	BEGIN TRY
 
-		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('acce.tbUsuarios') AND EXISTS ( SELECT 1 FROM acce.tbUsuarios WHERE [user_Id] = @user_Id))
-		BEGIN
-			SELECT - 3
-		END
-		ELSE 
-			BEGIN
-			
+		
 			UPDATE [acce].[tbUsuarios]
 			SET [user_Estado]  = 0,
 				[user_FechaModificacion] = GETDATE()
 			WHERE [user_Id] = @user_Id
 			SELECT 1 
-		END
 
 	END TRY
 	BEGIN CATCH
@@ -3350,18 +3347,11 @@ AS
 BEGIN
 	BEGIN TRY
 		
-		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('flet.tbSucursales') AND EXISTS ( SELECT 1 FROM flet.tbSucursales WHERE sucu_Id = @sucu_Id))
-		BEGIN
-			SELECT - 3
-		END
-		ELSE 
-			BEGIN
 			UPDATE	flet.tbSucursales
 			SET		sucu_Estado = 0
 			WHERE	sucu_Id = @sucu_Id
 		
 			SELECT 1 
-		END
 	
 	END TRY
 	BEGIN CATCH
