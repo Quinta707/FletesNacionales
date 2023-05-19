@@ -1,0 +1,21 @@
+1marcas			
+2modelos			
+3tipodevehiculo		
+4vehiculos			
+5clientes			
+6empleados			
+7escalasportrayecto	
+8estadosdelpedido		
+9fletedetalles		
+10fletes			
+11items			
+12pedidodetalles		
+13pedidos			
+14sucursales 		--funciona
+15trayectos			
+16ubicacionporflete	
+17cargos 			--funciona
+18departamentos 		--funciona
+19estadosciviles		--funciona
+20metodosdepago		--funciona
+21municipios		--funciona
