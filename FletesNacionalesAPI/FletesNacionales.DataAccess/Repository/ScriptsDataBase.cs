@@ -184,6 +184,16 @@
 
         #endregion
 
+        #region PedidoDetalles
+
+        public static string PedidoDetallesFind = "flet.UDP_tbPedidoDetalles_Find";
+        public static string PedidoDetallesIndex = "flet.UDP_tbPedidoDetalles_Index";
+        public static string PedidoDetallesInsert = "flet.UDP_tbPedidoDetalles_Insert";
+        public static string PedidoDetallesUpdate = "flet.UDP_tbPedidoDetalles_Update";
+        public static string PedidoDetallesDelete = "flet.UDP_tbPedidoDetalles_Delete";
+
+        #endregion
+
         #endregion
 
         #region Equi

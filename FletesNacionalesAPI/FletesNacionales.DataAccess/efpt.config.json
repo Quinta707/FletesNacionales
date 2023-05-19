@@ -174,6 +174,18 @@
          "ObjectType": 3
       },
       {
+         "Name": "[flet].[VW_tbSucursales]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[flet].[VW_tbTrayectos]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[flet].[VW_tbUbicacionPorFlete]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[gral].[VW_tbCargos]",
          "ObjectType": 3
       },
@@ -194,7 +206,7 @@
          "ObjectType": 3
       }
    ],
-   "UiHint": "DESKTOP-51051C3\\SQLEXPRESS.FletesNacionales",
+   "UiHint": "DESKTOP-AJ8GUH2\\SQLEXPRESS.FletesNacionales",
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": true,
    "UseDbContextSplitting": false,
