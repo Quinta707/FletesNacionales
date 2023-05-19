@@ -182,7 +182,7 @@ BEGIN
 	BEGIN TRY
 		IF EXISTS (SELECT * FROM gral.tbDepartamentos WHERE depa_Nombre = @depa_Nombre AND depa_Estado = 1)
 			BEGIN
-				SELECT 2 
+				SELECT -2 
 			END
 		ELSE IF NOT EXISTS (SELECT * FROM gral.tbDepartamentos WHERE depa_Nombre = @depa_Nombre)
 			BEGIN
