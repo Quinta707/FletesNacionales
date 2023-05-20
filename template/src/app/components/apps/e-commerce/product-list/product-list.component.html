@@ -1,0 +1,55 @@
+<app-breadcrumb [title]="'Product List'" [items]="['Apps', 'Ecommerce']" [active_item]="'Product List'"></app-breadcrumb>
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+  <div class="row">
+    <!-- Individual column searching (text inputs) Starts-->
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h5>Individual column searching (text inputs)</h5>
+          <span>Search your product from here..</span>
+        </div>
+        <div class="card-body">
+          <div class="product-list-custom custom-datatable">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Image</th>
+                    <th scope="col">Desc</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let product of products; index as i">
+                    <td>
+                      <img [src]="product.img" class="me-2 img-fluid" />
+                    </td>
+                    <td>
+                      <h6>{{ product.name }}</h6>
+                      <span>{{ product.desc }}</span>
+                    </td>
+                    <td>${{ product.amount }}</td>
+                    <td>
+                      <div [ngClass]="{ 'font-success': product.stock === 'In Stock', 'font-danger': product.stock === 'out of stock', 'font-primary': product.stock === 'No Signal' }">{{ product.stock }}</div>
+                    </td>
+                    <td>{{ product.date }}</td>
+                    <td>
+                      <button class="btn btn-danger me-1" type="button" title="">Delete</button>
+                      <button class="btn btn-success" type="button" title="">Edit</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Individual column searching (text inputs) Ends-->
+  </div>
+</div>
+<!-- Container-fluid Ends-->

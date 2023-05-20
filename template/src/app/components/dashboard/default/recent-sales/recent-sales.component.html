@@ -1,0 +1,30 @@
+<div class="appointment">
+   <div class="card">
+     <div class="card-header card-no-border">
+       <div class="header-top">
+         <h5 class="m-0">Recent Sales</h5>
+         <div class="card-header-right-icon">
+           <div class="dropdown">
+             <button class="btn dropdown-toggle" type="button" (click)="toggle()">Today</button>
+             <div class="dropdown-menu dropdown-menu-end" [class.show]="show"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday</a></div>
+           </div>
+         </div>
+       </div>
+     </div>
+     <div class="card-body pt-0">
+       <div class="appointment-table table-responsive">
+         <table class="table table-bordernone">
+           <tbody>
+             <tr *ngFor="let item of recentSalesList">
+               <td><img class="img-fluid img-40 rounded-circle" src="{{item.profile}}" alt="user"></td>
+               <td class="img-content-box"><a class="d-block f-w-500" href="user-profile.html">{{item.name}}</a><span class="f-light">{{item.time}}</span></td>
+               <td class="text-end">
+                 <p class="m-0 font-success">${{item.sales}}</p>
+               </td>
+             </tr>
+           </tbody>
+         </table>
+       </div>
+     </div>
+   </div>
+ </div>

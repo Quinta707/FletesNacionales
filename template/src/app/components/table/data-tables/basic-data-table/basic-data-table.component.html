@@ -1,0 +1,85 @@
+<app-breadcrumb [title]="'Basic'" [items]="['Tables', 'Data Tables']" [active_item]="'Basic'"></app-breadcrumb>
+<!-- Container-fluid starts -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h5>Basic Table</h5>
+        </div>
+        <div class="card-body custom-datatable noscroll">
+          <div class="custom-datatable table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col" sortable="name" (sort)="onSort($event)">Name</th>
+                  <th scope="col" sortable="startDate">Date</th>
+                  <th scope="col" sortable="invoice" (sort)="onSort($event)">Invoice No.</th>
+                  <th scope="col" sortable="position" (sort)="onSort($event)">Job Designation</th>
+                  <th scope="col" sortable="credit" (sort)="onSort($event)">Credit/Debit</th>
+                  <th scope="col" sortable="office" (sort)="onSort($event)">Company Name</th>
+                  <th scope="col" sortable="salary">Priority</th>
+                  <th scope="col" sortable="Budget" (sort)="onSort($event)">Budget</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of tableItem$ | async">
+                  <td scope="row">
+                    <img class="img-40 me-2" src="{{ item.img }}" alt="" />
+                    <ngb-highlight [result]="item.name" [term]="service.searchTerm"></ngb-highlight>
+                  </td>
+                  <td>
+                    <ngb-highlight [result]="item.startDate" [term]="service.searchTerm"></ngb-highlight>
+                  </td>
+                  <td>
+                    <ngb-highlight [result]="item.invoice" [term]="service.searchTerm"></ngb-highlight>
+                  </td>
+                  <td>
+                    <ngb-highlight [result]="item.position" [term]="service.searchTerm"></ngb-highlight>
+                  </td>
+                  <td>
+                    <span class="f-w-700 font-{{ item.iconColor }}">
+                      <i class="icofont {{ item.iconClass }}"></i>
+                      <ngb-highlight [result]="item.credit" [term]="service.searchTerm"></ngb-highlight>
+                    </span>
+                  </td>
+                  <td>
+                    <ngb-highlight [result]="item.office" [term]="service.searchTerm"></ngb-highlight>
+                  </td>
+                  <td>
+                    <span class="badge {{ item.ActionClass }}">
+                      <ngb-highlight [result]="item.salary" [term]="service.searchTerm"></ngb-highlight>
+                    </span>
+                  </td>
+                  <td>
+                    <ngb-highlight [result]="item.Budget" [term]="service.searchTerm"></ngb-highlight>
+                  </td>
+                  <td>
+                    <div class="action">
+                      <li class="edit">
+                        <a href="#"><i class="icon-pencil-alt"></i></a>
+                      </li>
+                      <li class="delete" (click)="onSelect(item.name)">
+                        <a href="#"><i class="icon-trash"></i></a>
+                      </li>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-between mt-3">
+              <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+                <option [ngValue]="2">2 items per page</option>
+                <option [ngValue]="4">4 items per page</option>
+                <option [ngValue]="6">6 items per page</option>
+              </select>
+              <ngb-pagination class="ms-3" [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize"> </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends -->

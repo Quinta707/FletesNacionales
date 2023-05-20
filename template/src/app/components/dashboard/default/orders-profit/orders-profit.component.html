@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="col-xxl-12 col-xl-6 box-col-12">
+    <app-orders></app-orders>
+  </div>
+  <div class="col-xxl-12 col-xl-6 box-col-12">
+    <!-- <app-profit></app-profit> -->
+    <div class="card widget-1 widget-with-chart">
+      <div class="card-body">
+        <div>
+          <h4 class="mb-1">6,90k</h4>
+          <span class="f-light">Profit</span>
+        </div>
+        <div class="order-chart">
+          <div id="orderchart">
+            <apx-chart
+              [series]="profit.series"
+              [chart]="profit.chart"
+              [colors]="profit.colors"
+              [stroke]="profit.stroke"
+              [grid]="profit.grid"
+              [xaxis]="profit.xaxis"
+              [yaxis]="profit.yaxis"
+              [responsive]="profit.responsive"
+              [dataLabels]="profit.dataLabels"
+              [tooltip]="profit.tooltip"
+            ></apx-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
