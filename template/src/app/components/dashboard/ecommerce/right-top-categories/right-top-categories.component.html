@@ -1,0 +1,40 @@
+<div class="card">
+  <div class="card-header card-no-border">
+    <h5>Top Categories</h5>
+  </div>
+  <div class="card-body pt-0">
+    <ul class="categories-list">
+      <li class="d-flex" *ngFor="let item of categories">
+        <div class="bg-light"><img src="{{ item.image }}" alt="vector burger" /></div>
+        <div>
+          <h6 class="mb-0">
+            <a href="product.html">{{ item.name }}</a>
+          </h6>
+          <span class="f-light f-12 f-w-500">({{ item.items }})</span>
+        </div>
+      </li>
+    </ul>
+    <div class="recent-activity notification">
+      <h5>Recent Activity</h5>
+      <ul>
+        <li class="d-flex" *ngFor="let item of recentActivity">
+          <div class="activity-dot-{{ item.color }}"></div>
+          <div class="w-100 ms-3">
+            <p class="d-flex justify-content-between mb-2">
+              <span class="date-content light-background">{{ item.date }} </span>
+            </p>
+            <h6>{{ item.title }}<span class="dot-notification"></span></h6>
+            <span class="f-light">{{ item.dace }}</span>
+            <div class="recent-images" *ngIf="item.images.length">
+              <ul>
+                <li *ngFor="let img of item.images">
+                  <div class="recent-img-wrap"><img src="{{ img.img }}" alt="chair" /></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

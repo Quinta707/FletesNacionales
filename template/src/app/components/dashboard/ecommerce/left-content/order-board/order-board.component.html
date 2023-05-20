@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card o-hidden">
+      <div class="card-body balance-widget">
+        <span class="f-w-500 f-light">Total Balance</span>
+        <h4 class="mb-3 mt-1 f-w-500 mb-0 f-22">$<span class="counter">245,154.00 </span><span class="f-light f-14 f-w-400 ms-1">this month</span></h4>
+        <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="#">Tap Up Balance</a>
+        <div class="mobile-right-img"><img class="left-mobile-img" src="assets/images/dashboard-2/widget-img.png" alt="" /><img class="mobile-img" src="assets/images/dashboard-2/mobile.gif" alt="mobile with coin" /></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="card small-widget">
+      <app-sale-status [data]="newOrders"></app-sale-status>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="card small-widget">
+      <app-sale-status [data]="newCustomers"></app-sale-status>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="card small-widget">
+      <app-sale-status [data]="averageSale"></app-sale-status>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="card small-widget">
+      <app-sale-status [data]="grossProfit"></app-sale-status>
+    </div>
+  </div>
+</div>

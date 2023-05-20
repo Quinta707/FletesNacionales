@@ -1,0 +1,128 @@
+<app-breadcrumb [title]="'Cart'" [items]="['Apps', 'Ecommerce']" [active_item]="'Cart'"></app-breadcrumb>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h5>Cart</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="order-history table-responsive wishlist cart-page">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Prdouct</th>
+                    <th>Prdouct Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Action</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><img class="img-fluid img-40" src="assets/images/product/1.png" alt="#" /></td>
+                    <td>
+                      <div class="product-name"><a href="/ecommerce/product-details">Black Top </a></div>
+                    </td>
+                    <td>$100</td>
+                    <td>
+                      <div class="qty-box">
+                        <div class="input-group">
+                          <button class="btn btn-primary btn-square bootstrap-touchspin-down" type="button" data-type="minus" (click)="increment()">
+                            <app-feather-icons [icon]="'minus'"></app-feather-icons>
+                          </button>
+
+                          <input class="touchspin text-center form-control" type="text" name="quantity" value="2" data-original-title="" title="" />
+
+                          <button class="btn btn-primary btn-square bootstrap-touchspin-up" type="button" data-type="plus" (click)="decrement()">
+                            <app-feather-icons [icon]="'plus'"></app-feather-icons>
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <i data-feather="x-circle"></i>
+                    </td>
+                    <td>$200</td>
+                  </tr>
+                  <tr>
+                    <td><img class="img-fluid img-40" src="assets/images/product/13.png" alt="#" /></td>
+                    <td>
+                      <div class="product-name"><a href="/ecommerce/product-details">Black T-shirt</a></div>
+                    </td>
+                    <td>$150</td>
+                    <td>
+                      <div class="qty-box">
+                        <div class="input-group">
+                          <button class="btn btn-primary btn-square bootstrap-touchspin-down" type="button" data-type="minus" (click)="increment()">
+                            <app-feather-icons [icon]="'minus'"></app-feather-icons>
+                          </button>
+
+                          <input class="touchspin text-center form-control" type="text" name="quantity" value="3" data-original-title="" title="" />
+
+                          <button class="btn btn-primary btn-square bootstrap-touchspin-up" type="button" data-type="plus" (click)="decrement()">
+                            <app-feather-icons [icon]="'plus'"></app-feather-icons>
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <i data-feather="x-circle"></i>
+                    </td>
+                    <td>$450</td>
+                  </tr>
+                  <tr>
+                    <td><img class="img-fluid img-40" src="assets/images/product/2.png" alt="#" /></td>
+                    <td>
+                      <div class="product-name"><a href="/ecommerce/product-details">Mens brown t-shirt</a></div>
+                    </td>
+                    <td>$90</td>
+                    <td>
+                      <div class="qty-box">
+                        <div class="input-group">
+                          <button class="btn btn-primary btn-square bootstrap-touchspin-down" type="button" data-type="minus" (click)="increment()">
+                            <app-feather-icons [icon]="'minus'"></app-feather-icons>
+                          </button>
+
+                          <input class="touchspin text-center form-control" type="text" name="quantity" value="1" data-original-title="" title="" />
+
+                          <button class="btn btn-primary btn-square bootstrap-touchspin-up" type="button" data-type="plus" (click)="decrement()">
+                            <app-feather-icons [icon]="'plus'"></app-feather-icons>
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle" _ngcontent-nvk-c156="">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                      </svg>
+                    </td>
+                    <td>$90</td>
+                  </tr>
+                  <tr>
+                    <td colspan="4">
+                      <div class="input-group"><input class="form-control me-2" type="text" placeholder="Enter coupan code" /><a class="btn btn-primary" href="javascript:void(0);">Apply</a></div>
+                    </td>
+                    <td class="total-amount">
+                      <h6 class="m-0 text-end"><span class="f-w-600">Total Price :</span></h6>
+                    </td>
+                    <td><span>$740.00 </span></td>
+                  </tr>
+                  <tr>
+                    <td class="text-end" colspan="5"><a class="btn btn-secondary cart-btn-transform" [routerLink]="['/ecommerce/products']">continue shopping</a></td>
+                    <td><a class="btn btn-success cart-btn-transform" [routerLink]="['/ecommerce/checkout']">check out</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- Container-fluid Ends-->
+      </div>
+    </div>
+  </div>
+</div>
