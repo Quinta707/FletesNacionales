@@ -32,9 +32,9 @@ export class HeaderComponent implements OnInit {
     document.body.remove;
   }
 
-  searchToggle() {
-    this.navServices.search = true;
-  }
+  // searchToggle() {
+  //   this.navServices.search = true;
+  // }
 
   languageToggle() {
     this.navServices.language = !this.navServices.language;

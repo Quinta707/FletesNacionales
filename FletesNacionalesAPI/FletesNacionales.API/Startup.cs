@@ -38,7 +38,7 @@ namespace FletesNacionales.API
 
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowFlutterApp", builder =>
+                options.AddPolicy("AllowFlutter", builder =>
                 {
                     builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
                     .AllowAnyHeader()
@@ -47,7 +47,6 @@ namespace FletesNacionales.API
                     //builder.WithOrigins("http://localhost:61025/#/"); // Reemplaza con la URL de tu aplicación Flutter
                 });
             });
-
         }
 
         private void AddSwagger(IServiceCollection services)
@@ -82,6 +81,8 @@ namespace FletesNacionales.API
 
             app.UseHttpsRedirection();
 
+            app.UseCors("AllowFlutter");
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -90,6 +91,7 @@ namespace FletesNacionales.API
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }

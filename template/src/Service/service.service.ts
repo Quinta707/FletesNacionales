@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Cargos } from '../Models/Cargos';
 import { Global } from '../../config';
 
-// @Injectable({
-//   providedIn: 'root'
-// })
+@Injectable({
+  providedIn: 'root'
+})
 export class ServiceService {
 
   constructor(private http:HttpClient) { }
