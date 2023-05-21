@@ -7,7 +7,7 @@ import { ServiceService } from '../../../../shared/services/fletes.service';
   templateUrl: './fletes-list.component.html',
   styleUrls: ['./fletes-list.component.scss']
 })
-export class FleteComponent {
+export class FleteListComponent {
   cargos!: Flete[];
  
   constructor(private service:ServiceService){}
