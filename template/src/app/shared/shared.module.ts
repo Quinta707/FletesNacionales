@@ -7,6 +7,7 @@ import { DragulaModule } from "ng2-dragula";
 import { TranslateModule } from "@ngx-translate/core";
 // Components
 import { BreadcrumbComponent } from "./components/breadcrumb/breadcrumb.component";
+import { FleteListComponent } from "../components/flet/fletes/fletes-list/fletes-list.component";
 import { CustomizerComponent } from "./components/customizer/customizer.component";
 import { FeatherIconsComponent } from "./components/feather-icons/feather-icons.component";
 import { FooterComponent } from "./components/footer/footer.component";
@@ -16,6 +17,7 @@ import { FullComponent } from "./components/layout/full/full.component";
 import { LoaderComponent } from "./components/loader/loader.component";
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { TapToTopComponent } from "./components/tap-to-top/tap-to-top.component";
+
 // Header Elements Components
 // import { SearchComponent } from "./components/header/elements/search/search.component";
 import { MegaMenuComponent } from "./components/header/elements/mega-menu/mega-menu.component";

@@ -102,7 +102,12 @@
               },
               "src/assets"
             ],
-            "styles": ["node_modules/font-awesome/scss/font-awesome.scss", "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css", "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css", "src/styles.scss"],
+            "styles": [
+              "node_modules/font-awesome/scss/font-awesome.scss", 
+              "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css", 
+              "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css", 
+              "src/styles.scss"
+            ],
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
