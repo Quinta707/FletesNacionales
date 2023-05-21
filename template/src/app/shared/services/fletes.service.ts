@@ -2,7 +2,6 @@
 import { Injectable, PipeTransform } from '@angular/core';
 
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-
 import { DecimalPipe, SlicePipe } from '@angular/common';
 import { debounceTime, delay, map, switchMap, tap } from 'rxjs/operators';
 import { SortColumn, SortDirection } from '../directives/NgbdSortableHeader';
@@ -36,7 +35,7 @@ function sort(tableItem: Flete[], column: SortColumn, direction: string): Flete[
     }
 }
 function matches(table: Flete, term: string, pipe: PipeTransform) {
-    return table.carg_Descripcion.toLowerCase().includes(term.toLowerCase());
+    return table.empe_NombreCompleto.toLowerCase().includes(term.toLowerCase());
   }
 
 @Injectable({ providedIn: 'root' })
@@ -115,26 +114,41 @@ export class TableService {
     }
 
     private _search(): Observable<SearchResult> {
-        const { sortColumn, sortDirection, pageSize, page, searchTerm } = this._state;
-
+        const { sortColumn, sortDirection, pageSize, page, searchTerm } =
+          this._state;
+    
         // 1. sort
         let tableItem = sort(this.userData, sortColumn, sortDirection);
-
+    
         // 2. filter
         const total = tableItem.length;
-        tableItem = tableItem.filter(country => matches(country, searchTerm, this.pipe));
-        
-        tableItem = tableItem
-            .map((item, i) => ({ id: i + 1, ...item }))
-            .slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
-        return of({ tableItem, total });
-    }
-
+        tableItem = tableItem.filter((country) =>
+          matches(country, searchTerm, this.pipe)
+        );
     
-  CargosListado = Global + "Cargos/Listado";
+        // 3. Parsear la fecha
+        tableItem.forEach((item) => {
+            if (typeof item.flet_FechaDeSalida === 'string') {
+              item.flet_FechaDeSalidaParseada = new Date(item.flet_FechaDeSalida);
+              item.flet_FechaDeSalida = item.flet_FechaDeSalidaParseada.toLocaleDateString('es-ES', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+              });
+            }
+          });
+          
+    
+        tableItem = tableItem
+          .map((item, i) => ({ id: i + 1, ...item }))
+          .slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
+        return of({ tableItem, total });
+      }
+    
+  FletesListado = Global + "Fletes/Listado";
 
-  getCargos(){
-    return this.http.get<Flete[]>(this.CargosListado);
+  getFletes(){
+    return this.http.get<Flete[]>(this.FletesListado);
   }
 
 

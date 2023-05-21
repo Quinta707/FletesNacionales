@@ -2126,13 +2126,19 @@ GO
 CREATE OR ALTER VIEW flet.VW_tbFletes
 AS
 SELECT	flet_Id, 
-		vehi_Id, 
+		T1.vehi_Id, 
+		T11.vehi_Placa,
+		T12.mode_Id,
+		T12.mode_Nombre,
+		T12.marc_Id,
+		T13.marc_Nombre,
 		T1.empe_Id, 
 		T4.empe_Nombres  + ' ' + T4.empe_Apellidos AS empe_NombreCompleto,
 		T4.empe_Identidad, 
 		T4.empe_FechaNacimiento, 
 		T4.empe_Sexo, 
 		T4.eciv_Id, 
+		T10.eciv_Descripcion,
 		T4.muni_Id, 
 		T4.empe_DireccionExacta, 
 		T4.empe_Telefono, 
@@ -2140,7 +2146,13 @@ SELECT	flet_Id,
 		T5.sucu_Nombre,
 		T4.carg_Id, 
 		T6.carg_Descripcion,
-		tray_Id, 
+		T1.tray_Id, 
+		T7.muni_Inicio,
+		T7.muni_Final,
+		T8.muni_Nombre AS muni_NombreInicio,
+		T8.muni_Codigo AS muni_CodigoInicio,
+		T9.muni_Nombre AS muni_NombreFinal,
+		T9.muni_Codigo AS muni_CodigoFinal,
 		flet_FechaDeSalida, 
 		flet_UsuCreacion, 
 		flet_FechaCreacion, 
@@ -2154,8 +2166,14 @@ SELECT	flet_Id,
   ON T1.flet_UsuModificacion = T3.[user_Id] INNER JOIN flet.tbEmpleados T4
   ON T1.empe_Id = T4.empe_Id INNER JOIN flet.tbSucursales T5
   ON T4.sucu_Id = T5.sucu_Id INNER JOIN gral.tbCargos T6
-  ON T4.carg_Id = T6.carg_Id
-
+  ON T4.carg_Id = T6.carg_Id INNER JOIN flet.tbTrayectos T7
+  ON T7.tray_Id = T1.tray_Id INNER JOIN gral.tbMunicipios T8
+  ON T8.muni_Id = T7.muni_Inicio INNER JOIN gral.tbMunicipios T9
+  ON T9.muni_Id = T7.muni_Final INNER JOIN gral.tbEstadosCiviles T10
+  ON T10.eciv_Id = T4.eciv_Id INNER JOIN equi.tbVehiculos T11
+  ON T11.vehi_Id = T1.vehi_Id INNER JOIN equi.tbModelos T12
+  ON T12.mode_Id = T11.mode_Id INNER JOIN equi.tbMarcas T13
+  ON T13.marc_Id = T12.marc_Id
 
 --************** INDEX *****************--
 GO

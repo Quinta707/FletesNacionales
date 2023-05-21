@@ -6,7 +6,7 @@
       <div class="card">
         <div class="card-header bg-primary">
           <div class="text-center">
-            <h3>Listar Categorias</h3>
+            <h3>Listado de fletes</h3>
           </div>
         </div>
         <div class="card-body">
@@ -32,18 +32,34 @@
                   <table class="table">
                     <thead>
                       <tr>
-                        <th scope="col" sortable="carg_Id" (sort)="onSort($event)">Id</th>
-                        <th scope="col" sortable="carg_Descripcion" (sort)="onSort($event)">Cargo</th>
+                        <th scope="col" sortable="flet_Id" (sort)="onSort($event)">Id</th>
+                        <th scope="col" sortable="flet_FechaDeSalida" (sort)="onSort($event)">Fecha de salida</th>
+                        <th scope="col" sortable="muni_NombreInicio" (sort)="onSort($event)">Trayecto</th>
+                        <th scope="col" sortable="empe_NombreCompleto" (sort)="onSort($event)">Empleado/Conductor</th>
+                        <th scope="col" sortable="marc_Nombre" (sort)="onSort($event)">Vehiculo</th>
+                        <th scope="col" sortable="vehi_Placa" (sort)="onSort($event)">Matricula</th>
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let item of tableItem$ | async">
                         <td scope="row">
-                          <ngb-highlight [result]="item.carg_Id" [term]="service.searchTerm"></ngb-highlight>
+                          <ngb-highlight [result]="item.flet_Id" [term]="service.searchTerm"></ngb-highlight>
                         </td>
                         <td>
-                          <ngb-highlight [result]="item.carg_Descripcion" [term]="service.searchTerm"></ngb-highlight>
+                          <ngb-highlight [result]="item.flet_FechaDeSalida" [term]="service.searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                          Desde: <ngb-highlight [result]="item.muni_NombreInicio" [term]="service.searchTerm"></ngb-highlight>, Hasta: <ngb-highlight [result]="item.muni_NombreFinal" [term]="service.searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                          <ngb-highlight [result]="item.empe_NombreCompleto" [term]="service.searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                          <ngb-highlight [result]="item.marc_Nombre" [term]="service.searchTerm"></ngb-highlight>, <ngb-highlight [result]="item.mode_Nombre" [term]="service.searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                          <ngb-highlight [result]="item.vehi_Placa" [term]="service.searchTerm"></ngb-highlight>
                         </td>
                         <td>
                           <div class="action">

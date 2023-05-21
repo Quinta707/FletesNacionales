@@ -8,7 +8,6 @@ import { SharedModule } from '../../shared/shared.module';
 import { FleteListComponent } from './fletes/fletes-list/fletes-list.component';
 
 import { FletRoutingModule } from './flet-routing.module';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   declarations: [
@@ -21,7 +20,6 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     FormsModule,
     NgbModule,
     SharedModule,
-    NgxDatatableModule
   ]
 })
 export class FletModule { }

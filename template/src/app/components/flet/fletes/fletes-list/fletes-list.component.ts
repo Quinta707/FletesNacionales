@@ -14,12 +14,12 @@ export class FleteListComponent implements OnInit {
   public selected = [];
 
   
-  cargos: Flete[];
+  fletes: Flete[];
  
   ngOnInit(): void {
-   this.service.getCargos()
+   this.service.getFletes()
    .subscribe((data: any)=>{
-      this.cargos= data.data;
+      this.fletes= data.data;
       this.service.setUserData(data.data)
    })
   }
@@ -32,7 +32,7 @@ export class FleteListComponent implements OnInit {
 
     this.tableItem$ = service.tableItem$;
     this.total$ = service.total$;
-    this.service.setUserData(this.cargos)
+    this.service.setUserData(this.fletes)
 
   }
 
