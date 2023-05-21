@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { FleteComponent } from './fletes/fletes-list/fletes-list.component';
+import { FleteListComponent } from './fletes/fletes-list/fletes-list.component';
 
 const routes: Routes = [
   {
@@ -11,7 +11,7 @@ const routes: Routes = [
         children: [
           {
             path: "List",
-            component: FleteComponent,
+            component: FleteListComponent,
           },
         ],
       },
