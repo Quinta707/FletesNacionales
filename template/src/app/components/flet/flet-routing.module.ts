@@ -7,8 +7,13 @@ const routes: Routes = [
     path: "",
     children: [
       {
-        path: "list",
-        component: FleteComponent,
+        path: "Fletes",
+        children: [
+          {
+            path: "List",
+            component: FleteComponent,
+          },
+        ],
       },
     ],
   },

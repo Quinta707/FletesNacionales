@@ -5,7 +5,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 
- import { FleteComponent } from './fletes/fletes-list/fletes-list.component';
+import { FleteComponent } from './fletes/fletes-list/fletes-list.component';
+
 import { FletRoutingModule } from './flet-routing.module';
 
 @NgModule({
