@@ -11,13 +11,21 @@ import { ClienteListComponent } from './clientes/clientes-list/clientes-list.com
 import { FleteListPropioComponent } from './fletes/fletes-list-propio/fletes-list-propio.component';
 
 import { FletRoutingModule } from './flet-routing.module';
+import { VehiculosLstComponent } from './vehiculos/vehiculos-lst/vehiculos-lst.component';
+import { SucursalesListComponent } from './sucursales/sucursales-list/sucursales-list.component';
+import { EmpleadosListComponent } from './empleados/empleados-list/empleados-list.component';
+import { EstadoscivilesListComponent } from './estadosciviles/estadosciviles-list/estadosciviles-list.component';
 
 @NgModule({
   declarations: [
     FleteListComponent,
     FleteListPropioComponent,
     ItemListComponent,
-    ClienteListComponent
+    ClienteListComponent,
+    VehiculosLstComponent,
+    SucursalesListComponent,
+    EmpleadosListComponent,
+    EstadoscivilesListComponent
   ],
   imports: [
     CommonModule,
