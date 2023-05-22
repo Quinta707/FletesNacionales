@@ -13,6 +13,8 @@
             <form class="theme-form" [formGroup]="loginForm">
               <h4>Iniciar sesión</h4>
               <p>ingresa tu usuario y contraseña</p>
+              <ngb-alert *ngIf="successMessage" type="danger" [dismissible]="false" (closed)="successMessage = null">{{ successMessage }}
+              </ngb-alert>
               <div class="form-group">
                 <label class="col-form-label">Usuario</label>
                 <input class="form-control" type="email" required="" placeholder="JIDS" formControlName="email" />
@@ -21,35 +23,13 @@
               <div class="form-group">
                 <label class="col-form-label">Contaseña</label>
                 <input class="form-control" [type]="show ? 'text' : 'password'" formControlName="password" required="" placeholder="*********" />
-                <div class="show-hide" (click)="showPassword()" *ngIf="!show"><span class="ver"></span></div>
-                <div class="show-hide" (click)="showPassword()" *ngIf="show"><span class="ocultar"></span></div>
+                <div class="show-hide" (click)="showPassword()" *ngIf="!show"><span class="show"></span></div>
+                <div class="show-hide" (click)="showPassword()" *ngIf="show"><span class="hide"></span></div>
                 <div *ngIf="loginForm.controls.password.touched && loginForm.controls.password.errors?.required" class="text text-danger mt-1">La contraseña es requerida</div>
               </div>
               <div class="text-end mt-3">
-                <button class="btn btn-primary d-block w-100" [disabled]="!loginForm.valid" (click)="login()" type="button"><span>Sign in</span></button>
+                <button class="btn btn-primary d-block w-100" [disabled]="!loginForm.valid" (click)="login()" type="button"><span>Iniciar sesión</span></button>
               </div>
-              <!-- <div class="form-group mb-0">
-                <div class="checkbox p-0">
-                  <input id="checkbox1" type="checkbox" />
-                  <label class="text-muted" for="checkbox1">Remember password</label>
-                </div>
-                <a [routerLink]="'/authentication/forgot-password'" class="link">Forgot password?</a>
-                <div class="text-end mt-3">
-                  <button class="btn btn-primary d-block w-100" [disabled]="!loginForm.valid" (click)="login()" type="button"><span>Sign in</span></button>
-                </div>
-              </div> -->
-              <!-- <h6 class="text-muted mt-4 or">Or Sign in with</h6>
-              <div class="social mt-4">
-                <div class="btn-showcase">
-                  <a class="btn btn-light" target="_blank"> <app-feather-icons [icon]="'log-in'" class="txt-google"></app-feather-icons>Google + </a>
-                  <a class="btn btn-light" target="_blank"> <app-feather-icons [icon]="'facebook'" class="txt-fb"></app-feather-icons>Facebook </a>
-                  <a class="btn btn-light" target="_blank"> <app-feather-icons [icon]="'twitter'" class="txt-twitter"></app-feather-icons>twitter </a>
-                </div>
-              </div>
-              <p class="mt-4 mb-0">
-                Don't have account?
-                <a [routerLink]="'/authentication/register/simple'" class="ms-2">Create Account</a>
-              </p> -->
             </form>
           </div>
         </div>

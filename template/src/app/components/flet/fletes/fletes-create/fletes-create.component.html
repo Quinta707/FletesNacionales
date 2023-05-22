@@ -1,7 +1,7 @@
 <div class="container">
-  <app-breadcrumb [title]="'Fletes listado'" [items]="['Flet']" [active_item]="'Fletes'"></app-breadcrumb>
+  <app-breadcrumb [title]="'Fletes crear'" [items]="['Flet']" [active_item]="'Fletes'"></app-breadcrumb>
   <br>
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-12">
       <div class="card">
         <div class="card-header bg-primary">
@@ -290,5 +290,47 @@
         </div>
       </div>
     </div>
+  </div> -->
+
+  <div class="row">
+    <div class="col-5">
+        <div class="card">
+          <div class="card-header">
+            <h5>Flete</h5>
+          </div>
+          <div class="card-body">
+            <div class="col-form-label">Vehiculo</div>
+              <ng-select [items]="" class="js-example-basic-single"
+                 groupBy="job" placeholder="Vehiculo"></ng-select>
+                 <!-- [(ngModel)]="" -->
+                 <div class="col-form-label">Empleado</div>
+              <ng-select [items]="" class="js-example-basic-single"
+                 groupBy="job" placeholder="Empleado"></ng-select>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="col-7">
+      <div class="card">
+        <div class="card-header">
+          <h5>Pedidos</h5>
+        </div>
+        <div class="card-body">
+          
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+
+        </div>
+        <div class="card-body">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+

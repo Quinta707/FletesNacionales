@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { FleteListComponent } from './fletes/fletes-list/fletes-list.component';
+import { FleteCreateComponent } from './fletes/fletes-create/fletes-create.component';
 import { ItemListComponent } from './item/items-list/items-list.component';
 import { ClienteListComponent } from './clientes/clientes-list/clientes-list.component';
 import { FleteListPropioComponent } from './fletes/fletes-list-propio/fletes-list-propio.component';
@@ -15,6 +16,10 @@ const routes: Routes = [
           {
             path: "List",
             component: FleteListComponent,
+          },
+          {
+            path: "Create",
+            component: FleteCreateComponent,
           },
           {
             path: "PersonalList",

@@ -3,6 +3,8 @@ import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { Global } from '../../../../config';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: "app-login",
@@ -26,9 +28,24 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  private _success = new Subject<string>();
+
+  successMessage: string;
+
+  
+  public changeSuccessMessage() {
+    this._success.next(`Usuario o contraseña incorrectos`);
+  }
+
+  ngOnInit() {
+    this._success.subscribe((message) => this.successMessage = message);
+    // this._success.pipe(
+    //   debounceTime(5000)
+    // ).subscribe(() => this.successMessage = null);
+  }
 
   login() {
+
     const email = this.loginForm.value["email"];
     const password = this.loginForm.value["password"];
 
@@ -45,12 +62,13 @@ export class LoginComponent implements OnInit {
           this.router.navigate(["/dashboard/default"]);
         }else{
           this.errorMessage = "Error en el inicio de sesión";
+          this._success.next(`Usuario o contraseña incorrectos`);
         }
-        
       },
       (error) => {
         // Manejar el error en caso de que la solicitud falle
         this.errorMessage = "Error en el inicio de sesión";
+        this._success.next(`Error al iniciar sesión, intentalo luego`);
       }
     );
   }

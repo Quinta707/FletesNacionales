@@ -7,11 +7,11 @@ import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
-  selector: 'app-flete-list',
-  templateUrl: './fletes-list.component.html',
-  styleUrls: ['./fletes-list.component.scss']
+  selector: 'app-flete-create',
+  templateUrl: './fletes-create.component.html',
+  styleUrls: ['./fletes-create.component.scss']
 })
-export class FleteListComponent implements OnInit {
+export class FleteCreateComponent implements OnInit {
   public selected = [];
 
   public active = 1;
