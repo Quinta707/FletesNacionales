@@ -458,6 +458,46 @@ namespace FletesNacionales.BusinessLogic.Services
             }
         }
 
+        public ServiceResult EmpezarFlete(tbFletes id)
+        {
+            var result = new ServiceResult();
+
+            try
+            {
+                var insert = _fletesRepository.EmpezarFlete(id);
+
+                if (insert.CodeStatus == 1)
+                    return result.SetMessage("Empezo", ServiceResultType.Success);
+                else if (insert.CodeStatus == -5)
+                    return result.SetMessage("PedidosPendientes", ServiceResultType.Error);
+                else if (insert.CodeStatus == -6)
+                    return result.SetMessage("PedidosSinTerminar", ServiceResultType.Error);
+                else if (insert.CodeStatus == 0)
+                    return result.SetMessage("Error Inesperado", ServiceResultType.Error);
+                else
+                    return result.SetMessage("Conexión perdida", ServiceResultType.Error);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult FletePedidos(tbFletes id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _fletesRepository.PedidosFlete(id);
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+
+
         #endregion
 
         #region Items

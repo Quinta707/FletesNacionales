@@ -1988,7 +1988,17 @@ SELECT	fdet_Id,
 		T5.carg_Id, 
 		T11.carg_Descripcion,
 		T4.flet_FechaDeSalida,
-		pedi_Id,
+		T1.pedi_Id,
+		T12.estp_Id,
+		T12.estp_Nombre,
+		T12.muni_Destino,
+		T12.muni_Origen,
+		T12.pedi_OrigenNombre,
+		T12.pedi_DepaOrigenId,
+		T12.pedi_DepaOrigen,
+		T12.pedi_DestinoNombre,
+		T12.pedi_DepaDestinoId,
+		T12.pedi_DepaDestino,
 		fdet_UsuCreacion, 
 		fdet_FechaCreacion, 
 		fdet_UsuModificacion, 
@@ -2006,7 +2016,8 @@ SELECT	fdet_Id,
   ON T7.marc_Id	= T8.marc_Id INNER JOIN equi.tbTipoDeVehiculo T9
   ON T7.tipv_Id	= T9.tipv_Id INNER JOIN flet.tbSucursales T10
   ON T5.sucu_Id = T10.sucu_Id INNER JOIN gral.tbCargos T11
-  ON T5.carg_Id = T11.carg_Id
+  ON T5.carg_Id = T11.carg_Id INNER JOIN flet.VW_tbPedidos T12
+  ON T12.pedi_Id = T1.pedi_Id
 
 
 --************** INDEX *****************--
@@ -2130,9 +2141,13 @@ SELECT	flet_Id,
 		T11.vehi_Placa,
 		T12.mode_Id,
 		T12.mode_Nombre,
+		(SELECT ISNULL(COUNT(*),0) FROM flet.VW_tbFleteDetalles as pt WHERE pt.flet_Id = T1.flet_Id) AS flet_PedidosTotales,
+		(SELECT ISNULL(COUNT(*),0) FROM flet.VW_tbFleteDetalles as pc WHERE pc.flet_Id = T1.flet_Id AND pc.estp_Id = 4 ) AS flet_PedidosCompletados,
 		T12.marc_Id,
 		T13.marc_Nombre,
 		T1.empe_Id, 
+		T1.estp_Id,
+		T14.estp_Nombre,
 		T4.empe_Nombres  + ' ' + T4.empe_Apellidos AS empe_NombreCompleto,
 		T4.empe_Identidad, 
 		T4.empe_FechaNacimiento, 
@@ -2173,7 +2188,8 @@ SELECT	flet_Id,
   ON T10.eciv_Id = T4.eciv_Id INNER JOIN equi.tbVehiculos T11
   ON T11.vehi_Id = T1.vehi_Id INNER JOIN equi.tbModelos T12
   ON T12.mode_Id = T11.mode_Id INNER JOIN equi.tbMarcas T13
-  ON T13.marc_Id = T12.marc_Id
+  ON T13.marc_Id = T12.marc_Id INNER JOIN flet.tbEstadosDelPedido T14
+  ON T14.estp_Id = T1.estp_Id
 
 --************** INDEX *****************--
 GO
@@ -2182,6 +2198,18 @@ AS
 BEGIN
 	SELECT * FROM flet.VW_tbFletes
 	WHERE flet_Estado = 1
+END
+
+--************** INDEX POR EMPLEADO *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexPorEmpleado
+(
+	@empe_Id INT
+)
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbFletes
+	WHERE flet_Estado = 1 AND @empe_Id = empe_Id
 END
 
 
@@ -2212,12 +2240,25 @@ AS
 BEGIN
 	BEGIN TRY
         
-		INSERT INTO flet.tbFletes (vehi_Id, empe_Id, tray_Id, flet_FechaDeSalida, flet_UsuCreacion)
-		VALUES	(@vehi_Id, @empe_Id, @tray_Id, @flet_FechaDeSalida, @flet_UsuCreacion)
+		IF EXISTS (SELECT * FROM flet.tbFletes WHERE vehi_Id = @vehi_Id AND flet_FechaDeSalida >= @flet_FechaDeSalida)
+		BEGIN
+		 select -4
+		END
+		ELSE
+		BEGIN
+			INSERT INTO flet.tbFletes (vehi_Id, empe_Id, tray_Id, flet_FechaDeSalida, flet_UsuCreacion)
+			VALUES	(@vehi_Id, @empe_Id, @tray_Id, @flet_FechaDeSalida, @flet_UsuCreacion)
 
-		SELECT 1 
+			UPDATE equi.tbVehiculos
+			SET vehi_EnUso = 1
+			WHERE @vehi_Id = vehi_Id
+
+			COMMIT
+			SELECT 1 
+		END
 	END TRY
 	BEGIN CATCH
+		ROLLBACK
 		SELECT 0 
 	END CATCH
 END
@@ -2253,6 +2294,62 @@ BEGIN
 		SELECT 0  
 	END CATCH
 END
+GO
+--************** EMPEZAR FLETE *****************--
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_Empezar
+(
+	@flet_Id INT,
+	@empe_Id INT
+)
+AS
+BEGIN
+	BEGIN TRY
+		
+		IF EXISTS (SELECT * FROM flet.tbFletes WHERE flet_FechaDeSalida <= (SELECT flet_FechaDeSalida FROM flet.tbFletes WHERE @flet_Id = flet_Id) AND empe_Id = @empe_Id AND flet_Id != @flet_Id)
+		BEGIN
+			SELECT -5
+		END
+		ELSE IF EXISTS (SELECT * FROM flet.tbFletes WHERE empe_Id = @empe_Id AND estp_Id != 1 AND estp_Id != 4)
+		BEGIN
+			SELECT -6
+		END
+		ELSE
+		BEGIN
+
+			UPDATE flet.tbFletes
+			SET estp_Id = 2
+			WHERE flet_Id = @flet_Id
+
+			UPDATE flet.tbPedidos
+			SET estp_Id = 2
+			WHERE pedi_Id IN (SELECT pedi_Id FROM flet.tbFleteDetalles WHERE flet_Id = @flet_Id) AND estp_Id = 1
+
+			SELECT 1
+			COMMIT
+		END
+
+	END TRY
+	BEGIN CATCH
+		ROLLBACK
+		SELECT 0
+	END CATCH
+
+END
+
+GO
+
+--************** PedidosPorFlete *****************--
+
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_PedidosPorFlete
+(
+	@flet_Id INT
+)
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbPedidos
+	WHERE pedi_Estado = 1 AND pedi_Id IN (SELECT pedi_Id FROM flet.tbFleteDetalles WHERE flet_Id = @flet_Id)
+END
+
 
 
 --************** DELETE *****************--
@@ -2580,54 +2677,42 @@ END
 GO
 CREATE OR ALTER VIEW flet.VW_tbPedidos
 AS
-SELECT	pedi_Id, 
-		T1.clie_Id, 
+SELECT	T1.pedi_Id, 
+		T1.clie_Id,
+		clie_Nombres + ' ' + clie_Apellidos AS clie_NombreCompleto,
+		clie_Identidad, 
+		clie_FechaNacimiento, 
+		clie_Sexo, 
+		eciv_Id,  
+		clie_DireccionExacta, 
+		clie_Telefono, 
 		muni_Origen, 
+		T5.muni_Nombre AS pedi_OrigenNombre,
+		T6.depa_Id AS pedi_DepaOrigenId,
+		T6.depa_Nombre AS pedi_DepaOrigen,
 		muni_Destino, 
+		T7.muni_Nombre AS pedi_DestinoNombre,
+		T8.depa_Id AS pedi_DepaDestinoId,
+		T8.depa_Nombre   AS pedi_DepaDestino,
 		pedi_DestinoFinal, 
-		T1.estp_Id, 
+		T1.estp_Id,
+		T9.estp_Nombre,
 		pedi_UsuCreacion, 
 		pedi_FechaCreacion, 
 		pedi_UsuModificacion, 
 		pedi_FechaModificacion, 
 		pedi_Estado,
---		pedi_Id, 
---		T1.clie_Id,
---		clie_Nombres + ' ' + clie_Apellidos AS clie_NombreCompleto,
---		clie_Identidad, 
---		clie_FechaNacimiento, 
---		clie_Sexo, 
---		eciv_Id,  
---		clie_DireccionExacta, 
---		clie_Telefono, 
---		muni_Origen, 
---		T5.muni_Nombre AS pedi_OrigenNombre,
---		T6.depa_Id AS pedi_DepaOrigenId,
---		T6.depa_Nombre AS pedi_DepaOrigen,
---		muni_Destino, 
---		T7.muni_Nombre AS pedi_DestinoNombre,
---		T8.depa_Id AS pedi_DepaDestinoId,
---		T8.depa_Nombre   AS pedi_DepaDestino,
---		pedi_DestinoFinal, 
---		T1.estp_Id,
---		T9.estp_Nombre,
---		pedi_UsuCreacion, 
---		pedi_FechaCreacion, 
---		pedi_UsuModificacion, 
---		pedi_FechaModificacion, 
---		pedi_Estado,
 		t2.user_NombreUsuario AS user_Creacion,
 		t3.user_NombreUsuario AS user_Modificacion
   FROM flet.tbPedidos T1 INNER JOIN acce.tbUsuarios T2
   ON T1.pedi_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
-  ON T1.pedi_UsuModificacion = T3.[user_Id] 
-  --INNER JOIN flet.tbClientes T4
-  --ON T1.clie_Id = T4.clie_Id  INNER JOIN gral.tbMunicipios T5
-  --ON T1.muni_Origen = T5.muni_Id  INNER JOIN gral.tbDepartamentos T6
-  --ON T5.depa_Id = T6.depa_Id INNER JOIN gral.tbMunicipios T7
-  --ON T1.muni_Destino = T7.muni_Id  INNER JOIN gral.tbDepartamentos T8
-  --ON T7.depa_Id = T8.depa_Id INNER JOIN flet.tbEstadosDelPedido T9
-  --ON T1.estp_Id = T9.estp_Id
+  ON T1.pedi_UsuModificacion = T3.[user_Id] INNER JOIN flet.tbClientes T4
+  ON T1.clie_Id = T4.clie_Id  INNER JOIN gral.tbMunicipios T5
+  ON T1.muni_Origen = T5.muni_Id  INNER JOIN gral.tbDepartamentos T6
+  ON T5.depa_Id = T6.depa_Id INNER JOIN gral.tbMunicipios T7
+  ON T1.muni_Destino = T7.muni_Id  INNER JOIN gral.tbDepartamentos T8
+  ON T7.depa_Id = T8.depa_Id INNER JOIN flet.tbEstadosDelPedido T9
+  ON T1.estp_Id = T9.estp_Id
 
 
 --************** INDEX *****************--

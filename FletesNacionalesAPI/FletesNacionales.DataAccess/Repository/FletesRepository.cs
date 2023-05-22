@@ -103,5 +103,26 @@ namespace FletesNacionales.DataAccess.Repository
 
             return result;
         }
+
+        public RequestStatus EmpezarFlete(tbFletes item)
+        {
+            RequestStatus result = new RequestStatus();
+
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+            var parametros = new DynamicParameters();
+            parametros.Add("@flet_Id", item.flet_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@empe_Id", item.empe_Id, DbType.Int32, ParameterDirection.Input);
+            result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.FletesEmpezar, parametros, commandType: System.Data.CommandType.StoredProcedure);
+
+            return result;
+        }
+        
+        public IEnumerable<VW_tbPedidos> PedidosFlete(tbFletes item)
+        {
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+            var parametros = new DynamicParameters();
+            parametros.Add("@flet_Id", item.flet_Id, DbType.Int32, ParameterDirection.Input);
+            return db.Query<VW_tbPedidos>(ScriptsDataBase.FletesPedidos, parametros, commandType: System.Data.CommandType.StoredProcedure);
+        }
     }
 }

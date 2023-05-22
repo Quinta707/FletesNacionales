@@ -5,6 +5,8 @@ export class Flete{
 	vehi_Placa!: String;
 	mode_Id!: number;
 	mode_Nombre!: String;
+	estp_Id!: number;
+	estp_Nombre!: String;
 	marc_Id!: number;
 	marc_Nombre!: String;
 	empe_Id!: number;
@@ -37,6 +39,8 @@ export class Flete{
 	user_Creacion!: String;
 	user_Modificacion!: String;
 	flet_FechaDeSalidaParseada!: Date
+    flet_PedidosTotales !: number;
+    flet_PedidosCompletados !: number;
 
 
 }

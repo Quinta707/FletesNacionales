@@ -134,6 +134,8 @@
         public static string FletesInsert = "flet.UDP_tbFletes_Insert";
         public static string FletesUpdate = "flet.UDP_tbFletes_Update";
         public static string FletesDelete = "flet.UDP_tbFletes_Delete";
+        public static string FletesEmpezar = "flet.UDP_tbFletes_Empezar";
+        public static string FletesPedidos = "flet.UDP_tbFletes_PedidosPorFlete";
 
 
         public static string FletesDetallesFind = "flet.UDP_tbFleteDetalles_Find";

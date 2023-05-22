@@ -384,6 +384,10 @@ export class NavService implements OnDestroy {
       headTitle2: "All Neccesory Pages Added.",
     },
     { path: "/sample-page", title: "Cargos", icon: "sample-page", type: "link" },
+    { path: "/flet/Clientes/List", title: "Clientes", icon: "sample-page", type: "link" },
+    { path: "/flet/Items/List", title: "Items", icon: "sample-page", type: "link" },
+    { path: "/flet/Fletes/List", title: "Fletes", icon: "sample-page", type: "link" },
+    { path: "/flet/Fletes/PersonalList", title: "Flete personal", icon: "sample-page", type: "link" },
     // {
     //   title: "Others",
     //   icon: "others",
