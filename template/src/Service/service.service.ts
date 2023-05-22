@@ -2,13 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Cargos } from '../Models/Cargos';
 
-import { Departamentos } from '../Models/Departamentos'
-import { Empleados } from '../Models/Empleados'
-import { EstadosCiviles } from '../Models/EstadosCiviles'
-import { EstadosDelPedido } from '../Models/EstadosDelPedido'
-import { MetodosDePago } from '../Models/MetodosDePago'
-import { Municipios } from '../Models/Municipios'
-
 import { Global } from '../../config';
 
 @Injectable({

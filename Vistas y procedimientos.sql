@@ -305,7 +305,7 @@ SELECT	muni_Id,
 		muni_Nombre, 
 		muni_Codigo, 
 		T1.depa_Id, 
-		T2.depa_Nombre
+		T2.depa_Nombre,
 		muni_UsuCreacion, 
 		muni_Habilitado,
 		CASE
@@ -2049,7 +2049,7 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbFleteDetalles_FindxFlete
 @flet_Id	INT
 )
 AS 
-BEGIN
+BEGINdepa
 	SELECT * FROM flet.VW_tbFleteDetalles
 	WHERE flet_Id = @flet_Id
 END

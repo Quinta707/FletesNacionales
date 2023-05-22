@@ -1,4 +1,5 @@
 export class Departamentos{
+
     depa_Id!: number;
     depa_Nombre!: String;
     depa_Codigo!: String;
@@ -11,4 +12,5 @@ export class Departamentos{
     user_Modificacion!: String;
     depa_FechaModificacion!: String;
     depa_Estado!: number;
+    
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { NgbActiveModal, NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 
+
 @Component({
   selector: 'ngbd-modal-content',
   template: `
@@ -18,10 +19,12 @@ import { NgbActiveModal, NgbModal, ModalDismissReasons, NgbModalConfig } from '@
     </div>
   `
 })
+
 export class NgbdModalContent {
   @Input() name;
   constructor(public activeModal: NgbActiveModal) {}
 }
+
 
 @Component({
   template: `
@@ -40,6 +43,7 @@ export class NgbdModalContent {
     </div>
   `
 })
+
 export class NgbdModal1Content {
   constructor(private modalService: NgbModal, public activeModal: NgbActiveModal) {}
 
