@@ -10,6 +10,7 @@ namespace FletesNacionales.Entities.Entities
     {
         public int pdet_Id { get; set; }
         public int item_Id { get; set; }
+        public int pedi_Id { get; set; }
         public string item_Nombre { get; set; }
         public string item_Descripcion { get; set; }
         public decimal item_Peso { get; set; }

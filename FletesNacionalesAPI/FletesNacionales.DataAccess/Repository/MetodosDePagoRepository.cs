@@ -3,6 +3,7 @@ using Dapper;
 using FletesNacionales.Entities.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -14,17 +15,53 @@ namespace FletesNacionales.DataAccess.Repository
     {
         public RequestStatus Delete(tbMetodosdePago item)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+
+            parametros.Add("@meto_Id", item.meto_Id, DbType.String, ParameterDirection.Input);
+
+            var resultado = db.QueryFirst<string>(ScriptsDataBase.MetodosdePagoUpdate, parametros, commandType: CommandType.StoredProcedure);
+
+            RequestStatus request = new()
+            {
+                MessageStatus = resultado
+            };
+
+            return request;
         }
 
         public VW_tbMetodosdePago find(int? id)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+
+            parametros.Add("@meto_Id", id, DbType.String, ParameterDirection.Input);
+
+            var resultado = db.QueryFirst<VW_tbMetodosdePago>(ScriptsDataBase.MetodosdePagoFind, parametros, commandType: CommandType.StoredProcedure);
+
+
+            return resultado;
         }
 
         public RequestStatus Insert(tbMetodosdePago item)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+
+            parametros.Add("@meto_Descripcion", item.meto_Descripcion, DbType.String, ParameterDirection.Input);
+            parametros.Add("@meto_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
+
+            var resultado = db.QueryFirst<string>(ScriptsDataBase.MetodosdePagoInsert, parametros, commandType: CommandType.StoredProcedure);
+
+            RequestStatus request = new()
+            {
+                MessageStatus = resultado
+            };
+
+            return request;
         }
 
         public IEnumerable<VW_tbMetodosdePago> List()
@@ -35,7 +72,22 @@ namespace FletesNacionales.DataAccess.Repository
 
         public RequestStatus Update(tbMetodosdePago item)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+
+            parametros.Add("@meto_Id", item.meto_Id, DbType.String, ParameterDirection.Input);
+            parametros.Add("@meto_Descripcion", item.meto_Descripcion, DbType.String, ParameterDirection.Input);
+            parametros.Add("@meto_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
+
+            var resultado = db.QueryFirst<string>(ScriptsDataBase.MetodosdePagoUpdate, parametros, commandType: CommandType.StoredProcedure);
+
+            RequestStatus request = new()
+            {
+                MessageStatus = resultado
+            };
+
+            return request;
         }
     }
 }

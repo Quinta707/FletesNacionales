@@ -1,0 +1,26 @@
+<div class="card course-card">
+  <div class="card-header card-no-border">
+    <div class="header-top">
+      <h5 class="m-0">My Course</h5>
+      <div class="card-header-right-icon">
+        <div class="dropdown">
+          <button class="btn dropdown-toggle" type="button" (click)="toggle()" >Most Popular</button>
+          <div class="dropdown-menu dropdown-menu-end" [class.show]="show"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body pt-0">
+    <div class="course-main-card">
+      <ng-container *ngFor="let item of course">
+        <div class="course-wrapper">
+          <div class="course-icon-box">
+            <div class="icon-wrap"><img src="{{item.courseImage}}" alt="clock vector" /></div>
+            <img class="arrow-bg" src="{{item.arrow}}" alt="{{item.courseName}}" />
+          </div>
+          <h6 class="f-14">{{item.courseName}}</h6>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

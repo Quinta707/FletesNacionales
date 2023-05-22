@@ -22,3 +22,15 @@ C:\Users\LAB01\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacio
 C:\Users\LAB01\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.dll
 C:\Users\LAB01\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\ref\FletesNacionales.Entities.dll
 C:\Users\LAB01\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.pdb
+C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\bin\Debug\net5.0\FletesNacionales.Entities.deps.json
+C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\bin\Debug\net5.0\FletesNacionales.Entities.dll
+C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\bin\Debug\net5.0\ref\FletesNacionales.Entities.dll
+C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\bin\Debug\net5.0\FletesNacionales.Entities.pdb
+C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.csproj.AssemblyReference.cache
+C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.AssemblyInfoInputs.cache
+C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.AssemblyInfo.cs
+C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.csproj.CoreCompileInputs.cache
+C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.dll
+C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\ref\FletesNacionales.Entities.dll
+C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.pdb

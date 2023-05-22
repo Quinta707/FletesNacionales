@@ -300,7 +300,7 @@ vehi_UsuCreacion			INT NOT NULL,
 vehi_FechaCreacion			DATETIME CONSTRAINT DF_equi_tbVehiculos_vehi_FechaCreacion DEFAULT(GETDATE()),
 vehi_UsuModificacion		INT ,
 vehi_FechaModificacion		DATETIME,
-vehi_EnUso					BIT NOT NULL CONSTRAINT DF_role_Habilitado DEFAULT(0),
+vehi_EnUso					BIT NOT NULL CONSTRAINT DF_vehi_EnUso DEFAULT(0),
 vehi_Estado					BIT CONSTRAINT DF_equi_tbVehiculos_vehi_Estado DEFAULT(1)
 CONSTRAINT PK_equi_tbVehiculos_vehi_Id                                  PRIMARY KEY(vehi_Id),
 CONSTRAINT FK_equi_tbVehiculos_equi_tbMarcas_marc_Id					FOREIGN KEY(mode_Id) REFERENCES equi.tbModelos(mode_Id),
@@ -439,7 +439,7 @@ clie_Id						INT NOT NULL,
 muni_Origen					INT NOT NULL, --Municipio de recogida del producto
 muni_Destino				INT NOT NULL, --Municipio de entrega del producto
 pedi_DestinoFinal			NVARCHAR(250), --Direccion exacta del destino final
-estp_Id						INT NOT NULL, --Dice el estado del pedido 
+estp_Id						INT NOT NULL CONSTRAINT DF_flet_tbPedidos_estp_Id DEFAULT(1) , --Dice el estado del pedido 
 pedi_UsuCreacion			INT NOT NULL,
 pedi_FechaCreacion			DATETIME CONSTRAINT DF_flet_tbPedidos_pedi_FechaCreacion DEFAULT(GETDATE()),
 pedi_UsuModificacion		INT ,
@@ -497,6 +497,7 @@ flet_Id						INT IDENTITY(1,1),
 vehi_Id						INT NOT NULL,
 empe_Id						INT NOT NULL,
 tray_Id						INT NOT NULL,
+estp_Id						INT NOT NULL CONSTRAINT DF_flet_tbFletes_estp_Id DEFAULT(1), --Dice el estado del pedido 
 flet_FechaDeSalida			DATE NOT NULL,
 flet_UsuCreacion			INT NOT NULL,
 flet_FechaCreacion			DATETIME CONSTRAINT DF_flet_tbFletes_flet_FechaCreacion DEFAULT(GETDATE()),
@@ -504,6 +505,7 @@ flet_UsuModificacion		INT ,
 flet_FechaModificacion		DATETIME,
 flet_Estado					BIT CONSTRAINT DF_flet_tbFletes_flet_Estado DEFAULT(1)
 CONSTRAINT PK_flet_tbFletes_flet_Id                                  PRIMARY KEY(flet_Id),
+CONSTRAINT FK_flet_tbFletes_flet_tbEstadosDelPedido_estp_Id			 FOREIGN KEY(estp_Id) REFERENCES flet.tbEstadosDelPedido(estp_Id),
 CONSTRAINT FK_flet_tbFletes_equi_tbVehiculos_vehi_Id				 FOREIGN KEY(vehi_Id) REFERENCES equi.tbVehiculos(vehi_Id),
 CONSTRAINT FK_flet_tbFletes_flet_tbEmpleados_empe_Id				 FOREIGN KEY(empe_Id) REFERENCES flet.tbEmpleados(empe_Id),
 CONSTRAINT FK_flet_tbFletes_flet_tbTrayectos_tray_Id				 FOREIGN KEY(tray_Id) REFERENCES flet.tbTrayectos(tray_Id),

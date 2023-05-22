@@ -11,6 +11,7 @@ namespace FletesNacionales.Entities.Entities
         public tbPedidos()
         {
             tbFleteDetalles = new HashSet<tbFleteDetalles>();
+            tbPedidoDetalles = new HashSet<tbPedidoDetalles>();
         }
 
         public int pedi_Id { get; set; }
@@ -31,5 +32,6 @@ namespace FletesNacionales.Entities.Entities
         public virtual tbUsuarios pedi_UsuCreacionNavigation { get; set; }
         public virtual tbUsuarios pedi_UsuModificacionNavigation { get; set; }
         public virtual ICollection<tbFleteDetalles> tbFleteDetalles { get; set; }
+        public virtual ICollection<tbPedidoDetalles> tbPedidoDetalles { get; set; }
     }
 }

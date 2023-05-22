@@ -1,0 +1,67 @@
+<div class="card">
+   <div class="card-header card-no-border">
+     <h5>Order Overview</h5>
+   </div>
+   <div class="card-body pt-0">
+     <div class="row m-0 overall-card overview-card">
+       <div class="col-xl-9 col-md-8 col-sm-7 p-0 box-col-7">
+         <div class="chart-right">
+           <div class="row">
+             <div class="col-xl-12">
+               <div class="card-body p-0">
+                 <ul class="balance-data">
+                   <li><span class="circle bg-secondary"></span><span class="f-light ms-1">Refunds</span></li>
+                   <li><span class="circle bg-primary"> </span><span class="f-light ms-1">Earning</span></li>
+                   <li><span class="circle bg-success"> </span><span class="f-light ms-1">Order</span></li>
+                 </ul>
+                 <div class="current-sale-container order-container">
+                   <div class="overview-wrapper" id="orderoverview">
+                    <apx-chart
+                      [series]="orderOverview.series"
+                      [chart]="orderOverview.chart"
+                      [stroke]="orderOverview.stroke"
+                      [grid]="orderOverview.grid"
+                      [plotOptions]="orderOverview.plotOptions"
+                      [colors]="orderOverview.colors"
+                      [fill]="orderOverview.fill"
+                      [labels]="orderOverview.labels"
+                      [markers]="orderOverview.markers"
+                      [xaxis]="orderOverview.xaxis"
+                      [tooltip]="orderOverview.tooltip"
+                      [yaxis]="orderOverview.yaxis"
+                      [responsive]="orderOverview.responsive"
+                      ></apx-chart>
+                   </div>
+                   <div class="back-bar-container">
+                     <div id="order-bar">
+                      <apx-chart
+                      [series]="orderBar.series"
+                      [chart]="orderBar.chart"
+                      [plotOptions]="orderBar.plotOptions"
+                      [colors]="orderBar.colors"
+                      [grid]="orderBar.grid"
+                      [stroke]="orderBar.stroke"
+                      [dataLabels]="orderBar.dataLabels"
+                      [labels]="orderBar.labels"
+                      [markers]="orderBar.markers"
+                      [xaxis]="orderBar.xaxis"
+                      [tooltip]="orderBar.tooltip"
+                      [yaxis]="orderBar.yaxis"
+                      [fill]="orderBar.fill"
+                      [states]="orderBar.fill"
+                      [responsive]="orderBar.responsive"
+                      ></apx-chart>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+       <div class="col-xl-3 col-md-4 col-sm-5 p-0 box-col-5">
+         <app-right-chart-data></app-right-chart-data>
+       </div>
+     </div>
+   </div>
+ </div>

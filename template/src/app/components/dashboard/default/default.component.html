@@ -1,0 +1,62 @@
+<app-breadcrumb [title]="'Default'" [items]="['Dashboard']" [active_item]="'Default'"></app-breadcrumb>
+<div class="container-fluid">
+  <div class="row widget-grid">
+    <div class="col-xxl-4 col-sm-6 box-col-6">
+      <app-welcome></app-welcome>
+    </div>
+    <div class="col-xxl-auto col-xl-3 col-sm-6 box-col-6">
+      <div class="row">
+        <div class="col-xl-12">
+          <app-product-status-chart-box [data]="purchase"></app-product-status-chart-box>
+          <div class="col-xl-12">
+          <app-product-status-chart-box [data]="sales"></app-product-status-chart-box>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xxl-auto col-xl-3 col-sm-6 box-col-6">
+      <div class="row">
+        <div class="col-xl-12">
+          <app-product-status-chart-box [data]="salesReturn"></app-product-status-chart-box>
+          <div class="col-xl-12">
+          <app-product-status-chart-box [data]="purchaseRate"></app-product-status-chart-box>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xxl-auto col-xl-12 col-sm-6 box-col-6">
+      <app-orders-profit></app-orders-profit>
+    </div>
+    <div class="col-xxl-8 col-lg-12 box-col-12">
+      <app-overall-balance></app-overall-balance>
+    </div>
+    <div class="col-xxl-4 col-xl-7 col-md-6 col-sm-5 box-col-6">
+      <app-recent-orders></app-recent-orders>
+    </div>
+    <div class="col-xxl-4 col-xl-5 col-md-6 col-sm-7 notification box-col-6">
+      <app-activity></app-activity>
+    </div>
+    <div class="col-xxl-4 col-md-6 appointment-sec box-col-6">
+      <app-recent-sales></app-recent-sales>
+    </div>
+    <div class="col-xxl-4 col-md-6 box-col-6">
+      <app-timeline></app-timeline>
+    </div>
+    <div class="col-xxl-3 col-md-6 box-col-6 col-ed-none wow zoomIn">
+      <app-purchase-account></app-purchase-account>
+    </div>
+    <div class="col-xxl-4 col-md-6 box-col-6 col-ed-6">
+      <div class="row">
+        <div class="col-xl-12">
+          <app-total-users></app-total-users>
+        </div>
+        <div class="col-xl-12">
+          <app-followers-growth></app-followers-growth>
+        </div>
+      </div>
+    </div>
+    <div class="col-xxl-5 col-lg-8 col-md-11 box-col-8 col-ed-6">
+      <app-paper-note></app-paper-note>
+    </div>
+  </div>
+</div>

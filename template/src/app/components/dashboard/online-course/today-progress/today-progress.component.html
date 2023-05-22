@@ -1,0 +1,13 @@
+<div class="card get-card">
+  <div class="card-header card-no-border">
+    <h5>Today Progress</h5>
+    <span class="f-14 f-w-500 f-light">Your Daily Goal Almost Done!</span>
+  </div>
+  <div class="card-body pt-0">
+    <div class="progress-chart-wrap">
+      <div id="progresschart">
+        <apx-chart [series]="todayProgress.series" [chart]="todayProgress.chart" [plotOptions]="todayProgress.plotOptions" [colors]="todayProgress.colors" [labels]="todayProgress.labels" [stroke]="todayProgress.stroke" [responsive]="todayProgress.responsive" [legend]="todayProgress.legend"></apx-chart>
+      </div>
+    </div>
+  </div>
+</div>

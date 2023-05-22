@@ -1,0 +1,26 @@
+<div class="card widget-1 widget-with-chart">
+  <div class="card-body">
+    <div>
+      <h4 class="mb-1">78.9k</h4>
+      <span class="f-light">Orders</span>
+    </div>
+    <div class="order-chart">
+      <div id="orderchart">
+        <apx-chart
+          [series]="orders.series"
+          [chart]="orders.chart"
+          [colors]="orders.colors"
+          [dataLabels]="orders.dataLabels"
+          [stroke]="orders.stroke"
+          [legend]="orders.legend"
+          [grid]="orders.grid"
+          [yaxis]="orders.yaxis"
+          [tooltip]="orders.tooltip"
+          [xaxis]="orders.xaxis"
+          [responsive]="orders.responsive"
+          [plotOptions]="orders.plotOptions"
+        ></apx-chart>
+      </div>
+    </div>
+  </div>
+</div>

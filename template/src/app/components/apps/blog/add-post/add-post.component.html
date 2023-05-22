@@ -1,0 +1,61 @@
+<app-breadcrumb [title]="'Add Post'" [items]="['Apps', 'Blog']" [active_item]="'Add Post'"></app-breadcrumb>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h5>Post Edit</h5>
+        </div>
+        <div class="card-body add-post">
+          <form class="row needs-validation">
+            <div class="col-sm-12">
+              <div class="mb-3">
+                <label for="validationCustom01">Title:</label>
+                <input class="form-control" id="validationCustom01" type="text" placeholder="Post Title" required="" />
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="mb-3">
+                <label>Type:</label>
+                <div class="m-checkbox-inline">
+                  <label for="edo-ani"> <input class="radio_animated" id="edo-ani" type="radio" name="rdo-ani" checked="" />Text </label>
+                  <label for="edo-ani1"> <input class="radio_animated" id="edo-ani1" type="radio" name="rdo-ani" />Image </label>
+                  <label for="edo-ani2"> <input class="radio_animated" id="edo-ani2" type="radio" name="rdo-ani" checked="" />Audio </label>
+                  <label for="edo-ani3"> <input class="radio_animated" id="edo-ani3" type="radio" name="rdo-ani" />Video </label>
+                </div>
+              </div>
+              <div class="mb-3">
+                <div class="col-form-label">
+                  Category:
+                  <ng-select class="mt-2" [items]="category" bindLabel="name" bindValue="id" [(ngModel)]="selectedCategory" [multiple]="true" [ngModelOptions]="{ standalone: true }"> </ng-select>
+                </div>
+              </div>
+              <div class="email-wrapper">
+                <div class="theme-form">
+                  <div class="mb-3">
+                    <label>Content:</label>
+                    <ckeditor [editor]="ClassicEditor" data="<p>Hello, world!</p>"></ckeditor>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <ngx-dropzone (change)="onSelect($event)">
+            <ngx-dropzone-label>
+              <div class="dz-message needsclick">
+                <i class="icon-cloud-up"></i>
+                <h6>Drop files here or click to upload.</h6>
+              </div>
+            </ngx-dropzone-label>
+            <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+              <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+            </ngx-dropzone-preview>
+          </ngx-dropzone>
+          <div class="btn-showcase text-end">
+            <button class="btn btn-primary mt-3" type="submit">Post</button>
+            <input class="btn btn-light mt-3" type="reset" value="Discard" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

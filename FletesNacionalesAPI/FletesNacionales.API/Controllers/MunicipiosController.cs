@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using FletesNacionales.API.Models;
 using FletesNacionales.BusinessLogic.Services;
+using FletesNacionales.Entities.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -28,4 +30,36 @@ namespace FletesNacionales.API.Controllers
             return Ok(list);
 
         }
+
+        [HttpPost("Insertar")]
+        public IActionResult Insert(MunicipiosViewModel Pedidos)
+        {
+            var item = _mapper.Map<tbMunicipios>(Pedidos);
+            var response = _gralService.InsertarMunicipio(item);
+            return Ok(response);
+        }
+
+        [HttpPut("Editar")]
+        public IActionResult Update(MunicipiosViewModel Pedidos)
+        {
+            var item = _mapper.Map<tbMunicipios>(Pedidos);
+            var response = _gralService.EditarMunicipio(item);
+            return Ok(response);
+        }
+
+        [HttpPut("Eliminar")]
+        public IActionResult Delete(MunicipiosViewModel Pedidos)
+        {
+            var item = _mapper.Map<tbMunicipios>(Pedidos);
+            var result = _gralService.EliminarMunicipio(item);
+            return Ok(result);
+        }
+
+        [HttpGet("Buscar")]
+        public IActionResult Find(int? id)
+        {
+            var list = _gralService.BuscarMunicipio(id);
+            return Ok(list);
+        }
     }
+}

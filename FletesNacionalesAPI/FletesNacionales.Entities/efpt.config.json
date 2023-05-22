@@ -114,6 +114,14 @@
          "ObjectType": 0
       },
       {
+         "Name": "[acce].[VW_tbRoles]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[acce].[VW_tbUsuarios]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[equi].[VW_tbMarcas]",
          "ObjectType": 3
       },
@@ -163,6 +171,18 @@
       },
       {
          "Name": "[flet].[VW_tbPedidos]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[flet].[VW_tbSucursales]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[flet].[VW_tbTrayectos]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[flet].[VW_tbUbicacionPorFlete]",
          "ObjectType": 3
       },
       {
