@@ -6,7 +6,7 @@ import { Injectable } from "@angular/core";
 export class LayoutService {
   public config = {
     settings: {
-      layout: "Dubai",
+      layout: "Seoul",
       layout_type: "ltr",
       layout_version: "light-only",
       icon: "stroke-svg",

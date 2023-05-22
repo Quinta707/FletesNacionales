@@ -137,4 +137,8 @@ export const content: Routes = [
     path: "search-pages",
     loadChildren: () => import("../../components/others/search-result/search-result.module").then((m) => m.SearchResultModule),
   },
+  {
+    path: "flet",
+    loadChildren: () => import("../../components/flet/flet.module").then((m) => m.FletModule),
+  },
 ];
