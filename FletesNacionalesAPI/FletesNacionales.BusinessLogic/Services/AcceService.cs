@@ -301,6 +301,19 @@ namespace FletesNacionales.BusinessLogic.Services
                 return null;
             }
         }
+        
+        public VW_tbUsuarios LoginUsuario(tbUsuarios item)
+        {
+            try
+            {
+                var list = _usuariosRepository.Login(item);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
         #endregion
 

@@ -13,6 +13,7 @@
         public static string UsuraiosUpdate = "acce.UDP_tbUsuarios_Update";
         public static string UsuraiosDelete = "acce.UDP_tbUsuarios_Delete";
 
+        public static string UsuraiosLogin = "acce.UDP_Login";
         #endregion
 
         #region Roles

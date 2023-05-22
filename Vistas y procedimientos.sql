@@ -3831,3 +3831,25 @@ BEGIN
 	END CATCH
 END
 
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_Login
+	@user_NombreUsuario Nvarchar(100),
+	@user_Contrasena Nvarchar(Max)
+AS
+BEGIN
+
+        BEGIN TRY
+        Declare @Password Nvarchar(max) = (HASHBYTES('SHA2_512',@user_Contrasena))
+        SELECT *
+		FROM acce.VW_tbUsuarios
+		WHERE   user_Contrasena = @Password 
+        AND     user_NombreUsuario = @user_NombreUsuario
+
+        END TRY
+        BEGIN CATCH
+
+        SELECT 0 as Proceso
+        END CATCH
+
+END
+GO

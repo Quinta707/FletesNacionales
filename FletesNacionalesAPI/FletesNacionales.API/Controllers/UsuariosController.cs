@@ -61,5 +61,14 @@ namespace FletesNacionales.API.Controllers
             return Ok(list);
         }
 
+
+        [HttpPost("Login")]
+        public IActionResult Login(UsuariosViewModel usuarios)
+        {
+            var item = _mapper.Map<tbUsuarios>(usuarios);
+            var list = _acceService.LoginUsuario(item);
+            return Ok(list);
+        }
+
     }
 }

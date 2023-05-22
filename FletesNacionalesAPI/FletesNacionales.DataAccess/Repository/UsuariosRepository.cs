@@ -73,5 +73,15 @@ namespace FletesNacionales.DataAccess.Repository
 
             return result;
         }
+
+        public VW_tbUsuarios Login(tbUsuarios item)
+        {
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+            var parametros = new DynamicParameters();
+            parametros.Add("@user_NombreUsuario", item.user_NombreUsuario, DbType.String, ParameterDirection.Input);
+            parametros.Add("@user_Contrasena", item.user_Contrasena, DbType.String, ParameterDirection.Input);
+            return db.QueryFirst<VW_tbUsuarios>(ScriptsDataBase.UsuraiosLogin, parametros, commandType: System.Data.CommandType.StoredProcedure);
+        }
+
     }
 }
