@@ -75,7 +75,6 @@
     "ngx-print": "^1.2.1",
     "ngx-tabset": "^2.2.0",
     "ngx-toastr": "^16.0.1",
-    "node-sass": "^8.0.0",
     "photoswipe": "^5.3.0",
     "rxjs": "~7.5.6",
     "sweetalert2": "^11.4.29",
