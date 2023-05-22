@@ -1,0 +1,94 @@
+<app-breadcrumb [title]="'Datepicker'" [items]="['Bonus UI', 'Base']" [active_item]="'Datepicker'"></app-breadcrumb>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header pb-0">
+          <h5>Date Picker</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="date-picker">
+                <form class="theme-form">
+                  <div class="mb-3 row g-3">
+                    <label class="col-sm-3 col-form-label text-sm-end">Default</label>
+                    <div class="col-xl-5 col-sm-9">
+                      <div class="input-group">
+                        <input class="datepicker-here form-control digits" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-3 row g-3">
+                    <label class="col-sm-3 col-form-label text-sm-end">Range selection</label>
+                    <div class="col-xl-5 col-sm-9">
+                      <input class="datepicker-here form-control digits" placeholder="yyyy-mm-dd" name="dp" [displayMonths]="displayMonths" [navigation]="navigation" [outsideDays]="outsideDays" [showWeekNumbers]="showWeekNumbers" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()" />
+                    </div>
+                  </div>
+                  <div class="mb-3 row g-3">
+                    <label class="col-sm-3 col-form-label text-sm-end">Month selection</label>
+                    <div class="col-xl-5 col-sm-9">
+                      <div class="digits">
+                        <form class="row">
+                          <div class="col-6 mb-1">
+                            <div class="dp-hidden position-absolute">
+                              <div class="input-group">
+                                <input name="datepicker" c lass="form-control datepicker-here" ngbDatepicker #datepicker="ngbDatepicker" [autoClose]="'outside'" (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden" [startDate]="fromDate!" tabindex="-1" />
+                                <ng-template #t let-date let-focused="focused">
+                                  <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                                    {{ date.day }}
+                                  </span>
+                                </ng-template>
+                              </div>
+                            </div>
+                            <div class="input-group">
+                              <input #dpFromDate class="form-control datepicker-here" placeholder="yyyy-mm-dd" name="dpFromDate" [value]="formatter.format(fromDate)" (input)="fromDate = validateInput(fromDate, dpFromDate.value)" (click)="datepicker.toggle()" />
+                            </div>
+                          </div>
+                          <div class="col-6 mb-1">
+                            <div class="input-group">
+                              <input #dpToDate class="form-control datepicker-here" placeholder="yyyy-mm-dd" name="dpToDate" [value]="formatter.format(toDate)" (input)="toDate = validateInput(toDate, dpToDate.value)" (click)="datepicker.toggle()" />
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-3 row g-3">
+                    <label class="col-sm-3 col-form-label text-sm-end">Position target</label>
+                    <div class="col-xl-5 col-sm-9">
+                      <div class="digits">
+                        <form class="row row-cols-sm-auto">
+                          <div class="col-12">
+                            <div class="input-group">
+                              <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model2" ngbDatepicker #d3="ngbDatepicker" [placement]="placement" [positionTarget]="buttonEl" />
+                              <button #buttonEl class="btn btn-primary calendar" (click)="d3.toggle()" type="button">
+                                <app-feather-icons [icon]="'calendar'"></app-feather-icons>
+                              </button>
+                            </div>
+                          </div>
+                        </form>
+                        <hr />
+                        <div class="row">
+                          <div class="col-sm-4">
+                            <label for="placement">Placement</label>
+                            <select id="placement" class="form-select form-control" [(ngModel)]="placement" [ngModelOptions]="{ standalone: true }">
+                              <option value="top">Top</option>
+                              <option value="bottom">Bottom</option>
+                              <option value="left">Left</option>
+                              <option value="right">Right</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="row g-sm-3 g-2">
+  <ng-container *ngFor="let item of balance">
+    <div class="col-xl-12 col-md-4">
+      <div class="light-card balance-card widget-hover">
+        <div class="svg-box">
+          <svg class="svg-fill">
+            <use attr.xlink:href="assets/svg/icon-sprite.svg#{{ item.icon }}"></use>
+          </svg>
+        </div>
+        <div>
+          <span class="f-light">{{ item.title }}</span>
+          <h6 class="mt-1 mb-0">{{ item.price }}</h6>
+        </div>
+        <div class="ms-auto text-end">
+          <div class="dropdown icon-dropdown">
+            <button class="btn dropdown-toggle" type="button" (click)="toggle(item)">
+              <i class="icon-more-alt"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end" [class.show]="item.show">
+              <a class="dropdown-item" href="#">Today</a>
+              <a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday </a>
+            </div>
+          </div>
+          <span class="font-{{ item.colorClass }}">{{ item.growth }}</span>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

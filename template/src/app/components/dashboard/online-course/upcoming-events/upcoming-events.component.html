@@ -1,0 +1,18 @@
+<div class="card">
+   <div class="card-header card-no-border">
+     <div class="header-top"> 
+       <h5>Upcoming Events</h5>
+       <div class="dropdown icon-dropdown">
+         <button class="btn dropdown-toggle" type="button" (click)="toggle()"><i class="icon-more-alt"></i></button>
+         <div class="dropdown-menu dropdown-menu-end" [class.show]="show"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday </a></div>
+       </div>
+     </div>
+   </div>
+   <div class="card-body pt-0">
+     <div class="upcoming-event-wrap">
+       <div id="upcomingchart">
+         <apx-chart [series]="upcomingChart.series" [chart]="upcomingChart.chart" [plotOptions]="upcomingChart.plotOptions" [dataLabels]="upcomingChart.dataLabels" [xaxis]="upcomingChart.xaxis" [yaxis]="upcomingChart.yaxis" [grid]="upcomingChart.grid" [stroke]="upcomingChart.stroke" [states]="upcomingChart.states" [responsive]="upcomingChart.responsive"></apx-chart>
+       </div>
+     </div>
+   </div>
+ </div>

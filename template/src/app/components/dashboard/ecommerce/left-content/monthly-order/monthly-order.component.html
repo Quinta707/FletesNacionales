@@ -1,0 +1,36 @@
+<div class="card">
+  <div class="card-header card-no-border">
+    <div class="header-top">
+      <h5 class="m-0">Order this month</h5>
+      <div class="card-header-right-icon">
+        <div class="dropdown icon-dropdown">
+          <button class="btn dropdown-toggle" type="button" (click)="toggle()"><app-feather-icons [icon]="'more-horizontal'"></app-feather-icons></button>
+          <div class="dropdown-menu dropdown-menu-end" [class.show]="show"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body pt-0">
+    <div class="light-card balance-card d-inline-block">
+      <h4 class="mb-0">$12,000 <span class="f-light f-14">(15,080 To Goal)</span></h4>
+    </div>
+    <div class="order-wrapper">
+      <div id="order-goal">
+        <apx-chart
+          [series]="monthlyOrderChart.series"
+          [chart]="monthlyOrderChart.chart"
+          [colors]="monthlyOrderChart.colors"
+          [fill]="monthlyOrderChart.fill"
+          [dataLabels]="monthlyOrderChart.dataLabels"
+          [stroke]="monthlyOrderChart.stroke"
+          [grid]="monthlyOrderChart.grid"
+          [xaxis]="monthlyOrderChart.xaxis"
+          [yaxis]="monthlyOrderChart.yaxis"
+          [legend]="monthlyOrderChart.legend"
+          [tooltip]="monthlyOrderChart.tooltip"
+          [responsive]="monthlyOrderChart.responsive"
+        ></apx-chart>
+      </div>
+    </div>
+  </div>
+</div>

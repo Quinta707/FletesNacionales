@@ -1,0 +1,50 @@
+<app-breadcrumb [title]="'Dropzone'" [items]="['Bonus UI', 'Advance']" [active_item]="'Dropzone'"></app-breadcrumb>
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+  <div class="row dropzone-custom">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h5>Single File Upload</h5>
+        </div>
+        <div class="card-body">
+          <ngx-dropzone (change)="onSelect($event)" [multiple]="false">
+            <ngx-dropzone-label>
+                <div class="dz-message needsclick">
+                  <i class="icon-cloud-up"></i>
+                  <h6>Drop files here or click to upload.</h6>
+                  <span>(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+                </div>
+            </ngx-dropzone-label>
+            <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+            </ngx-dropzone-preview>
+        </ngx-dropzone>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h5>Multi File Upload</h5>
+        </div>
+        <div class="card-body">
+          <ngx-dropzone (change)="onSelect1($event)" [multiple]="true">
+            <ngx-dropzone-label>
+                <div class="dz-message needsclick">
+                  <i class="icon-cloud-up"></i>
+                  <h6>Drop files here or click to upload.</h6>
+                  <span>(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+                </div>
+            </ngx-dropzone-label>
+            <ngx-dropzone-preview *ngFor="let f of files1" [removable]="true" (removed)="onRemove(f)">
+                <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+            </ngx-dropzone-preview>
+        </ngx-dropzone>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends-->

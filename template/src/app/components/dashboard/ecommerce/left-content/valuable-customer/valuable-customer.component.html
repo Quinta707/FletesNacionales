@@ -1,0 +1,43 @@
+<div class="appointment">
+  <div class="card">
+    <div class="card-header card-no-border">
+      <div class="header-top">
+        <h5 class="m-0">Valuable Customer</h5>
+        <div class="card-header-right-icon">
+          <div class="dropdown icon-dropdown">
+            <button class="btn dropdown-toggle" type="button" (click)="toggle()"><app-feather-icons [icon]="'more-horizontal'"></app-feather-icons></button>
+            <div class="dropdown-menu dropdown-menu-end" [class.show]="show"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body pt-0">
+      <div class="appointment-table customer-table table-responsive">
+        <table class="table table-bordernone">
+          <tbody>
+            <tr>
+              <td><img class="img-fluid img-40 rounded-circle me-2" src="assets/images/dashboard/user/1.jpg" alt="user" /></td>
+              <td class="img-content-box"><a class="f-w-500" href="user-profile.html">Jane Cooper</a><span class="f-light">alma.lawson@gmail.com</span></td>
+            </tr>
+            <tr>
+              <td><img class="img-fluid img-40 rounded-circle me-2" src="assets/images/dashboard/user/2.jpg" alt="user" /></td>
+              <td class="img-content-box"><a class="f-w-500" href="user-profile.html">Cameron Willia</a><span class="f-light">tim.jennings@gmail.com</span></td>
+            </tr>
+            <tr>
+              <td><img class="img-fluid img-40 rounded-circle me-2" src="assets/images/dashboard/user/9.jpg" alt="user" /></td>
+              <td class="img-content-box"><a class="f-w-500" href="user-profile.html">Floyd Miles</a><span class="f-light">kenzi.lawson@gmail.com</span></td>
+            </tr>
+            <tr>
+              <td><img class="img-fluid img-40 rounded-circle me-2" src="assets/images/dashboard/user/5.jpg" alt="user" /></td>
+              <td class="img-content-box"><a class="f-w-500" href="user-profile.html">Dianne Russell</a><span class="f-light">curtis.weaver@gmail.com</span></td>
+            </tr>
+            <tr>
+              <td><img class="img-fluid img-40 rounded-circle me-2" src="assets/images/dashboard/user/3.jpg" alt="user" /></td>
+              <td class="img-content-box"><a class="f-w-500" href="user-profile.html">Guy Hawkins</a><span class="f-light">curtis.weaver@gmail.com</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

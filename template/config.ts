@@ -1,0 +1,1 @@
+export const Global = "https://localhost:44339/api/";

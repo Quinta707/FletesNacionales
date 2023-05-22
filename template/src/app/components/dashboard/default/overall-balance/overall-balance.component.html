@@ -1,0 +1,74 @@
+<div class="card">
+  <div class="card-header card-no-border">
+    <h5>Overall balance</h5>
+  </div>
+  <div class="card-body pt-0">
+    <div class="row m-0 overall-card">
+      <div class="col-xl-9 col-md-12 col-sm-7 p-0">
+        <div class="chart-right">
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="card-body p-0">
+                <ul class="balance-data">
+                  <li><span class="circle bg-warning"> </span><span class="f-light ms-1">Earning</span></li>
+                  <li><span class="circle bg-primary"> </span><span class="f-light ms-1">Expense</span></li>
+                </ul>
+                <div class="current-sale-container">
+                  <div id="chart-currently">
+                    <apx-chart
+                      [series]="overallBalance.series"
+                      [chart]="overallBalance.chart"
+                      [plotOptions]="overallBalance.plotOptions"
+                      [grid]="overallBalance.grid"
+                      [dataLabels]="overallBalance.dataLabels"
+                      [stroke]="overallBalance.stroke"
+                      [fill]="overallBalance.fill"
+                      [legend]="overallBalance.legend"
+                      [colors]="overallBalance.colors"
+                      [xaxis]="overallBalance.xaxis"
+                      [yaxis]="overallBalance.yaxis"
+                      [labels]="overallBalance.labels"
+                      [states]="overallBalance.states"
+                      [responsive]="overallBalance.responsive"
+                    ></apx-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-12 col-sm-5 p-0">
+        <div class="row g-sm-4 g-2">
+          <ng-container *ngFor="let item of balance">
+            <div class="col-xl-12 col-md-4">
+              <div class="light-card balance-card widget-hover">
+                <div class="svg-box">
+                  <svg class="svg-fill">
+                    <use attr.xlink:href="assets/svg/icon-sprite.svg#{{ item.icon }}"></use>
+                  </svg>
+                </div>
+                <div>
+                  <span class="f-light">{{ item.title }}</span>
+                  <h6 class="mt-1 mb-0">{{ item.price }}</h6>
+                </div>
+                <div class="ms-auto text-end">
+                  <div class="dropdown icon-dropdown">
+                    <button class="btn dropdown-toggle" type="button" (click)="toggle(item)">
+                      <i class="icon-more-alt"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end" [class.show]="item.show">
+                      <a class="dropdown-item" href="#">Today</a>
+                      <a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday </a>
+                    </div>
+                  </div>
+                  <span class="font-{{ item.colorClass }}">{{ item.growth }}</span>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

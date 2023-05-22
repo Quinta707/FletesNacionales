@@ -1,0 +1,29 @@
+.custom-datatable {
+  .table-responsive {
+    .table {
+      min-width: 1360px;
+      .btn-danger {
+        font-weight: 400;
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 4px;
+        color: #fff;
+
+        @media (max-width: 1401px) {
+          padding: 5px 10px;
+        }
+      }
+      .btn-success {
+        font-weight: 400;
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 4px;
+        color: #fff;
+
+        @media (max-width: 1401px) {
+          padding: 5px 10px;
+        }
+      }
+    }
+  }
+}
