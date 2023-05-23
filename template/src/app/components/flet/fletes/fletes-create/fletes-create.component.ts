@@ -1,8 +1,9 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Flete } from '../../../../shared/model/fletes.model';
 import { Pedidos } from '../../../../shared/model/pedidos.model';
+import { Trayectos } from '../../../../shared/model/trayectos.model';
 import { TableService } from '../../../../shared/services/fletes.service';
-import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
@@ -15,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 export class FleteCreateComponent implements OnInit {
   //Guardar datos del flete
    datosFelte: Flete = new Flete();
+   datosTrayecto: Trayectos = new Trayectos();
 
   onNavChange(changeEvent: NgbNavChangeEvent) {
     if (changeEvent.nextId === 4) {
@@ -22,7 +24,7 @@ export class FleteCreateComponent implements OnInit {
     }
   }
   
-  pedidos: Pedidos[]; //Listado de pedidos
+  public pedidos: any[] = []; //Listado de pedidos
 
   firstFormGroup: FormGroup; // primer formulario
   secondFormGroup: FormGroup; //selects del segundo
@@ -87,7 +89,8 @@ export class FleteCreateComponent implements OnInit {
   constructor(
     public service: TableService, 
     private _formBuilder: FormBuilder,
-    private toaster: ToastrService) 
+    private toaster: ToastrService,
+    private modalService: NgbModal) 
     {
 
     }
@@ -97,11 +100,25 @@ export class FleteCreateComponent implements OnInit {
     this.toaster.success('Successfully Registered')
   }
   //cargar datos del municipio inicio seleccionado 
-  public seleccionarPedidos() {
+  public seleccionarPedidos(content) {
+    this.service.getTrayectoId(this.firstFormGroup.value["muni_InicioId"].value,this.firstFormGroup.value["muni_FinId"].value)
+    .subscribe((data: any)=>{
+      console.log(data.tray_Id)
+      if(data.tray_Id == 0){
+        this.modalService.open(content, { centered: true });
+      }
+    })
+
+
     this.service.getPedidosPorMunicipio(this.firstFormGroup.value["muni_InicioId"].value)
     .subscribe((data: any)=>{
+      console.log(data.data)
     this.pedidos = data.data
     })
+  }
+
+  openModal(content) {
+    this.modalService.open(content, { centered: true });
   }
  
  }

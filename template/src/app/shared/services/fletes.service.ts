@@ -10,6 +10,7 @@ import { Municipios } from '../model/municipios.model';
 import { Empleados } from '../model/empleados.model';
 import { Vehiculos } from '../model/vehiculos.model';
 import { Pedidos } from '../model/pedidos.model';
+import { Trayectos } from '../model/trayectos.model';
 import { Global } from '../../../../config';
 import { HttpClient } from '@angular/common/http';
 
@@ -171,9 +172,12 @@ export class TableService {
     return this.http.get<Pedidos[]>(Global+"Pedidos/Listado")
   }
   
-  
   getPedidosPorMunicipio(id: number){
     return this.http.get<Pedidos[]>(Global+"Pedidos/PedidoPorMunicipio?muni="+id.toString())
+  }
+  
+  getTrayectoId(desde: number, hasta: number){
+    return this.http.get<Trayectos[]>(Global+"Trayectos/Existe?desde="+desde.toString()+"&hasta="+hasta.toString())
   }
 
 

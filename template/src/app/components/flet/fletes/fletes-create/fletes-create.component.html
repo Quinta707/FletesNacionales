@@ -39,7 +39,7 @@
                     <div class="col">
                       <div class="col-form-label">Desde</div>
                       <ng-select [items]="municipiosDdl" class="" formControlName="muni_InicioId"
-                      [(ngModel)]="selectgroupby" groupBy="job" placeholder="Municipio de salida"></ng-select>
+                      [(ngModel)]="datosTrayecto.muni_Inicio" groupBy="job" placeholder="Municipio de salida"></ng-select>
                       <ng-container class="invalid text-danger"
                       *ngIf="firstFormGroup.get('muni_InicioId').hasError('required') && firstFormGroup.get('muni_InicioId').touched">
                       <p class="text-danger">El municipio de salida es necesario</p></ng-container>
@@ -47,13 +47,13 @@
                     <div class="col">
                       <div class="col-form-label">Hasta</div>
                       <ng-select [items]="municipiosDdl" class="" formControlName="muni_FinId"
-                      [(ngModel)]="selectgroupby" groupBy="job" placeholder="Municipio de destino"></ng-select>
+                      [(ngModel)]="datosTrayecto.muni_Final" groupBy="job" placeholder="Municipio de destino"></ng-select>
                       <ng-container class="invalid text-danger"
                       *ngIf="firstFormGroup.get('muni_FinId').hasError('required') && firstFormGroup.get('muni_FinId').touched">
                       <p class="text-danger">El municipio de destino es necesario</p></ng-container>
                     </div>
                   </div>
-                  <button class="btn btn-primary pull-right mt-3" type="submit" awNextStep (click)="seleccionarPedidos()"
+                  <button class="btn btn-primary pull-right mt-3" type="submit" awNextStep (click)="seleccionarPedidos(content)"
                     [disabled]="!firstFormGroup.valid">Siguiente</button>
                 </form>
               </aw-wizard-step>
@@ -66,7 +66,7 @@
                     </div>
                   </ng-template>
 
-                  <div *ngIf="pedidos" class="mt-3">
+                  <div *ngIf="pedidos.length === 0" class="mt-3">
                     <div class="text-center mt-3">
                       <h4 class="text-muted">No tienes pedidos pendientes</h4>
                       <img src="https://i.ibb.co/D56drx0/11669662-20943860.jpg" alt="No tienes pedidos pendientes" width="200" height="200">
@@ -74,7 +74,7 @@
                   </div>
 
 
-                  <div class="card-body megaoptions-border-space-sm">
+                  <div *ngIf="pedidos.length > 0" class="card-body megaoptions-border-space-sm">
                     <div class="mega-inline row">
                         <div class="col-6" *ngFor="let item of pedidos">
                           <div class="card">
@@ -98,8 +98,8 @@
                  
                   
                   <button class="btn btn-primary pull-right" type="button" awNextStep
-                    [disabled]="!secondFormGroup.valid">Next</button>
-                  <button class="btn btn-secondary pull-right me-1" type="button" awPreviousStep>Previous</button>
+                    [disabled]="!secondFormGroup.valid">Listo</button>
+                  <button class="btn btn-secondary pull-right me-1" type="button" awPreviousStep>Anterior</button>
                 </form>
               </aw-wizard-step>
               <aw-wizard-completion-step awEnableBackLinks>
@@ -112,7 +112,7 @@
                   </ng-template>
                   <button class="btn btn-success pull-right" type="button"
                     [disabled]="">Finish</button>
-                  <button class="btn btn-secondary pull-right me-1" id="prevBtn" type="button" awPreviousStep>Previous</button>
+                  <button class="btn btn-secondary pull-right me-1" id="prevBtn" type="button" awPreviousStep>Anterior</button>
                 </form>
               </aw-wizard-completion-step>
             </aw-wizard>
@@ -126,3 +126,17 @@
   </div>
   
 
+  <ng-template #content let-c="close" let-d="dismiss" class="text-center">
+    <div class="modal-header d-flex justify-content-center">
+      <h4 class="modal-title" id="modal-basic-title">Ups...</h4>
+    </div>
+    <div class="modal-body text-center">
+      <h6>Parece que esta trayectoria aun no ha sido registrada</h6> <br>
+      <h6>¿Deseas agregarla?</h6>
+    </div>
+    <div class="modal-footer d-flex justify-content-center">
+      <button type="button" class="btn btn-dark" (click)="d('Cross click')">No</button>
+      <button type="button" class="btn btn-primary" >Si</button>
+    </div>
+  </ng-template>
+  <button class="btn btn-lg btn-outline-primary" (click)="openModal(content)">Launch demo modal</button>
