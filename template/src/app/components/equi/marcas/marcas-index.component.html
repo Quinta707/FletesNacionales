@@ -1,0 +1,31 @@
+<br>
+    <div class="card">
+      <div class="card-header bg-primary">
+        <div class="text-center">
+          <h3 style="color: azure;">Listar Marcas</h3>
+        </div>
+      </div>
+      <div class="card-body">
+        <button (click)="Nuevo()" class="btn btn-primary">+ Nuevo</button>
+        <table  class="table">
+          <thead>
+              <tr>
+                <th>Id</th>
+                <th>Marcas</th>
+                <th>Acciones</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of marcas">
+              <td>{{item.marc_Id}}</td>
+              <td>{{item.marc_Nombre}}</td>
+              <td>
+                <button class="btn btn-warning">Editar</button>
+                <button class="btn btn-danger" style="margin-left: 10px;">Eliminar</button>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+</div>

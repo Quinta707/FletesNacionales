@@ -1,0 +1,97 @@
+<app-breadcrumb [title]="'General'" [items]="['Widgets']" [active_item]="'General'"></app-breadcrumb>
+<div class="container-fluid">
+  <div class="row">
+    <app-widgest-coins></app-widgest-coins>
+    <div class="col-sm-6 col-xl-3 col-lg-6 box-col-6">
+      <app-product-status-chart-box [data]="purchase"></app-product-status-chart-box>
+    </div>
+    <div class="col-sm-6 col-xl-3 col-lg-6 box-col-6">
+      <app-product-status-chart-box [data]="salesReturn"></app-product-status-chart-box>
+    </div>
+    <div class="col-sm-6 col-xl-3 col-lg-6 box-col-6">
+      <app-product-status-chart-box [data]="sales"></app-product-status-chart-box>
+    </div>
+    <div class="col-sm-6 col-xl-3 col-lg-6 box-col-6">
+      <app-product-status-chart-box [data]="purchaseRate"></app-product-status-chart-box>
+    </div>
+    <div class="col-xxl-3 col-xl-4 col-md-6 box-col-6">
+      <div class="row">
+        <div class="col-sm-12">
+          <app-courses [data]="completed"></app-courses>
+        </div>
+        <div class="col-sm-12">
+          <app-courses [data]="progress"></app-courses>
+        </div>
+      </div>
+    </div>
+    <div class="col-xxl-4 col-xl-5 col-md-6 box-col-6">
+      <div class="row">
+        <div class="col-xl-12">
+          <app-total-userswidgets></app-total-userswidgets>
+        </div>
+        <div class="col-xl-12">
+          <app-followers-growth></app-followers-growth>
+        </div>
+      </div>
+    </div>
+    <div class="col-xxl-5 col-xl-3 col-md-12 box-col-12">
+      <app-visitors></app-visitors>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+      <app-social-media-chart [data]="facebook"></app-social-media-chart>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+      <app-social-media-chart [data]="instagram"></app-social-media-chart>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+      <app-social-media-chart [data]="twitter"></app-social-media-chart>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+      <app-social-media-chart [data]="youtube"></app-social-media-chart>
+    </div>
+    <div class="col-xxl-5 col-xl-8 box-col-12">
+      <div class="row g-sm-3 height-equal-2 widget-charts">
+        <div class="col-sm-6">
+          <div class="card small-widget mb-sm-0">
+            <app-sale-status [data]="newOrders"></app-sale-status>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="card small-widget mb-sm-0">
+            <app-sale-status [data]="newCustomers"></app-sale-status>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="card small-widget mb-sm-0">
+            <app-sale-status [data]="averageSale"></app-sale-status>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="card small-widget mb-sm-0">
+            <app-sale-status [data]="grossProfit"></app-sale-status>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <app-orders></app-orders>
+        </div>
+        <div class="col-sm-6">
+          <app-profit></app-profit>
+        </div>
+      </div>
+    </div>
+    <div class="col-xxl-3 col-xl-4 col-sm-6 box-col-6">
+      <app-balance-profile></app-balance-profile>
+    </div>
+    <div class="col-xl-4 d-xxl-block d-xl-none col-sm-6 box-col-6">
+      <div class="card height-equal-2">
+        <div class="card-body">
+          <div class="default-datepicker custom-datepicker">
+            <div class="datepicker-here" data-language="en">
+              <ngb-datepicker [(ngModel)]="model"></ngb-datepicker>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

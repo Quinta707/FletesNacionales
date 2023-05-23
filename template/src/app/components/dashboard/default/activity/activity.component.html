@@ -1,0 +1,25 @@
+<div class="card height-equal"> 
+   <div class="card-header card-no-border">
+     <div class="header-top">
+       <h5 class="m-0">Activity</h5>
+       <div class="card-header-right-icon">
+         <div class="dropdown">
+           <button class="btn dropdown-toggle" type="button" (click)="toggle()">Today</button>
+           <div class="dropdown-menu dropdown-menu-end" [class.show]="show"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday  </a></div>
+         </div>
+       </div>
+     </div>
+   </div>
+   <div class="card-body pt-0">
+     <ul> 
+       <li class="d-flex" *ngFor="let item of activity">
+         <div class="activity-dot-{{item.primaryDotColor}}"></div>
+         <div class="w-100 ms-3">
+           <p class="d-flex justify-content-between mb-2"><span class="date-content light-background">{{item.date}} </span><span>{{item.time}}</span></p>
+           <h6>{{item.title}}<span class="dot-notification"></span></h6>
+           <p class="f-light">{{item.dace}}</p>
+         </div>
+       </li>
+     </ul>
+   </div>
+ </div>

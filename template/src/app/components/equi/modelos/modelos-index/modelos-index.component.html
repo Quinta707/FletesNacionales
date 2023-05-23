@@ -1,0 +1,53 @@
+<app-breadcrumb [title]="'Modelos'" [items]="['Equipo']" [active_item]="'Modelos'"></app-breadcrumb>
+<div class="container-fluid">
+  <div class="row widget-grid">
+    <div class="col-sm-12">
+        <div class="card">
+          <img class="card-img-top" src="../../../../../assets/images/equipo/headers/Modelos.png" alt="Card image cap">
+          <!-- <div class="card-header bg-info">
+            
+            <div class="text-center">
+              <h3 style="color: azure;">Modelos</h3>
+            </div>
+            
+        </div> -->
+      </div>
+      
+    <div class="card">
+      <div class="card-body">
+        <button (click)="Nuevo()" class="btn btn-primary">+ Nuevo</button>
+        <br><br>
+
+        <table datatable class="table table-bordered">
+          <thead>
+              <tr>
+                <th>Id</th>
+                <th>Modelo</th>
+                <th>Marca</th>
+                <th>Tipo</th>
+                <th>Acciones</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of modelos">
+              <td>{{item.mode_Id}}</td>
+              <td>{{item.mode_Nombre}}</td>
+              <td>{{item.marc_Nombre}}</td>
+              <td>{{item.tipv_Descripcion}}</td>
+              <td>
+                <li class="edit">
+                  <a href="#"><i class="icon-pencil-alt"></i></a>
+                </li>
+                <li class="delete">
+                  <a href="#"><i class="icon-trash"></i></a>
+                </li>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

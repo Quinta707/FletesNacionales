@@ -1,0 +1,50 @@
+<div class="card">
+  <div class="card-header card-no-border">
+    <div class="header-top">
+      <h5 class="m-0">Active Lessons</h5>
+      <div class="card-header-right-icon">
+        <a class="link-only" href="#">View <i data-feather="arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="card-body pt-0">
+    <ul class="lessons-lists">
+      <li>
+        <img src="assets/images/dashboard-3/lessons/1.png" alt="ux icon" />
+        <div>
+          <h6 class="f-14 f-w-400 mb-0">UI/UX</h6>
+          <span class="f-light">Web design</span>
+        </div>
+        <div class="lesson-wrap ms-auto">
+          <div id="lessonChart1">
+            <apx-chart [series]="chart1.series" [chart]="chart1.chart" [legend]="chart1.legend" [stroke]="chart1.stroke" [dataLabels]="chart1.dataLabels" [tooltip]="chart1.tooltip" [plotOptions]="chart1.plotOptions" [colors]="chart1.colors" [states]="chart1.states"></apx-chart>
+          </div>
+        </div>
+      </li>
+      <li>
+        <img src="assets/images/dashboard-3/lessons/2.png" alt="vue icon" />
+        <div>
+          <h6 class="f-14 f-w-400 mb-0">Vue 3</h6>
+          <span class="f-light">JS Framework</span>
+        </div>
+        <div class="lesson-wrap ms-auto">
+          <div id="lessonChart2">
+            <apx-chart [series]="chart2.series" [chart]="chart2.chart" [legend]="chart2.legend" [stroke]="chart2.stroke" [dataLabels]="chart2.dataLabels" [tooltip]="chart2.tooltip" [plotOptions]="chart2.plotOptions" [colors]="chart2.colors" [states]="chart2.states"></apx-chart>
+          </div>
+        </div>
+      </li>
+      <li>
+        <img src="assets/images/dashboard-3/lessons/3.png" alt="bootstrap icon" />
+        <div>
+          <h6 class="f-14 f-w-400 mb-0">Bootstrap 5</h6>
+          <span class="f-light">Framework</span>
+        </div>
+        <div class="lesson-wrap ms-auto">
+          <div id="lessonChart3">
+            <apx-chart [series]="chart3.series" [chart]="chart3.chart" [legend]="chart3.legend" [stroke]="chart3.stroke" [dataLabels]="chart3.dataLabels" [tooltip]="chart3.tooltip" [plotOptions]="chart3.plotOptions" [colors]="chart3.colors" [states]="chart3.states"></apx-chart>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+<app-breadcrumb [title]="'Inicio'" [items]="['Dashboard']" [active_item]="'Inicio'"></app-breadcrumb>
+<div class="container-fluid">
+  <div class="row widget-grid">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <p class="h1 txt-primary text-center">Frente Cubano</p>
+        </div>
+        <div class="card-body">
+              <owl-carousel-o [options]="owlcarousel13Options">
+                  <ng-template carouselSlide class="item" [id]="img.id" *ngFor="let img of owlcarousel1">
+                    <img [src]="[img.img]" alt="">
+                  </ng-template>
+              </owl-carousel-o>
+              
+        </div>
+        <div class="card-footer">
+        <div class="row">
+          <div class="col-sm-1"></div>
+        <div class="col-sm-5">
+          <div class="text-center">
+            <p class="h4 txt-primary">¿Quiénes somos?</p>
+            <br>
+          </div>
+          <div class="justificar">
+            <p>Por más de 30 años Frente Cubano se ha dedicado a cubrir eficientemente las necesidades de manejo de paquetes y logística en general en la región, el fruto de esta labor es la confianza que nuestros clientes depositan en nosotros.
+              El entender su negocio y la importancia de cumplir en brindar un servicio de excelente calidad, garantizando recolección y entrega en el lugar y hora que el cliente necesita, es la forma en que pagamos esta confianza.
+            </p>
+          </div>
+          </div>
+          <div class="col-sm-6">
+            <img src="../../../../assets/images/dashboard/camion.png" width="450">
+        </div>
+      </div>
+      <br>
+    </div>
+      <div class="card-footer">
+      <div class="row">
+        <div class="col-sm-6">
+          <img src="../../../../assets/images/dashboard/question.png" width="450">
+      </div>
+        <div class="col-sm-5">
+          <div class="text-center">
+            <p class="h4 txt-primary">¿Por qué elegirnos?</p>
+            <br>
+          </div>
+          <div class="justificar">
+            <p>
+              Contamos con experiencia de más de 50 años en la administración de valores, seguridad, logística y paquetería. Somos una corporación líder que brinda servicios innovadores, eficientes y de alta calidad.
+              El compromiso, la confianza y la responsabilidad son elementos que han marcado nuestra trayectoria. En la actualidad contamos con más de 13,000 colaboradores, y operaciones en Centroamérica, Panamá y Estados Unidos.
+            </p>
+          </div>
+          </div>
+      </div>
+    </div>
+    <!-- <div class="card-footer">
+      <div class="col-sm-12 col-xl-6 box-col-12 xl-100">
+        <div class="card">
+            <div class="card-header">
+                <h5>Pie Chart <span class="digits">2</span></h5>
+            </div>
+            <div class="card-body chart-block p-0">
+                <div class="chart-overflow" id="pie-chart2">
+                    <google-chart [data]="pieChart2"></google-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div> -->
+  </div>
+</div>
+</div>
