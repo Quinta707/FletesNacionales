@@ -146,12 +146,25 @@ export class TableService {
         return of({ tableItem, total });
       }
     
-      EstadosCivilesListado = Global + "EstadosCiviles/Listado";
-
+  EstadosCivilesListado = Global + "EstadosCiviles/Listado";
   getEstadosCiviles(){
     return this.http.get<EstadosCiviles[]>(this.EstadosCivilesListado);
   }
 
+  EstadosCivilesCreate = Global + 'EstadosCiviles/Insertar';
+  createEstadosCiviles(estadosCiviles: EstadosCiviles){
+    return this.http.post<EstadosCiviles[]>(this.EstadosCivilesCreate, estadosCiviles);
+  }
+
+  EstadosCivilesFind = Global + 'EstadosCiviles/Buscar?id=';
+  findEstadosCiviles(id?: number) {
+    return this.http.get<EstadosCiviles[]>(this.EstadosCivilesFind + id);
+  }
+  
+  EstadosCivilesUpdate = Global + 'EstadosCiviles/Editar';
+  updateEstadosCiviles(estadosCiviles: EstadosCiviles){
+    return this.http.post<EstadosCiviles[]>(this.EstadosCivilesUpdate, estadosCiviles);
+  }
 
 }
 

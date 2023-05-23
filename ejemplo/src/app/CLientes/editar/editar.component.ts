@@ -15,7 +15,7 @@ export class EditarComponent {
   ngOnInit(): void {
     this.Find();
   }
-
+  
   Find(){
     const id: number | undefined = isNaN(parseInt(localStorage.getItem('id') ?? '', 10)) ? undefined: parseInt(localStorage.getItem('id') ?? '', 10)
     this.service.findCliente(id ?? 0)

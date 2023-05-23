@@ -10,7 +10,6 @@ import { ServiceService } from 'src/app/Service/service.service';
 })
 export class CreateComponent {
  cate: Cliente = new Cliente();
-
  
  constructor(private service: ServiceService, private router: Router){}
  Guardar(){

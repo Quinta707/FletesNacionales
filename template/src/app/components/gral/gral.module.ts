@@ -10,6 +10,7 @@ import { MunicipiosListComponent } from "./municipios/municipios-list/municipios
 import { EstadosDelPedidoListComponent } from './estadosDelPedido/estadosDelPedido-list/estadosDelPedido-list.component'
 import { EmpleadosListComponent } from './empleados/empleados-list/empleados-list.component'
 import { MetodosDePagoListComponent } from './metodosDePago/metodosDePago-list/metodosDePago-list.component'
+
 import { EstadosCivilesComponent } from './estadosCiviles/estadosCiviles-list/estadosCiviles-list.component'
 
 import { GralRoutingModule } from './gral-routing.module';
@@ -21,7 +22,7 @@ import { GralRoutingModule } from './gral-routing.module';
     EstadosDelPedidoListComponent,
     EmpleadosListComponent,
     MetodosDePagoListComponent,
-    EstadosCivilesComponent
+    EstadosCivilesComponent,
   ],
   imports: [
     CommonModule,

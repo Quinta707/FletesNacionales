@@ -10,7 +10,35 @@
           </div>
         </div>
         <div class="card-body">
-       
+          
+          <ng-template #Create let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+              <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+            </div>
+            <div class="modal-body">
+              <input [(ngModel)]="estadosCreate.eciv_Descripcion" type="text">
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-success" (click)="Guardar()">Crea</button>
+            </div>
+          </ng-template>
+          
+          <ng-template #Update let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+              <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+            </div>
+            <div class="modal-body">
+              <input [(ngModel)]="estadosEditar.eciv_Descripcion" type="text">
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-success" (click)="update()">Crea</button>
+            </div>
+          </ng-template>
+          
+          <button class="btn btn-lg btn-outline-primary" (click)="open(Create)">Crear Departamento</button>
+          <hr>
           <div class="d-flex justify-content-between mb-2 mx-1">
             <select class="form-select" style="color: #3c334d; width: auto" name="pageSize" [(ngModel)]="service.pageSize">
               <option [ngValue]="5">5 </option>
@@ -48,11 +76,11 @@
                         </td>
                         <td>
                           <div class="action">
-                            <li class="edit">
-                              <a href="#"><i class="icon-pencil-alt"></i></a>
+                            <li class="edit" (click)="Actualizar(item, Update)">
+                              <a ><i class="icon-pencil-alt"></i></a>
                             </li>
-                            <li class="delete" (click)="onSelect(item.carg_Descripcion)">
-                              <a href="#"><i class="icon-trash"></i></a>
+                            <li class="delete" (click)="Eliminar(item)">
+                              <a ><i class="icon-trash"></i></a>
                             </li>
                           </div>
                         </td>
