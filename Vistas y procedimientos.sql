@@ -570,31 +570,6 @@ BEGIN
 		SELECT 0 
 	END CATCH
 END
-GO
-
-CREATE OR ALTER PROCEDURE  gral.UDP_tbEstadosCiviles_Delete
-(@eciv_Id INT)
-AS
-BEGIN
-	BEGIN TRY
-		
-		IF EXISTS (select * from flet.tbEmpleados where eciv_Id = @eciv_Id) AND EXISTS (select * from flet.tbClientes where eciv_Id = @eciv_Id)
-		BEGIN
-			SELECT - 3
-		END
-		ELSE 
-			BEGIN
-				UPDATE	gral.tbEstadosCiviles
-				SET		eciv_Estado = 0
-				WHERE	eciv_Id = @eciv_Id
-
-				SELECT 1 
-			END
-	END TRY
-	BEGIN CATCH
-		SELECT 0 
-	END CATCH
-END
 --**************  INDEX ******************--
 GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_Index

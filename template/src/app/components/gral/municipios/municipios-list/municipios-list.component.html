@@ -6,10 +6,60 @@
       <div class="card">
         <div class="card-header bg-primary">
           <div class="text-center">
-            <h3>Listado de Departamento</h3>
+            <h3>Listado de Municipios</h3>
           </div>
         </div>
         <div class="card-body">
+          <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">
+            <ng-template #Create let-modal>
+              <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Insertar Municipios</h4>
+                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+              </div>
+              <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">    
+              <div class="modal-body">
+                <label class="form-label" for="validationCustom01">Municipio</label>
+                <div class="col-form-label">Departamento</div>
+                
+                <ng-select class="form-select" [items]="departamentosDDL" placeholder="Departamento" ></ng-select>
+                <br>
+                <input [(ngModel)]="estadosCreate.muni_Nombre" class="form-control" id="validationCustom01" type="text" required="" onlyAlphabets />
+  
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-primary" type="button" (click)="Guardar()">Crear</button>
+              </div>  
+            </form>
+            </ng-template>
+          </form>
+            <ng-template #Update let-modal>
+              <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Actualizar Municipios</h4>
+                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+              </div>
+              <div class="modal-body">
+                <input [(ngModel)]="estadosEditar.eciv_Descripcion" type="text">
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-success" (click)="update()">Actualizar</button>
+              </div>
+            </ng-template>
+  
+            <ng-template #Delete let-modal>
+              <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Eliminar Municipios</h4>
+                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+              </div>
+              <div class="modal-body">
+                <h3>Desea Eliminar Este Registro?</h3>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-success" (click)="delete()">Eliminar</button>
+              </div>
+            </ng-template>
+            
+            <button class="btn btn-lg btn-outline-primary" (click)="open(Create)">Crear Municipio</button>
+            <hr>
           <div class="d-flex justify-content-between mb-2 mx-1">
             <select class="form-select" style="color: #3c334d; width: auto" name="pageSize" [(ngModel)]="service.pageSize">
               <option [ngValue]="5">5 </option>

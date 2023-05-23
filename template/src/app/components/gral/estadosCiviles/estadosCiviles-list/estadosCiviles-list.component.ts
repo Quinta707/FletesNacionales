@@ -3,7 +3,7 @@ import { EstadosCiviles } from '../../../../shared/model/estadosCiviles.model';
 import { TableService } from '../../../../shared/services/estadosCiviles.service';
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
-import { NgbActiveModal, NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -12,8 +12,10 @@ import { NgbActiveModal, NgbModal, ModalDismissReasons, NgbModalConfig } from '@
   styleUrls: ['./estadosCiviles-list.component.scss']
 })
 export class EstadosCivilesComponent implements OnInit {
+  public validate = false;
   public selected = [];
   
+  estadosCiviles: EstadosCiviles[];
   closeResult: string;
   
   constructor(config: NgbModalConfig, private modalService: NgbModal, public service: TableService) {
@@ -26,7 +28,11 @@ export class EstadosCivilesComponent implements OnInit {
 
   }
 
-  open(content) {
+  public submit() {
+    this.validate = !this.validate;
+  }
+  
+  open(content: any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -44,7 +50,6 @@ export class EstadosCivilesComponent implements OnInit {
     }
   }
 
-  estadosCiviles: EstadosCiviles[];
 
   estadosCreate: EstadosCiviles = new EstadosCiviles();
 
@@ -53,15 +58,24 @@ export class EstadosCivilesComponent implements OnInit {
   estadosEliminar: EstadosCiviles = new EstadosCiviles();
 
   Guardar() {
-    this.service.createEstadosCiviles(this.estadosCreate)
-    .subscribe(data =>{     
-      this.modalService.dismissAll()
-      
-      this.index()
-    })
+    this.validate = !this.validate;
+    if(this.estadosCreate.eciv_Descripcion == null)
+    {
+
+    }
+    else
+    {
+      this.service.createEstadosCiviles(this.estadosCreate)
+      .subscribe(() =>{     
+        this.modalService.dismissAll()
+        this.estadosCreate.eciv_Descripcion = null
+        this.validate = false;
+        this.index()
+      })
+    }
   }
 
-  Actualizar(est: EstadosCiviles, content) {
+  Actualizar(est: EstadosCiviles, content: any) {
     console.log(est.eciv_Descripcion)
     const id = est.eciv_Id
 
@@ -69,18 +83,14 @@ export class EstadosCivilesComponent implements OnInit {
     .subscribe((data : any) =>{
       
       this.estadosEditar = data;
-      
-      this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-        this.closeResult = `Closed with: ${result}`;
-      }, (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      });
+    
+      open(content)
     })
   }
 
   update(){
     this.service.updateEstadosCiviles(this.estadosEditar)
-    .subscribe(data =>{     
+    .subscribe(() =>{     
       this.modalService.dismissAll()
       
       this.index()
@@ -89,17 +99,14 @@ export class EstadosCivilesComponent implements OnInit {
 
   Eliminar(est: EstadosCiviles, content) {
     this.estadosEliminar.eciv_Id = est.eciv_Id
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+   
+    open(content)
   }
 
   delete() {
     console.log(this.estadosEliminar.eciv_Id)
     this.service.deleteEstadosCiviles(this.estadosEliminar)
-    .subscribe(data => {      
+    .subscribe(() => {      
       this.modalService.dismissAll()
       this.index()
     })
@@ -108,6 +115,7 @@ export class EstadosCivilesComponent implements OnInit {
   index(){
     this.service.getEstadosCiviles()
     .subscribe((data: any)=>{
+      console.log(data.data)
        this.estadosCiviles= data.data;
        this.service.setUserData(data.data)
     })

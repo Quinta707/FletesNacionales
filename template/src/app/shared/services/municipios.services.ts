@@ -6,6 +6,7 @@ import { DecimalPipe, SlicePipe } from '@angular/common';
 import { debounceTime, delay, map, switchMap, tap } from 'rxjs/operators';
 import { SortColumn, SortDirection } from '../directives/NgbdSortableHeader';
 import { Municipios } from '../model/municipios.model';
+import { Departamentos } from '../model/departamentos.model';
 import { Global } from '../../../../config';
 import { HttpClient } from '@angular/common/http';
 
@@ -146,12 +147,36 @@ export class TableService {
         return of({ tableItem, total });
       }
     
-      MunicipiosListado = Global + "Municipios/Listado";
-
+  MunicipiosListado = Global + "Municipios/Listado";
   getMunicipios(){
     return this.http.get<Municipios[]>(this.MunicipiosListado);
   }
 
+  MunicipiosCreate = Global + 'Municipios/Insertar';
+  createMunicipios(Municipios: Municipios){
+    return this.http.post<Municipios[]>(this.MunicipiosCreate, Municipios);
+  }
+
+  MunicipiosFind = Global + 'Municipios/Buscar?id=';
+  findMunicipios(id?: number) {
+    return this.http.get<Municipios[]>(this.MunicipiosFind + id);
+  }
+  
+  MunicipiosUpdate = Global + 'Municipios/Editar';
+  updateMunicipios(Municipios: Municipios){
+    return this.http.put<Municipios[]>(this.MunicipiosUpdate, Municipios);
+  }
+
+  MunicipiosDelete = Global + 'Municipios/Eliminar';
+  deleteMunicipios(Municipios: Municipios){
+    return this.http.put<Municipios[]>(this.MunicipiosDelete, Municipios);
+  }
+
+  DepartamentosListado = Global + "Departamentos/Listado";
+
+  getDepartamenos(){
+    return this.http.get<Departamentos[]>(this.DepartamentosListado);
+  }
 
 }
 

@@ -11,10 +11,18 @@ export class FormValidationComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-  }
+  }d
    
   public submit() {
     this.validate = !this.validate;
+    if(this.validate)
+    {
+      console.log('se supone que no hay nada')
+    }
+    else
+    {
+      console.log('se supone que hay algo')
+    }
   }
   public tooltipSubmit() {
     this.tooltipValidation = !this.tooltipValidation;
