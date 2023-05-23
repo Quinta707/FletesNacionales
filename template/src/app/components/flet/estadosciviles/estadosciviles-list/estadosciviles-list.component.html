@@ -89,7 +89,10 @@
           <div class="form-group">
             <label for="dateOfBirth">Estado Civil</label>
             <div class="input-group">
-              <input type="text" id="text" class="form-control" name="dp">
+              <input type="text" class="form-control" id="exampleInputEmail1" required placeholder="Estado Civil"
+              [(ngModel)]="mantenimientoValue" name="mantenimientoValue" #mantenimientoInput="ngModel"
+              [ngClass]="{ 'is-invalid': submitted && mantenimientoInput.invalid }">
+            <div class="invalid-feedback" *ngIf="mantenimientoInput?.errors?.required && submitted">Estado Civil requerido</div>
               <div class="input-group-append">
               </div>
             </div>
@@ -97,7 +100,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Guardar</button>
+        <button type="submit" class="btn btn-outline-dark" (click)="Guardar($event)">Guardar</button>
       </div>
     </ng-template>
   </div>

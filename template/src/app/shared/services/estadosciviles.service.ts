@@ -34,8 +34,8 @@ function sort(tableItem: EstadosCiviles[], column: SortColumn, direction: string
     }
 }
 function matches(table: EstadosCiviles, term: string, pipe: PipeTransform) {
-    return table.eciv_Descripcion.toLowerCase().includes(term.toLowerCase());
-  }
+  return table?.eciv_Descripcion?.toLowerCase().includes(term.toLowerCase());
+}
 
 @Injectable({ providedIn: 'root' })
 export class TableService {
@@ -133,12 +133,11 @@ export class TableService {
           .slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
         return of({ tableItem, total });
       }
-    
+     
       EstadosCivilesListado = Global + "EstadosCiviles/Listado";
-
+     
   getEstadosCiviles(){
     return this.http.get<EstadosCiviles[]>(this.EstadosCivilesListado);
   }
-
 
 }

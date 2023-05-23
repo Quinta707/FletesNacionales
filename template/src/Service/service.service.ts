@@ -62,10 +62,7 @@ export class ServiceService {
     return this.http.get<Municipios[]>(this.MunicipiosListado)
   }
 
-  EstadosCivilesCreate = Global + 'EstadosCiviles/Insert'
-  createCategoria(estadosciviles: EstadosCiviles){
-    return this.http.post<EstadosCiviles[]>(this.EstadosCivilesCreate, estadosciviles);
-  }
+  
 
   //#endregion
 }

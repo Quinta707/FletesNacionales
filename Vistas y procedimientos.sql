@@ -477,45 +477,53 @@ ON T1.eciv_UsuModificacion = T3.[user_Id]
 --**************  CREATE ******************--
 GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_Insert
-(@eciv_Descripcion NVARCHAR(100),
- @eciv_UsuCreacion INT)
+(
+  @eciv_Descripcion NVARCHAR(100)
+)
 AS
 BEGIN
-	BEGIN TRY 
-		IF EXISTS(SELECT eciv_Id FROM gral.tbEstadosCiviles WHERE eciv_Descripcion = @eciv_Descripcion and eciv_Estado = 1) 
-			BEGIN
-				SELECT -2
-			END
-		ELSE IF NOT EXISTS (SELECT * FROM gral.tbEstadosCiviles WHERE eciv_Descripcion = @eciv_Descripcion)
-			BEGIN
-				INSERT INTO [gral].[tbEstadosCiviles] 
-				(eciv_Descripcion, 
-				eciv_UsuCreacion, 
-				eciv_UsuModificacion, 
-				eciv_FechaModificacion)
+  BEGIN TRY 
+    IF EXISTS(SELECT eciv_Id FROM gral.tbEstadosCiviles WHERE eciv_Descripcion = @eciv_Descripcion and eciv_Estado = 1) 
+    BEGIN
+      SELECT -2
+    END
+    ELSE IF EXISTS(SELECT eciv_Id FROM gral.tbEstadosCiviles WHERE eciv_Descripcion = @eciv_Descripcion)
+    BEGIN
+      UPDATE [gral].[tbEstadosCiviles] 
+      SET eciv_Estado = 1,
+          eciv_UsuCreacion = 1,
+          eciv_FechaCreacion = GETDATE(),
+          eciv_UsuModificacion = NULL,
+          eciv_FechaModificacion = NULL
+      WHERE eciv_Descripcion = @eciv_Descripcion;
 
-				VALUES 
-				(@eciv_Descripcion, 
-				@eciv_UsuCreacion, 
-				NULL, 
-				NULL);
-				SELECT SCOPE_IDENTITY() 
-			END
-		ELSE
-			BEGIN
-				UPDATE [gral].[tbEstadosCiviles] 
-				SET eciv_Estado = 1,
-				eciv_Descripcion = @eciv_Descripcion,
-				eciv_UsuCreacion = @eciv_UsuCreacion,
-				eciv_FechaCreacion = GETDATE()
-				WHERE eciv_Descripcion = @eciv_Descripcion
+      SELECT eciv_Id FROM [gral].[tbEstadosCiviles] WHERE eciv_Descripcion = @eciv_Descripcion;
+    END
+    ELSE
+    BEGIN
+      INSERT INTO [gral].[tbEstadosCiviles] 
+      (
+        eciv_Descripcion, 
+        eciv_UsuCreacion, 
+        eciv_FechaCreacion,
+        eciv_UsuModificacion, 
+        eciv_FechaModificacion
+      )
+      VALUES 
+      (
+        @eciv_Descripcion, 
+        1,
+        GETDATE(),
+        NULL, 
+        NULL
+      );
 
-				SELECT eciv_Id From [gral].[tbEstadosCiviles] WHERE eciv_Descripcion = @eciv_Descripcion
-			END
-	END TRY
-	BEGIN CATCH
-		SELECT 0 
-	END CATCH
+      SELECT SCOPE_IDENTITY();
+    END
+  END TRY
+  BEGIN CATCH
+    SELECT 0;
+  END CATCH
 END
 
 --**************  UPDATE ******************--
