@@ -21,7 +21,6 @@ export class EstadosCivilesComponent implements OnInit {
     this.tableItem$ = service.tableItem$;
     this.total$ = service.total$;
     this.service.setUserData(this.estadosCiviles)
-  	// customize default values of modals used by this component tree
     config.backdrop = 'static';
     config.keyboard = false;
 
@@ -51,28 +50,24 @@ export class EstadosCivilesComponent implements OnInit {
 
   estadosEditar: EstadosCiviles = new EstadosCiviles();
 
+  estadosEliminar: EstadosCiviles = new EstadosCiviles();
+
   Guardar() {
     this.service.createEstadosCiviles(this.estadosCreate)
     .subscribe(data =>{     
       this.modalService.dismissAll()
       
-      this.service.getEstadosCiviles()    
-      .subscribe((data: any)=>{
-        console.log('wawa')
-        console.log(data.data )
-        this.estadosCiviles= data.data;
-        this.service.setUserData(data.data)
-     })
+      this.index()
     })
   }
 
   Actualizar(est: EstadosCiviles, content) {
-
-
-    console.log(est.eciv_Id)
+    console.log(est.eciv_Descripcion)
     const id = est.eciv_Id
+
     this.service.findEstadosCiviles(id ?? 0)
     .subscribe((data : any) =>{
+      
       this.estadosEditar = data;
       
       this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
@@ -84,21 +79,45 @@ export class EstadosCivilesComponent implements OnInit {
   }
 
   update(){
-
+    this.service.updateEstadosCiviles(this.estadosEditar)
+    .subscribe(data =>{     
+      this.modalService.dismissAll()
+      
+      this.index()
+    })
   }
 
-  Eliminar(est: EstadosCiviles) {
-    console.log(est.eciv_Id)
+  Eliminar(est: EstadosCiviles, content) {
+    this.estadosEliminar.eciv_Id = est.eciv_Id
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
 
+  delete() {
+    console.log(this.estadosEliminar.eciv_Id)
+    this.service.deleteEstadosCiviles(this.estadosEliminar)
+    .subscribe(data => {      
+      this.modalService.dismissAll()
+      this.index()
+    })
+  }
+
+  index(){
+    this.service.getEstadosCiviles()
+    .subscribe((data: any)=>{
+       this.estadosCiviles= data.data;
+       this.service.setUserData(data.data)
+    })
   }
  
   ngOnInit(): void {
-   this.service.getEstadosCiviles()
-   .subscribe((data: any)=>{
-      this.estadosCiviles= data.data;
-      this.service.setUserData(data.data)
-   })
+    this.index()
   }
+
+
 
   public tableItem$: Observable<EstadosCiviles[]>;
   public searchText;

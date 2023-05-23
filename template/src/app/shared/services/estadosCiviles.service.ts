@@ -163,7 +163,12 @@ export class TableService {
   
   EstadosCivilesUpdate = Global + 'EstadosCiviles/Editar';
   updateEstadosCiviles(estadosCiviles: EstadosCiviles){
-    return this.http.post<EstadosCiviles[]>(this.EstadosCivilesUpdate, estadosCiviles);
+    return this.http.put<EstadosCiviles[]>(this.EstadosCivilesUpdate, estadosCiviles);
+  }
+
+  EstadosCivilesDelete = Global + 'EstadosCiviles/Eliminar';
+  deleteEstadosCiviles(estadosCiviles: EstadosCiviles){
+    return this.http.put<EstadosCiviles[]>(this.EstadosCivilesDelete, estadosCiviles);
   }
 
 }

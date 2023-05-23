@@ -578,7 +578,7 @@ AS
 BEGIN
 	BEGIN TRY
 		
-		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('gral.tbEstadosCiviles') AND EXISTS ( SELECT 1 FROM gral.tbEstadosCiviles WHERE eciv_Id = @eciv_Id))
+		IF EXISTS (select * from flet.tbEmpleados where eciv_Id = @eciv_Id) AND EXISTS (select * from flet.tbClientes where eciv_Id = @eciv_Id)
 		BEGIN
 			SELECT - 3
 		END

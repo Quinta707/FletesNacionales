@@ -20,7 +20,7 @@
               <input [(ngModel)]="estadosCreate.eciv_Descripcion" type="text">
             </div>
             <div class="modal-footer">
-              <button class="btn btn-success" (click)="Guardar()">Crea</button>
+              <button class="btn btn-success" (click)="Guardar()">Insertar</button>
             </div>
           </ng-template>
           
@@ -33,7 +33,20 @@
               <input [(ngModel)]="estadosEditar.eciv_Descripcion" type="text">
             </div>
             <div class="modal-footer">
-              <button class="btn btn-success" (click)="update()">Crea</button>
+              <button class="btn btn-success" (click)="update()">Actualizar</button>
+            </div>
+          </ng-template>
+
+          <ng-template #Delete let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+              <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+            </div>
+            <div class="modal-body">
+             <label for="">Desea eliminar este registro?</label>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-success" (click)="delete()">Eliminar</button>
             </div>
           </ng-template>
           
@@ -79,7 +92,7 @@
                             <li class="edit" (click)="Actualizar(item, Update)">
                               <a ><i class="icon-pencil-alt"></i></a>
                             </li>
-                            <li class="delete" (click)="Eliminar(item)">
+                            <li class="delete" (click)="Eliminar(item, Delete)">
                               <a ><i class="icon-trash"></i></a>
                             </li>
                           </div>
