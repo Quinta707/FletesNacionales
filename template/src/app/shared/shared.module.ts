@@ -43,6 +43,7 @@ import { SvgIconComponent } from "./components/svg-icon/svg-icon.component";
 import { CarouselModule } from "ngx-owl-carousel-o";
 import { SwiperModule } from "swiper/angular";
 import { SwiperComponent } from './components/header/elements/swiper/swiper.component';
+import { NgSelect2Module } from "ng-select2";
 
 @NgModule({
   declarations: [
@@ -72,7 +73,7 @@ import { SwiperComponent } from './components/header/elements/swiper/swiper.comp
     SvgIconComponent,
     SwiperComponent,
   ],
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, NgbModule, DragulaModule.forRoot(), TranslateModule.forRoot(), CarouselModule, SwiperModule],
+  imports: [NgSelect2Module,CommonModule, RouterModule, FormsModule, ReactiveFormsModule, NgbModule, DragulaModule.forRoot(), TranslateModule.forRoot(), CarouselModule, SwiperModule],
   providers: [NavService, ChatService, LayoutService, TableService, DecimalPipe],
   exports: [NgbModule, FormsModule, ReactiveFormsModule, TranslateModule, LoaderComponent, BreadcrumbComponent, FeatherIconsComponent, TapToTopComponent, DisableKeyPressDirective, OnlyAlphabetsDirective, OnlyNumbersDirective, NgbdSortableHeader, SvgIconComponent, SwiperModule],
 })

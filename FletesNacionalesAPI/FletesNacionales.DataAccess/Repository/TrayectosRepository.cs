@@ -31,6 +31,15 @@ namespace FletesNacionales.DataAccess.Repository
             var result = db.QueryFirst<VW_tbTrayectos>(ScriptsDataBase.TrayectosFind, parametros, commandType: System.Data.CommandType.StoredProcedure);
             return result;
         }
+         public VW_tbTrayectos Exists(int desde, int hasta)
+        {
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+            var parametros = new DynamicParameters();
+            parametros.Add("@muni_Inicio", desde, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@muni_Final", hasta, DbType.Int32, ParameterDirection.Input);
+            var result = db.QueryFirst<VW_tbTrayectos>(ScriptsDataBase.TrayectosExiste, parametros, commandType: System.Data.CommandType.StoredProcedure);
+            return result;
+        }
 
         public RequestStatus Insert(tbTrayectos item)
         {

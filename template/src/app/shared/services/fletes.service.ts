@@ -170,6 +170,11 @@ export class TableService {
   getPedidos(){
     return this.http.get<Pedidos[]>(Global+"Pedidos/Listado")
   }
+  
+  
+  getPedidosPorMunicipio(id: number){
+    return this.http.get<Pedidos[]>(Global+"Pedidos/PedidoPorMunicipio?muni="+id.toString())
+  }
 
 
 }

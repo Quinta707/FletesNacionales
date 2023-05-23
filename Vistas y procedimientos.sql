@@ -2725,6 +2725,21 @@ BEGIN
 END
 
 
+GO
+--************** PEDIDOS POR MUNICIPIO *****************--
+CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_PedidosPorMunicipio
+(
+	@muni_Id INT
+)
+AS 
+BEGIN
+	SELECT pedi_Id, clie_Id, clie_NombreCompleto, clie_Identidad, clie_FechaNacimiento, clie_Sexo, eciv_Id, clie_DireccionExacta, clie_Telefono, muni_Origen, pedi_OrigenNombre, pedi_DepaOrigenId, pedi_DepaOrigen, muni_Destino, pedi_DestinoNombre, pedi_DepaDestinoId, pedi_DepaDestino, pedi_DestinoFinal, estp_Id, estp_Nombre, pedi_UsuCreacion, pedi_FechaCreacion, pedi_UsuModificacion, pedi_FechaModificacion, pedi_Estado, user_Creacion, user_Modificacion
+	FROM flet.VW_tbPedidos
+	WHERE muni_Origen = @muni_Id AND estp_Id = 1 AND pedi_Estado = 1
+	ORDER BY pedi_FechaCreacion ASC
+END
+
+
 --************** FIND *****************--
 GO
 CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_Find
@@ -3605,6 +3620,20 @@ BEGIN
 	WHERE tray_Estado = 1
 END
 
+--************** EXISTE *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbTrayectos_Existe
+(
+	@muni_Inicio INT,
+	@muni_Final INT
+)
+AS 
+BEGIN
+	IF EXISTS (SELECT tray_Id FROM flet.VW_tbTrayectos WHERE muni_Inicio = @muni_Inicio AND muni_Final = @muni_Final )
+	SELECT tray_Id FROM flet.VW_tbTrayectos WHERE muni_Inicio = @muni_Inicio AND muni_Final = @muni_Final
+	ELSE
+	SELECT 0 as tray_Id
+END
 
 --************** FIND *****************--
 GO

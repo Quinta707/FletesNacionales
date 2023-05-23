@@ -483,12 +483,12 @@ namespace FletesNacionales.BusinessLogic.Services
             }
         }
 
-        public ServiceResult FletePedidos(tbFletes id)
+        public ServiceResult FletePedidos(int flet_Id)
         {
             var result = new ServiceResult();
             try
             {
-                var list = _fletesRepository.PedidosFlete(id);
+                var list = _fletesRepository.PedidosFlete(flet_Id);
                 return result.Ok(list);
             }
             catch (Exception e)
@@ -735,6 +735,20 @@ namespace FletesNacionales.BusinessLogic.Services
                 return result.Error(e.Message);
             }
         }
+        
+        public ServiceResult PedidosPorMunicipio(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _pedidosRepository.PedidosPorMunicipio(id);
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
 
         public ServiceResult EliminarPedidos(tbPedidos item)
         {
@@ -900,6 +914,19 @@ namespace FletesNacionales.BusinessLogic.Services
             try
             {
                 var list = _trayectosRepository.find(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public VW_tbTrayectos ExisteTrayecto(int desde, int hasta)
+        {
+            try
+            {
+                var list = _trayectosRepository.Exists(desde, hasta);
                 return list;
             }
             catch (Exception)

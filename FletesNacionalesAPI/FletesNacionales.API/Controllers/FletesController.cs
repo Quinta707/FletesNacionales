@@ -69,11 +69,10 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("FleteDetalles")]
-        public IActionResult FleteDetalles(FletesViewModel flete)
+        [HttpGet("FleteDetalles")]
+        public IActionResult FleteDetalles(int flet_Id)
         {
-            var item = _mapper.Map<tbFletes>(flete);
-            var response = _fletService.FletePedidos(item);
+            var response = _fletService.FletePedidos(flet_Id);
             return Ok(response);
         }
 

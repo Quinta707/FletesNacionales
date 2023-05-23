@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgModule } from '@angular/core';
+import { ArchwizardModule } from 'angular-archwizard';
 import { SharedModule } from '../../shared/shared.module';
+
 
 import { FleteListComponent } from './fletes/fletes-list/fletes-list.component';
 import { ItemListComponent } from './item/items-list/items-list.component';
@@ -12,6 +15,7 @@ import { FleteListPropioComponent } from './fletes/fletes-list-propio/fletes-lis
 import { FleteCreateComponent } from './fletes/fletes-create/fletes-create.component';
 
 import { FletRoutingModule } from './flet-routing.module';
+import { NgSelect2Module } from 'ng-select2';
 
 @NgModule({
   declarations: [
@@ -24,10 +28,14 @@ import { FletRoutingModule } from './flet-routing.module';
   imports: [
     CommonModule,
     FletRoutingModule,
-    NgSelectModule,
     FormsModule,
-    NgbModule,
+    NgSelectModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    NgSelect2Module,
     SharedModule,
+    NgbModule,
+    ArchwizardModule,
   ]
 })
 export class FletModule { }
