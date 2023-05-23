@@ -18,14 +18,21 @@
               </div>
               <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">    
               <div class="modal-body">
-                <label class="form-label" for="validationCustom01">Municipio</label>
-                <div class="col-form-label">Departamento</div>
-                
-                <ng-select class="form-select" [items]="departamentosDDL" placeholder="Departamento" ></ng-select>
-                <br>
-                <input [(ngModel)]="estadosCreate.muni_Nombre" class="form-control" id="validationCustom01" type="text" required="" onlyAlphabets />
-  
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="col-form-label">Departamento</div>
+                <ng-select [(ngModel)]="selectedOption" (change)="onChange()"[items]="departamentosDDL" placeholder="Departamento"></ng-select>
               </div>
+              <div class="col-sm-6">
+                <div class="col-form-label">Municipio</div>
+                <input [(ngModel)]="municipiosCreate.muni_Nombre" class="form-control" id="validationCustom01" type="text" required=""  />
+              </div>
+              <div class="col-sm-6">
+                <div class="col-form-label">Codigo</div>
+                <input [(ngModel)]="municipiosCreate.muni_Codigo" class="form-control" id="validationCustom01" type="text" required=""  />
+              </div>
+              </div>
+            </div>        
               <div class="modal-footer">
                 <button class="btn btn-primary" type="button" (click)="Guardar()">Crear</button>
               </div>  

@@ -17,6 +17,8 @@ export class MunicipiosListComponent implements OnInit {
   public selected = [];
   public validate = false;
 
+  
+
   closeResult: string;
 
   constructor(config: NgbModalConfig, private modalService: NgbModal, public service: TableService) {
@@ -60,7 +62,12 @@ export class MunicipiosListComponent implements OnInit {
   municipiosEditar: Municipios = new Municipios();
 
   municipiosEliminar: Municipios = new Municipios();
+  selectedOption: any;
 
+  onChange() {
+    console.log(this.selectedOption.value);
+  }
+  
   Guardar() {
     this.validate = !this.validate;
     if(this.municipiosCreate.muni_Nombre == null)
@@ -69,6 +76,8 @@ export class MunicipiosListComponent implements OnInit {
     }
     else
     {
+      this.municipiosCreate.depa_Id = this.selectedOption.value 
+      
       this.service.createMunicipios(this.municipiosCreate)
       .subscribe(() =>{     
         this.modalService.dismissAll()
@@ -128,7 +137,7 @@ export class MunicipiosListComponent implements OnInit {
   ngOnInit(): void {
     this.service.getDepartamenos()
     .subscribe((data: any) =>{
-      console.log(data)
+      
       this.departamentosDDL = data.data.map((item:any) =>( 
         {
         value: item.depa_Id,

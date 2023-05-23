@@ -2023,8 +2023,8 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbFleteDetalles_FindxFlete
 (
 @flet_Id	INT
 )
-AS 
-BEGINdepa
+AS	
+BEGIN
 	SELECT * FROM flet.VW_tbFleteDetalles
 	WHERE flet_Id = @flet_Id
 END
