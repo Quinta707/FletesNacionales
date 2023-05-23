@@ -1,0 +1,21 @@
+export class Vehiculos{
+    vehi_Id !: number;
+    mode_Id !: number;
+    mode_Nombre !: String;
+    vehi_PesoMaximo !: String;
+    vehi_VolumenMaximo !: String;
+    tipv_Id !: number;
+    tipv_Descripcion !: String;
+    marc_Id !: number;
+    marc_Nombre !: String;
+    vehi_Placa !: String;
+    vehi_EnUso !: String;
+    vehi_Usado !: String;
+    vehi_UsuCreacion !: String;
+    vehi_FechaCreacion !: String;
+    vehi_UsuModificacion !: String;
+    vehi_FechaModificacion !: String;
+    vehi_Estado !: String;
+    user_Creacion !: String;
+    user_Modificacion !: String;
+}

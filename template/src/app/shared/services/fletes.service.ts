@@ -6,6 +6,10 @@ import { DecimalPipe, SlicePipe } from '@angular/common';
 import { debounceTime, delay, map, switchMap, tap } from 'rxjs/operators';
 import { SortColumn, SortDirection } from '../directives/NgbdSortableHeader';
 import { Flete } from '../model/fletes.model';
+import { Municipios } from '../model/municipios.model';
+import { Empleados } from '../model/empleados.model';
+import { Vehiculos } from '../model/vehiculos.model';
+import { Pedidos } from '../model/pedidos.model';
 import { Global } from '../../../../config';
 import { HttpClient } from '@angular/common/http';
 
@@ -149,6 +153,22 @@ export class TableService {
 
   getFletes(){
     return this.http.get<Flete[]>(this.FletesListado);
+  }
+
+  getDllMunicipios(){
+    return this.http.get<Municipios[]>(Global+"Municipios/Listado")
+  }
+
+  getDllEmpleados(){
+    return this.http.get<Empleados[]>(Global+"Empleados/Listado")
+  }
+
+  getDllVehiculos(){
+    return this.http.get<Vehiculos[]>(Global+"Vehiculos/Listado")
+  }
+  
+  getPedidos(){
+    return this.http.get<Pedidos[]>(Global+"Pedidos/Listado")
   }
 
 

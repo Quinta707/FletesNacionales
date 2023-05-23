@@ -1,5 +1,6 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Flete } from '../../../../shared/model/fletes.model';
+import { Pedidos } from '../../../../shared/model/pedidos.model';
 import { TableService } from '../../../../shared/services/fletes.service';
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
@@ -23,12 +24,41 @@ export class FleteCreateComponent implements OnInit {
   }
   
   fletes: Flete[];
+  pedidos: Pedidos[];
  
+  public municipiosDdl = [];
+  public vehiculosDdl = [];
+  public empleadosDdl = [];
+  public selectgroupby: string;
+
   ngOnInit(): void {
-   this.service.getFletes()
+   this.service.getDllMunicipios()
    .subscribe((data: any)=>{
-      this.fletes= data.data;
-      this.service.setUserData(data.data)
+    this.municipiosDdl = data.data.map((item: any) => ({
+      value: item.muni_Id,
+      label: item.muni_Nombre,
+      job: item.depa_Nombre,
+    }));
+   })
+   this.service.getDllVehiculos()
+   .subscribe((data: any)=>{
+    this.vehiculosDdl = data.data.map((item: any) => ({
+      value: item.vehi_Id,
+      label: item.mode_Nombre,
+      job: item.marc_Nombre,
+    }));
+   })
+   this.service.getDllEmpleados()
+   .subscribe((data: any)=>{
+    this.empleadosDdl = data.data.map((item: any) => ({
+      value: item.empe_Id,
+      label: item.empe_NombreCompleto,
+      job: item.carg_Descripcion,
+    }));
+   })
+   this.service.getPedidos()
+   .subscribe((data: any)=>{
+    this.pedidos = data.data
    })
   }
 

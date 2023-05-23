@@ -293,33 +293,73 @@
   </div> -->
 
   <div class="row">
-    <div class="col-5">
+    <div class="col-6">
         <div class="card">
           <div class="card-header">
             <h5>Flete</h5>
           </div>
           <div class="card-body">
-            <div class="col-form-label">Vehiculo</div>
-              <ng-select [items]="" class="js-example-basic-single"
-                 groupBy="job" placeholder="Vehiculo"></ng-select>
+            <div class="row">
+              <div class="col">
+                <div class="col-form-label">Vehiculo</div>
+              <ng-select [items]="vehiculosDdl" class="js-example-basic-single"
+              [(ngModel)]="selectgroupby" groupBy="job" placeholder="Vehiculo"></ng-select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="col-form-label">Empleado</div>
+              <ng-select [items]="empleadosDdl" class="js-example-basic-single"
+              [(ngModel)]="selectgroupby" groupBy="job" placeholder="Empleado"></ng-select>
                  <!-- [(ngModel)]="" -->
-                 <div class="col-form-label">Empleado</div>
-              <ng-select [items]="" class="js-example-basic-single"
-                 groupBy="job" placeholder="Empleado"></ng-select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="col-form-label">Desde</div>
+                <ng-select [items]="municipiosDdl" class="basic-single"
+                [(ngModel)]="selectgroupby" groupBy="job" placeholder="Municipio de salida"></ng-select>
+              </div>
+              <div class="col">
+                <div class="col-form-label">Hasta</div>
+                <ng-select [items]="municipiosDdl" class="basic-single"
+                [(ngModel)]="selectgroupby" groupBy="job" placeholder="Municipio de destino"></ng-select>
+              </div>
+            </div>
             </div>
           </div>
         </div>
-    </div>
-    <div class="col-7">
+        <div class="col-6">
       <div class="card">
         <div class="card-header">
           <h5>Pedidos</h5>
         </div>
-        <div class="card-body">
-          
+        <div class="card-body megaoptions-border-space-sm">
+          <div class="mega-inline">
+            <div class="row">
+              <div class="col-sm-12" *ngFor="let item of pedidos">
+                <div class="card">
+                  <div class="media p-20">
+                    <div class="form-check checkbox checkbox-primary me-3">
+                      <input class="form-check-input" id="checkbox-primary-1s" type="checkbox" />
+                        <label class="form-check-label" for="checkbox-primary-1s"></label>
+                    </div>
+                    <div class="media-body">
+                      <h6 class="mt-0 mega-title-badge">Pedido de:   {{ item.clie_NombreCompleto }}<span class="badge badge-primary pull-right digits">{{ item.pedi_Id }}</span></h6>
+                      <p>Ciudad de destino: {{item.pedi_DepaDestino}}
+                      <br>Peso de: 00
+                      <br>Volumen de: 00</p>
+                    </div>                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+    </div>
+    
   </div>
   <div class="row">
     <div class="col">

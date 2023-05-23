@@ -305,7 +305,7 @@ SELECT	muni_Id,
 		muni_Nombre, 
 		muni_Codigo, 
 		T1.depa_Id, 
-		T2.depa_Nombre
+		T2.depa_Nombre,
 		muni_UsuCreacion, 
 		muni_Habilitado,
 		CASE
