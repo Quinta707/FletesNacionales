@@ -7,7 +7,8 @@ import { FleteListPropioComponent } from './fletes/fletes-list-propio/fletes-lis
 import { VehiculosLstComponent } from './vehiculos/vehiculos-lst/vehiculos-lst.component';
 import { SucursalesListComponent } from './sucursales/sucursales-list/sucursales-list.component';
 import { EmpleadosListComponent } from './empleados/empleados-list/empleados-list.component';
-import { EstadoscivilesListComponent } from './estadosciviles/estadosciviles-list/estadosciviles-list.component';
+import { EstadosdelpedidoListComponent } from './estadosdelpedido/estadosdelpedido-list/estadosdelpedido-list.component';
+import { TipodevehiculoListComponent } from './tipodevehiculo/tipodevehiculo-list/tipodevehiculo-list.component';
 
 const routes: Routes = [
   {
@@ -75,13 +76,23 @@ const routes: Routes = [
           },
           
         ],
-      },
+      },    
       {
-        path: "EstadosCiviles",
+        path: "EstadosdelPedido",
         children: [
           {
             path: "List",
-            component: EstadoscivilesListComponent,
+            component: EstadosdelpedidoListComponent,
+          },
+          
+        ],
+      },
+      {
+        path: "TipoDeVehiculo",
+        children: [
+          {
+            path: "List",
+            component: TipodevehiculoListComponent,
           },
           
         ],

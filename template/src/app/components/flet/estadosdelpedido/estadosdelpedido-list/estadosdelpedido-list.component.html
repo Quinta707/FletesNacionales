@@ -1,12 +1,12 @@
 <div class="container">
-    <app-breadcrumb [title]="'Estados Civiles listado'" [items]="['Flet']" [active_item]="'Estados Civiles'"></app-breadcrumb>
+    <app-breadcrumb [title]="'Estados del Pedido listado'" [items]="['Flet']" [active_item]="'Estados del Pedido'"></app-breadcrumb>
     <br>
     <div class="row">
       <div class="col-12">
         <div class="card">
           <div class="card-header bg-primary">
             <div class="text-center">
-              <h3>Listado de Estados Civiles</h3>
+              <h3>Listado de Estados del Pedido</h3>
             </div>         
           </div>
           <div class="card-body">
@@ -35,18 +35,18 @@
                     <table class="table">
                       <thead>
                         <tr>
-                          <th scope="col" sortable="eciv_Id" (sort)="onSort($event)">Id</th>
-                          <th scope="col" sortable="eciv_Descripcion" (sort)="onSort($event)">Nombre Estado Civil</th>
+                          <th scope="col" sortable="estp_Id" (sort)="onSort($event)">Id</th>
+                          <th scope="col" sortable="estp_Nombre" (sort)="onSort($event)">Nombre Estado del Pedido</th>
                           <th scope="col">Acciones</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr *ngFor="let item of tableItem$ | async">
                           <td scope="row">
-                            <ngb-highlight [result]="item.eciv_Id" [term]="service.searchTerm"></ngb-highlight>
+                            <ngb-highlight [result]="item.estp_Id" [term]="service.searchTerm"></ngb-highlight>
                           </td>
                           <td>
-                            <ngb-highlight [result]="item.eciv_Descripcion" [term]="service.searchTerm"></ngb-highlight>
+                            <ngb-highlight [result]="item.estp_Nombre" [term]="service.searchTerm"></ngb-highlight>
                           </td>                 
                           <td>
                             <div class="action">
@@ -81,28 +81,27 @@
     </div>
     <ng-template #content let-modal>
       <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Agregar Estado Civil</h4>
+        <h4 class="modal-title" id="modal-basic-title">Agregar Estado del Pedido</h4>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
       </div>
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <label for="dateOfBirth">Estado Civil</label>
+            <label for="dateOfBirth">Estado del Pedido</label>
             <div class="input-group">
-              <input type="text" class="form-control" id="exampleInputEmail1" required placeholder="Estado Civil"
-              [(ngModel)]="mantenimientoValue" name="mantenimientoValue" #mantenimientoInput="ngModel"
-              [ngClass]="{ 'is-invalid': submitted && mantenimientoInput.invalid }">
-            <div class="invalid-feedback" *ngIf="mantenimientoInput?.errors?.required && submitted">Estado Civil requerido</div>
-              <div class="input-group-append">
-              </div>
+              <input type="text" class="form-control" id="exampleInputEmail1" required placeholder="Estado del Pedido"
+              [(ngModel)]="estadodelPedidoValue" name="estadodelPedidoValue" #estadodelPedidoInput="ngModel"
+              [ngClass]="{ 'is-invalid': submitted && estadodelPedidoInput.invalid }">
+            <div class="invalid-feedback" *ngIf="estadodelPedidoInput?.errors?.required && submitted">Estado del Pedido requerido</div>
             </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-outline-dark" (click)="Guardar($event)">Guardar</button>
+        <button class="btn btn-primary" (click)="Guardar($event)">Guardar</button>
       </div>
     </ng-template>
   </div>
   
+
 

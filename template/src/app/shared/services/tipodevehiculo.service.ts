@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { DecimalPipe, SlicePipe } from '@angular/common';
 import { debounceTime, delay, map, switchMap, tap } from 'rxjs/operators';
 import { SortColumn, SortDirection } from '../directives/NgbdSortableHeader';
-import { EstadosCiviles } from '../model/estadosciviles.model';
+import { TipoDeVehiculo } from '../model/tipodevehiculo.model';
 import { Global } from '../../../../config';
 import { HttpClient } from '@angular/common/http';
 
@@ -23,7 +23,7 @@ interface State {
 
 const compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
-function sort(tableItem: EstadosCiviles[], column: SortColumn, direction: string): EstadosCiviles[] {
+function sort(tableItem: TipoDeVehiculo[], column: SortColumn, direction: string): TipoDeVehiculo[] {
     if (direction === '' || column === '') {
         return tableItem;
     } else {
@@ -33,8 +33,8 @@ function sort(tableItem: EstadosCiviles[], column: SortColumn, direction: string
         });
     }
 }
-function matches(table: EstadosCiviles, term: string, pipe: PipeTransform) {
-  return table?.eciv_Descripcion?.toLowerCase().includes(term.toLowerCase());
+function matches(table: TipoDeVehiculo, term: string, pipe: PipeTransform) {
+  return table?.tipv_Descripcion?.toLowerCase().includes(term.toLowerCase());
 }
 
 @Injectable({ providedIn: 'root' })
@@ -124,20 +124,30 @@ export class TableService {
         tableItem = tableItem.filter((country) =>
           matches(country, searchTerm, this.pipe)
         );
-    
-       
           
-    
         tableItem = tableItem
           .map((item, i) => ({ id: i + 1, ...item }))
           .slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
         return of({ tableItem, total });
       }
      
-      EstadosCivilesListado = Global + "EstadosCiviles/Listado";
+      TipoDeVehiculoListado = Global + "TipoDeVehiculo/Listado";
      
-  getEstadosCiviles(){
-    return this.http.get<EstadosCiviles[]>(this.EstadosCivilesListado);
+  getTipoDeVehiculo(){
+    return this.http.get<TipoDeVehiculo[]>(this.TipoDeVehiculoListado);
+  }
+
+
+  
+  TipodeVehiculoDelete = Global + "TipoDeVehiculo/Eliminar";
+  DeleteTipoDeVehiculo(TipoDeVehiculo: TipoDeVehiculo){
+    return this.http.post<TipoDeVehiculo[]>(this.TipodeVehiculoDelete,TipoDeVehiculo)
+  }
+
+
+  TipodeVehiculoEditar = Global + "TipoDeVehiculo/Editar";
+  EditarTipoVehiculoEditar(TipoDeVehiculo:TipoDeVehiculo){
+    return this.http.post<TipoDeVehiculo[]>(this.TipodeVehiculoEditar,TipoDeVehiculo)
   }
 
 }

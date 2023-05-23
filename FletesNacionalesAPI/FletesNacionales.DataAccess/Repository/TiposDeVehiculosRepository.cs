@@ -37,10 +37,17 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@tipv_Descripcion", item.tipv_Descripcion, DbType.String, ParameterDirection.Input);
-            parametros.Add("@tipv_UsuCreacion", item.tipv_UsuCreacion, DbType.Int32, ParameterDirection.Input);
+           // parametros.Add("@tipv_UsuCreacion", item.tipv_UsuCreacion, DbType.Int32, ParameterDirection.Input);
 
-            var result = db.QueryFirst<RequestStatus>(ScriptsDataBase.TipoDeVehiculoInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
-            return result;
+            var result = db.QueryFirst<int>(ScriptsDataBase.TipoDeVehiculoInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
+
+            RequestStatus request = new()
+            {
+                CodeStatus = result
+            };
+
+
+            return request;
         }
 
         public IEnumerable<VW_tbTipoDeVehiculo> List()

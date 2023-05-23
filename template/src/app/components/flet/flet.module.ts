@@ -14,7 +14,8 @@ import { FletRoutingModule } from './flet-routing.module';
 import { VehiculosLstComponent } from './vehiculos/vehiculos-lst/vehiculos-lst.component';
 import { SucursalesListComponent } from './sucursales/sucursales-list/sucursales-list.component';
 import { EmpleadosListComponent } from './empleados/empleados-list/empleados-list.component';
-import { EstadoscivilesListComponent } from './estadosciviles/estadosciviles-list/estadosciviles-list.component';
+import { EstadosdelpedidoListComponent } from './estadosdelpedido/estadosdelpedido-list/estadosdelpedido-list.component';
+import { TipodevehiculoListComponent } from './tipodevehiculo/tipodevehiculo-list/tipodevehiculo-list.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { EstadoscivilesListComponent } from './estadosciviles/estadosciviles-lis
     VehiculosLstComponent,
     SucursalesListComponent,
     EmpleadosListComponent,
-    EstadoscivilesListComponent
+    EstadosdelpedidoListComponent,
+    TipodevehiculoListComponent
   ],
   imports: [
     CommonModule,

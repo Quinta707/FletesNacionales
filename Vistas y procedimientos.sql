@@ -798,41 +798,65 @@ SELECT	tipv_Id,
 		tipv_Estado
 FROM	equi.tbTipoDeVehiculo AS T1 INNER JOIN acce.tbUsuarios AS T2
 ON T1.tipv_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios AS T3
-ON T1.tipv_UsuCreacion = T3.[user_Id]
+ON T1.tipv_UsuCreacion = T3.[user_Id]	
 
 --**************  CREATE ******************--
 GO
 CREATE OR ALTER PROCEDURE equi.UDP_tbTipoDeVehiculo_Insert
 (
-@tipv_Descripcion NVARCHAR(100),
-@tipv_UsuCreacion INT
+  @tipv_Descripcion NVARCHAR(100)
 )
 AS
 BEGIN
-	BEGIN TRY 
-		IF @tipv_Descripcion IN(SELECT tipv_Descripcion FROM equi.tbTipoDeVehiculo)
-			BEGIN
-				SELECT - 2 codeStatus
-			END
-		ELSE
-			BEGIN
-				INSERT INTO equi.tbTipoDeVehiculo (tipv_Descripcion, tipv_UsuCreacion)
-				VALUES	(@tipv_Descripcion, @tipv_UsuCreacion)
-				SELECT 1 AS codeStatus
-			END
-	END TRY
-	BEGIN CATCH
-		SELECT 0
-	END CATCH
-END 
+  BEGIN TRY 
+    IF EXISTS(SELECT [tipv_Id]  FROM [equi].[tbTipoDeVehiculo] WHERE [tipv_Descripcion] = @tipv_Descripcion and [tipv_Estado] = 1) 
+    BEGIN
+      SELECT -2
+    END
+    ELSE IF EXISTS(SELECT [tipv_Id] FROM [equi].[tbTipoDeVehiculo] WHERE [tipv_Descripcion] = @tipv_Descripcion)
+    BEGIN
+      UPDATE [equi].[tbTipoDeVehiculo]
+      SET [tipv_Estado] = 1,
+           [tipv_UsuCreacion]= 1,
+          [tipv_FechaCreacion] = GETDATE(),
+          [tipv_UsuModificacion] = NULL,
+          [tipv_FechaModificacion] = NULL
+      WHERE [tipv_Descripcion] = @tipv_Descripcion;
 
+      SELECT [tipv_Id] FROM [equi].[tbTipoDeVehiculo] WHERE [tipv_Descripcion] = @tipv_Descripcion;
+    END
+    ELSE
+    BEGIN
+      INSERT INTO [equi].[tbTipoDeVehiculo]
+      (
+        [tipv_Descripcion], 
+        [tipv_UsuCreacion], 
+        [tipv_FechaCreacion],
+        [tipv_UsuModificacion], 
+        [tipv_FechaModificacion]
+      )
+      VALUES 
+      (
+        @tipv_Descripcion, 
+        1,
+        GETDATE(),
+        NULL, 
+        NULL
+      );
+      SELECT SCOPE_IDENTITY();
+    END
+  END TRY
+  BEGIN CATCH
+    SELECT 0;
+  END CATCH
+END
+GO
 --**************  UPDATE ******************--
 GO
 CREATE OR ALTER PROCEDURE equi.UDP_tbTipoDeVehiculo_Update 
 (
 @tipv_Id				INT,
-@tipv_Descripcion		NVARCHAR(100),
-@tipv_UsuModificacion	INT
+@tipv_Descripcion		NVARCHAR(100)
 )
 AS
 BEGIN
@@ -845,7 +869,7 @@ BEGIN
 			BEGIN
 				UPDATE	equi.tbTipoDeVehiculo
 				SET		tipv_Descripcion = @tipv_Descripcion, 
-						tipv_UsuModificacion = @tipv_UsuModificacion, 
+						tipv_UsuModificacion = 1, 
 						tipv_FechaModificacion = GETDATE()
 				WHERE	tipv_Id = @tipv_Id
 
@@ -2882,39 +2906,43 @@ GO
 
 CREATE OR ALTER PROCEDURE flet.UDP_tbEstadosDelPedido_Insert
 (
-@estp_Nombre nvarchar(150),
-@estp_UsuCreacion int
+@estp_Nombre nvarchar(150)
 )
 AS
 BEGIN
 
 	BEGIN TRY
-	IF EXISTS (SELECT * FROM flet.tbEstadosDelPedido WHERE estp_Nombre = @estp_Nombre AND estp_Estado = 1)
+	IF EXISTS (SELECT [estp_Id] FROM flet.tbEstadosDelPedido WHERE estp_Nombre = @estp_Nombre AND estp_Estado = 1)
 	BEGIN
 		SELECT -2
 	END
-	ELSE IF NOT EXISTS (SELECT * FROM flet.tbEstadosDelPedido WHERE estp_Nombre = @estp_Nombre)
+	ELSE IF EXISTS (SELECT [estp_Id] FROM flet.tbEstadosDelPedido WHERE estp_Nombre = @estp_Nombre)
 	BEGIN
-		INSERT INTO [flet].[tbEstadosDelPedido]
-					   ([estp_Nombre]
-					   ,[estp_UsuCreacion]
-					   ,[estp_FechaCreacion])
-				 VALUES
-					   (@estp_Nombre
-					   ,@estp_UsuCreacion
-					   ,GETDATE())
-
-	SELECT 1
+	UPDATE [flet].[tbEstadosDelPedido]
+		SET estp_Estado = 1,
+		[estp_UsuCreacion] = 1,
+		[estp_FechaCreacion] = GETDATE(),
+		[estp_UsuModificacion] = NULL,
+		[estp_FechaModificacion] = GETDATE()
+		WHERE estp_Nombre = @estp_Nombre
+		SELECT [estp_Id] FROM [flet].[tbEstadosDelPedido] WHERE estp_Nombre = @estp_Nombre
 	END
 	ELSE 
 	BEGIN 
-		UPDATE [flet].[tbEstadosDelPedido]
-		SET estp_Estado = 1,
-		[estp_UsuCreacion] = @estp_UsuCreacion,
-		[estp_FechaCreacion] = GETDATE()
-		WHERE estp_Nombre = @estp_Nombre
-		SELECT * FROM [flet].[tbEstadosDelPedido] WHERE estp_Nombre = @estp_Nombre
-	SELECT 1
+			INSERT INTO [flet].[tbEstadosDelPedido]
+					   ([estp_Nombre]
+					   ,[estp_UsuCreacion]
+					   ,[estp_FechaCreacion]
+					   ,[estp_UsuModificacion]
+					   ,[estp_FechaModificacion])
+				 VALUES
+					   (@estp_Nombre
+					   ,1
+					   ,GETDATE()
+					   ,NULL
+					   ,NULL)
+
+	SELECT SCOPE_IDENTITY();
 	END
 	END TRY
 	BEGIN CATCH
