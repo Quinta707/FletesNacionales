@@ -32,7 +32,7 @@ VALUES	('01','Atlántida', '1', 1, GETDATE(), NULL, NULL),
 GO
 
 --****************************************MUNICIPIOS****************************************--
-INSERT INTO gral.tbMunicipios(depa_Id, muni_Codigo, muni_Nombre, muni_Estado, muni_UsuCreacion, muni_FechaCreacion, muni_UsuModificacion, muni_FechaModificacion)
+INSERT INTO gral.tbMunicipios(depa_Id, muni_Id, muni_Nombre, muni_Estado, muni_UsuCreacion, muni_FechaCreacion, muni_UsuModificacion, muni_FechaModificacion)
 VALUES	('01','0101','La Ceiba', '1', 1, GETDATE(), NULL, GETDATE()),
 		('01','0102','El Porvenir', '1', 1, GETDATE(), NULL, GETDATE()),
 		('01','0103','Tela', '1', 1, GETDATE(), NULL, GETDATE()),
@@ -550,115 +550,115 @@ VALUES	('Maria Antonia', 'Aguilar', '0101-1990-01238', '02-16-1990', 'F', '4', '
 		----
 GO
 INSERT INTO [flet].[tbTrayectos](tray_Precio ,muni_Inicio, muni_Final, tray_UsuCreacion)
-VALUES	(100, 62,109,1),
-		(100, 62,39,1),
-		(100, 62,67,1),
-		(100, 62,250,1),
-		(100, 62,290,1),
-		(100, 62,17,1),
-		(100, 62,1,1),
-		(100, 62,3,1),
-		(100, 62,36,1),
+VALUES	(100, 0501,109,1),
+		(100, 0501,39,1),
+		(100, 0501,67,1),
+		(100, 0501,250,1),
+		(100, 0501,290,1),
+		(100, 0501,17,1),
+		(100, 0501,1,1),
+		(100, 0501,3,1),
+		(100, 0501,36,1),
 
-		(100, 109,62 ,1),
-		(100, 109,39 ,1),
-		(100, 109,67 ,1),
-		(100, 109,250 ,1),
-		(100, 109,290 ,1),
-		(100, 109,17 ,1),
-		(100, 109,1 ,1),
-		(100, 109,3 ,1),
-		(100, 109,36 ,1)
-
-GO
-INSERT INTO [flet].[tbTrayectos](tray_Precio ,muni_Inicio, muni_Final, tray_UsuCreacion)
-VALUES
-		(150, 39,62 ,1),
-		(150, 39,109 ,1),
-		(150, 39,67 ,1),
-		(150, 39,250 ,1),
-		(150, 39,290 ,1),
-		(150, 39,17 ,1),
-		(150, 39,1 ,1),
-		(150, 39,3 ,1),
-		(150, 39,36 ,1),
-
-		(150, 67,62 ,1),
-		(150, 67,109 ,1),
-		(150, 67,39 ,1),
-		(150, 67,250 ,1),
-		(150, 67,290 ,1),
-		(150, 67,17 ,1),
-		(150, 67,1 ,1),
-		(150, 67,3 ,1),
-		(150, 67,36 ,1)
+		(100, 0801,62 ,1),
+		(100, 0801,39 ,1),
+		(100, 0801,67 ,1),
+		(100, 0801,250 ,1),
+		(100, 0801,290 ,1),
+		(100, 0801,17 ,1),
+		(100, 0801,1 ,1),
+		(100, 0801,3 ,1),
+		(100, 0801,36 ,1)
 
 GO
 INSERT INTO [flet].[tbTrayectos](tray_Precio ,muni_Inicio, muni_Final, tray_UsuCreacion)
 VALUES
-		(120, 250,62 ,1),
-		(120, 250,109 ,1),
-		(120, 250,39 ,1),
-		(120, 250,290 ,1),
-		(120, 250,67 ,1),
-		(120, 250,17 ,1),
-		(120, 250,1 ,1),
-		(120, 250,3 ,1),
-		(120, 250,36 ,1),
+		(150, 0401,62 ,1),
+		(150, 0401,109 ,1),
+		(150, 0401,67 ,1),
+		(150, 0401,250 ,1),
+		(150, 0401,290 ,1),
+		(150, 0401,17 ,1),
+		(150, 0401,1 ,1),
+		(150, 0401,3 ,1),
+		(150, 0401,36 ,1),
 
-		(120, 290,62 ,1),
-		(120, 290,109 ,1),
-		(120, 290,39 ,1),
-		(120, 290,250 ,1),
-		(120, 290,67 ,1),
-		(120, 290,17 ,1),
-		(120, 290,1 ,1),
-		(120, 290,3 ,1),
-		(120, 290,36 ,1)
+		(150, 0506,62 ,1),
+		(150, 0506,109 ,1),
+		(150, 0506,39 ,1),
+		(150, 0506,250 ,1),
+		(150, 0506,290 ,1),
+		(150, 0506,17 ,1),
+		(150, 0506,1 ,1),
+		(150, 0506,3 ,1),
+		(150, 0506,36 ,1)
+
 GO
 INSERT INTO [flet].[tbTrayectos](tray_Precio ,muni_Inicio, muni_Final, tray_UsuCreacion)
 VALUES
-		(100, 17,62 ,1),
-		(100, 17,109 ,1),
-		(100, 17,39 ,1),
-		(100, 17,250 ,1),
-		(100, 17,67 ,1),
-		(100, 17,290 ,1),
-		(100, 17,1 ,1),
-		(100, 17,3 ,1),
-		(100, 17,36 ,1),
+		(120, 1601,62 ,1),
+		(120, 1601,109 ,1),
+		(120, 1601,39 ,1),
+		(120, 1601,290 ,1),
+		(120, 1601,67 ,1),
+		(120, 1601,17 ,1),
+		(120, 1601,1 ,1),
+		(120, 1601,3 ,1),
+		(120, 1601,36 ,1),
 
-		(100, 1,62 ,1),
-		(100, 1,109 ,1),
-		(100, 1,39 ,1),
-		(100, 1,250 ,1),
-		(100, 1,67 ,1),
-		(100, 1,290 ,1),
-		(100, 1,17 ,1),
-		(100, 1,3 ,1),
-		(100, 1,36 ,1)
+		(120, 1804,62 ,1),
+		(120, 1804,109 ,1),
+		(120, 1804,39 ,1),
+		(120, 1804,250 ,1),
+		(120, 1804,67 ,1),
+		(120, 1804,17 ,1),
+		(120, 1804,1 ,1),
+		(120, 1804,3 ,1),
+		(120, 1804,36 ,1)
 GO
 INSERT INTO [flet].[tbTrayectos](tray_Precio ,muni_Inicio, muni_Final, tray_UsuCreacion)
 VALUES
-		(100,3,62 ,1),
-		(100,3,109 ,1),
-		(100,3,39 ,1),
-		(100,3,250 ,1),
-		(100,3,67 ,1),
-		(100,3,290 ,1),
-		(100,3,17 ,1),
-		(100,3,1 ,1),
-		(100,3,36 ,1),
+		(100, 0209,62 ,1),
+		(100, 0209,109 ,1),
+		(100, 0209,39 ,1),
+		(100, 0209,250 ,1),
+		(100, 0209,67 ,1),
+		(100, 0209,290 ,1),
+		(100, 0209,1 ,1),
+		(100, 0209,3 ,1),
+		(100, 0209,36 ,1),
 
-		(100,36,62 ,1),
-		(100,36,109 ,1),
-		(100,36,39 ,1),
-		(100,36,250 ,1),
-		(100,36,67 ,1),
-		(100,36,290 ,1),
-		(100,36,17 ,1),
-		(100,36,1 ,1),
-		(100,36,3 ,1)
+		(100, 0101,62 ,1),
+		(100, 0101,109 ,1),
+		(100, 0101,39 ,1),
+		(100, 0101,250 ,1),
+		(100, 0101,67 ,1),
+		(100, 0101,290 ,1),
+		(100, 0101,17 ,1),
+		(100, 0101,3 ,1),
+		(100, 0101,36 ,1)
+GO
+INSERT INTO [flet].[tbTrayectos](tray_Precio ,muni_Inicio, muni_Final, tray_UsuCreacion)
+VALUES
+		(100,0103,62 ,1),
+		(100,0103,109 ,1),
+		(100,0103,39 ,1),
+		(100,0103,250 ,1),
+		(100,0103,67 ,1),
+		(100,0103,290 ,1),
+		(100,0103,17 ,1),
+		(100,0103,1 ,1),
+		(100,0103,36 ,1),
+
+		(100,0318,62 ,1),
+		(100,0318,109 ,1),
+		(100,0318,39 ,1),
+		(100,0318,250 ,1),
+		(100,0318,67 ,1),
+		(100,0318,290 ,1),
+		(100,0318,17 ,1),
+		(100,0318,1 ,1),
+		(100,0318,3 ,1)
 
 GO
 
@@ -674,16 +674,16 @@ VALUES
 
 --****************************************PEDIDO****************************************--
 INSERT INTO [flet].[tbPedidos](clie_Id, muni_Origen, muni_Destino, pedi_DestinoFinal,estp_Id, pedi_UsuCreacion)
-VALUES	(1,62,109,'Dirección: Avenida Principal 123, Colonia Bella Vista, Tegucigalpa. Referencias: Cerca del parque central, al lado del supermercado "El Sol", frente a la escuela "San José".',1,1),
-		(2,39,62,'Dirección: Calle Principal 456, Barrio San Miguel, San Pedro Sula. Referencias: A una cuadra del parque central, cerca de la iglesia "San Juan", frente al centro comercial "La Plaza".',1,1),
-		(3,290,36,'Dirección: Avenida Central 789, Colonia El Bosque, Siguatepeque.	Referencias: Cerca del parque central, al lado del restaurante "El Rincón del Sabor", frente a la escuela "Miguel Paz Barahona".',1,1),
-		(4,1,290,'Dirección: Calle Principal 123, Barrio El Centro, El Progreso. Referencias: Junto al parque central, cerca de la iglesia "San Pedro", frente al mercado municipal.',1,1),
-		(5,39,3,'Dirección: Avenida Costera 456, Colonia Playa Azul, Tela. Referencias: Cerca de la playa principal, al lado del hotel "Mar Azul", frente al restaurante "La Brisa".',1,1),
-		(6,250,36,'Dirección: Calle Flores 789, Barrio San Francisco, Siguatepeque. Referencias: Cerca del parque central, al lado de la tienda "El Encanto", frente a la escuela "San José".',1,1),
-		(7,3,1,'Dirección: Avenida Principal 123, Colonia Los Pinos, La Ceiba. Referencias: Cerca del malecón, al lado del supermercado "El Mar", frente al parque "La Libertad".',1,1),
-		(8,62,250,'Dirección: Calle Principal 456, Barrio El Centro, Santa Bárbara. Referencias: Cerca del parque central, al lado del centro de salud, frente a la iglesia "San Juan".',1,1),
-		(9,67,62,'Dirección: Avenida Roosevelt 789, Colonia El Bosque, San Pedro Sula. Referencias: Cerca del parque central, al lado del centro comercial "Mega Plaza", frente al hospital "San Pedro".',1,1),
-		(10,62,62,'Dirección: Calle Principal 123, Colonia El Carmen, San Pedro Sula. Referencias: Cerca del parque central, al lado del supermercado "El Sol", frente a la escuela "San José".',1,1)	
+VALUES	(1,0501,0801,'Dirección: Avenida Principal 123, Colonia Bella Vista, Tegucigalpa. Referencias: Cerca del parque central, al lado del supermercado "El Sol", frente a la escuela "San José".',1,1),
+		(2,0401,0501,'Dirección: Calle Principal 456, Barrio San Miguel, San Pedro Sula. Referencias: A una cuadra del parque central, cerca de la iglesia "San Juan", frente al centro comercial "La Plaza".',1,1),
+		(3,1804,0318,'Dirección: Avenida Central 789, Colonia El Bosque, Siguatepeque.	Referencias: Cerca del parque central, al lado del restaurante "El Rincón del Sabor", frente a la escuela "Miguel Paz Barahona".',1,1),
+		(4,0101,1804,'Dirección: Calle Principal 123, Barrio El Centro, El Progreso. Referencias: Junto al parque central, cerca de la iglesia "San Pedro", frente al mercado municipal.',1,1),
+		(5,0401,0103,'Dirección: Avenida Costera 456, Colonia Playa Azul, Tela. Referencias: Cerca de la playa principal, al lado del hotel "Mar Azul", frente al restaurante "La Brisa".',1,1),
+		(6,1601,0318,'Dirección: Calle Flores 789, Barrio San Francisco, Siguatepeque. Referencias: Cerca del parque central, al lado de la tienda "El Encanto", frente a la escuela "San José".',1,1),
+		(7,0103,0101,'Dirección: Avenida Principal 123, Colonia Los Pinos, La Ceiba. Referencias: Cerca del malecón, al lado del supermercado "El Mar", frente al parque "La Libertad".',1,1),
+		(8,0501,1601,'Dirección: Calle Principal 456, Barrio El Centro, Santa Bárbara. Referencias: Cerca del parque central, al lado del centro de salud, frente a la iglesia "San Juan".',1,1),
+		(9,0506,0501,'Dirección: Avenida Roosevelt 789, Colonia El Bosque, San Pedro Sula. Referencias: Cerca del parque central, al lado del centro comercial "Mega Plaza", frente al hospital "San Pedro".',1,1),
+		(10, 0501,0501,'Dirección: Calle Principal 123, Colonia El Carmen, San Pedro Sula. Referencias: Cerca del parque central, al lado del supermercado "El Sol", frente a la escuela "San José".',1,1)	
 GO
 --****************************************PEDIDO DETALLES****************************************--
 INSERT INTO [flet].[tbPedidoDetalles](pedi_Id, item_Id, pdet_Cantidad, pdet_UsuCreacion)
