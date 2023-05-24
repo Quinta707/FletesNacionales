@@ -1,6 +1,8 @@
 export class Pedidos{
       pedi_Id !: number;
       clie_Id !: number;
+      pedi_Peso !: number;
+      pedi_Volumen !: number;
       clie_NombreCompleto !: String;
       clie_Identidad !: String;
       clie_FechaNacimiento !: String;
@@ -26,4 +28,6 @@ export class Pedidos{
       pedi_Estado !: String;
       user_Creacion !: String;
       user_Modificacion !: String;
+      pedi_Array: any[] = [];
+
 }

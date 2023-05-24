@@ -53,6 +53,23 @@
                       <p class="text-danger">El municipio de destino es necesario</p></ng-container>
                     </div>
                   </div>
+                  <div class="row mt-2">
+                    <div class="col-6" >
+                      <div class="col-form-label">Fecha de salida</div>
+                      <input  class="datepicker-here form-control digits text-dark"
+                              formControlName="flet_FechaDeSalida"
+                              placeholder="yyyy-mm-dd"
+                              name="dp"
+                              ngbDatepicker
+                              #d="ngbDatepicker"
+                              (click)="d.toggle()"
+                              [minDate]="getToday()">
+
+                      <ng-container class="invalid text-danger"
+                      *ngIf="firstFormGroup.get('flet_FechaDeSalida').hasError('required') && firstFormGroup.get('flet_FechaDeSalida').touched">
+                      <p class="text-danger">La fecha de salida es necesaria</p></ng-container>
+                    </div>
+                  </div>
                   <button class="btn btn-primary pull-right mt-3" type="submit" awNextStep (click)="seleccionarPedidos(content1)"
                     [disabled]="!firstFormGroup.valid">Siguiente</button>
                 </form>
@@ -75,30 +92,51 @@
 
 
                   <div *ngIf="pedidos.length > 0" class="card-body megaoptions-border-space-sm">
+                    <div class="row d-flex justify-content-end">
+                      <div class="col d-flex justify-content-end">
+                        <table> 
+                          <tbody>
+                            <tr [class.text-danger]="pesoMax < pesoUso">
+                              <td><h6>Peso: {{pesoUso}}/{{pesoMax}}</h6></td>
+                            </tr>
+                            <tr [class.text-danger]="voluMax < voluUso">
+                              <td><h6>Volumen: {{voluUso}}/{{voluMax}}</h6> </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        
+                        
+                      </div>
+                    </div>
                     <div class="mega-inline row">
                         <div class="col-6" *ngFor="let item of pedidos">
                           <div class="card">
                             <div class="media p-20">
                               <div class="form-check checkbox checkbox-primary me-3">
-                                <input class="form-check-input" [id]="item.pedi_Id" type="checkbox" />
+                                <input class="form-check-input" [id]="item.pedi_Id" type="checkbox" (change)="toggleSelection(item)"/>
                                 <label class="form-check-label" [for]="item.pedi_Id"></label>
                               </div>
                               <div class="media-body">
                                 <h6 class="mt-0 mega-title-badge">Pedido de: {{ item.clie_NombreCompleto }}<span class="badge badge-primary pull-right digits">{{ item.pedi_Id }}</span></h6>
                                 <p>Ciudad de destino: {{ item.pedi_DepaDestino }}
-                                  <br>Peso de: 00
-                                  <br>Volumen de: 00</p>
+                                  <br>Peso de: {{item.pedi_Peso}} Kg
+                                  <br>Volumen de: {{item.pedi_Volumen}} mtª</p>
                               </div>
                             </div>
                           </div>
                         </div>
                         
                     </div>
+                     <div class="text-center mt-2">
+                   <ng-container
+                    *ngIf="secondFormGroup.get('pedidosArray').hasError('required')">
+                        <h5 class="text-danger">Seleccione al menos un pedido</h5></ng-container>
+                  </div>
                   </div>
                  
                   
-                  <button class="btn btn-primary pull-right" type="button" awNextStep
-                    [disabled]="!secondFormGroup.valid">Listo</button>
+                  <button class="btn btn-primary pull-right" (click)="guardarEliminar()" type="button" awNextStep
+                    [disabled]="!secondFormGroup.valid || pesoMax >= pesoUso || voluMax >= voluUso">Listo</button>
                   <button class="btn btn-secondary pull-right me-1" type="button" awPreviousStep>Anterior</button>
                 </form>
               </aw-wizard-step>
@@ -144,8 +182,8 @@
     <div class="modal-header d-flex justify-content-center">
       <h4 class="modal-title" id="modal-basic-title">Trayectoria</h4>
     </div>
-    <div class="modal-body text-center">
       <form [formGroup]="trayectoriaFormGroup">
+    <div class="modal-body text-center">
         <div class="row mt-2">
           <div class="col">
             <div class="col-form-label">Desde</div>
@@ -167,19 +205,17 @@
         <div class="row">
           <div class="col-6">
             <label class="form-label">Precio</label>
-            <div class="input-group"><input class="form-control" formControlName="tray_Precio" [(ngModel)]="datosTrayecto.tray_Precio" type="text" placeholder="00.00" aria-label="Precio" /><span class="text-dark input-group-text">Lps</span></div>
+            <div class="input-group"><input class="form-control" formControlName="tray_Precio" [(ngModel)]="datosTrayecto.tray_Precio" type="number" placeholder="00.00" aria-label="Precio" /><span class="text-dark input-group-text">Lps</span></div>
             <ng-container class="invalid text-danger"
             *ngIf="trayectoriaFormGroup.get('tray_Precio').hasError('required') && trayectoriaFormGroup.get('tray_Precio').touched">
             <p class="text-danger">El precio es necesario</p></ng-container>
           </div>
         </div>
-      </form>
      
     </div>
     <div class="modal-footer d-flex justify-content-center">
       <button type="button" class="btn btn-dark" (click)="nopModal()">Cancelar</button>
-      <button type="button" class="btn btn-primary" (click)="siModal2()"  >Guardar</button>
+      <button type="button" class="btn btn-primary" [disabled]="!trayectoriaFormGroup.valid" (click)="siModal2()"  >Guardar</button>
     </div>
+      </form>
   </ng-template>
-
-  <button class="btn btn-lg btn-outline-primary" (click)="openModal2(content2)">Launch demo modal</button>

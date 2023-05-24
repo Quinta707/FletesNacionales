@@ -73,6 +73,7 @@ namespace FletesNacionales.Entities.Entities
         public DateTime? user_FechaModificacion { get; set; }
         public bool? user_Estado { get; set; }
 
+        public virtual tbEmpleados empe { get; set; }
         public virtual tbRoles role { get; set; }
         public virtual tbUsuarios user_UsuCreacionNavigation { get; set; }
         public virtual tbUsuarios user_UsuModificacionNavigation { get; set; }

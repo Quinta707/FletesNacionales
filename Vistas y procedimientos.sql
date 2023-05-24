@@ -1368,21 +1368,7 @@ GO
 CREATE OR ALTER PROCEDURE equi.UDP_tbVehiculos_Index
 AS
 BEGIN
-	SELECT	vehi_Id, 
-			mode_Id, 
-			mode_Nombre, 
-			tipv_Id, 
-			tipv_Descripcion,
-			marc_Id, 
-			marc_Nombre, 
-			vehi_Placa, 
-			vehi_UsuCreacion, 
-			vehi_FechaCreacion, 
-			vehi_UsuModificacion, 
-			vehi_FechaModificacion, 
-			vehi_Estado, 
-			user_Creacion, 
-			user_Modificacion
+	SELECT	*
 	FROM	equi.VW_tbVehiculos
 	WHERE	vehi_Estado = 1;
 END
@@ -2683,7 +2669,9 @@ SELECT	T1.pedi_Id,
 		clie_Identidad, 
 		clie_FechaNacimiento, 
 		clie_Sexo, 
-		eciv_Id,  
+		eciv_Id,
+		(select SUM(item_Peso) FROM flet.VW_tbPedidoDetalles ga WHERE ga.pedi_Id = T1.pedi_Id) AS pedi_Peso,
+		(select SUM(item_Volumen) FROM flet.VW_tbPedidoDetalles ga WHERE ga.pedi_Id = T1.pedi_Id) AS pedi_Volumen,
 		clie_DireccionExacta, 
 		clie_Telefono, 
 		muni_Origen, 
@@ -2733,8 +2721,7 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_PedidosPorMunicipio
 )
 AS 
 BEGIN
-	SELECT pedi_Id, clie_Id, clie_NombreCompleto, clie_Identidad, clie_FechaNacimiento, clie_Sexo, eciv_Id, clie_DireccionExacta, clie_Telefono, muni_Origen, pedi_OrigenNombre, pedi_DepaOrigenId, pedi_DepaOrigen, muni_Destino, pedi_DestinoNombre, pedi_DepaDestinoId, pedi_DepaDestino, pedi_DestinoFinal, estp_Id, estp_Nombre, pedi_UsuCreacion, pedi_FechaCreacion, pedi_UsuModificacion, pedi_FechaModificacion, pedi_Estado, user_Creacion, user_Modificacion
-	FROM flet.VW_tbPedidos
+	SELECT * FROM flet.VW_tbPedidos
 	WHERE muni_Origen = @muni_Id AND estp_Id = 1 AND pedi_Estado = 1
 	ORDER BY pedi_FechaCreacion ASC
 END
@@ -3661,7 +3648,7 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbTrayectos_Insert
 AS
 BEGIN
 	BEGIN TRY
-        IF	@muni_Inicio IN (SELECT muni_Inicio FROM flet.tbTrayectos) AND @muni_Final IN (SELECT muni_Final FROM flet.tbTrayectos)
+        IF	EXISTS (SELECT * FROM flet.tbTrayectos WHERE muni_Inicio = @muni_Inicio AND muni_Final = @muni_Final)
 			BEGIN
 			SELECT - 2 codeStatus
 			END

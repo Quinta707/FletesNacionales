@@ -792,6 +792,10 @@ namespace FletesNacionales.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(80);
 
+                entity.Property(e => e.pedi_Peso).HasColumnType("decimal(38, 2)");
+
+                entity.Property(e => e.pedi_Volumen).HasColumnType("decimal(38, 2)");
+
                 entity.Property(e => e.user_Creacion)
                     .IsRequired()
                     .HasMaxLength(100);
@@ -1840,7 +1844,7 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToTable("tbRoles", "acce");
 
-                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E554F8777")
+                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E43FB467D")
                     .IsUnique();
 
                 entity.Property(e => e.role_Estado)
@@ -2045,6 +2049,11 @@ namespace FletesNacionales.DataAccess.Context
                 entity.Property(e => e.user_NombreUsuario)
                     .IsRequired()
                     .HasMaxLength(100);
+
+                entity.HasOne(d => d.empe)
+                    .WithMany(p => p.tbUsuarios)
+                    .HasForeignKey(d => d.empe_Id)
+                    .HasConstraintName("FK_acce_tbUsuarios_flet_tbEmpleados_empe_Id");
 
                 entity.HasOne(d => d.role)
                     .WithMany(p => p.tbUsuarios)

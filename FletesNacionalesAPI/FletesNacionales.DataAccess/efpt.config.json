@@ -206,7 +206,7 @@
          "ObjectType": 3
       }
    ],
-   "UiHint": "DESKTOP-51051C3\\SQLEXPRESS.FletesNacionales",
+   "UiHint": "DESKTOP-383CMQ3\\MSSQLSERVERLOCAL.FletesNacionales",
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": true,
    "UseDbContextSplitting": false,
