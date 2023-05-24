@@ -6,9 +6,12 @@ import { AppComponent } from './app.component';
 import { ListComponent } from './CLientes/list/list.component';
 import { CreateComponent } from './CLientes/create/create.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { FormsModule } from '@angular/forms';
-import { EditarComponent } from './CLientes/editar/editar.component'
+
+import { EditarComponent } from './CLientes/editar/editar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 @NgModule({
   declarations: [
@@ -21,6 +24,8 @@ import { EditarComponent } from './CLientes/editar/editar.component'
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    MatSlideToggleModule,
     FormsModule
   ],
   providers: [],
