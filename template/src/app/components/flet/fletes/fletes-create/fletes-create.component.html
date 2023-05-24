@@ -38,22 +38,22 @@
                   <div class="row mt-2">
                     <div class="col">
                       <div class="col-form-label">Desde</div>
-                      <ng-select [items]="municipiosDdl" class="" formControlName="muni_InicioId"
-                      [(ngModel)]="datosTrayecto.muni_Inicio" groupBy="job" placeholder="Municipio de salida"></ng-select>
+                      <ng-select [items]="municipiosDdl" class="" formControlName="muni_Inicio"
+                      [(ngModel)]="datosTrayecto.muni_Inicio" bindValue="value" groupBy="job" placeholder="Municipio de salida"></ng-select>
                       <ng-container class="invalid text-danger"
-                      *ngIf="firstFormGroup.get('muni_InicioId').hasError('required') && firstFormGroup.get('muni_InicioId').touched">
+                      *ngIf="firstFormGroup.get('muni_Inicio').hasError('required') && firstFormGroup.get('muni_Inicio').touched">
                       <p class="text-danger">El municipio de salida es necesario</p></ng-container>
                     </div>
                     <div class="col">
                       <div class="col-form-label">Hasta</div>
-                      <ng-select [items]="municipiosDdl" class="" formControlName="muni_FinId"
-                      [(ngModel)]="datosTrayecto.muni_Final" groupBy="job" placeholder="Municipio de destino"></ng-select>
+                      <ng-select [items]="municipiosDdl" class="" formControlName="muni_Final"
+                      [(ngModel)]="datosTrayecto.muni_Final" bindValue="value" groupBy="job" placeholder="Municipio de destino"></ng-select>
                       <ng-container class="invalid text-danger"
-                      *ngIf="firstFormGroup.get('muni_FinId').hasError('required') && firstFormGroup.get('muni_FinId').touched">
+                      *ngIf="firstFormGroup.get('muni_Final').hasError('required') && firstFormGroup.get('muni_Final').touched">
                       <p class="text-danger">El municipio de destino es necesario</p></ng-container>
                     </div>
                   </div>
-                  <button class="btn btn-primary pull-right mt-3" type="submit" awNextStep (click)="seleccionarPedidos(content)"
+                  <button class="btn btn-primary pull-right mt-3" type="submit" awNextStep (click)="seleccionarPedidos(content1)"
                     [disabled]="!firstFormGroup.valid">Siguiente</button>
                 </form>
               </aw-wizard-step>
@@ -126,7 +126,7 @@
   </div>
   
 
-  <ng-template #content let-c="close" let-d="dismiss" class="text-center">
+  <ng-template #content1 let-c="close" let-d="dismiss" class="text-center">
     <div class="modal-header d-flex justify-content-center">
       <h4 class="modal-title" id="modal-basic-title">Ups...</h4>
     </div>
@@ -135,8 +135,51 @@
       <h6>¿Deseas agregarla?</h6>
     </div>
     <div class="modal-footer d-flex justify-content-center">
-      <button type="button" class="btn btn-dark" (click)="d('Cross click')">No</button>
-      <button type="button" class="btn btn-primary" >Si</button>
+      <button type="button" class="btn btn-dark" (click)="nopModal()">No</button>
+      <button type="button" class="btn btn-primary" (click)="openModal2(content2)" >Si</button>
     </div>
   </ng-template>
-  <button class="btn btn-lg btn-outline-primary" (click)="openModal(content)">Launch demo modal</button>
+
+  <ng-template #content2 let-c="close" let-d="dismiss" class="text-center">
+    <div class="modal-header d-flex justify-content-center">
+      <h4 class="modal-title" id="modal-basic-title">Trayectoria</h4>
+    </div>
+    <div class="modal-body text-center">
+      <form [formGroup]="trayectoriaFormGroup">
+        <div class="row mt-2">
+          <div class="col">
+            <div class="col-form-label">Desde</div>
+            <ng-select [readonly]="true" [items]="municipiosDdl" class="" formControlName="muni_Inicio"
+            [(ngModel)]="datosTrayecto.muni_Inicio" bindValue="value" groupBy="job" placeholder="Municipio de salida"></ng-select>
+            <ng-container class="invalid text-danger"
+            *ngIf="trayectoriaFormGroup.get('muni_Inicio').hasError('required') && trayectoriaFormGroup.get('muni_Inicio').touched">
+            <p class="text-danger">El municipio de salida es necesario</p></ng-container>
+          </div>
+          <div class="col">
+            <div class="col-form-label">Hasta</div>
+            <ng-select [items]="municipiosDdl" class="" formControlName="muni_Final"
+           [(ngModel)]="datosTrayecto.muni_Final" bindValue="value" groupBy="job" placeholder="Municipio de destino" [readonly]="true"></ng-select>
+            <ng-container class="invalid text-danger"
+            *ngIf="trayectoriaFormGroup.get('muni_Final').hasError('required') && trayectoriaFormGroup.get('muni_Final').touched">
+            <p class="text-danger">El municipio de destino es necesario</p></ng-container>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <label class="form-label">Precio</label>
+            <div class="input-group"><input class="form-control" formControlName="tray_Precio" [(ngModel)]="datosTrayecto.tray_Precio" type="text" placeholder="00.00" aria-label="Precio" /><span class="text-dark input-group-text">Lps</span></div>
+            <ng-container class="invalid text-danger"
+            *ngIf="trayectoriaFormGroup.get('tray_Precio').hasError('required') && trayectoriaFormGroup.get('tray_Precio').touched">
+            <p class="text-danger">El precio es necesario</p></ng-container>
+          </div>
+        </div>
+      </form>
+     
+    </div>
+    <div class="modal-footer d-flex justify-content-center">
+      <button type="button" class="btn btn-dark" (click)="nopModal()">Cancelar</button>
+      <button type="button" class="btn btn-primary" (click)="siModal2()"  >Guardar</button>
+    </div>
+  </ng-template>
+
+  <button class="btn btn-lg btn-outline-primary" (click)="openModal2(content2)">Launch demo modal</button>

@@ -1,11 +1,12 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren,ViewChild  } from '@angular/core';
 import { Flete } from '../../../../shared/model/fletes.model';
 import { Pedidos } from '../../../../shared/model/pedidos.model';
 import { Trayectos } from '../../../../shared/model/trayectos.model';
 import { TableService } from '../../../../shared/services/fletes.service';
-import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef , NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { WizardComponent } from 'angular-archwizard';
 
 
 @Component({
@@ -14,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./fletes-create.component.scss']
 })
 export class FleteCreateComponent implements OnInit {
+  @ViewChild(WizardComponent) wizard: WizardComponent;
   //Guardar datos del flete
    datosFelte: Flete = new Flete();
    datosTrayecto: Trayectos = new Trayectos();
@@ -24,10 +26,14 @@ export class FleteCreateComponent implements OnInit {
     }
   }
   
+  modalRef: NgbModalRef;
+
+
   public pedidos: any[] = []; //Listado de pedidos
 
   firstFormGroup: FormGroup; // primer formulario
   secondFormGroup: FormGroup; //selects del segundo
+  trayectoriaFormGroup: FormGroup; //formulario de la tratectoria
  
   //datos del ddl
   public municipiosDdl = [];
@@ -72,8 +78,15 @@ export class FleteCreateComponent implements OnInit {
    this.firstFormGroup = this._formBuilder.group({
     vehi_Id: ['', Validators.required],
     empe_Id: ['', Validators.required],
-    muni_InicioId: ['', Validators.required],
-    muni_FinId: ['', Validators.required],
+    muni_Inicio: ['', Validators.required],
+    muni_Final: ['', Validators.required],
+  });
+
+  //validaciones del primer formulario
+  this.trayectoriaFormGroup = this._formBuilder.group({
+    muni_Inicio: ['', Validators.required],
+    muni_Final: ['', Validators.required],
+    tray_Precio: ['', Validators.required],
   });
 
   //validaciones del segundo formulario
@@ -100,26 +113,56 @@ export class FleteCreateComponent implements OnInit {
     this.toaster.success('Successfully Registered')
   }
   //cargar datos del municipio inicio seleccionado 
-  public seleccionarPedidos(content) {
-    this.service.getTrayectoId(this.firstFormGroup.value["muni_InicioId"].value,this.firstFormGroup.value["muni_FinId"].value)
+  public seleccionarPedidos(content1) {
+    this.service.getTrayectoId(this.firstFormGroup.value["muni_Inicio"],this.firstFormGroup.value["muni_Final"])
     .subscribe((data: any)=>{
-      console.log(data.tray_Id)
       if(data.tray_Id == 0){
-        this.modalService.open(content, { centered: true });
+        this.openModal(content1);
       }
     })
 
 
-    this.service.getPedidosPorMunicipio(this.firstFormGroup.value["muni_InicioId"].value)
+    this.service.getPedidosPorMunicipio(this.firstFormGroup.value["muni_Inicio"])
     .subscribe((data: any)=>{
-      console.log(data.data)
     this.pedidos = data.data
     })
   }
 
-  openModal(content) {
-    this.modalService.open(content, { centered: true });
+  openModal(content1) {
+    this.modalRef = this.modalService.open(content1, { 
+      centered: true,
+      backdrop: 'static',
+      keyboard: false,  
+    });
   }
- 
+
+  openModal2(content2) {
+    if (this.modalRef) {
+      this.modalRef.dismiss();
+      this.modalRef = this.modalService.open(content2, { 
+      centered: true,
+      backdrop: 'static',
+      keyboard: false,  
+    });
+    }
+    
+  }
+  
+  siModal2 (){
+    this.datosTrayecto.tray_UsuCreacion = 1;
+    this.service.postTrayectoCreate(this.datosTrayecto)
+    .subscribe((data : any)=>{
+      console.log(data);
+    })
+  }
+
+  nopModal() {
+    if (this.modalRef) {
+      this.datosTrayecto.muni_Inicio = null;
+      this.datosTrayecto.muni_Final = null;
+      this.wizard.goToStep(0); 
+      this.modalRef.dismiss();
+    }
+  }
  }
  

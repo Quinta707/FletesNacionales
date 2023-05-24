@@ -479,6 +479,7 @@ CREATE TABLE flet.tbTrayectos(
 tray_Id						INT IDENTITY(1,1),
 muni_Inicio					INT NOT NULL,
 muni_Final					INT NOT NULL,
+tray_Precio					DECIMAL(18,2),
 tray_UsuCreacion			INT NOT NULL,
 tray_FechaCreacion			DATETIME CONSTRAINT DF_flet_tbTrayectos_tray_FechaCreacion DEFAULT(GETDATE()),
 tray_UsuModificacion		INT ,

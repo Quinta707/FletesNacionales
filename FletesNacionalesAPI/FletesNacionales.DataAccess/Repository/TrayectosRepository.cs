@@ -43,14 +43,19 @@ namespace FletesNacionales.DataAccess.Repository
 
         public RequestStatus Insert(tbTrayectos item)
         {
+            RequestStatus resultado = new RequestStatus();
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@muni_Inicio", item.muni_Inicio, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@muni_Final", item.muni_Final, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@tray_Precio", item.tray_Precio, DbType.Decimal, ParameterDirection.Input);
             parametros.Add("@tray_UsuCreacion", item.tray_UsuCreacion, DbType.Int32, ParameterDirection.Input);
 
-            var result = db.QueryFirst<RequestStatus>(ScriptsDataBase.TrayectosInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
-            return result;
+            var result = db.QueryFirst<int>(ScriptsDataBase.TrayectosInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
+
+            resultado.CodeStatus = result;
+
+            return resultado;
         }
 
         public IEnumerable<VW_tbTrayectos> List()

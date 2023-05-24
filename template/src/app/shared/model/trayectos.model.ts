@@ -1,6 +1,7 @@
 export class Trayectos{
 
 	tray_Id !: number; 
+	tray_Precio !: number; 
 	tray_Descripcion !: String;
 	muni_Inicio !: number; 
 	muni_InicioNombre !: String;

@@ -9,7 +9,6 @@ import { SharedModule } from "./shared/shared.module";
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
-import { NgSelect2Module } from 'ng-select2';
 
 // // for HttpClient import:
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
@@ -42,7 +41,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserAnimationsModule,
     OverlayModule,
     SharedModule,
-    NgSelect2Module,
     AppRoutingModule,
     HttpClientModule,
     NgbModule,

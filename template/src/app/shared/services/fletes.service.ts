@@ -179,6 +179,11 @@ export class TableService {
   getTrayectoId(desde: number, hasta: number){
     return this.http.get<Trayectos[]>(Global+"Trayectos/Existe?desde="+desde.toString()+"&hasta="+hasta.toString())
   }
+  
+  
+  postTrayectoCreate(data: Trayectos){
+    return this.http.post<Trayectos[]>(Global+"Trayectos/Insertar",data)
+  }
 
 
 }

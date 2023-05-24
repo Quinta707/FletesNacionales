@@ -871,15 +871,22 @@ namespace FletesNacionales.BusinessLogic.Services
             var result = new ServiceResult();
             try
             {
-                var map = _trayectosRepository.Insert(item);
-                if (map.CodeStatus > 0)
+                var list = _trayectosRepository.Insert(item);
+                if (list.CodeStatus > 0)
                 {
-                    return result.Ok(map);
+                    return result.SetMessage("Exitoso", ServiceResultType.Success);
+                }
+                else if (list.CodeStatus == -2)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
+                }
+                else if (list.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
                 }
                 else
                 {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
+                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
                 }
             }
             catch (Exception)

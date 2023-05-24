@@ -3588,6 +3588,7 @@ AS
 SELECT	tray_Id,
 		'Trayecto de ' + T4.muni_Nombre + ' a ' + T6.muni_Nombre AS tray_Descripcion,
 		muni_Inicio, 
+		tray_Precio,
 		T4.muni_Nombre AS muni_InicioNombre,
 		T5.depa_Id AS depa_Inicio,
 		T5.depa_Nombre AS depa_InicioNombre,
@@ -3654,6 +3655,7 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbTrayectos_Insert
 (
 @muni_Inicio		INT,
 @muni_Final			INT, 
+@tray_Precio		DECIMAL(18,2),
 @tray_UsuCreacion	INT
 )
 AS
@@ -3665,10 +3667,10 @@ BEGIN
 			END
 		ELSE
 			BEGIN
-			INSERT INTO flet.tbTrayectos (muni_Inicio, muni_Final, tray_UsuCreacion)
-			VALUES	(@muni_Inicio, @muni_Final, @tray_UsuCreacion)
+			INSERT INTO flet.tbTrayectos (muni_Inicio, muni_Final, tray_UsuCreacion, tray_Precio)
+			VALUES	(@muni_Inicio, @muni_Final, @tray_UsuCreacion, @tray_Precio)
 
-			SELECT 1 codeStatus
+			SELECT SCOPE_IDENTITY()
 			END
 	END TRY
 	BEGIN CATCH

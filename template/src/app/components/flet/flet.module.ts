@@ -15,7 +15,6 @@ import { FleteListPropioComponent } from './fletes/fletes-list-propio/fletes-lis
 import { FleteCreateComponent } from './fletes/fletes-create/fletes-create.component';
 
 import { FletRoutingModule } from './flet-routing.module';
-import { NgSelect2Module } from 'ng-select2';
 
 @NgModule({
   declarations: [
@@ -32,7 +31,6 @@ import { NgSelect2Module } from 'ng-select2';
     NgSelectModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgSelect2Module,
     SharedModule,
     NgbModule,
     ArchwizardModule,
