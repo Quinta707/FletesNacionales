@@ -33,6 +33,7 @@ namespace FletesNacionales.DataAccess.Context
         public virtual DbSet<VW_tbMetodosdePago> VW_tbMetodosdePago { get; set; }
         public virtual DbSet<VW_tbModelos> VW_tbModelos { get; set; }
         public virtual DbSet<VW_tbMunicipios> VW_tbMunicipios { get; set; }
+        public virtual DbSet<VW_tbPantallasPorRoles> VW_tbPantallasPorRoles { get; set; }
         public virtual DbSet<VW_tbPedidoDetalles> VW_tbPedidoDetalles { get; set; }
         public virtual DbSet<VW_tbPedidos> VW_tbPedidos { get; set; }
         public virtual DbSet<VW_tbRoles> VW_tbRoles { get; set; }
@@ -679,6 +680,10 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToView("VW_tbMunicipios", "gral");
 
+                entity.Property(e => e.depa_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
                 entity.Property(e => e.muni_Codigo)
                     .IsRequired()
                     .HasMaxLength(4)
@@ -693,10 +698,6 @@ namespace FletesNacionales.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(80);
 
-                entity.Property(e => e.muni_UsuCreacion)
-                    .IsRequired()
-                    .HasMaxLength(100);
-
                 entity.Property(e => e.muni_Visible)
                     .IsRequired()
                     .HasMaxLength(13)
@@ -707,6 +708,37 @@ namespace FletesNacionales.DataAccess.Context
                     .HasMaxLength(100);
 
                 entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbPantallasPorRoles>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbPantallasPorRoles", "acce");
+
+                entity.Property(e => e.pant_Icono)
+                    .IsRequired()
+                    .HasMaxLength(300);
+
+                entity.Property(e => e.pant_Menu)
+                    .IsRequired()
+                    .HasMaxLength(300);
+
+                entity.Property(e => e.pant_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.pant_Url)
+                    .IsRequired()
+                    .HasMaxLength(300);
+
+                entity.Property(e => e.role_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.role_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.role_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
             });
 
             modelBuilder.Entity<VW_tbPedidoDetalles>(entity =>
@@ -1838,7 +1870,7 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToTable("tbRoles", "acce");
 
-                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E283293E3")
+                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82EBD6FD797")
                     .IsUnique();
 
                 entity.Property(e => e.role_Estado)

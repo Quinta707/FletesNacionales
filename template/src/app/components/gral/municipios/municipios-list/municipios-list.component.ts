@@ -2,31 +2,27 @@ import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Municipios } from '../../../../shared/model/municipios.model';
 import { TableService } from '../../../../shared/services/municipios.services';
 import { Observable } from 'rxjs';
-import { NgbdSortableHeader,SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
-
+import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-municipios-list',
   templateUrl: './municipios-list.component.html',
   styleUrls: ['./municipios-list.component.scss']
 })
-
-
 export class MunicipiosListComponent implements OnInit {
-  public selected = [];
   public validate = false;
-
+  public selected = [];
   
-
+  municipios: Municipios[];
   closeResult: string;
-
+  
   constructor(config: NgbModalConfig, private modalService: NgbModal, public service: TableService) {
-
+    
     this.tableItem$ = service.tableItem$;
     this.total$ = service.total$;
-    this.service.setUserData(this.Municipios)
-
+    this.service.setUserData(this.municipios)
     config.backdrop = 'static';
     config.keyboard = false;
 
@@ -53,21 +49,15 @@ export class MunicipiosListComponent implements OnInit {
       return  `with: ${reason}`;
     }
   }
-  
+
+
   public departamentosDDL: []; // en un onin it se setea , 
-  Municipios: Municipios[];
- 
   municipiosCreate: Municipios = new Municipios();
 
   municipiosEditar: Municipios = new Municipios();
 
   municipiosEliminar: Municipios = new Municipios();
-  selectedOption: any;
 
-  onChange() {
-    console.log(this.selectedOption.value);
-  }
-  
   Guardar() {
     this.validate = !this.validate;
     if(this.municipiosCreate.muni_Nombre == null)
@@ -76,28 +66,27 @@ export class MunicipiosListComponent implements OnInit {
     }
     else
     {
-      this.municipiosCreate.depa_Id = this.selectedOption.value 
-      
+      this.municipiosCreate.depa_Id
       this.service.createMunicipios(this.municipiosCreate)
       .subscribe(() =>{     
         this.modalService.dismissAll()
-        this.municipiosCreate.muni_Nombre = null
+        this.municipiosCreate.muni_Nombre = ''
         this.validate = false;
         this.index()
       })
     }
   }
 
-  Actualizar(mun: Municipios, content: any) {
-    console.log(mun.muni_Nombre)
-    const id = mun.muni_Id
+  Actualizar(est: Municipios, content: any) {
+    const id = est.muni_Id
 
     this.service.findMunicipios(id ?? 0)
     .subscribe((data : any) =>{
       
       this.municipiosEditar = data;
-      
-      open(content)
+      console.log(this.municipiosEditar)
+    
+      this.open(content)
     })
   }
 
@@ -109,12 +98,11 @@ export class MunicipiosListComponent implements OnInit {
       this.index()
     })
   }
-  
 
-  Eliminar(mun: Municipios, content) {
-    this.municipiosEliminar.muni_Id = mun.muni_Id
-    
-    open(content)
+  Eliminar(est: Municipios, content) {
+    this.municipiosEliminar.muni_Id = est.muni_Id
+   
+    this.open(content)
   }
 
   delete() {
@@ -126,33 +114,36 @@ export class MunicipiosListComponent implements OnInit {
     })
   }
 
-  index() {    
-   this.service.getMunicipios()
-   .subscribe((data: any)=>{
-      this.Municipios= data.data;
-      this.service.setUserData(data.data)
-   })
-  }
-
-  ngOnInit(): void {
-    this.service.getDepartamenos()
-    .subscribe((data: any) =>{
-      
-      this.departamentosDDL = data.data.map((item:any) =>( 
-        {
-        value: item.depa_Id,
-        label: item.depa_Nombre
-      })) 
-
-      console.log(this.departamentosDDL)
+  index(){
+    this.service.getMunicipios()
+    .subscribe((data: any)=>{
+      console.log(data.data)
+       this.municipios= data.data;
+       this.service.setUserData(data.data)
     })
+  }
+ 
+  ngOnInit(): void {
+    
+   this.service.getDepartamenos()
+   .subscribe((data: any) =>{
+     
+     this.departamentosDDL = data.data.map((item:any) =>( 
+       {
+       value: item.depa_Id,
+       label: item.depa_Nombre
+     })) 
+
+   })
+   
     this.index()
   }
+
+
 
   public tableItem$: Observable<Municipios[]>;
   public searchText;
   total$: Observable<number>;
-
 
 
   onSearchInputChange(searchTerm: string) {

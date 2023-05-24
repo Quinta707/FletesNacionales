@@ -20,7 +20,7 @@
             <div class="modal-body">
               <label class="form-label" for="validationCustom01">Estado Civil</label>
               <input [(ngModel)]="estadosCreate.eciv_Descripcion" class="form-control" id="validationCustom01" type="text" required="" onlyAlphabets />
-
+              
             </div>
             <div class="modal-footer">
               <button class="btn btn-primary" type="button" (click)="Guardar()">Crear</button>
@@ -34,7 +34,9 @@
               <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
             </div>
             <div class="modal-body">
-              <input [(ngModel)]="estadosEditar.eciv_Descripcion" type="text">
+              <label class="form-label" for="validationCustom01">Estado Civil</label>
+              <input [(ngModel)]="estadosEditar.eciv_Descripcion" class="form-control" id="validationCustom01" type="text" required="" onlyAlphabets />
+
             </div>
             <div class="modal-footer">
               <button class="btn btn-success" (click)="update()">Actualizar</button>

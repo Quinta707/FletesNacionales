@@ -781,48 +781,132 @@ INSERT INTO acce.tbRoles (role_Nombre,role_UsuCreacion)
 VALUES	('Admin', 1),
 		('Digitador', 1),
 		('Empleado',1);
-		
 --****************************************PANTALLAS****************************************--
 INSERT INTO acce.tbPantallas (pant_Nombre, pant_Url, pant_Menu, pant_Icono, pant_UsuCreacion)
-VALUES ('Departamentos',' ',' ',' ',1),
-	   ('Direcciones',' ',' ',' ',1),
-	   ('Estado Civiles',' ',' ',' ',1),
-	   ('Municipios',' ',' ',' ',1),
-	   ('Tipo de Pagos',' ',' ',' ',1) ,
+VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','<i class="flag-icon flag-icon-hn"></i>',1),
+	   ('Estado Civiles',		'/gral/Municipios/List',			'gral','<i class="fa fa-list"></i>',1),
+	   ('Municipios',			'/gral/Municipios/List',			'gral','<i class="fa fa-tag"></i>',1),
+	   ('Tipo de Pagos',		'/gral/TiposDePago/List',			'gral','<i class="fa fa-credit-card-alt"></i>',1) ,
+	   ('Cargos',				'/gral/Cargos/List',				'gral','',1) ,
 
-	   ('Clientes',' ',' ',' ',1),
-	   ('Empleados',' ',' ',' ',1),
-	   ('Modelos',' ',' ',' ',1),
-	   ('Marcas',' ',' ',' ',1),
-	   ('Vehiculos',' ',' ',' ',1),
-	   ('Tipos de Vehiculos',' ',' ',' ',1),
+	   ('Clientes',				'/flet/Clientes/List',				'flet','<i class="fa fa-users"></i>',1),
+	   ('Fletes',				'/flet/Fletes/List',				'flet','',1),
+	   ('Items',				'/flet/Items/List',					'flet','',1),
+	   ('Pedidos',				'/flet/Pedidos/List',				'flet','',1),
+	   ('Sucursales',			'/flet/Sucursales/List',			'flet','',1),
+	   ('Trayectos',			'/flet/Trayectos/List',				'flet','',1),
+	   ('Ubicacion por Flete',	'/flet/UbicacionPorFlete/List ',	'flet','',1),
+	   ('Estados del Pedido',	'/flet/EstadosDelPedido/List',		'flet','',1),
+	   ('Escala por Trayecto',	'/flet/EscalasPorTrayecto/List ',	'flet','',1),
+	   ('Empleados',			'/flet/Empleados/List',				'flet','<i class="fa fa-users"></i>',1),
 
-	   ('Usuarios',' ',' ',' ',1),
-       ('Roles Por Pantalla',' ',' ',' ',1)
-	   --('Grafica',1) --17
+	   ('Modelos',				'/equi/Modelos/List',				'equi','',1),
+	   ('Marcas',				'/equi/Marcas/List',				'equi','',1),
+	   ('Vehiculos',			'/equi/Vehiculos/List',				'equi','',1),
+	   ('Tipos de Vehiculos',	'/equi/TiposDeVehiculos/List ',		'equi','<i class="fa fa-car"></i>',1),
+
+	   ('Usuarios',				'/acce/Usuarios/List',				'acce','',1),
+       ('Roles Por Pantalla',	'/acce/RolesPorPantalla/List ',		'acce','',1),
+	   ('Pantallas',			'/acce/Pantallas/List',				'acce','',1),
+	   ('Grafica',				'/acce/Grafica/List',				'acce','<i class="icofont icofont-chart-bar-graph"></i>',1)
 GO
 	    
 --****************************************ROLES POR PANTALLAS****************************************--
---INSERT INTO acce.tbPantallasPorRoles(role_Id, pant_Id, prol_UsuCreacion)
---VALUES	( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1),
---		( , ,1)
+INSERT INTO acce.tbPantallasPorRoles(pant_Id,role_Id , prol_UsuCreacion)
+VALUES	--Admin
+		--generales
+		(1 ,1 ,1),
+		(2 ,1 ,1),
+		(3 ,1 ,1),
+		(4 ,1 ,1),
+		(5 ,1 ,1),
+		--fletes
+		(6 ,1 ,1),
+		(7 ,1 ,1),
+		(8 ,1 ,1),
+		(9 ,1 ,1),
+		(10,1 ,1),
+		(11,1 ,1),
+		(12,1 ,1),
+		(13,1 ,1),
+		(14,1 ,1),
+		(15,1 ,1),
+		--equipo
+		(16,1 ,1),
+		(17,1 ,1),
+		(18,1 ,1),
+		(19,1 ,1),
+		--acceso
+		(20,1 ,1),
+		(21,1 ,1),
+		(22,1 ,1),
+		(23,1 ,1),
+
+		--Admin
+		--generales
+		(1 ,2 ,1),
+		(2 ,2 ,1),
+		(3 ,2 ,1),
+		(4 ,2 ,1),
+		(5 ,2 ,1),
+		--fl2tes
+		(6 ,2 ,1),
+		(7 ,2 ,1),
+		(8 ,2 ,1),
+		(9 ,2 ,1),
+		(10,2 ,1),
+		(11,2 ,1),
+		(12,2 ,1),
+		(13,2 ,1),
+		(14,2 ,1),
+		(15,2 ,1),
+		--eq2ipo
+		(16,2 ,1),
+		(17,2 ,1),
+		(18,2 ,1),
+		(19,2 ,1),
+		--ac2eso
+		(20,2 ,1),
+		(21,2 ,1),
+		(22,2 ,1),
+		(23,2 ,1),
+
+		--Digitador
+		--generales
+		(1 ,3,1),
+		(2 ,3,1),
+		(3 ,3,1),
+		(4 ,3,1),
+		(5 ,3,1),
+		--fl3es
+		(6 ,3,1),
+		(7 ,3,1),
+		(8 ,3,1),
+		(9 ,3,1),
+		(10,3,1),
+		(11,3,1),
+		(12,3,1),
+		(13,3,1),
+		(14,3,1),
+		(15,3,1),
+		--eq3po
+		(16,3,1),
+		(17,3,1),
+		(18,3,1),
+		(19,3,1),
+
+		--Empleado
+		--generales
+		(1 ,4 ,1),
+		(2 ,4 ,1),
+		(3 ,4 ,1),
+		(4 ,4 ,1),
+		(5 ,4 ,1),
+		--eq4ipo
+		(16,4 ,1),
+		(17,4 ,1),
+		(18,4 ,1),
+		(19,4 ,1)
 GO
 /*
 POR SI NO FUNCIONA
