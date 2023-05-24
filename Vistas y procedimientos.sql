@@ -305,7 +305,7 @@ SELECT	muni_Id,
 		muni_Nombre, 
 		muni_Codigo, 
 		T1.depa_Id, 
-		T2.depa_Nombre
+		T2.depa_Nombre,
 		muni_UsuCreacion, 
 		muni_Habilitado,
 		CASE
@@ -325,7 +325,7 @@ ON T1.muni_UsuCreacion = t3.user_Id LEFT JOIN acce.tbUsuarios AS T4
 ON T1.muni_UsuModificacion = t4.user_Id
 
 --**************  CREATE ******************--
-GO
+GO 
 CREATE OR ALTER PROCEDURE gral.UDP_tbMunicipios_Insert
 (@muni_Nombre NVARCHAR(100),
  @muni_Codigo char(4),
@@ -337,6 +337,10 @@ BEGIN
 		IF EXISTS (SELECT * FROM gral.tbMunicipios WHERE muni_Codigo = @muni_Codigo AND muni_Estado = 1)
 			BEGIN
 				SELECT -2 
+			END
+			ELSE IF EXISTS (SELECT * FROM gral.tbMunicipios WHERE muni_Nombre = @muni_Nombre AND depa_Id = @depa_Id)
+			BEGIN
+				SELECT -2
 			END
 		ELSE IF NOT EXISTS (SELECT * FROM gral.tbMunicipios WHERE muni_Codigo = @muni_Codigo)
 			BEGIN
@@ -430,8 +434,8 @@ GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbMunicipios_Index
 AS
 BEGIN
-	SELECT * FROM gral.VW_tbMunicipios
-	WHERE muni_Estado = 1;
+	SELECT * FROM gral.VW_tbMunicipios 
+	WHERE muni_Estado = 1 order by muni_Codigo ;
 END
 
 --**************  FIND  ******************--
@@ -476,10 +480,9 @@ ON T1.eciv_UsuModificacion = T3.[user_Id]
 
 --**************  CREATE ******************--
 GO
-CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_Insert
-(
-  @eciv_Descripcion NVARCHAR(100)
-)
+CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_Insert 
+(@eciv_Descripcion NVARCHAR(100),
+ @eciv_UsuCreacion INT)
 AS
 BEGIN
   BEGIN TRY 
@@ -491,7 +494,7 @@ BEGIN
     BEGIN
       UPDATE [gral].[tbEstadosCiviles] 
       SET eciv_Estado = 1,
-          eciv_UsuCreacion = 1,
+          eciv_UsuCreacion = @eciv_UsuCreacion
           eciv_FechaCreacion = GETDATE(),
           eciv_UsuModificacion = NULL,
           eciv_FechaModificacion = NULL
@@ -512,7 +515,7 @@ BEGIN
       VALUES 
       (
         @eciv_Descripcion, 
-        1,
+        @eciv_UsuCreacion,
         GETDATE(),
         NULL, 
         NULL
@@ -535,7 +538,7 @@ CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_Update
 AS
 BEGIN
 	BEGIN TRY
-	    IF EXISTS (SELECT * FROM gral.tbEstadosCiviles WHERE (eciv_Descripcion = @eciv_Descripcion AND eciv_Id != @eciv_Id))
+	    IF EXISTS (SELECT * FROM gral.tbEstadosCiviles WHERE (eciv_Descripcion = @eciv_Descripcion AND eciv_Id = @eciv_Id))
 			BEGIN
 				SELECT -2 
 			END
@@ -573,31 +576,6 @@ BEGIN
 
 		SELECT 1 
 		end
-	END TRY
-	BEGIN CATCH
-		SELECT 0 
-	END CATCH
-END
-GO
-
-CREATE OR ALTER PROCEDURE  gral.UDP_tbEstadosCiviles_Delete
-(@eciv_Id INT)
-AS
-BEGIN
-	BEGIN TRY
-		
-		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('gral.tbEstadosCiviles') AND EXISTS ( SELECT 1 FROM gral.tbEstadosCiviles WHERE eciv_Id = @eciv_Id))
-		BEGIN
-			SELECT - 3
-		END
-		ELSE 
-			BEGIN
-				UPDATE	gral.tbEstadosCiviles
-				SET		eciv_Estado = 0
-				WHERE	eciv_Id = @eciv_Id
-
-				SELECT 1 
-			END
 	END TRY
 	BEGIN CATCH
 		SELECT 0 
@@ -2072,7 +2050,7 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbFleteDetalles_FindxFlete
 (
 @flet_Id	INT
 )
-AS 
+AS	
 BEGIN
 	SELECT * FROM flet.VW_tbFleteDetalles
 	WHERE flet_Id = @flet_Id
@@ -3341,22 +3319,70 @@ END
 
 
 GO
+
 CREATE OR ALTER PROCEDURE acce.UDP_tbPantallas_Index
 AS
 BEGIN
-	SELECT * FROM acce.tbPantallas
+	SELECT pant_Id, 
+	pant_Nombre, 
+	pant_Url, 
+	pant_Menu, 
+	pant_Icono, 
+	pant_UsuCreacion, 
+	pant_FechaCreacion, 
+	pant_UsuModificacion, 
+	pant_FechaModificacion, 
+	pant_Estado FROM acce.tbPantallas
 	WHERE pant_Estado = 1
 END
+GO
 
 -- ************* TABLA ROLES/PANTALLA *****************--
+
+--************** VIEW *****************--
+CREATE OR ALTER VIEW acce.VW_tbPantallasPorRoles
+AS
+SELECT 
+prr.pant_Id, 
+
+pant_Nombre, 
+pant_Url, 
+pant_Menu, 
+pant_Icono, 
+pant_Estado,
+
+prr.role_Id, 
+role_Nombre, 
+role_UsuCreacion, 
+role_FechaCreacion, 
+role_UsuModificacion, 
+role_FechaModificacion, 
+role_Habilitado, 
+role_Estado
+
+from acce.tbPantallasPorRoles prr inner join acce.tbPantallas pnt 
+on prr.pant_Id = pnt.pant_Id inner join acce.tbRoles rol 
+on rol.role_Id = prr.role_Id
 GO
+
+--************** Index *****************--
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Index
+AS
+BEGIN
+SELECT * FROM acce.VW_tbPantallasPorRoles
+END
+
+GO
+
 CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Insert 
-	@role_Id int,
+	@role_Nombre nvarchar(150),
 	@pant_Id int,
 	@prol_UsuCreacion int
 AS
 BEGIN
     BEGIN TRY
+		DECLARE @role_Id INT 
+		SELECT @role_Id = role_Id FROM acce.tbRoles WHERE role_Nombre = @role_Nombre
         IF EXISTS (SELECT * FROM acce.tbPantallasPorRoles WHERE role_Id = @role_Id AND pant_Id = @pant_Id AND prol_Estado = 1)
         BEGIN
 
@@ -3420,6 +3446,18 @@ BEGIN
 	BEGIN CATCH
 		SELECT 0
 	END CATCH
+END
+
+--************** FIND *****************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Find 
+(
+@role_Id	INT
+)
+AS 
+BEGIN
+	SELECT * FROM acce.VW_tbPantallasPorRoles
+	WHERE role_Id = @role_Id
 END
 
 

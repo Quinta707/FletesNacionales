@@ -23,27 +23,11 @@ namespace FletesNacionales.API.Controllers
             _acceService = acceService;
             _mapper = mapper;
         }
-
-        [HttpPost("Insertar")]
-        public IActionResult Insert(PantallasPorRolesViewModel panxrol)
-        {
-            ServiceResult list = new();
-            foreach (var item2 in panxrol.pantallas)
-            {
-                panxrol.pant_Id = item2;
-                var item = _mapper.Map<tbPantallasPorRoles>(panxrol);
-                list = _acceService.InsertarPantallasPorRoles(item);
-
-            }
+        [HttpGet("Listado")]
+        public IActionResult List()
+        { 
+            var list = _acceService.ListadoPantallas();
             return Ok(list);
-        }
-
-        [HttpPut("Eliminar")]
-        public IActionResult Delete(PantallasPorRolesViewModel roles)
-        {
-            var item = _mapper.Map<tbPantallasPorRoles>(roles);
-            var result = _acceService.EliminarPantallasPorRoles(item);
-            return Ok(result);
         }
     }
 }
