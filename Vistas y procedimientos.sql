@@ -855,32 +855,31 @@ GO
 GO
 CREATE OR ALTER PROCEDURE equi.UDP_tbTipoDeVehiculo_Update 
 (
-@tipv_Id				INT,
-@tipv_Descripcion		NVARCHAR(100)
+  @tipv_Id				INT,
+  @tipv_Descripcion		NVARCHAR(100)
 )
 AS
 BEGIN
-	BEGIN TRY	
-	IF @tipv_Descripcion IN (SELECT tipv_Descripcion FROM equi.tbTipoDeVehiculo WHERE tipv_Id != @tipv_Id)
-			BEGIN
-				SELECT - 2 codeStatus
-			END
-		ELSE
-			BEGIN
-				UPDATE	equi.tbTipoDeVehiculo
-				SET		tipv_Descripcion = @tipv_Descripcion, 
-						tipv_UsuModificacion = 1, 
-						tipv_FechaModificacion = GETDATE()
-				WHERE	tipv_Id = @tipv_Id
+  BEGIN TRY	
+   IF EXISTS(SELECT [tipv_Descripcion]  FROM [equi].[tbTipoDeVehiculo] WHERE [tipv_Descripcion] = @tipv_Descripcion and [tipv_Id] != @tipv_Id) 
+    BEGIN
+      SELECT -2 AS codeStatus;
+    END
+    ELSE
+    BEGIN
+      UPDATE equi.tbTipoDeVehiculo
+      SET tipv_Descripcion = @tipv_Descripcion, 
+          tipv_UsuModificacion = 1, 
+          tipv_FechaModificacion = GETDATE()
+      WHERE tipv_Id = @tipv_Id;
 
-				SELECT 1 codeStatus
-			END
-	END TRY
-	BEGIN CATCH
-		SELECT 0 
-	END CATCH
-END
-
+      SELECT 1 AS codeStatus;
+    END
+  END TRY
+  BEGIN CATCH
+    SELECT 0 AS codeStatus;
+  END CATCH
+END 
 --**************  DELETE ******************--
 GO
 CREATE OR ALTER PROCEDURE equi.UDP_tbTipoDeVehiculo_Delete

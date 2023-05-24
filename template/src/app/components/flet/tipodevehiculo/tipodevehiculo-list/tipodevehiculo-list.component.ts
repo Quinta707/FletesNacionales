@@ -1,5 +1,6 @@
 import { Component, QueryList, ViewChildren,  OnInit, TemplateRef } from '@angular/core';
 import { TipoDeVehiculo } from '../../../../shared/model/tipodevehiculo.model';
+import { TipoDeVehiculoEdit } from '../../../../shared/model/tipodevehiculoedit.model';
 import { TableService } from '../../../../shared/services/tipodevehiculo.service';
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
@@ -16,6 +17,7 @@ import { HttpClient } from '@angular/common/http';
 export class TipodevehiculoListComponent {
   public selected = [];
   TipoDeVehiculo:TipoDeVehiculo = new TipoDeVehiculo();
+  TipoDeVehiculoEdit: TipoDeVehiculoEdit = new TipoDeVehiculoEdit();
   items: TipoDeVehiculo[];
   tipodeVehiculoValue: string = '';
   submitted: boolean = false;
@@ -168,6 +170,80 @@ export class TipodevehiculoListComponent {
     );
   }
 
+  Editar() {
+    if (!this.TipoDeVehiculo.tipv_Descripcion) {
+      this.submitted = true;
+      Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 6000,
+        timerProgressBar: true,
+      }).fire({
+        title: '¡ERROR!, El campo de tipo de vehiculo no puede estar vacio',
+        icon: 'warning'
+      });
+      return;
+    }
+  
+    this.service.EditarTipoVehiculoEditar(this.TipoDeVehiculo).subscribe(
+      (data: any) => {
+        console.log(data);
+        if (data.codeStatus > 0) {
+          // Registro actualizado exitosamente
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            title: '¡Registro Actualizado con éxito!',
+            icon: 'success'
+          });
+          this.modalService.dismissAll();
+          this.service.getTipoDeVehiculo().subscribe(data => {
+            this.items = data;  
+          });
+        } else if (data.codeStatus === -1) {
+          // El registro ya existe
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            title: 'Ya existe este registro',
+            icon: 'warning'
+          });
+        } else {
+          // Error desconocido u otro código de estado
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            title: 'Ha ocurrido un error',
+            icon: 'error'
+          });
+        }
+      },
+      (error) => {
+        // Error en la comunicación con el servidor
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          title: 'Error de comunicación con el servidor',
+          icon: 'error'
+        });
+        console.error(error);
+      }
+    );
+  }
+
   Delete(){
     const tipv_Id : number | undefined = isNaN(parseInt(localStorage.getItem("tipv_Id") ?? '', 0)) ? undefined: parseInt(localStorage.getItem("tipv_Id") ?? '', 0);
     if (tipv_Id !== undefined) {
@@ -219,6 +295,15 @@ export class TipodevehiculoListComponent {
       this.basicModalCloseResult = "Modal closed" + result;
     }).catch((res) => {});
     localStorage.setItem("tipv_Id",id.toString())
+  }
+
+  openBasicModal3(content: TemplateRef<any>,TipoDeVehiculoEdit: TipoDeVehiculoEdit) {
+    this.TipoDeVehiculoEdit = {...TipoDeVehiculoEdit};
+    console.log(TipoDeVehiculoEdit)
+    this.modalRef = this.modalService.open(content, {});
+    this.modalRef.result.then((result) => {
+      this.basicModalCloseResult = "Modal closed" + result;
+    }).catch((res) => {});
   }
 
   cancelar() {

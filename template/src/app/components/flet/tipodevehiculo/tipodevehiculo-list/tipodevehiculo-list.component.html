@@ -51,10 +51,11 @@
                           <td>
                             <div class="action">
                               <li class="edit">
-                                <button type="button" class="btn btn-danger btn-icon-text" (click)="openBasicModal1(basicModal1,item.tipv_Id)"><i class="icon-pencil-alt"></i></button>
+                                <a type="button" (click)="openBasicModal3(basicModal2,item)"><i class="icon-pencil-alt"></i></a>
+                               
                               </li>
                               <li class="delete">
-                                <a href="#"><i class="icon-trash"></i></a>
+                                <a type="button" (click)="openBasicModal1(basicModal1,item.tipv_Id)"><i class="icon-trash"></i></a>
                               </li>
                             </div>
                           <td>            
@@ -73,28 +74,28 @@
                                 </div>
                           </ng-template>
 
-                         <ng-template #basicModal2 let-modal>
+                          <ng-template #basicModal2 let-modal>
                             <div class="modal-header">
                               <h4 class="modal-title" id="modal-basic-title">Editar Tipo de Vehiculos</h4>
                               <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
                               <input type="text" disabled hidden [(ngModel)]="TipoDeVehiculoEdit.tipv_Id" >
                             </div>
-                            <div class="modal-body">
-                              <form>
+                            <div class="modal-body">                 
                                 <div class="form-group">
                                   <label for="dateOfBirth">Tipo de Vehiculos</label>
                                   <div class="input-group">
                                     <input type="text" class="form-control" id="exampleInputEmail1" required placeholder="Tipo de Vehiculos"
-                                    [(ngModel)]="TipoDeVehiculoEdit.tipv_Descripcion" name="TipoDeVehiculoEdit.tipv_Descripcion" #tipodeVehiculoInput="ngModel"
-                                    [ngClass]="{ 'is-invalid': submitted && tipodeVehiculoInputEdit.invalid }">
-                                  <div class="invalid-feedback" *ngIf="tipodeVehiculoInputEdit?.errors?.required && submitted">Tipo de Vehiculo es requerido</div>
+                                      [(ngModel)]="TipoDeVehiculoEdit.tipv_Descripcion" name="TipoDeVehiculoEdit.tipv_Descripcion"
+                                      #tipodeVehiculoInput="ngModel" [ngClass]="{ 'is-invalid': submitted && tipodeVehiculoInput.invalid }">
+                                    <div class="invalid-feedback" *ngIf="tipodeVehiculoInput?.errors?.required && submitted">
+                                      Tipo de Vehiculo es requerido
+                                    </div>
                                   </div>
                                 </div>
-                              </form>
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" (click)="cancelar(); modal.close('by: close button')">Cancelar</button>
-                              <button class="btn btn-outline-dark" (click)="Guardar($event)">Guardar</button>
+                              <button class="btn btn-outline-dark" (click)="Editar()">Guardar</button>
                             </div>
                           </ng-template>
 
