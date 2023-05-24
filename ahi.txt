@@ -1,0 +1,22 @@
+   CREATE OR ALTER PROCEDURE equi.UDP_tbTipoDeVehiculo_Delete
+(
+@tipv_Id INT
+)
+AS
+BEGIN
+	BEGIN TRY
+		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('equi.tbTipoDeVehiculo') AND EXISTS ( SELECT 1 FROM equi.tbTipoDeVehiculo WHERE tipv_Id = @tipv_Id))
+			BEGIN
+				SELECT - 3 
+			END
+		ELSE
+		UPDATE	equi.tbTipoDeVehiculo
+		SET		tipv_Estado = 0
+		WHERE	tipv_Id = @tipv_Id
+
+		SELECT 1 
+	END TRY
+	BEGIN CATCH
+		SELECT 0 
+	END CATCH
+END

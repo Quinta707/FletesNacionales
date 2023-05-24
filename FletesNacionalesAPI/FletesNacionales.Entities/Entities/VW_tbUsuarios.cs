@@ -12,11 +12,11 @@ namespace FletesNacionales.Entities.Entities
         public string user_NombreUsuario { get; set; }
         public string user_Contrasena { get; set; }
         public bool? user_EsAdmin { get; set; }
+        public string user_Url { get; set; }
         public int? role_Id { get; set; }
         public string role_Nombre { get; set; }
         public int? empe_Id { get; set; }
         public string empe_Nombres { get; set; }
-        public string user_Url { get; set; }
         public string empe_Apellidos { get; set; }
         public string empe_NombreCompleto { get; set; }
         public int sucu_Id { get; set; }

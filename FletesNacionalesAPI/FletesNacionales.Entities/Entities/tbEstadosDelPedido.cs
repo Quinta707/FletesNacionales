@@ -10,6 +10,7 @@ namespace FletesNacionales.Entities.Entities
     {
         public tbEstadosDelPedido()
         {
+            tbFletes = new HashSet<tbFletes>();
             tbPedidos = new HashSet<tbPedidos>();
         }
 
@@ -24,6 +25,7 @@ namespace FletesNacionales.Entities.Entities
 
         public virtual tbUsuarios estp_UsuCreacionNavigation { get; set; }
         public virtual tbUsuarios estp_UsuModificacionNavigation { get; set; }
+        public virtual ICollection<tbFletes> tbFletes { get; set; }
         public virtual ICollection<tbPedidos> tbPedidos { get; set; }
     }
 }

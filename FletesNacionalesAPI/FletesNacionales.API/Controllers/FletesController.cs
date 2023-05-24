@@ -37,6 +37,7 @@ namespace FletesNacionales.API.Controllers
             var response = _fletService.InsertarFletes(item);
             return Ok(response);
         }
+
         [HttpPut("Editar")]
         public IActionResult Update(FletesViewModel flete)
         {
@@ -58,6 +59,22 @@ namespace FletesNacionales.API.Controllers
         {
             var list = _fletService.BuscarFlete(id);
             return Ok(list);
+        }
+
+        [HttpPost("Empezar")]
+        public IActionResult Empezar(FletesViewModel flete)
+        {
+            var item = _mapper.Map<tbFletes>(flete);
+            var response = _fletService.EmpezarFlete(item);
+            return Ok(response);
+        }
+
+        [HttpPost("FleteDetalles")]
+        public IActionResult FleteDetalles(FletesViewModel flete)
+        {
+            var item = _mapper.Map<tbFletes>(flete);
+            var response = _fletService.FletePedidos(item);
+            return Ok(response);
         }
 
     }

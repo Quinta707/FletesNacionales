@@ -11,6 +11,7 @@ namespace FletesNacionales.Entities.Entities
         public tbEmpleados()
         {
             tbFletes = new HashSet<tbFletes>();
+            tbUsuarios = new HashSet<tbUsuarios>();
         }
 
         public int empe_Id { get; set; }
@@ -39,5 +40,6 @@ namespace FletesNacionales.Entities.Entities
         public virtual tbMunicipios muni { get; set; }
         public virtual tbSucursales sucu { get; set; }
         public virtual ICollection<tbFletes> tbFletes { get; set; }
+        public virtual ICollection<tbUsuarios> tbUsuarios { get; set; }
     }
 }

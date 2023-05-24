@@ -51,10 +51,8 @@ namespace FletesNacionales.DataAccess.Repository
             var parametros = new DynamicParameters();
 
             parametros.Add("@estp_Nombre", item.estp_Nombre, DbType.String, ParameterDirection.Input);
-            parametros.Add("@estp_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
-
+        
             var resultado = db.QueryFirst<int>(ScriptsDataBase.EstadosDelPedidoInsert, parametros, commandType: CommandType.StoredProcedure);
-
 
             RequestStatus request = new()
             {

@@ -206,7 +206,7 @@
          "ObjectType": 3
       }
    ],
-   "UiHint": "DESKTOP-AJ8GUH2\\SQLEXPRESS.FletesNacionales",
+   "UiHint": "DESKTOP-51051C3\\SQLEXPRESS.FletesNacionales",
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": true,
    "UseDbContextSplitting": false,
