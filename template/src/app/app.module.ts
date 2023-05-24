@@ -9,6 +9,7 @@ import { SharedModule } from "./shared/shared.module";
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
+import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 
 // // for HttpClient import:
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
@@ -25,6 +26,7 @@ import { LoginComponent } from './auth/login/login.component';
 
 import { OverlayModule } from '@angular/cdk/overlay';
 
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
 }
@@ -33,6 +35,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
     LoginComponent,
+ 
   ],
   imports: [
     BrowserModule,
@@ -42,6 +45,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     OverlayModule,
     SharedModule,
     AppRoutingModule,
+    NgbToastModule,
     HttpClientModule,
     NgbModule,
     ToastrModule.forRoot(),

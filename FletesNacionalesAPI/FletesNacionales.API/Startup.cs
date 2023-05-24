@@ -38,7 +38,7 @@ namespace FletesNacionales.API
 
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowFlutter", builder =>
+                options.AddPolicy("AllowFlutterApp", builder =>
                 {
                     builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
                     .AllowAnyHeader()
@@ -81,7 +81,7 @@ namespace FletesNacionales.API
 
             app.UseHttpsRedirection();
 
-            app.UseCors("AllowFlutter");
+            app.UseCors("AllowFlutterApp");
 
             app.UseRouting();
 

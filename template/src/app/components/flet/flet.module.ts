@@ -15,6 +15,11 @@ import { FleteListPropioComponent } from './fletes/fletes-list-propio/fletes-lis
 import { FleteCreateComponent } from './fletes/fletes-create/fletes-create.component';
 
 import { FletRoutingModule } from './flet-routing.module';
+import { VehiculosLstComponent } from './vehiculos/vehiculos-lst/vehiculos-lst.component';
+import { SucursalesListComponent } from './sucursales/sucursales-list/sucursales-list.component';
+import { EmpleadosListComponent } from './empleados/empleados-list/empleados-list.component';
+import { EstadosdelpedidoListComponent } from './estadosdelpedido/estadosdelpedido-list/estadosdelpedido-list.component';
+import { TipodevehiculoListComponent } from './tipodevehiculo/tipodevehiculo-list/tipodevehiculo-list.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +28,11 @@ import { FletRoutingModule } from './flet-routing.module';
     ItemListComponent,
     ClienteListComponent,
     FleteCreateComponent
+    VehiculosLstComponent,
+    SucursalesListComponent,
+    EmpleadosListComponent,
+    EstadosdelpedidoListComponent,
+    TipodevehiculoListComponent,
   ],
   imports: [
     CommonModule,

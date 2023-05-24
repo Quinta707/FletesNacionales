@@ -39,7 +39,7 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
-        [HttpPut("Editar")]
+        [HttpPost("Editar")]
         public IActionResult Update(TipoDeVehiculoViewModel tipovehiculo)
         {
             var item = _mapper.Map<tbTipoDeVehiculo>(tipovehiculo);
@@ -47,7 +47,7 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
-        [HttpPut("Eliminar")]
+        [HttpPost("Eliminar")]
         public IActionResult Delete(TipoDeVehiculoViewModel tipovehiculo)
         {
             var item = _mapper.Map<tbTipoDeVehiculo>(tipovehiculo);

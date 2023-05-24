@@ -303,17 +303,25 @@ namespace FletesNacionales.BusinessLogic.Services
                 {
                     return result.Ok(map);
                 }
+                else if (map.CodeStatus == -2)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
+                }
+                else if (map.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                }
                 else
                 {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
             }
-            catch (Exception)
+            catch (Exception xe)
             {
-                throw;
+                return result.Error(xe.Message);
             }
         }
+
         public ServiceResult EditarEstadoDelPedido(tbEstadosDelPedido item)
         {
             var result = new ServiceResult();

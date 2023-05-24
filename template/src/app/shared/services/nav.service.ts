@@ -388,6 +388,11 @@ export class NavService implements OnDestroy {
     { path: "/flet/Items/List", title: "Items", icon: "sample-page", type: "link" },
     { path: "/flet/Fletes/List", title: "Fletes", icon: "sample-page", type: "link" },
     { path: "/flet/Fletes/PersonalList", title: "Flete personal", icon: "sample-page", type: "link" },
+    { path: "/flet/Vehiculos/List", title: "Vehiculo", icon: "sample-page", type: "link" },
+    { path: "/flet/Sucursales/List", title: "Sucursales", icon: "sample-page", type: "link" },
+    { path: "/flet/Empleados/List", title: "Empleados", icon: "sample-page", type: "link" },
+    { path: "/flet/EstadosdelPedido/List", title: "EstadosdelPedido", icon: "sample-page", type: "link" },
+    { path: "/flet/TipoDeVehiculo/List", title: "TipoDeVehiculo", icon: "sample-page", type: "link" },
     // {
     //   title: "Others",
     //   icon: "others",

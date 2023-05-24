@@ -40,6 +40,7 @@ function matches(table: Clientes, term: string, pipe: PipeTransform) {
 
 @Injectable({ providedIn: 'root' })
 export class TableService {
+ 
     private _loading$ = new BehaviorSubject<boolean>(true);
     private _search$ = new Subject<void>();
     private _tableItem$ = new BehaviorSubject<any[]>([]);

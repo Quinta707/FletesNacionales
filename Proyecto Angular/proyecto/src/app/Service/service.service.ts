@@ -9,8 +9,19 @@ import { Categoria } from '../Model/Categoria';
 export class ServiceService {
 
   constructor(private http:HttpClient) { }
-  Url = 'https://api.thecatapi.com/v1/categories'
+  Url = 'https://localhost:44339/api/Cargos/Listado'
   getCategoria(){
     return this.http.get<Categoria[]>(this.Url);
+  }
+
+  Urlcreate = 'https://localhost:44339/api/Cargos/Insertar'
+  createCategoria(categoria: Categoria){
+    return this.http.post<Categoria[]>(this.Urlcreate, categoria);
+  }
+
+  
+  Urlobtener = 'https://localhost:44339/api/Cargos/Buscar?id=';
+  getCategoriaid(id?: number){
+    return this.http.get<Categoria[]>(this.Urlobtener+id);
   }
 }

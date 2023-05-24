@@ -61,5 +61,8 @@ export class ServiceService {
   getMunicipios(){
     return this.http.get<Municipios[]>(this.MunicipiosListado)
   }
+
+  
+
   //#endregion
 }

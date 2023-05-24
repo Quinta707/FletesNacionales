@@ -5,6 +5,11 @@ import { FleteCreateComponent } from './fletes/fletes-create/fletes-create.compo
 import { ItemListComponent } from './item/items-list/items-list.component';
 import { ClienteListComponent } from './clientes/clientes-list/clientes-list.component';
 import { FleteListPropioComponent } from './fletes/fletes-list-propio/fletes-list-propio.component';
+import { VehiculosLstComponent } from './vehiculos/vehiculos-lst/vehiculos-lst.component';
+import { SucursalesListComponent } from './sucursales/sucursales-list/sucursales-list.component';
+import { EmpleadosListComponent } from './empleados/empleados-list/empleados-list.component';
+import { EstadosdelpedidoListComponent } from './estadosdelpedido/estadosdelpedido-list/estadosdelpedido-list.component';
+import { TipodevehiculoListComponent } from './tipodevehiculo/tipodevehiculo-list/tipodevehiculo-list.component';
 
 const routes: Routes = [
   {
@@ -43,6 +48,56 @@ const routes: Routes = [
           {
             path: "List",
             component: ClienteListComponent,
+          },
+          
+        ],
+      },
+      {
+        path: "Vehiculos",
+        children: [
+          {
+            path: "List",
+            component: VehiculosLstComponent,
+          },
+          
+        ],
+      }, 
+      {
+        path: "Sucursales",
+        children: [
+          {
+            path: "List",
+            component: SucursalesListComponent,
+          },
+          
+        ],
+      },
+      {
+        path: "Empleados",
+        children: [
+          {
+            path: "List",
+            component: EmpleadosListComponent,
+          },
+          
+        ],
+      },    
+      {
+        path: "EstadosdelPedido",
+        children: [
+          {
+            path: "List",
+            component: EstadosdelpedidoListComponent,
+          },
+          
+        ],
+      },
+      {
+        path: "TipoDeVehiculo",
+        children: [
+          {
+            path: "List",
+            component: TipodevehiculoListComponent,
           },
           
         ],
