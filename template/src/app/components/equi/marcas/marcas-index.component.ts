@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Marcas } from '../../../../Models/Marcas';
-import { ServiceService } from '../../../../Service/service.service';
+import { Marcas } from '../../../shared/model/Marcas.model';
+import { MarcasService } from '../../../shared/services/marcas.service';
 
 @Component({
   selector: 'app-marcas-index',
@@ -10,7 +10,7 @@ import { ServiceService } from '../../../../Service/service.service';
 export class MarcasIndexComponent {
     marcas!: Marcas[];
  
-    constructor(private service:ServiceService){}
+    constructor(private service:MarcasService){}
    
     ngOnInit(): void {
      this.service.getMarcas()

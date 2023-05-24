@@ -7,7 +7,6 @@ import { SharedModule } from '../../shared/shared.module';
 
 import { MarcasIndexComponent } from '././marcas/marcas-index.component';
 import { ModelosIndexComponent } from './modelos/modelos-index/modelos-index.component';
-import { TipoVehiculoIndexComponent } from './tipovehiculo/vehiculos-index/tipovehiculo-index.component';
 
 import { EquiRoutingModule } from './equi-routing.module';
 
@@ -15,7 +14,6 @@ import { EquiRoutingModule } from './equi-routing.module';
   declarations: [
     MarcasIndexComponent,
     ModelosIndexComponent,
-    TipoVehiculoIndexComponent,
   ],
   imports: [
     CommonModule,

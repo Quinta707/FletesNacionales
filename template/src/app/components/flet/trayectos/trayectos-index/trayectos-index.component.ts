@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Trayectos } from 'src/Models/Trayectos';
-import { ServiceService } from '../../../../../Service/service.service';
+import { Trayectos } from 'src/app/shared/model/Trayectos.model';
+import { TrayectosService } from 'src/app/shared/services/trayectos.service';
 
 @Component({
   selector: 'app-trayectos-index',
@@ -10,7 +10,7 @@ import { ServiceService } from '../../../../../Service/service.service';
 export class TrayectosIndexComponent {
   trayectos!: Trayectos[];
  
-  constructor(private service:ServiceService){}
+  constructor(private service:TrayectosService){}
  
   ngOnInit(): void {
     this.service.getTrayectos()

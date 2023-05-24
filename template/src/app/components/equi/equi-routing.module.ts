@@ -2,7 +2,6 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { MarcasIndexComponent } from "./marcas/marcas-index.component";
 import { ModelosIndexComponent } from './modelos/modelos-index/modelos-index.component';
-import { TipoVehiculoIndexComponent } from "./tipovehiculo/vehiculos-index/tipovehiculo-index.component";
 const routes: Routes = [
   {
     path: "",
@@ -23,15 +22,6 @@ const routes: Routes = [
           {
             path: "List",
             component: ModelosIndexComponent,
-          },
-        ],
-      },
-      {
-        path: "TipoDeVehiculo",
-        children: [
-          {
-            path: "List",
-            component: TipoVehiculoIndexComponent,
           },
         ],
       },
