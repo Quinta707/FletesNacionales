@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/adjacent-overload-signatures */
 import { Injectable, PipeTransform } from '@angular/core';
 
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { DecimalPipe, SlicePipe } from '@angular/common';
 import { debounceTime, delay, map, switchMap, tap } from 'rxjs/operators';
 import { SortColumn, SortDirection } from '../directives/NgbdSortableHeader';
-import { EstadosDelPedido } from '../model/estadosDelPedido.model';
+import { EstadosDelPedido } from '../model/estadosdelpedido.model';
 import { Global } from '../../../../config';
 import { HttpClient } from '@angular/common/http';
 
@@ -35,11 +34,10 @@ function sort(tableItem: EstadosDelPedido[], column: SortColumn, direction: stri
     }
 }
 function matches(table: EstadosDelPedido, term: string, pipe: PipeTransform) {
-    return table.estp_Nombre.toLowerCase().includes(term.toLowerCase());
-  }
+  return table?.estp_Nombre?.toLowerCase().includes(term.toLowerCase());
+}
 
 @Injectable({ providedIn: 'root' })
-
 export class TableService {
     private _loading$ = new BehaviorSubject<boolean>(true);
     private _search$ = new Subject<void>();
@@ -127,17 +125,7 @@ export class TableService {
           matches(country, searchTerm, this.pipe)
         );
     
-        // // 3. Parsear la fecha
-        //  tableItem.forEach((item) => {
-        //      if (typeof item. === 'string') {
-        //        let data = new Date(item.clie_FechaNacimiento);
-        //        item.clie_FechaNacimiento = data.toLocaleDateString('es-ES', {
-        //          day: '2-digit',
-        //          month: '2-digit',
-        //          year: 'numeric'
-        //        });
-        //      }
-        //    });
+       
           
     
         tableItem = tableItem
@@ -145,13 +133,11 @@ export class TableService {
           .slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
         return of({ tableItem, total });
       }
-    
+     
       EstadosDelPedidoListado = Global + "EstadosDelPedido/Listado";
-
-  getEstadosDelPedido(){
+     
+  getEstadosdelPedido(){
     return this.http.get<EstadosDelPedido[]>(this.EstadosDelPedidoListado);
   }
 
-
 }
-
