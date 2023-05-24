@@ -1,12 +1,15 @@
-<br>
-    <div class="card">
-      <div class="card-header bg-primary">
-        <div class="text-center">
-          <h3 style="color: azure;">Listar Marcas</h3>
-        </div>
+<app-breadcrumb [title]="'Marcas'" [items]="['Equipo']" [active_item]="'Marcas'"></app-breadcrumb>
+<div class="container-fluid">
+  <div class="row widget-grid">
+    <div class="col-sm-12">
+        <div class="card">
+          <img class="card-img-top" src="../../../../assets//images/equipo/headers/Marcas.png" alt="Card image cap">
       </div>
+      
+    <div class="card">
       <div class="card-body">
-        <button (click)="Nuevo()" class="btn btn-primary">+ Nuevo</button>
+        <button (click)="Nuevo()" class="btn btn-outline-primary">+ Nuevo</button>
+        <br>
         <table  class="table">
           <thead>
               <tr>
@@ -28,4 +31,7 @@
           </tbody>
         </table>
       </div>
+    </div>
+  </div>
+  </div>
 </div>

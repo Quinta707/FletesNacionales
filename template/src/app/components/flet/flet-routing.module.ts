@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { FleteListComponent } from './fletes/fletes-list/fletes-list.component';
 import { TrayectosIndexComponent } from "./trayectos/trayectos-index/trayectos-index.component";
+import { PedidosIndexComponent } from './pedidos/pedidos-index/pedidos-index.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,16 @@ const routes: Routes = [
           {
             path: "List",
             component: TrayectosIndexComponent,
+          },
+        ],
+        
+      },
+      {
+        path: "Pedidos",
+        children: [
+          {
+            path: "List",
+            component: PedidosIndexComponent,
           },
         ],
         

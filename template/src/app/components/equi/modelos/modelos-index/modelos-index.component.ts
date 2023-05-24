@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Modelos } from '../../../../../Models/Modelos';
-import { ServiceService } from '../../../../../Service/service.service';
+import { Modelos } from '../../../../shared/model/Modelos.model';
+import { ModelosService } from '../../../../shared/services/modelos.service';
 
 @Component({
   selector: 'app-modelos-index',
@@ -10,7 +10,7 @@ import { ServiceService } from '../../../../../Service/service.service';
 export class ModelosIndexComponent {
   modelos!: Modelos[];
  
-    constructor(private service:ServiceService){}
+    constructor(private service:ModelosService){}
    
     ngOnInit(): void {
      this.service.getModelos()

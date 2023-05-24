@@ -11,10 +11,14 @@ import { FletRoutingModule } from './flet-routing.module';
 
 import { TrayectosIndexComponent } from './trayectos/trayectos-index/trayectos-index.component';
 
+import { PedidosIndexComponent } from './pedidos/pedidos-index/pedidos-index.component';
+
+
 @NgModule({
   declarations: [
     FleteListComponent,
     TrayectosIndexComponent,
+    PedidosIndexComponent,
   ],
   imports: [
     CommonModule,
