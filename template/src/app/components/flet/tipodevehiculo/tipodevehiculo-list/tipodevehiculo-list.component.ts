@@ -78,7 +78,6 @@ export class TipodevehiculoListComponent {
   }
 
   Guardar(e: Event) {
-    const apiUrl = 'https://localhost:44339/api/TipoDeVehiculo/Insertar';
     e.preventDefault();
     if (!this.tipodeVehiculoValue) {
       this.submitted = true;
@@ -91,8 +90,10 @@ export class TipodevehiculoListComponent {
         title: '¡ERROR!, El campo de tipo de vehiculo no puede estar vacío',
         icon: 'error'
       });
+      return;
     }
   
+    const apiUrl = 'https://localhost:44339/api/TipoDeVehiculo/Insertar';
     const requestBody = {
       tipv_Descripcion: this.tipodeVehiculoValue
     };
@@ -115,11 +116,11 @@ export class TipodevehiculoListComponent {
               this.tipodeVehiculoValue = ''; // Restablecer el valor del campo
               this.submitted = false; // Reiniciar el estado del formulario
               this.service.getTipoDeVehiculo()
-              .subscribe((data: any)=>{
-                this.items= data.data;
-                this.service.setUserData(data.data);
-              });
-              this.modalService.dismissAll( )
+                .subscribe((data: any) => {
+                  this.items = data.data;
+                  this.service.setUserData(data.data);
+                });
+              this.modalService.dismissAll();
             });
           } else if (response.message === "YaExiste") {
             Swal.fire({
@@ -171,7 +172,7 @@ export class TipodevehiculoListComponent {
   }
 
   Editar() {
-    if (!this.TipoDeVehiculo.tipv_Descripcion) {
+    if (!this.TipoDeVehiculoEdit.tipv_Descripcion) {
       this.submitted = true;
       Swal.mixin({
         toast: true,
@@ -186,11 +187,10 @@ export class TipodevehiculoListComponent {
       return;
     }
   
-    this.service.EditarTipoVehiculoEditar(this.TipoDeVehiculo).subscribe(
-      (data: any) => {
-        console.log(data);
-        if (data.codeStatus > 0) {
-          // Registro actualizado exitosamente
+    this.service.EditarTipoVehiculoEditar(this.TipoDeVehiculoEdit).subscribe(
+      (response: any) => {
+        console.log(response);
+        if (response.success == 1) {
           Swal.fire({
             toast: true,
             position: 'top-end',
@@ -204,13 +204,13 @@ export class TipodevehiculoListComponent {
           this.service.getTipoDeVehiculo().subscribe(data => {
             this.items = data;  
           });
-        } else if (data.codeStatus === -1) {
+        } else if (response.message == "YaExiste") {
           // El registro ya existe
           Swal.fire({
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
-            timer: 1500,
+            timer: 6000,
             timerProgressBar: true,
             title: 'Ya existe este registro',
             icon: 'warning'
@@ -244,41 +244,56 @@ export class TipodevehiculoListComponent {
     );
   }
 
-  Delete(){
-    const tipv_Id : number | undefined = isNaN(parseInt(localStorage.getItem("tipv_Id") ?? '', 0)) ? undefined: parseInt(localStorage.getItem("tipv_Id") ?? '', 0);
+  Delete() {
+    const tipv_Id: number | undefined = isNaN(parseInt(localStorage.getItem("tipv_Id") ?? '', 0)) ? undefined : parseInt(localStorage.getItem("tipv_Id") ?? '', 0);
     if (tipv_Id !== undefined) {
       this.TipoDeVehiculo.tipv_Id = tipv_Id;
     }
-    this.service.DeleteTipoDeVehiculo(this.TipoDeVehiculo).
-    subscribe((data:any)=>{
-      console.log(this.TipoDeVehiculo);
-      console.log(data)
-      if(data.data.codeStatus == 1){
+  
+    this.service.DeleteTipoDeVehiculo(this.TipoDeVehiculo).subscribe(
+      (response: any) => {
+        console.log(this.TipoDeVehiculo);
+        console.log(response);
+        if (response.success == 1) {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            title: '¡Registro eliminado con éxito!',
+            icon: 'success'
+          }).then(() => {
+            this.modalService.dismissAll();
+            this.service.getTipoDeVehiculo().subscribe((data: any) => {
+              this.items = data;
+            });
+          });
+        } else {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 30000,
+            timerProgressBar: true,
+            title: '¡ERROR!, ¡Oh no!, hubo un error al eliminar el registro',
+            icon: 'error'
+          });
+        }
+      },
+      (error: any) => {
         Swal.fire({
           toast: true,
           position: 'top-end',
           showConfirmButton: false,
           timer: 1500,
           timerProgressBar: true,
-          title: '¡Registro eliminado con exito!',
-          icon: 'success'
-        })
-        this.modalService.dismissAll();
-          this.service.getTipoDeVehiculo().subscribe(data=>{
-            this.items = data;
-      })
-      }else{
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 30000,
-          timerProgressBar: true,
-          title: '¡ERROR!,¡oh no!, hubo un error al eliminar el registro',
-            icon: 'error'
-        })
+          title: '¡Hubo un error al realizar la solicitud!',
+          icon: 'error'
+        });
+        console.error(error);
       }
-    })
+    );
   }
 
   openBasicModal1(content: TemplateRef<any>, id:number) {

@@ -64,14 +64,14 @@
                           <ng-template #basicModal1 let-modal>
                             <div class="modal-header">
                               <h5 class="modal-title" id="exampleModalLabel">Eliminar registro</h5>
-                            </div>                    
-                                <div class="modal-body">
-                                    <h4>¿Desea eliminar este registro?</h4>                                          
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" (click)="cancelar(); modal.close('by: close button')">Cancelar</button>
-                                  <button type="button" (click)="Delete()" class="btn btn-primary">Eliminar</button>
-                                </div>
+                            </div>
+                            <div class="modal-body">
+                              <h4>¿Desea eliminar este registro?</h4>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" (click)="cancelar(); modal.close('by: close button')">Cancelar</button>
+                              <button type="button" (click)="Delete()" class="btn btn-primary">Eliminar</button>
+                            </div>
                           </ng-template>
 
                           <ng-template #basicModal2 let-modal>
@@ -139,7 +139,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="cancelar(); modal.close('by: close button')">Cancelar</button>
-        <button class="btn btn-outline-dark" (click)="Guardar($event)">Guardar</button>
+        <button class="btn btn-primary" (click)="Guardar($event)">Guardar</button>
       </div>
     </ng-template>
   </div>

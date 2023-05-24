@@ -889,9 +889,9 @@ CREATE OR ALTER PROCEDURE equi.UDP_tbTipoDeVehiculo_Delete
 AS
 BEGIN
 	BEGIN TRY
-		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('equi.tbTipoDeVehiculo') AND EXISTS ( SELECT 1 FROM equi.tbTipoDeVehiculo WHERE tipv_Id = @tipv_Id))
+		IF EXISTS (SELECT tipv_Id FROM equi.tbTipoDeVehiculo WHERE tipv_Id = @tipv_Id)
 			BEGIN
-				SELECT - 3
+				SELECT - 3 
 			END
 		ELSE
 		UPDATE	equi.tbTipoDeVehiculo
@@ -904,8 +904,6 @@ BEGIN
 		SELECT 0 
 	END CATCH
 END
-
-
 --**************  INDEX ******************--
 GO
 CREATE OR ALTER PROCEDURE equi.UDP_tbTipoDeVehiculo_Index
