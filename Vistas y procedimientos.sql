@@ -3423,7 +3423,7 @@ END
 
 --************** FIND *****************--
 GO
-CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Find 
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Find  1
 (
 @role_Id	INT
 )
@@ -3432,7 +3432,6 @@ BEGIN
 	SELECT * FROM acce.VW_tbPantallasPorRoles
 	WHERE role_Id = @role_Id
 END
-
 
 
 

@@ -12,13 +12,17 @@ import { FormsModule } from '@angular/forms';
 
 import { EditarComponent } from './CLientes/editar/editar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { DataTablesModule } from "angular-datatables";
+import { MyComponent } from './DataTable/list/list.component';
 
+import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
     ListComponent,
     CreateComponent,
-    EditarComponent
+    EditarComponent,
+    MyComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +30,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
     HttpClientModule,
     BrowserAnimationsModule,
     MatSlideToggleModule,
-    FormsModule
+    FormsModule,
+    DataTablesModule,
+    CommonModule
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

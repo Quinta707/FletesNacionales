@@ -3,12 +3,14 @@ import { Router } from '@angular/router';
 import { Cliente } from 'src/app/Model/Clientes';
 import { ServiceService } from 'src/app/Service/service.service';
 
+
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
 export class ListComponent {  
+  dtOptions: any = {}; 
   clientes!: Cliente[];
   constructor(private service: ServiceService, private router: Router){}
 
