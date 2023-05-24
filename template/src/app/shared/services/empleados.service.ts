@@ -126,17 +126,17 @@ export class TableService {
           matches(country, searchTerm, this.pipe)
         );
     
-        // 3. Parsear la fecha
-         tableItem.forEach((item) => {
-             if (typeof item.empe_FechaNacimiento === 'string') {
-               let data = new Date(item.empe_FechaNacimiento);
-               item.empe_FechaNacimiento = data.toLocaleDateString('es-ES', {
-                 day: '2-digit',
-                 month: '2-digit',
-                 year: 'numeric'
-               });
-             }
-           });
+        // // 3. Parsear la fecha
+        //  tableItem.forEach((item) => {
+        //      if (typeof item. === 'string') {
+        //        let data = new Date(item.clie_FechaNacimiento);
+        //        item.clie_FechaNacimiento = data.toLocaleDateString('es-ES', {
+        //          day: '2-digit',
+        //          month: '2-digit',
+        //          year: 'numeric'
+        //        });
+        //      }
+        //    });
           
     
         tableItem = tableItem
@@ -145,7 +145,7 @@ export class TableService {
         return of({ tableItem, total });
       }
     
-  EmpleadosListado = Global + "Empleados/Listado";
+      EmpleadosListado = Global + "Empleados/Listado";
 
   getEmpleados(){
     return this.http.get<Empleados[]>(this.EmpleadosListado);

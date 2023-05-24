@@ -14,6 +14,7 @@ namespace FletesNacionales.API.Extensions
         {
             CreateMap<RolesViewModel, tbRoles>().ReverseMap();
             CreateMap<PantallasPorRolesViewModel, tbPantallas>().ReverseMap();
+            CreateMap<PantallasPorRolesViewModel, VW_tbPantallasPorRoles>().ReverseMap();
             CreateMap<UsuariosViewModel, tbUsuarios>().ReverseMap();
             CreateMap<ClienteViewModel, tbClientes>().ReverseMap();
             CreateMap<FletesViewModel, tbFleteDetalles>().ReverseMap();

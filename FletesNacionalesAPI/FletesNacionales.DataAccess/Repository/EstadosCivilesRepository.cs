@@ -39,7 +39,7 @@ namespace FletesNacionales.DataAccess.Repository
 
             parametros.Add("@eciv_Id", id, DbType.String, ParameterDirection.Input);
 
-            var resultado = db.QueryFirst<VW_tbEstadosCiviles>(ScriptsDataBase.EstadosDelPedidoFind, parametros, commandType: CommandType.StoredProcedure);
+            var resultado = db.QueryFirst<VW_tbEstadosCiviles>(ScriptsDataBase.EstadosCivileseFind, parametros, commandType: CommandType.StoredProcedure);
 
             return resultado;
         }

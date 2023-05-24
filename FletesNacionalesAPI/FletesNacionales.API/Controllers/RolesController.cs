@@ -61,5 +61,28 @@ namespace FletesNacionales.API.Controllers
             return Ok(list);
         }
 
+        [HttpPost("InsertarRolxPantalla")]
+        public IActionResult InsertarRolxPantalla(PantallasPorRolesViewModel roles)
+        {
+            var item = _mapper.Map<VW_tbPantallasPorRoles>(roles);
+            var response = _acceService.InsertarPantallasPorRoles(item);
+            return Ok(response);
+        }
+
+        [HttpPut("EliminarRolxPantalla")]
+        public IActionResult EliminarRolxPantalla(PantallasPorRolesViewModel roles)
+        {
+            var item = _mapper.Map<VW_tbPantallasPorRoles>(roles);
+            var response = _acceService.EliminarPantallasPorRoles(item);
+            return Ok(response);
+        }
+        [HttpGet("BuscarRolxPantalla")]
+        public IActionResult FindRolxPantalla(int? id)
+        {
+            var list = _acceService.BuscarPantallasPorRoles(id);
+            return Ok(list);
+        }
+
+
     }
 }

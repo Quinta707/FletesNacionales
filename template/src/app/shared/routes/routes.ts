@@ -141,4 +141,12 @@ export const content: Routes = [
     path: "flet",
     loadChildren: () => import("../../components/flet/flet.module").then((m) => m.FletModule),
   },
+  {
+    path: "gral",
+    loadChildren: () => import("../../components/gral/gral.module").then((m) => m.GralModule),
+  },
+  {
+    path: "acce",
+    loadChildren: () => import("../../components/acce/acce.module").then((m) => m.AcceModule),
+  },
 ];
