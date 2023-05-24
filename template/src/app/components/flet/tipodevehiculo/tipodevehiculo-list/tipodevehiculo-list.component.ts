@@ -274,7 +274,7 @@ export class TipodevehiculoListComponent {
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
-            timer: 30000,
+            timer: 3000,
             timerProgressBar: true,
             title: '¡ERROR!, ¡Oh no!, hubo un error al eliminar el registro',
             icon: 'error'
@@ -328,12 +328,12 @@ export class TipodevehiculoListComponent {
 
 
   deleteData(id: number) {
-    this.tableItem$.subscribe((data: any) => {      
-      data.map((elem: any, i: any) => {
+    this.tableItem$.subscribe((data: any[]) => {
+      data.map((elem: any, i: number) => {
         if (elem.id == id) {
           data.splice(i, 1);
         }
       });
     });
   }
-}
+  }

@@ -27,7 +27,7 @@ import { TipodevehiculoListComponent } from './tipodevehiculo/tipodevehiculo-lis
     SucursalesListComponent,
     EmpleadosListComponent,
     EstadosdelpedidoListComponent,
-    TipodevehiculoListComponent
+    TipodevehiculoListComponent,
   ],
   imports: [
     CommonModule,

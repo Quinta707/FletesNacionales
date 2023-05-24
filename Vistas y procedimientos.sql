@@ -889,16 +889,11 @@ CREATE OR ALTER PROCEDURE equi.UDP_tbTipoDeVehiculo_Delete
 AS
 BEGIN
 	BEGIN TRY
-		IF EXISTS (SELECT tipv_Id FROM equi.tbTipoDeVehiculo WHERE tipv_Id = @tipv_Id)
-			BEGIN
-				SELECT - 3 
-			END
-		ELSE
-		UPDATE	equi.tbTipoDeVehiculo
-		SET		tipv_Estado = 0
-		WHERE	tipv_Id = @tipv_Id
+			UPDATE	equi.tbTipoDeVehiculo
+			SET		tipv_Estado = 0
+			WHERE tipv_Id = @tipv_Id
 
-		SELECT 1 
+			SELECT 1 
 	END TRY
 	BEGIN CATCH
 		SELECT 0 

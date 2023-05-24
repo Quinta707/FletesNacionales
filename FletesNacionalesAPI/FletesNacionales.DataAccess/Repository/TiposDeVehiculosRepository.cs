@@ -18,9 +18,15 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@tipv_Id", item.tipv_Id, DbType.Int32, ParameterDirection.Input);
+            var result = db.QueryFirst<int>(ScriptsDataBase.TipoDeVehiculoDelete, parametros, commandType: System.Data.CommandType.StoredProcedure);
 
-            var result = db.QueryFirst<RequestStatus>(ScriptsDataBase.TipoDeVehiculoDelete, parametros, commandType: System.Data.CommandType.StoredProcedure);
-            return result;
+            RequestStatus request = new()
+            {
+                CodeStatus = result
+            };
+
+
+            return request;
         }
 
         public VW_tbTipoDeVehiculo find(int? id)

@@ -245,10 +245,6 @@ namespace FletesNacionales.BusinessLogic.Services
                 {
                     return result.Ok(map);
                 } 
-                else if (map.CodeStatus == -3)
-                {
-                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
-                }
                 else if (map.CodeStatus == 0)
                 {
                     return result.SetMessage("ErrorInespero", ServiceResultType.Error);
@@ -258,8 +254,8 @@ namespace FletesNacionales.BusinessLogic.Services
                     return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
             }
-            catch (Exception)
-            {
+            catch (Exception ex)
+            {   
                 throw;
             }
         }
