@@ -1,6 +1,5 @@
 export class EstadosDelPedido{
-
-    estp_Id!: number;
+  estp_Id!: number;
     estp_Nombre!: String;
     estp_UsuCreacion!: number;
     estp_Habilitado!: number;
@@ -11,5 +10,4 @@ export class EstadosDelPedido{
     user_Modificacion!: String;
     estp_FechaModificacion!: String;
     estp_Estado!: number;
-    
 }

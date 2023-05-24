@@ -1,6 +1,6 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { EstadosDelPedido } from '../../../../shared/model/estadosDelPedido.model';
-import { TableService } from '../../../../shared/services/estadosDelPedido.service';
+import { EstadosDelPedido } from '../../../../shared/model/estadosDelPedido2.model';
+import { TableService } from '../../../../shared/services/estadosDelPedido2.service';
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 
@@ -17,7 +17,7 @@ export class EstadosDelPedidoListComponent implements OnInit {
   estadosDelPedido: EstadosDelPedido[];
  
   ngOnInit(): void {
-   this.service.getEstadosDelPedido()
+   this.service.getEstadosdelPedido()
    .subscribe((data: any)=>{
       this.estadosDelPedido= data.data;
       this.service.setUserData(data.data)

@@ -103,8 +103,6 @@ const routes: Routes = [
           },
           
         ],
-        ],
-        
       },
       {
         path: "Trayectos",

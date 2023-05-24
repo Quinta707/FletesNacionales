@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { DecimalPipe, SlicePipe } from '@angular/common';
 import { debounceTime, delay, map, switchMap, tap } from 'rxjs/operators';
 import { SortColumn, SortDirection } from '../directives/NgbdSortableHeader';
-import { EstadosDelPedido } from '../model/estadosDelPedido.model';
+import { EstadosDelPedido } from '../model/estadosDelPedido2.model';
 import { Global } from '../../../../config';
 import { HttpClient } from '@angular/common/http';
 
@@ -148,7 +148,7 @@ export class TableService {
     
       EstadosDelPedidoListado = Global + "EstadosDelPedido/Listado";
 
-  getEstadosDelPedido(){
+      getEstadosdelPedido(){
     return this.http.get<EstadosDelPedido[]>(this.EstadosDelPedidoListado);
   }
 
