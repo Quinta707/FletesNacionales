@@ -10,6 +10,8 @@ import { SucursalesListComponent } from './sucursales/sucursales-list/sucursales
 import { EmpleadosListComponent } from './empleados/empleados-list/empleados-list.component';
 import { EstadosdelpedidoListComponent } from './estadosdelpedido/estadosdelpedido-list/estadosdelpedido-list.component';
 import { TipodevehiculoListComponent } from './tipodevehiculo/tipodevehiculo-list/tipodevehiculo-list.component';
+import { TrayectosIndexComponent } from "./trayectos/trayectos-index/trayectos-index.component";
+import { PedidosIndexComponent } from './pedidos/pedidos-index/pedidos-index.component';
 
 const routes: Routes = [
   {
@@ -101,6 +103,28 @@ const routes: Routes = [
           },
           
         ],
+        ],
+        
+      },
+      {
+        path: "Trayectos",
+        children: [
+          {
+            path: "List",
+            component: TrayectosIndexComponent,
+          },
+        ],
+        
+      },
+      {
+        path: "Pedidos",
+        children: [
+          {
+            path: "List",
+            component: PedidosIndexComponent,
+          },
+        ],
+        
       },
     ],
   },

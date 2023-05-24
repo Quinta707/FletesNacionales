@@ -50,6 +50,8 @@
     "apexcharts": "^3.36.3",
     "bootstrap": "^5.2.3",
     "bootstrap-scss": "^5.2.3",
+    "datatables.net": "^1.13.4",
+    "datatables.net-bs4": "^1.13.4",
     "date-fns": "^2.29.3",
     "feather-icons": "^4.29.0",
     "font-awesome": "^4.7.0",

@@ -1,27 +1,24 @@
-<app-breadcrumb [title]="'Sample Page'" [items]="['other']" [active_item]="'Sample'"></app-breadcrumb>
 <br>
-<div class="row">
-  <div class="col-2"></div>
-  <div class="col-8">
     <div class="card">
-      <div class="card-header bg-success">
+      <div class="card-header bg-primary">
         <div class="text-center">
-          <h3 style="color: azure;">Listar Cargos</h3>
+          <h3 style="color: azure;">Listar Trayectos</h3>
         </div>
       </div>
       <div class="card-body">
+        <button class="btn btn-primary">+ Nuevo</button>
         <table  class="table">
           <thead>
               <tr>
                 <th>Id</th>
-                <th>Cargos</th>
+                <th>Trayecto</th>
                 <th>Acciones</th>
               </tr>
           </thead>
           <tbody>
-            <tr >
-              <td>Uno</td>
-              <td>Dos</td>
+            <tr *ngFor="let item of trayectos">
+              <td>{{item.tray_Id}}</td>
+              <td>{{item.tray_Descripcion}}</td>
               <td>
                 <button class="btn btn-warning">Editar</button>
                 <button class="btn btn-danger" style="margin-left: 10px;">Eliminar</button>
@@ -32,6 +29,3 @@
         </table>
       </div>
     </div>
-  </div>
-  <div class="col-2"></div>
-</div>
