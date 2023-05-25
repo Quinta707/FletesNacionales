@@ -159,7 +159,7 @@ namespace FletesNacionales.DataAccess.Context
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.muni_Codigo)
+                entity.Property(e => e.muni_Id)
                     .IsRequired()
                     .HasMaxLength(4)
                     .IsUnicode(false)
@@ -273,7 +273,7 @@ namespace FletesNacionales.DataAccess.Context
                     .HasMaxLength(13)
                     .IsUnicode(false);
 
-                entity.Property(e => e.muni_Codigo)
+                entity.Property(e => e.muni_Id)
                     .IsRequired()
                     .HasMaxLength(4)
                     .IsUnicode(false)
@@ -314,7 +314,7 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.Property(e => e.estr_FechaModificacion).HasColumnType("datetime");
 
-                entity.Property(e => e.muni_Codigo)
+                entity.Property(e => e.muni_Id)
                     .IsRequired()
                     .HasMaxLength(4)
                     .IsUnicode(false)
@@ -520,13 +520,13 @@ namespace FletesNacionales.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(100);
 
-                entity.Property(e => e.muni_CodigoFinal)
+                entity.Property(e => e.muni_IdFinal)
                     .IsRequired()
                     .HasMaxLength(4)
                     .IsUnicode(false)
                     .IsFixedLength(true);
 
-                entity.Property(e => e.muni_CodigoInicio)
+                entity.Property(e => e.muni_IdInicio)
                     .IsRequired()
                     .HasMaxLength(4)
                     .IsUnicode(false)
@@ -683,7 +683,7 @@ namespace FletesNacionales.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(100);
 
-                entity.Property(e => e.muni_Codigo)
+                entity.Property(e => e.muni_Id)
                     .IsRequired()
                     .HasMaxLength(4)
                     .IsUnicode(false)
@@ -1632,7 +1632,7 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToTable("tbMunicipios", "gral");
 
-                entity.Property(e => e.muni_Codigo)
+                entity.Property(e => e.muni_Id)
                     .IsRequired()
                     .HasMaxLength(4)
                     .IsUnicode(false)

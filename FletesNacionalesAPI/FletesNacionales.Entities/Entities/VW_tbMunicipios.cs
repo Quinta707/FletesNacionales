@@ -10,7 +10,7 @@ namespace FletesNacionales.Entities.Entities
     {
         public int muni_Id { get; set; }
         public string muni_Nombre { get; set; }
-        public string muni_Codigo { get; set; }
+        public string muni_Id { get; set; }
         public int depa_Id { get; set; }
         public string depa_Nombre { get; set; }
         public int muni_UsuCreacion { get; set; }

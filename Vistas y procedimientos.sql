@@ -153,7 +153,6 @@ CREATE OR ALTER VIEW gral.VW_tbDepartamentos
 AS
 SELECT	depa_Id, 
 		depa_Nombre, 
-		depa_Codigo, 
 		depa_UsuCreacion, 
 		depa_Habilitado,
 		CASE
@@ -176,19 +175,19 @@ ON T1.depa_UsuModificacion = T3.[user_Id];
 GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbDepartamentos_Insert
 (@depa_Nombre			NVARCHAR(100),
-@depa_Codigo			CHAR(2),
+@depa_Id			CHAR(2),
  @depa_UsuCreacion		INT)
 AS
 BEGIN
 	BEGIN TRY
-		IF EXISTS (SELECT * FROM gral.tbDepartamentos WHERE (depa_Nombre = @depa_Nombre OR depa_Codigo = @depa_Codigo) AND depa_Estado = 1)
+		IF EXISTS (SELECT * FROM gral.tbDepartamentos WHERE (depa_Nombre = @depa_Nombre OR depa_Id = @depa_Id) AND depa_Estado = 1)
 			BEGIN
 				SELECT -2 
 			END
 		ELSE IF NOT EXISTS (SELECT * FROM gral.tbDepartamentos WHERE depa_Nombre = @depa_Nombre)
 			BEGIN
-				INSERT INTO [gral].[tbDepartamentos] (depa_Nombre, depa_Codigo, depa_UsuCreacion, depa_UsuModificacion, depa_FechaModificacion)
-				VALUES (@depa_Nombre, @depa_Codigo, @depa_UsuCreacion, NULL, NULL);
+				INSERT INTO [gral].[tbDepartamentos] (depa_Nombre, depa_Id, depa_UsuCreacion, depa_UsuModificacion, depa_FechaModificacion)
+				VALUES (@depa_Nombre, @depa_Id, @depa_UsuCreacion, NULL, NULL);
 
 				SELECT 1 
 			END
@@ -196,7 +195,7 @@ BEGIN
 			BEGIN
 				UPDATE gral.tbDepartamentos
 				SET depa_Nombre = @depa_Nombre, 
-					depa_Codigo = @depa_Codigo,				
+					depa_Id = @depa_Id,				
 					depa_UsuCreacion = @depa_UsuCreacion, 
 					depa_FechaCreacion = GETDATE(), 
 					depa_UsuModificacion = NULL, 
@@ -218,12 +217,11 @@ GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbDepartamentos_Update
 (@depa_Id INT,
  @depa_Nombre NVARCHAR(100),
- @depa_Codigo CHAR(2),
  @depa_UsuModificacion INT)
 AS
 BEGIN
 	BEGIN TRY
-		IF EXISTS (SELECT * FROM gral.tbDepartamentos WHERE ((depa_Nombre = @depa_Nombre OR depa_Codigo = @depa_Codigo) AND depa_Id != @depa_Id))
+		IF EXISTS (SELECT * FROM gral.tbDepartamentos WHERE ((depa_Nombre = @depa_Nombre OR depa_Id = @depa_Id) AND depa_Id != @depa_Id))
 			BEGIN
 				SELECT -2 
 			END
@@ -231,7 +229,6 @@ BEGIN
 			BEGIN
 				UPDATE gral.tbDepartamentos
 				SET   depa_Nombre = @depa_Nombre,  
-					  depa_Codigo = @depa_Codigo,
 					  depa_UsuModificacion = @depa_UsuModificacion, 
 					  depa_FechaModificacion = GETDATE()
 				WHERE depa_Id = @depa_Id		
@@ -303,7 +300,6 @@ CREATE OR ALTER VIEW gral.VW_tbMunicipios
 AS
 SELECT	muni_Id, 
 		muni_Nombre, 
-		muni_Codigo, 
 		T1.depa_Id, 
 		T2.depa_Nombre,
 		muni_UsuCreacion, 
@@ -328,13 +324,13 @@ ON T1.muni_UsuModificacion = t4.user_Id
 GO 
 CREATE OR ALTER PROCEDURE gral.UDP_tbMunicipios_Insert
 (@muni_Nombre NVARCHAR(100),
- @muni_Codigo char(4),
- @depa_Id INT,
+ @muni_Id char(4),
+ @depa_Id char(2),
  @muni_UsuCreacion INT)
 AS
 BEGIN
 	BEGIN TRY
-		IF EXISTS (SELECT * FROM gral.tbMunicipios WHERE muni_Codigo = @muni_Codigo AND muni_Estado = 1)
+		IF EXISTS (SELECT * FROM gral.tbMunicipios WHERE muni_Id = @muni_Id AND muni_Estado = 1)
 			BEGIN
 				SELECT -2 
 			END
@@ -342,10 +338,10 @@ BEGIN
 			BEGIN
 				SELECT -2
 			END
-		ELSE IF NOT EXISTS (SELECT * FROM gral.tbMunicipios WHERE muni_Codigo = @muni_Codigo)
+		ELSE IF NOT EXISTS (SELECT * FROM gral.tbMunicipios WHERE muni_Id = @muni_Id)
 			BEGIN
-				INSERT INTO [gral].[tbMunicipios] (muni_Nombre, muni_Codigo, depa_Id, muni_UsuCreacion, muni_UsuModificacion, muni_FechaModificacion)
-				VALUES (@muni_Nombre, @muni_Codigo, @depa_Id, @muni_UsuCreacion, NULL, NULL);
+				INSERT INTO [gral].[tbMunicipios] (muni_Nombre, muni_Id, depa_Id, muni_UsuCreacion, muni_UsuModificacion, muni_FechaModificacion)
+				VALUES (@muni_Nombre, @muni_Id,@depa_Id, @muni_UsuCreacion, NULL, NULL);
 
 				SELECT 1 
 			END
@@ -359,7 +355,7 @@ BEGIN
 					muni_UsuModificacion = NULL, 
 					muni_FechaModificacion = NULL, 
 					muni_Estado = 1
-				WHERE muni_Codigo = @muni_Codigo
+				WHERE muni_Id = @muni_Id
 				
 
 				SELECT 1 
@@ -435,7 +431,7 @@ CREATE OR ALTER PROCEDURE gral.UDP_tbMunicipios_Index
 AS
 BEGIN
 	SELECT * FROM gral.VW_tbMunicipios 
-	WHERE muni_Estado = 1 order by muni_Codigo ;
+	WHERE muni_Estado = 1 order by muni_Id ;
 END
 
 --**************  FIND  ******************--
@@ -494,7 +490,7 @@ BEGIN
     BEGIN
       UPDATE [gral].[tbEstadosCiviles] 
       SET eciv_Estado = 1,
-          eciv_UsuCreacion =  @eciv_UsuCreacion,
+          eciv_UsuCreacion = @eciv_UsuCreacion,
           eciv_FechaCreacion = GETDATE(),
           eciv_UsuModificacion = NULL,
           eciv_FechaModificacion = NULL
@@ -1421,10 +1417,8 @@ SELECT	clie_Id,
 		T1.eciv_Id, 
 		T6.eciv_Descripcion,
 		T1.muni_Id, 
-		T4.muni_Codigo,
 		T4.muni_Nombre,
 		T5.depa_Id,
-		T5.depa_Codigo,
 		T5.depa_Nombre,
 		clie_DireccionExacta, 
 		clie_Telefono,
@@ -1598,11 +1592,9 @@ SELECT T1.[empe_Id]
       ,[empe_Sexo]
       ,T1.[eciv_Id]
 	  ,T4.eciv_Descripcion
-      ,T1.[muni_Id]
-	  ,T5.muni_Codigo
+	  ,T5.muni_Id
 	  ,T5.muni_Nombre
 	  ,T6.depa_Id
-	  ,T6.depa_Codigo
 	  ,T6.depa_Nombre
       ,[empe_DireccionExacta]
       ,[empe_Telefono]
@@ -1826,10 +1818,9 @@ AS
 SELECT	estr_Id, 
 		T1.flet_Id,
 		muni_Escala, 
-		T5.muni_Codigo,
+		T5.muni_Id,
 		T5.muni_Nombre,
 		T6.depa_Id,
-		T6.depa_Codigo,
 		T6.depa_Nombre,
 		estr_UsuCreacion, 
 		estr_FechaCreacion, 
@@ -2153,9 +2144,9 @@ SELECT	flet_Id,
 		T7.muni_Inicio,
 		T7.muni_Final,
 		T8.muni_Nombre AS muni_NombreInicio,
-		T8.muni_Codigo AS muni_CodigoInicio,
+		T8.muni_Id AS muni_IdInicio,
 		T9.muni_Nombre AS muni_NombreFinal,
-		T9.muni_Codigo AS muni_CodigoFinal,
+		T9.muni_Id AS muni_IdFinal,
 		flet_FechaDeSalida, 
 		flet_UsuCreacion, 
 		flet_FechaCreacion, 
