@@ -28,6 +28,8 @@ import { TrayectosIndexComponent } from './trayectos/trayectos-index/trayectos-i
 import { PedidosIndexComponent } from './pedidos/pedidos-index/pedidos-index.component';
 
 
+import { GoogleMapsModule } from "@angular/google-maps";
+
 @NgModule({
   declarations: [
     FleteListComponent,
@@ -46,6 +48,7 @@ import { PedidosIndexComponent } from './pedidos/pedidos-index/pedidos-index.com
   imports: [
     CommonModule,
     FletRoutingModule,
+    GoogleMapsModule,
     FormsModule,
     NgSelectModule,
     HttpClientModule,

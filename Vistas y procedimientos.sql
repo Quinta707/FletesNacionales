@@ -2221,7 +2221,7 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_Insert
 @vehi_Id			INT, 
 @empe_Id			INT, 
 @tray_Id			INT, 
-@flet_FechaDeSalida DATE, 
+@flet_FechaDeSalida NVARCHAR(100), 
 @flet_UsuCreacion	INT
 )
 AS
@@ -2241,13 +2241,13 @@ BEGIN
 			SET vehi_EnUso = 1
 			WHERE @vehi_Id = vehi_Id
 
+			SELECT SCOPE_IDENTITY()
 			COMMIT
-			SELECT 1 
 		END
 	END TRY
 	BEGIN CATCH
-		ROLLBACK
 		SELECT 0 
+		ROLLBACK
 	END CATCH
 END
 

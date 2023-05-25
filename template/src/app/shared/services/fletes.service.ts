@@ -132,16 +132,16 @@ export class TableService {
         );
     
         // 3. Parsear la fecha
-        tableItem.forEach((item) => {
-            if (typeof item.flet_FechaDeSalida === 'string') {
-              item.flet_FechaDeSalidaParseada = new Date(item.flet_FechaDeSalida);
-              item.flet_FechaDeSalida = item.flet_FechaDeSalidaParseada.toLocaleDateString('es-ES', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-              });
-            }
-          });
+        // tableItem.forEach((item) => {
+        //     if (typeof item.flet_FechaDeSalida === 'string') {
+        //       item.flet_FechaDeSalidaParseada = new Date(item.flet_FechaDeSalida);
+        //       item.flet_FechaDeSalida = item.flet_FechaDeSalidaParseada.toLocaleDateString('es-ES', {
+        //         day: '2-digit',
+        //         month: '2-digit',
+        //         year: 'numeric'
+        //       });
+        //     }
+        //   });
           
     
         tableItem = tableItem
@@ -182,9 +182,16 @@ export class TableService {
   
   
   postTrayectoCreate(data: Trayectos){
-    return this.http.post<Trayectos[]>(Global+"Trayectos/Insertar",data)
+    return this.http.post<any>(Global+"Trayectos/Insertar",data)
   }
 
+  postInsertarFlete(data: any){
+    return this.http.post<any>(Global+"Fletes/Insertar",data)
+  }
+  
+  postInsertarFleteDetalles(data: any){
+    return this.http.post<any>(Global+"Fletes/InsertarDetalles",data)
+  }
 
 }
 

@@ -58,6 +58,7 @@
                       <div class="col-form-label">Fecha de salida</div>
                       <input  class="datepicker-here form-control digits text-dark"
                               formControlName="flet_FechaDeSalida"
+                              [(ngModel)]="datosFelte.flet_FechaDeSalida"
                               placeholder="yyyy-mm-dd"
                               name="dp"
                               ngbDatepicker
@@ -72,7 +73,7 @@
                   </div>
                   <button class="btn btn-primary pull-right mt-3" type="submit" awNextStep (click)="seleccionarPedidos(content1)"
                     [disabled]="!firstFormGroup.valid">Siguiente</button>
-                </form>
+                </form> 
               </aw-wizard-step>
               <aw-wizard-step>
                 <form [formGroup]="secondFormGroup">
@@ -135,23 +136,144 @@
                   </div>
                  
                   
-                  <button class="btn btn-primary pull-right" (click)="guardarEliminar()" type="button" awNextStep
-                    [disabled]="!secondFormGroup.valid || pesoMax >= pesoUso || voluMax >= voluUso">Listo</button>
+                  <button class="btn btn-primary pull-right" (click)="guardar()" type="button" awNextStep
+                    [disabled]="!secondFormGroup.valid || pesoMax < pesoUso || voluMax < voluUso">Listo</button>
                   <button class="btn btn-secondary pull-right me-1" type="button" awPreviousStep>Anterior</button>
                 </form>
               </aw-wizard-step>
               <aw-wizard-completion-step awEnableBackLinks>
-                <form>
-                  <ng-template awWizardStepSymbol>
+                <ng-template awWizardStepSymbol>
                     <div class="f1-step">
                       <div class="f1-step-icon"><i class="icofont icofont-truck-loaded"></i></div>
                       <p>Listo</p>
                     </div>
                   </ng-template>
+                <div class="px-4">
+                  <div class="row mt-4">
+                    <div class="col-sm-4" style="border-right: 2px solid black;">
+                      <img src="https://i.ibb.co/D56drx0/11669662-20943860.jpg" alt="No tienes pedidos pendientes" width="100%">
+                  </div>
+                  <div class="col-sm-8">
+                    <div class="row mt-4 d-flex justify-content-between">
+                      <div class="col">
+                        <h3>Flete</h3>
+                      </div>
+                      <div class="col text-end">
+                        <h3>Nº 28</h3>
+                      </div>
+                    </div>
+                    <div class="row mt-4 d-flex justify-content-between">
+                      <div class="col">
+                        <h5>Conductor:</h5>
+                      </div>
+                      <div class="col text-end">
+                        <h5>Mario Andreti De Senna</h5>
+                      </div>
+                    </div>
+                    <div class="row mt-2 d-flex justify-content-between">
+                      <div class="col">
+                        <h5>Vehiculo:</h5>
+                      </div>
+                      <div class="col text-end">
+                        <h5>Nissan Skyline R34 <br> #HBO 1542</h5>
+                      </div>
+                    </div>
+                    <div class="row mt-2 d-flex justify-content-between">
+                      <div class="col">
+                        <h5>Fecha de salida:</h5>
+                      </div>
+                      <div class="col text-end">
+                        <h5>10/10/2023</h5>
+                      </div>
+                    </div>
+                    <div class="row mt-2 d-flex justify-content-between">
+                      <div class="col">
+                        <table>
+                          <tbody>
+                            <tr>
+                              <td><h5>Desde:</h5></td>
+                              <td><h5>Choloma</h5></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="col d-flex justify-content-end">
+                        <table>
+                          <tbody>
+                            <tr>
+                              <td><h5>Hasta:</h5></td>
+                              <td><h5>Choloma</h5></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row card-body">
+                  <div class="col">
+                    <h5>Pedidos</h5>
+                    <ngb-accordion #acc="ngbAccordion">
+                      <ngb-panel>
+                        <ng-template ngbPanelTitle>
+                          <span><h6> Pedido de Margarido clotacio, Destino: lomas </h6></span>
+                        </ng-template>
+                        <ng-template ngbPanelContent>
+                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
+                          moon officia
+                          aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
+                          moon tempor,
+                          sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim
+                          keffiyeh helvetica,
+                          craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo.
+                          Leggings
+                          occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
+                          accusamus
+                          labore sustainable VHS.
+                        </ng-template>
+                      </ngb-panel>
+                      <ngb-panel>
+                        <ng-template ngbPanelTitle>
+                          <span><h6> Pedido de Margarido clotacio, Destino: lomas </h6></span>
+                        </ng-template>
+                        <ng-template ngbPanelContent>
+                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
+                          moon officia
+                          aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
+                          moon tempor,
+                          sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim
+                          keffiyeh helvetica,
+                          craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo.
+                          Leggings
+                          occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
+                          accusamus
+                          labore sustainable VHS.
+                        </ng-template>
+                      </ngb-panel>
+                    </ngb-accordion>
+                  </div>
+                </div>
+                <div class="row" hidden>
+                  <div class="col">
+                    <div class="card">
+                      <div class="card-header">
+                        <h5>Street View</h5>
+                      </div>
+                      <div class="card-body">
+                        <div class="map-js-height">
+                          <div class="my-google-map">
+                            <google-map height="500px" width="100%"></google-map>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                  
                   <button class="btn btn-success pull-right" type="button"
-                    [disabled]="">Finish</button>
+                    >Finish</button>
                   <button class="btn btn-secondary pull-right me-1" id="prevBtn" type="button" awPreviousStep>Anterior</button>
-                </form>
               </aw-wizard-completion-step>
             </aw-wizard>
           </div>

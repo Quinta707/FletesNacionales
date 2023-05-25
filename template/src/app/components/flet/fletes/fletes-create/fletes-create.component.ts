@@ -150,6 +150,8 @@ export class FleteCreateComponent implements OnInit {
     .subscribe((data: any)=>{
       if(data.tray_Id == 0){
         this.openModal(content1);
+      }else{
+        this.datosFelte.tray_Id = data.tray_Id;
       }
     })
 
@@ -185,7 +187,8 @@ export class FleteCreateComponent implements OnInit {
       this.datosTrayecto.tray_UsuCreacion = 1;
         this.service.postTrayectoCreate(this.datosTrayecto)
         .subscribe((data : any)=>{
-          if(data.message === "Exitoso"){
+          if(parseInt(data.message) > 0){
+            this.datosFelte.tray_Id = parseInt(data.message);
             Swal.fire({
               toast: true,
               position: 'top-end',
@@ -241,12 +244,53 @@ export class FleteCreateComponent implements OnInit {
     return { year: today.year, month: today.month, day: today.day };
   }
 
-  guardarEliminar() {
-    // Aquí puedes implementar la lógica para guardar o eliminar los elementos seleccionados en función de this.selectedItems
+  guardar() {
     if (this.pedidosSelect.pedi_Array.length > 0) {
-      // Realizar la acción de guardar o eliminar
+      this.datosFelte.flet_UsuCreacion = 1;
+      const vehiculo = this.firstFormGroup.value["vehi_Id"] 
+      const empleado = this.firstFormGroup.value["empe_Id"] 
+      const fecha = this.firstFormGroup.value["flet_FechaDeSalida"] 
+      console.log(fecha);
+      this.datosFelte.vehi_Id = parseInt(vehiculo.value);
+      this.datosFelte.empe_Id = parseInt(empleado.value);
+      this.datosFelte.flet_FechaDeSalida = new Date(fecha.year.toString()+'-'+fecha.month.toString()+'-'+fecha.day.toString());
+
+      console.log(this.datosFelte);
+      
+       this.service.postInsertarFlete(this.datosFelte)
+       .subscribe((data : any)=>{
+        console.log("inserto putas?",data)
+
+        let dataDetalles = {
+          "pedidosArray": this.pedidosSelect.pedi_Array,
+          "fdet_UsuCreacion": 1,
+          "flet_Id": parseInt(data.message),
+        }
+        this.service.postInsertarFleteDetalles(dataDetalles)
+       .subscribe((data : any)=>{
+        console.log("inserto putas?",data)
+
+        
+       })
+
+       })
+
+
     } else {
-      // No hay elementos seleccionados, mostrar un mensaje de error o realizar alguna otra acción
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+        title: 'Ha ocurrido un error',
+        icon: 'error'
+      }).then(() => {
+        this.wizard.goToStep(0); 
+        this.pesoUso = 0;
+        this.voluUso = 0;
+        this.pedidosSelect.pedi_Array = []
+      });
     }
   }
  }

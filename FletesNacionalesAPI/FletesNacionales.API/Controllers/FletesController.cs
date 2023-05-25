@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Agence.BusinessLogic;
+using AutoMapper;
 using FletesNacionales.API.Models;
 using FletesNacionales.BusinessLogic.Services;
 using FletesNacionales.Entities.Entities;
@@ -74,6 +75,22 @@ namespace FletesNacionales.API.Controllers
         {
             var response = _fletService.FletePedidos(flet_Id);
             return Ok(response);
+        }
+
+        [HttpPost("InsertarDetalles")]
+        public IActionResult InsertDetalles(FletesViewModel flete)
+        {
+            ServiceResult response = new();
+
+            foreach (var itemr in flete.pedidosArray)
+            {
+                flete.pedi_Id = itemr;
+                var item = _mapper.Map<tbFleteDetalles>(flete);
+                response = _fletService.InsertarFletesDetalles(item);
+            }
+
+                return Ok(response);
+
         }
 
     }

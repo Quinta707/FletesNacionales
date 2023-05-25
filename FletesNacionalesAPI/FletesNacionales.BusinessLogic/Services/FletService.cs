@@ -381,7 +381,37 @@ namespace FletesNacionales.BusinessLogic.Services
                 var list = _fletesRepository.Insert(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.SetMessage("Exitoso", ServiceResultType.Success);
+                    return result.SetMessage(list.CodeStatus.ToString(), ServiceResultType.Success);
+                }
+                else if (list.CodeStatus == -4)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
+                }
+                else if (list.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                }
+                else
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                }
+            }
+            catch (Exception xe)
+            {
+
+                return result.Error(xe.Message);
+            }
+        }
+        
+        public ServiceResult InsertarFletesDetalles(tbFleteDetalles item)
+        {
+            ServiceResult result = new ServiceResult();
+            try
+            {
+                var list = _fletesRepository.DetallesInsert(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.SetMessage(list.CodeStatus.ToString(), ServiceResultType.Success);
                 }
                 else if (list.CodeStatus == -2)
                 {
@@ -882,7 +912,7 @@ namespace FletesNacionales.BusinessLogic.Services
                 var list = _trayectosRepository.Insert(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.SetMessage("Exitoso", ServiceResultType.Success);
+                    return result.SetMessage(list.CodeStatus.ToString(), ServiceResultType.Success);
                 }
                 else if (list.CodeStatus == -2)
                 {

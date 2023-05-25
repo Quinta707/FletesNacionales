@@ -30,7 +30,7 @@ export class Flete{
 	muni_CodigoInicio!: String;
 	muni_NombreFinal!: String;
 	muni_CodigoFinal!: String;
-	flet_FechaDeSalida!: String;
+	flet_FechaDeSalida!: Date;
 	flet_UsuCreacion!: number;
 	flet_FechaCreacion!: String;
 	flet_UsuModificacion!: number;
