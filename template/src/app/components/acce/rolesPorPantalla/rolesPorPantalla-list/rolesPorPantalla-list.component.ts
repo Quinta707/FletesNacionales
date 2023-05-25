@@ -17,6 +17,11 @@ export class RolesporPantallaListComponent implements OnInit {
   
   rolesPorPantalla: RolesporPantalla[];
   closeResult: string;
+
+
+  outerTableData: any[] = [];
+
+  innerTableData: any[] = [];
   
   constructor(config: NgbModalConfig, private modalService: NgbModal, public service: TableService) {
     
@@ -49,10 +54,10 @@ export class RolesporPantallaListComponent implements OnInit {
 
   index(){
     this.service.getRolesporPantalla()
-    .subscribe((data: any)=>{
+    .subscribe((data: any)=>{      
       console.log(data.data)
-      
        this.rolesPorPantalla= data.data;
+       this.outerTableData = data.data
        this.service.setUserData(data.data)
     })
   }
@@ -66,6 +71,7 @@ export class RolesporPantallaListComponent implements OnInit {
 
   public tableItem$: Observable<RolesporPantalla[]>;
   public searchText;
+  public pantallas: [];
   total$: Observable<number>;
 
 
@@ -94,6 +100,26 @@ export class RolesporPantallaListComponent implements OnInit {
       
     })
   }
+  selectedRowIndex: number = -1;
 
+  toggleTasks(index: any): void {
+    if (index === this.selectedRowIndex) {
+      this.selectedRowIndex = -1;
+      this.innerTableData = [];
+    } else {
+      this.selectedRowIndex = index;
+
+      this.dataPantallas(index + 1);
+    }
+   
+  }
+
+  dataPantallas(id) {
+    this.service.findRolesporPantalla(id)
+    .subscribe((data: any)=>{
+      console.log(data)
+      this.innerTableData = data
+    })
+  }
  }
  

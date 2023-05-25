@@ -87,3 +87,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 .inner-table td {
   border: none;
 }
+
+.active-row {
+  background-color: #eff0f6;
+}

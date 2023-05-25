@@ -41,24 +41,38 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let item of tableItem$ | async">
-                        <td>
-                        <ngb-highlight [result]="item.role_Id" [term]="service.searchTerm"></ngb-highlight>
-                      </td>
-                      <td>
-                        <ngb-highlight [result]="item.role_Nombre" [term]="service.searchTerm"></ngb-highlight>
-                      </td>
-                      <td>
-                        <div class="action">
+                    <ng-container *ngFor="let outerRow of outerTableData; let i = index">
+                    <tr (click)="toggleTasks(i)">
+                        <td><ngb-highlight [result]="outerRow.role_Id" [term]="service.searchTerm"></ngb-highlight></td>
+                        <td><ngb-highlight [result]="outerRow.role_Nombre" [term]="service.searchTerm"></ngb-highlight></td>
+                      <td><div class="action">
                           <li class="edit" (click)="Actualizar(item, Update)">
-                            <a ><i class="icon-pencil-alt"></i></a>
-                          </li>
+                            <a ><i class="icon-pencil-alt"></i></a></li>
                           <li class="delete" (click)="Eliminar(item, Delete)">
-                            <a ><i class="icon-trash"></i></a>
-                          </li>
-                        </div>
+                            <a ><i class="icon-trash"></i></a></li>
+                      </div></td>
+                    </tr>
+                    <tr *ngIf="i === selectedRowIndex">
+                      <td colspan="3">
+                        <table class="inner-table table">
+                          <thead>
+                            <tr>
+                              <th>ID</th>
+                              <th>Nombre</th>
+                              <th>Esquema al que pertenece</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let innerRow of innerTableData">
+                              <td>{{ innerRow.pant_Id }}</td>
+                              <td>{{ innerRow.pant_Nombre }}</td>
+                              <td>{{ innerRow.pant_Menu }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </td>
                     </tr>
+                  </ng-container>
                   </tbody>
                 </table>
                 <div class="d-flex justify-content-between mt-3 mb-2 mx-1">
@@ -79,4 +93,5 @@
       </div>
     </div>
   </div>
+  
 </div>

@@ -172,23 +172,18 @@ export class TableService {
     return this.http.get<RolesporPantalla[]>(this.RolesporPantallaListado);
   }
 
-  RolesporPantallaCreate = Global + 'Roles/Insertar';
+  RolesporPantallaCreate = Global + 'Roles/InsertarRolxPantalla';
   createRolesporPantalla(Roles: RolesporPantalla){
     return this.http.post<RolesporPantalla[]>(this.RolesCreate, Roles);
   }
 
 
-  RolesporPantallaFind = Global + 'Roles/Buscar?id=';
+  RolesporPantallaFind = Global + 'Roles/BuscarRolxPantalla?id=';
   findRolesporPantalla(id?: number) {
     return this.http.get<RolesporPantalla[]>(this.RolesporPantallaFind + id);
   }
-  
-  RolesporPantallaUpdate = Global + 'Roles/Editar';
-  updateRolesporPantalla(RolesporPantalla: RolesporPantalla){
-    return this.http.put<RolesporPantalla[]>(this.RolesporPantallaUpdate, RolesporPantalla);
-  }
 
-  RolesporPantallaDelete = Global + 'Roles/Eliminar';
+  RolesporPantallaDelete = Global + 'Roles/EliminarRolxPantalla';
   deleteRolesporPantalla(RolesporPantalla: RolesporPantalla){
     return this.http.put<RolesporPantalla[]>(this.RolesporPantallaDelete, RolesporPantalla);
   }

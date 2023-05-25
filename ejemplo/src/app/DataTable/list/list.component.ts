@@ -9,47 +9,65 @@ import { RolesporPantalla } from 'src/app/Model/Roles';
   styleUrls: ['./my-component.component.css']
 })
 export class MyComponent {
-  constructor(private service: ServiceService, private router: Router){}
-  roles!: RolesporPantalla
-  ngOnInit(): void {
-    this.service.getRoles()
-    .subscribe((data: any) => {
-      this.roles = data.data
-      console.log(this.roles)
-    });
-  }
-
-  outerTableData = [
-    { id: 1, name: 'John', age: 30, showTasks: false, tasks: [
-      { id: 1, task: 'Task 1', status: 'Completed' },
-      { id: 2, task: 'Task 2', status: 'In Progress' },
-      { id: 3, task: 'Task 3', status: 'Pending' }
-    ]},
-    { id: 2, name: 'Jane', age: 25, showTasks: false, tasks: [
-      { id: 4, task: 'Task 4', status: 'Completed' },
-      { id: 5, task: 'Task 5', status: 'In Progress' },
-      { id: 6, task: 'Task 6', status: 'Pending' }
-    ]}
+  esquemas = ['Esquema 1', 'Esquema 2', 'Esquema 3', 'Esquema 4'];
+  pantallas = [
+    ['Pantalla 1', 'Pantalla 2', 'Pantalla 3', 'Pantalla 4', 'Pantalla 5'],
+    ['Pantalla 6', 'Pantalla 7', 'Pantalla 8', 'Pantalla 9', 'Pantalla 10'],
+    ['Pantalla 11', 'Pantalla 12', 'Pantalla 13', 'Pantalla 14', 'Pantalla 15'],
+    ['Pantalla 16', 'Pantalla 17', 'Pantalla 18', 'Pantalla 19', 'Pantalla 20']
   ];
-  toggleTasks(outerRow: any): void {
-    // Cerrar todas las tareas abiertas excepto la seleccionada
-    this.outerTableData.forEach((row: any) => {
-      if (row !== outerRow) {
-        row.showTasks = false;
-      }
-    });
 
-    // Alternar la tarea seleccionada
-    outerRow.showTasks = !outerRow.showTasks;
+  selectedEsquemas: string[] = [];
+  selectedPantallas: string[] = [];
 
-    // Si se abre la tarea, esperar a que termine la animación y desplazarse hasta ella
-    if (outerRow.showTasks) {
-      setTimeout(() => {
-        const element = document.getElementById('outer-row-' + outerRow.id);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 500); // Ajusta el tiempo según sea necesario para que coincida con la duración de la animación CSS
+  togglePantalla(esquemaIndex: number, pantallaIndex: number) {
+    const isSelected = this.isSelectedPantalla(esquemaIndex, pantallaIndex);
+    const pantalla = this.pantallas[esquemaIndex][pantallaIndex];
+
+    if (isSelected) {
+      this.selectedPantallas = this.selectedPantallas.filter(p => p !== pantalla);
+    } else {
+      this.selectedPantallas.push(pantalla);
     }
   }
+
+  isSelectedPantalla(esquemaIndex: number, pantallaIndex: number): boolean {
+    const pantalla = this.pantallas[esquemaIndex][pantallaIndex];
+    return this.selectedPantallas.includes(pantalla);
+  }
+
+  toggleEsquema(esquema: string, event: any) {
+    
+    if(event.target.checked == true)
+    {
+      console.log('se selecciono')
+      
+    }
+    else{
+      console.log('no se selecciono')
+    }
+    const isSelected = this.isSelectedEsquema(esquema);
+
+    if (isSelected) {
+      this.selectedEsquemas = this.selectedEsquemas.filter(e => e !== esquema);
+      this.selectedPantallas = this.selectedPantallas.filter(p => !p.startsWith(esquema));
+    } else {
+      this.selectedEsquemas.push(esquema);
+      this.selectedPantallas = this.selectedPantallas.concat(this.pantallas[this.esquemas.indexOf(esquema)]);
+    }
+  }
+
+  isSelectedEsquema(esquema: string): boolean {
+    return this.selectedEsquemas.includes(esquema);
+  }
+
+  deselectAll() {
+    this.selectedEsquemas = [];
+    this.selectedPantallas = [];
+  }
+
+  deselectPantallas(esquema: string) {
+    this.selectedPantallas = this.selectedPantallas.filter(p => !p.startsWith(esquema));
+  
+}
 }
