@@ -75,6 +75,7 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
 
             var parametros = new DynamicParameters();
+ 
 
             parametros.Add("@depa_Id", item.depa_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@depa_Nombre", item.depa_Nombre, DbType.String, ParameterDirection.Input);
