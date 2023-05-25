@@ -32,7 +32,7 @@ VALUES	('01','Atlántida', '1', 1, GETDATE(), NULL, NULL),
 GO
 
 --****************************************MUNICIPIOS****************************************--
-INSERT INTO gral.tbMunicipios(depa_Id, muni_Codigo, muni_Nombre, muni_Estado, muni_UsuCreacion, muni_FechaCreacion, muni_UsuModificacion, muni_FechaModificacion)
+INSERT INTO gral.tbMunicipios(depa_Id,  muni_Nombre, muni_Estado, muni_UsuCreacion, muni_FechaCreacion, muni_UsuModificacion, muni_FechaModificacion)
 VALUES	('01','0101','La Ceiba', '1', 1, GETDATE(), NULL, GETDATE()),
 		('01','0102','El Porvenir', '1', 1, GETDATE(), NULL, GETDATE()),
 		('01','0103','Tela', '1', 1, GETDATE(), NULL, GETDATE()),

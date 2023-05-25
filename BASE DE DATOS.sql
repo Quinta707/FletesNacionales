@@ -165,7 +165,7 @@ CREATE TABLE gral.tbMunicipios(
 	--muni_Id                 INT IDENTITY(1,1),
     muni_Nombre				NVARCHAR(80) NOT NULL,
 	muni_Id				CHAR(4)	NOT NULL,
-	depa_Id					INT	NOT NULL,
+	depa_Id					CHAR(2)	NOT NULL,
 	muni_UsuCreacion		INT	NOT NULL,
 	muni_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_muni_FechaCreacion DEFAULT(GETDATE()),
 	muni_UsuModificacion	INT,
@@ -555,7 +555,7 @@ GO
 CREATE TABLE flet.tbEscalasPorTrayecto(
 estr_Id						INT IDENTITY(1,1),
 flet_Id						INT NOT NULL,
-muni_Escala					INT NOT NULL,
+muni_Escala					char(4) NOT NULL,
 estr_UsuCreacion			INT NOT NULL,
 estr_FechaCreacion			DATETIME CONSTRAINT DF_flet_tbEscalasPorTrayecto_estr_FechaCreacion DEFAULT(GETDATE()),
 estr_UsuModificacion		INT ,
