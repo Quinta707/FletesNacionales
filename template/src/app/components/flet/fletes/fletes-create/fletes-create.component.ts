@@ -162,8 +162,8 @@ export class FleteCreateComponent implements OnInit {
     pedidosArray: ['', [Validators.required]]
   });
 
-  this.obtenerCoordenadas();
-  this.initMap()
+  // this.obtenerCoordenadas();
+  // this.initMap()
   }
 
   obtenerCoordenadas() {
@@ -233,8 +233,26 @@ export class FleteCreateComponent implements OnInit {
     this.service.getTrayectoId(this.firstFormGroup.value["muni_Inicio"],this.firstFormGroup.value["muni_Final"])
     .subscribe((data: any)=>{
       if(data.tray_Id == 0){
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          title: 'Sin trayectoria',
+          icon: 'warning'
+        })
         this.openModal(content1);
       }else{
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          title: 'Ingresa los mejores pedidos',
+          icon: 'success'
+        })
         this.datosFelte.tray_Id = data.tray_Id;
       }
     })

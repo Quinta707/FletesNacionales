@@ -15,7 +15,7 @@ namespace FletesNacionales.Entities.Entities
         public DateTime clie_FechaNacimiento { get; set; }
         public string clie_Sexo { get; set; }
         public int eciv_Id { get; set; }
-        public int muni_Id { get; set; }
+        public string muni_Id { get; set; }
         public string clie_DireccionExacta { get; set; }
         public string clie_Telefono { get; set; }
         public int clie_UsuCreacion { get; set; }

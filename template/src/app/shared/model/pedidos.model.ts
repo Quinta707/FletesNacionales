@@ -10,13 +10,13 @@ export class Pedidos{
       eciv_Id !: number;
       clie_DireccionExacta !: String;
       clie_Telefono !: String;
-      muni_Origen !: number;
+      muni_Origen !: String;
       pedi_OrigenNombre !: String;
-      pedi_DepaOrigenId !: number;
+      pedi_DepaOrigenId !: String;
       pedi_DepaOrigen !: String;
-      muni_Destino !: number;
+      muni_Destino !: String;
       pedi_DestinoNombre !: String;
-      pedi_DepaDestinoId !: number;
+      pedi_DepaDestinoId !: String;
       pedi_DepaDestino !: String;
       pedi_DestinoFinal !: String;
       estp_Id !: number;

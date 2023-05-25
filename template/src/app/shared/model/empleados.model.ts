@@ -8,10 +8,10 @@ export class Empleados{
   empe_Sexo!: String;
   eciv_Id!: number;
   eciv_Descripcion!: String;
-  muni_Id!: number;
+  muni_Id!: String;
   muni_Codigo!: String;
   muni_Nombre!: String;
-  depa_Id!: number;
+  depa_Id!: String;
   depa_Codigo!: String;
   depa_Nombre!: String;
   empe_DireccionExacta!: String;

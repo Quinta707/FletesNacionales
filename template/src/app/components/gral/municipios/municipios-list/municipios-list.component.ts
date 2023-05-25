@@ -80,7 +80,7 @@ export class MunicipiosListComponent implements OnInit {
   Actualizar(est: Municipios, content: any) {
     const id = est.muni_Id
 
-    this.service.findMunicipios(id ?? 0)
+    this.service.findMunicipios(id ?? "0")
     .subscribe((data : any) =>{
       
       this.municipiosEditar = data;

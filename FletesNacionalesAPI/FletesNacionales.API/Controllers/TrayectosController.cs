@@ -62,7 +62,7 @@ namespace FletesNacionales.API.Controllers
         }
 
         [HttpGet("Existe")]
-        public IActionResult Existe(int desde, int hasta)
+        public IActionResult Existe(string desde, string hasta)
         {
             var list = _fletService.ExisteTrayecto(desde, hasta);
             return Ok(list);

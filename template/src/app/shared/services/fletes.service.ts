@@ -182,11 +182,11 @@ export class TableService {
     return this.http.get<Pedidos[]>(Global+"Pedidos/Listado")
   }
   
-  getPedidosPorMunicipio(id: number){
+  getPedidosPorMunicipio(id: string){
     return this.http.get<Pedidos[]>(Global+"Pedidos/PedidoPorMunicipio?muni="+id.toString())
   }
   
-  getTrayectoId(desde: number, hasta: number){
+  getTrayectoId(desde: string, hasta: string){
     return this.http.get<Trayectos[]>(Global+"Trayectos/Existe?desde="+desde.toString()+"&hasta="+hasta.toString())
   }
   

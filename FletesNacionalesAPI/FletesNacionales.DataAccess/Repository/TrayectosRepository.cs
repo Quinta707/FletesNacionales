@@ -31,12 +31,12 @@ namespace FletesNacionales.DataAccess.Repository
             var result = db.QueryFirst<VW_tbTrayectos>(ScriptsDataBase.TrayectosFind, parametros, commandType: System.Data.CommandType.StoredProcedure);
             return result;
         }
-         public VW_tbTrayectos Exists(int desde, int hasta)
+         public VW_tbTrayectos Exists(string desde, string hasta)
         {
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
-            parametros.Add("@muni_Inicio", desde, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@muni_Final", hasta, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@muni_Inicio", desde, DbType.String, ParameterDirection.Input);
+            parametros.Add("@muni_Final", hasta, DbType.String, ParameterDirection.Input);
             var result = db.QueryFirst<VW_tbTrayectos>(ScriptsDataBase.TrayectosExiste, parametros, commandType: System.Data.CommandType.StoredProcedure);
             return result;
         }
@@ -46,8 +46,8 @@ namespace FletesNacionales.DataAccess.Repository
             RequestStatus resultado = new RequestStatus();
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
-            parametros.Add("@muni_Inicio", item.muni_Inicio, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@muni_Final", item.muni_Final, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@muni_Inicio", item.muni_Inicio, DbType.String, ParameterDirection.Input);
+            parametros.Add("@muni_Final", item.muni_Final, DbType.String, ParameterDirection.Input);
             parametros.Add("@tray_Precio", item.tray_Precio, DbType.Decimal, ParameterDirection.Input);
             parametros.Add("@tray_UsuCreacion", item.tray_UsuCreacion, DbType.Int32, ParameterDirection.Input);
 

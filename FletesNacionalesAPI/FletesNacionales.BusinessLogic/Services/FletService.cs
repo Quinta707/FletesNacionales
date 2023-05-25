@@ -967,7 +967,7 @@ namespace FletesNacionales.BusinessLogic.Services
             }
         }
 
-        public VW_tbTrayectos ExisteTrayecto(int desde, int hasta)
+        public VW_tbTrayectos ExisteTrayecto(string desde, string hasta)
         {
             try
             {

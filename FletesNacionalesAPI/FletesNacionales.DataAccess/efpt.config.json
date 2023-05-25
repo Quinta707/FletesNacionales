@@ -114,6 +114,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[acce].[VW_tbPantallasPorRoles]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[acce].[VW_tbRoles]",
          "ObjectType": 3
       },
@@ -206,7 +210,7 @@
          "ObjectType": 3
       }
    ],
-   "UiHint": "DESKTOP-383CMQ3\\MSSQLSERVERLOCAL.FletesNacionales",
+   "UiHint": "DESKTOP-IU26N4Q\\SQLEXPRESSLOCAL.FletesNacionales",
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": true,
    "UseDbContextSplitting": false,

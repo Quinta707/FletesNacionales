@@ -51,7 +51,7 @@ namespace FletesNacionales.DataAccess.Repository
             var parametros = new DynamicParameters();
 
             parametros.Add("@depa_Nombre", item.depa_Nombre, DbType.String, ParameterDirection.Input);
-            parametros.Add("@depa_Codigo", item.depa_Codigo, DbType.String, ParameterDirection.Input);
+            //parametros.Add("@depa_Codigo", item.depa_Codigo, DbType.String, ParameterDirection.Input);
             parametros.Add("@depa_UsuCreacion", item.depa_UsuCreacion, DbType.Int32, ParameterDirection.Input);
 
             var resultado = db.QueryFirst<int>(ScriptsDataBase.DepartamentosInsert, parametros, commandType: CommandType.StoredProcedure);
@@ -78,7 +78,7 @@ namespace FletesNacionales.DataAccess.Repository
 
             parametros.Add("@depa_Id", item.depa_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@depa_Nombre", item.depa_Nombre, DbType.String, ParameterDirection.Input);
-            parametros.Add("@depa_Codigo", item.depa_Codigo, DbType.String, ParameterDirection.Input);
+            //parametros.Add("@depa_Codigo", item.depa_Codigo, DbType.String, ParameterDirection.Input);
             parametros.Add("@depa_UsuModificacion", item.depa_UsuModificacion, DbType.Int32, ParameterDirection.Input);
 
             var resultado = db.QueryFirst<int>(ScriptsDataBase.DepartamentosUpdate, parametros, commandType: CommandType.StoredProcedure);

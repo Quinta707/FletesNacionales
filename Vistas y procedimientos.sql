@@ -3671,8 +3671,8 @@ END
 GO
 CREATE OR ALTER PROCEDURE flet.UDP_tbTrayectos_Existe
 (
-	@muni_Inicio INT,
-	@muni_Final INT
+	@muni_Inicio CHAR(4),
+	@muni_Final CHAR(4)
 )
 AS 
 BEGIN
@@ -3699,8 +3699,8 @@ END
 GO
 CREATE OR ALTER PROCEDURE flet.UDP_tbTrayectos_Insert
 (
-@muni_Inicio		INT,
-@muni_Final			INT, 
+@muni_Inicio		CHAR(4),
+@muni_Final			CHAR(4), 
 @tray_Precio		DECIMAL(18,2),
 @tray_UsuCreacion	INT
 )

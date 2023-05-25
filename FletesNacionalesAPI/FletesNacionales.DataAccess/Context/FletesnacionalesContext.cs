@@ -33,6 +33,7 @@ namespace FletesNacionales.DataAccess.Context
         public virtual DbSet<VW_tbMetodosdePago> VW_tbMetodosdePago { get; set; }
         public virtual DbSet<VW_tbModelos> VW_tbModelos { get; set; }
         public virtual DbSet<VW_tbMunicipios> VW_tbMunicipios { get; set; }
+        public virtual DbSet<VW_tbPantallasPorRoles> VW_tbPantallasPorRoles { get; set; }
         public virtual DbSet<VW_tbPedidoDetalles> VW_tbPedidoDetalles { get; set; }
         public virtual DbSet<VW_tbPedidos> VW_tbPedidos { get; set; }
         public virtual DbSet<VW_tbRoles> VW_tbRoles { get; set; }
@@ -145,7 +146,7 @@ namespace FletesNacionales.DataAccess.Context
                     .HasMaxLength(13)
                     .IsUnicode(false);
 
-                entity.Property(e => e.depa_Codigo)
+                entity.Property(e => e.depa_Id)
                     .IsRequired()
                     .HasMaxLength(2)
                     .IsUnicode(false)
@@ -182,15 +183,15 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToView("VW_tbDepartamentos", "gral");
 
-                entity.Property(e => e.depa_Codigo)
+                entity.Property(e => e.depa_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.depa_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.depa_Id)
                     .IsRequired()
                     .HasMaxLength(2)
                     .IsUnicode(false)
                     .IsFixedLength(true);
-
-                entity.Property(e => e.depa_FechaCreacion).HasColumnType("datetime");
-
-                entity.Property(e => e.depa_FechaModificacion).HasColumnType("datetime");
 
                 entity.Property(e => e.depa_Nombre)
                     .IsRequired()
@@ -218,7 +219,7 @@ namespace FletesNacionales.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(100);
 
-                entity.Property(e => e.depa_Codigo)
+                entity.Property(e => e.depa_Id)
                     .IsRequired()
                     .HasMaxLength(2)
                     .IsUnicode(false)
@@ -300,7 +301,7 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToView("VW_tbEscalasPorTrayecto", "flet");
 
-                entity.Property(e => e.depa_Codigo)
+                entity.Property(e => e.depa_Id)
                     .IsRequired()
                     .HasMaxLength(2)
                     .IsUnicode(false)
@@ -313,6 +314,12 @@ namespace FletesNacionales.DataAccess.Context
                 entity.Property(e => e.estr_FechaCreacion).HasColumnType("datetime");
 
                 entity.Property(e => e.estr_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.muni_Escala)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
 
                 entity.Property(e => e.muni_Id)
                     .IsRequired()
@@ -431,13 +438,43 @@ namespace FletesNacionales.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(100);
 
+                entity.Property(e => e.muni_Destino)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.muni_Id)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.muni_Origen)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
                 entity.Property(e => e.pedi_DepaDestino)
                     .IsRequired()
                     .HasMaxLength(100);
 
+                entity.Property(e => e.pedi_DepaDestinoId)
+                    .IsRequired()
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
                 entity.Property(e => e.pedi_DepaOrigen)
                     .IsRequired()
                     .HasMaxLength(100);
+
+                entity.Property(e => e.pedi_DepaOrigenId)
+                    .IsRequired()
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
 
                 entity.Property(e => e.pedi_DestinoNombre)
                     .IsRequired()
@@ -520,6 +557,18 @@ namespace FletesNacionales.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(100);
 
+                entity.Property(e => e.muni_Final)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.muni_Id)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
                 entity.Property(e => e.muni_IdFinal)
                     .IsRequired()
                     .HasMaxLength(4)
@@ -527,6 +576,12 @@ namespace FletesNacionales.DataAccess.Context
                     .IsFixedLength(true);
 
                 entity.Property(e => e.muni_IdInicio)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.muni_Inicio)
                     .IsRequired()
                     .HasMaxLength(4)
                     .IsUnicode(false)
@@ -679,19 +734,25 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToView("VW_tbMunicipios", "gral");
 
+                entity.Property(e => e.depa_Id)
+                    .IsRequired()
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
                 entity.Property(e => e.depa_Nombre)
                     .IsRequired()
                     .HasMaxLength(100);
+
+                entity.Property(e => e.muni_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.muni_FechaModificacion).HasColumnType("datetime");
 
                 entity.Property(e => e.muni_Id)
                     .IsRequired()
                     .HasMaxLength(4)
                     .IsUnicode(false)
                     .IsFixedLength(true);
-
-                entity.Property(e => e.muni_FechaCreacion).HasColumnType("datetime");
-
-                entity.Property(e => e.muni_FechaModificacion).HasColumnType("datetime");
 
                 entity.Property(e => e.muni_Nombre)
                     .IsRequired()
@@ -707,6 +768,37 @@ namespace FletesNacionales.DataAccess.Context
                     .HasMaxLength(100);
 
                 entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbPantallasPorRoles>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbPantallasPorRoles", "acce");
+
+                entity.Property(e => e.pant_Icono)
+                    .IsRequired()
+                    .HasMaxLength(300);
+
+                entity.Property(e => e.pant_Menu)
+                    .IsRequired()
+                    .HasMaxLength(300);
+
+                entity.Property(e => e.pant_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.pant_Url)
+                    .IsRequired()
+                    .HasMaxLength(300);
+
+                entity.Property(e => e.role_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.role_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.role_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
             });
 
             modelBuilder.Entity<VW_tbPedidoDetalles>(entity =>
@@ -770,13 +862,37 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.Property(e => e.estp_Nombre).HasMaxLength(150);
 
+                entity.Property(e => e.muni_Destino)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.muni_Origen)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
                 entity.Property(e => e.pedi_DepaDestino)
                     .IsRequired()
                     .HasMaxLength(100);
 
+                entity.Property(e => e.pedi_DepaDestinoId)
+                    .IsRequired()
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
                 entity.Property(e => e.pedi_DepaOrigen)
                     .IsRequired()
                     .HasMaxLength(100);
+
+                entity.Property(e => e.pedi_DepaOrigenId)
+                    .IsRequired()
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
 
                 entity.Property(e => e.pedi_DestinoFinal).HasMaxLength(250);
 
@@ -830,9 +946,21 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToView("VW_tbSucursales", "flet");
 
+                entity.Property(e => e.depa_Id)
+                    .IsRequired()
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
                 entity.Property(e => e.depa_Nombre)
                     .IsRequired()
                     .HasMaxLength(100);
+
+                entity.Property(e => e.muni_Id)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
 
                 entity.Property(e => e.muni_Nombre)
                     .IsRequired()
@@ -889,17 +1017,41 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToView("VW_tbTrayectos", "flet");
 
+                entity.Property(e => e.depa_Final)
+                    .IsRequired()
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
                 entity.Property(e => e.depa_FinalNombre)
                     .IsRequired()
                     .HasMaxLength(100);
+
+                entity.Property(e => e.depa_Inicio)
+                    .IsRequired()
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
 
                 entity.Property(e => e.depa_InicioNombre)
                     .IsRequired()
                     .HasMaxLength(100);
 
+                entity.Property(e => e.muni_Final)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
                 entity.Property(e => e.muni_FinalNombre)
                     .IsRequired()
                     .HasMaxLength(80);
+
+                entity.Property(e => e.muni_Inicio)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
 
                 entity.Property(e => e.muni_InicioNombre)
                     .IsRequired()
@@ -928,9 +1080,21 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToView("VW_tbUbicacionPorFlete", "flet");
 
+                entity.Property(e => e.depa_Id)
+                    .IsRequired()
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
                 entity.Property(e => e.depa_Nombre)
                     .IsRequired()
                     .HasMaxLength(100);
+
+                entity.Property(e => e.muni_Id)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
 
                 entity.Property(e => e.muni_Nombre)
                     .IsRequired()
@@ -1112,6 +1276,12 @@ namespace FletesNacionales.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(20);
 
+                entity.Property(e => e.muni_Id)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
                 entity.HasOne(d => d.clie_UsuCreacionNavigation)
                     .WithMany(p => p.tbClientesclie_UsuCreacionNavigation)
                     .HasForeignKey(d => d.clie_UsuCreacion)
@@ -1143,8 +1313,7 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToTable("tbDepartamentos", "gral");
 
-                entity.Property(e => e.depa_Codigo)
-                    .IsRequired()
+                entity.Property(e => e.depa_Id)
                     .HasMaxLength(2)
                     .IsUnicode(false)
                     .IsFixedLength(true);
@@ -1228,6 +1397,12 @@ namespace FletesNacionales.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(20);
 
+                entity.Property(e => e.muni_Id)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
                 entity.HasOne(d => d.carg)
                     .WithMany(p => p.tbEmpleados)
                     .HasForeignKey(d => d.carg_Id)
@@ -1278,6 +1453,12 @@ namespace FletesNacionales.DataAccess.Context
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.estr_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.muni_Escala)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
 
                 entity.HasOne(d => d.estr_UsuCreacionNavigation)
                     .WithMany(p => p.tbEscalasPorTrayectoestr_UsuCreacionNavigation)
@@ -1633,8 +1814,13 @@ namespace FletesNacionales.DataAccess.Context
                 entity.ToTable("tbMunicipios", "gral");
 
                 entity.Property(e => e.muni_Id)
-                    .IsRequired()
                     .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.depa_Id)
+                    .IsRequired()
+                    .HasMaxLength(2)
                     .IsUnicode(false)
                     .IsFixedLength(true);
 
@@ -1797,6 +1983,18 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.Property(e => e.estp_Id).HasDefaultValueSql("((1))");
 
+                entity.Property(e => e.muni_Destino)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.muni_Origen)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
                 entity.Property(e => e.pedi_DestinoFinal).HasMaxLength(250);
 
                 entity.Property(e => e.pedi_Estado).HasDefaultValueSql("((1))");
@@ -1844,7 +2042,7 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToTable("tbRoles", "acce");
 
-                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E43FB467D")
+                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E80339F82")
                     .IsUnique();
 
                 entity.Property(e => e.role_Estado)
@@ -1883,6 +2081,12 @@ namespace FletesNacionales.DataAccess.Context
                     .HasName("PK_flet_tbSucursales_sucu_Id");
 
                 entity.ToTable("tbSucursales", "flet");
+
+                entity.Property(e => e.muni_Id)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
 
                 entity.Property(e => e.sucu_Direccion)
                     .IsRequired()
@@ -1960,6 +2164,18 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToTable("tbTrayectos", "flet");
 
+                entity.Property(e => e.muni_Final)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.muni_Inicio)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
                 entity.Property(e => e.tray_Estado).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.tray_FechaCreacion)
@@ -2000,6 +2216,12 @@ namespace FletesNacionales.DataAccess.Context
                     .HasName("PK_flet_tbUbicacionPorFlete_ubif_Id");
 
                 entity.ToTable("tbUbicacionPorFlete", "flet");
+
+                entity.Property(e => e.muni_Id)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
 
                 entity.Property(e => e.ubif_Estado).HasDefaultValueSql("((1))");
 

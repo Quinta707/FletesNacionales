@@ -158,7 +158,7 @@ export class TableService {
   }
 
   MunicipiosFind = Global + 'Municipios/Buscar?id=';
-  findMunicipios(id?: number) {
+  findMunicipios(id?: String) {
     return this.http.get<Municipios[]>(this.MunicipiosFind + id);
   }
   
