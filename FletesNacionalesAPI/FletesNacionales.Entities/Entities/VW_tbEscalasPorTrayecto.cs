@@ -11,7 +11,7 @@ namespace FletesNacionales.Entities.Entities
         public int estr_Id { get; set; }
         public int flet_Id { get; set; }
         public int muni_Escala { get; set; }
-        public string muni_Codigo { get; set; }
+        public string muni_Id { get; set; }
         public string muni_Nombre { get; set; }
         public int depa_Id { get; set; }
         public string depa_Codigo { get; set; }

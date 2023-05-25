@@ -51,7 +51,7 @@ namespace FletesNacionales.DataAccess.Repository
             var parametros = new DynamicParameters();
 
             parametros.Add("@muni_Nombre", item.muni_Nombre, DbType.String, ParameterDirection.Input);
-            parametros.Add("@muni_Codigo", item.muni_Codigo, DbType.String, ParameterDirection.Input);
+            parametros.Add("@muni_Id", item.muni_Id, DbType.String, ParameterDirection.Input);
             parametros.Add("@depa_Id", item.depa_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@muni_UsuCreacion", 1 , DbType.Int32, ParameterDirection.Input);
 
