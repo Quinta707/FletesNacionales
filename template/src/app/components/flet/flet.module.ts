@@ -16,6 +16,7 @@ import { SucursalesListComponent } from './sucursales/sucursales-list/sucursales
 import { EmpleadosListComponent } from './empleados/empleados-list/empleados-list.component';
 import { EstadosdelpedidoListComponent } from './estadosdelpedido/estadosdelpedido-list/estadosdelpedido-list.component';
 import { TipodevehiculoListComponent } from './tipodevehiculo/tipodevehiculo-list/tipodevehiculo-list.component';
+import { DepartamentosListComponent } from './departamentos/departamentos-list/departamentos-list.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { TipodevehiculoListComponent } from './tipodevehiculo/tipodevehiculo-lis
     EmpleadosListComponent,
     EstadosdelpedidoListComponent,
     TipodevehiculoListComponent,
+    DepartamentosListComponent,
   ],
   imports: [
     CommonModule,
