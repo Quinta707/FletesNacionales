@@ -1,0 +1,27 @@
+<div class="card growth-wrap">
+  <div class="card-header card-no-border">
+    <div class="header-top">
+      <h5>Followers Growth</h5>
+      <div class="dropdown icon-dropdown">
+        <button class="btn dropdown-toggle" type="button" (click)="toggle()"><app-feather-icons [icon]="'more-horizontal'"></app-feather-icons></button>
+        <div class="dropdown-menu dropdown-menu-end" [class.show]="show"><a class="dropdown-item" href="#">Weekly</a><a class="dropdown-item" href="#">Monthly</a><a class="dropdown-item" href="#">Yearly</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body pt-0">
+    <div class="growth-wrapper">
+      <div id="growthchart">
+        <apx-chart
+          [series]="followersGrowth.series"
+          [chart]="followersGrowth.chart"
+          [grid]="followersGrowth.grid"
+          [colors]="followersGrowth.colors"
+          [plotOptions]="followersGrowth.plotOptions"
+          [stroke]="followersGrowth.stroke"
+          [xaxis]="followersGrowth.xaxis"
+          [yaxis]="followersGrowth.yaxis"
+        ></apx-chart>
+      </div>
+    </div>
+  </div>
+</div>

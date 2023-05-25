@@ -1,0 +1,39 @@
+<div class="container-fluid p-0">
+  <div class="row">
+    <div class="col-12">
+      <div class="login-card">
+        <div>
+          <div>
+            <a class="logo" routerLink="/">
+              <img class="img-fluid for-light" src="assets/images/logo/logo.png" alt="looginpage" />
+              <img class="img-fluid for-dark" src="assets/images/logo/logo_dark.png" alt="looginpage" />
+            </a>
+          </div>
+          <div class="login-main">
+            <form class="theme-form" [formGroup]="loginForm">
+              <h4>Iniciar sesión</h4>
+              <p>ingresa tu usuario y contraseña</p>
+              <ngb-alert *ngIf="successMessage" type="danger" [dismissible]="false" (closed)="successMessage = null">{{ successMessage }}
+              </ngb-alert>
+              <div class="form-group">
+                <label class="col-form-label">Usuario</label>
+                <input class="form-control" type="email" required="" placeholder="JIDS" formControlName="email" />
+                <div *ngIf="loginForm.controls.email.touched && loginForm.controls.email.errors?.required" class="text text-danger mt-1">El usuario es requerido</div>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">Contaseña</label>
+                <input class="form-control" [type]="show ? 'text' : 'password'" formControlName="password" required="" placeholder="*********" />
+                <div class="show-hide" (click)="showPassword()" *ngIf="!show"><span class="show"></span></div>
+                <div class="show-hide" (click)="showPassword()" *ngIf="show"><span class="hide"></span></div>
+                <div *ngIf="loginForm.controls.password.touched && loginForm.controls.password.errors?.required" class="text text-danger mt-1">La contraseña es requerida</div>
+              </div>
+              <div class="text-end mt-3">
+                <button class="btn btn-primary d-block w-100" [disabled]="!loginForm.valid" (click)="login()" type="button"><span>Iniciar sesión</span></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

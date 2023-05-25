@@ -1,0 +1,81 @@
+<app-breadcrumb [title]="'Marcas'" [items]="['Equipo']" [active_item]="'Marcas'"></app-breadcrumb>
+<div class="container-fluid">
+  <div class="row widget-grid">
+    <div class="col-sm-12">
+        <div class="card">
+          <img class="card-img-top" src="../../../../assets//images/equipo/headers/Marcas.png" alt="Card image cap">
+      </div>
+      
+    <div class="card">
+      <div class="card-body">
+        <button class="btn btn-outline-primary">+ Nuevo</button>
+        <br>
+        <div class="d-flex justify-content-between mb-2 mx-1">
+          <select class="form-select" style="color: #3c334d; width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+            <option [ngValue]="5">5 Elementos por pagina</option>
+            <option [ngValue]="10">10 Elementos por pagina</option>
+            <option [ngValue]="25">25 Elementos por pagina</option>
+            <option [ngValue]="50">50 Elementos por pagina</option>
+          </select>
+          <div class="col-4">
+            <div class="input-group">
+              <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
+              <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange(searchText)" placeholder="Buscar..." />
+            </div>
+          </div>
+        </div>
+        
+        <div class="row mt-3">
+          <div class="col-12">
+            <div class="custom-datatable noscroll">
+              <div class="custom-datatable table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col" sortable="marc_Id" (sort)="onSort($event)">Id</th>
+                      <th scope="col" sortable="marc_Descripcion" (sort)="onSort($event)">Marca</th>
+                      <th scope="col">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of tableMarca$ | async">
+                      <td scope="row">
+                        <ngb-highlight [result]="item.marc_Id" [term]="service.searchTerm"></ngb-highlight>
+                      </td>
+                      <td>
+                        <ngb-highlight [result]="item.marc_Nombre" [term]="service.searchTerm"></ngb-highlight>
+                      </td>
+
+                      <td>
+                        <div class="action">
+                          <li class="edit">
+                            <a href="#"><i class="icon-pencil-alt"></i></a>
+                          </li>
+                          <li class="delete" >
+                            <a href="#"><i class="icon-trash"></i></a>
+                          </li>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="d-flex justify-content-between mt-3 mb-2 mx-1">
+                  <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+                    <option [ngValue]="5">5 Elementos por pagina</option>
+                    <option [ngValue]="10">10 Elementos por pagina</option>
+                    <option [ngValue]="25">25 Elementos por pagina</option>
+                    <option [ngValue]="50">50 Elementos por pagina</option>
+                  </select>
+                  <ngb-pagination class="ms-3" [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize"> </ngb-pagination>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

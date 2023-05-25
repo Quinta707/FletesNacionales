@@ -1,0 +1,44 @@
+<div class="card height-equal">
+  <div class="card-header card-no-border">
+    <div class="header-top">
+      <h5>Recent Orders</h5>
+      <div class="card-header-right-icon">
+        <div class="dropdown icon-dropdown">
+          <button class="btn dropdown-toggle" type="button" (click)="toggle()">
+            <app-feather-icons [icon]="'more-horizontal'"></app-feather-icons>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end" [class.show]="show"><a class="dropdown-item" href="#">Weekly</a><a class="dropdown-item" href="#">Monthly</a><a class="dropdown-item" href="#">Yearly</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body pt-0">
+    <div class="row recent-wrapper">
+      <div class="col-xl-6">
+        <div class="recent-chart">
+          <div id="recentchart">
+            <apx-chart [series]="recentOrders.series" [chart]="recentOrders.chart" [plotOptions]="recentOrders.plotOptions" [fill]="recentOrders.fill" [stroke]="recentOrders.stroke" [labels]="recentOrders.labels" [responsive]="recentOrders.responsive"></apx-chart>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-6">
+        <ul class="order-content">
+          <li>
+            <span class="recent-circle bg-primary"> </span>
+            <div>
+              <span class="f-light f-w-500">Cancelled </span>
+              <h4 class="mt-1 mb-0">2,302<span class="f-light f-14 f-w-400 ms-1">(Last 6 Month) </span></h4>
+            </div>
+          </li>
+          <li>
+            <span class="recent-circle bg-info"></span>
+            <div>
+              <span class="f-light f-w-500">Delivered</span>
+              <h4 class="mt-1 mb-0">9,302<span class="f-light f-14 f-w-400 ms-1">(Last 6 Month) </span></h4>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

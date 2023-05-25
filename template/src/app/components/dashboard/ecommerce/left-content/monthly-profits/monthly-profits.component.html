@@ -1,0 +1,24 @@
+<div class="card">
+   <div class="card-header card-no-border">
+     <h5>Monthly Profits</h5>
+     <span class="f-light f-w-500 f-14">(Total profit growth of 30%)</span>
+   </div>
+   <div class="card-body pt-0">
+     <div class="monthly-profit">
+       <div id="profitmonthly">
+        <apx-chart
+          [labels]="monthlyProfits.labels"
+          [series]="monthlyProfits.series"
+          [chart]="monthlyProfits.chart"
+          [dataLabels]="monthlyProfits.dataLabels"
+          [legend]="monthlyProfits.legend"
+          [stroke]="monthlyProfits.stroke"
+          [plotOptions]="monthlyProfits.plotOptions"
+          [states]="monthlyProfits.states"
+          [colors]="monthlyProfits.colors"
+          [responsive]="monthlyProfits.responsive"
+        ></apx-chart>
+       </div>
+     </div>
+   </div>
+ </div>

@@ -1,0 +1,31 @@
+<div class="card schedule-card">
+   <div class="card-header card-no-border">
+     <div class="header-top">
+       <h5 class="m-0">Upcoming Schedule</h5>
+       <div class="card-header-right-icon"><a class="btn badge-light-primary" href="#">+ Create</a></div>
+     </div>
+   </div>
+   <div class="card-body pt-0"> 
+     <ul class="schedule-list"> 
+      <ng-container *ngFor="let item of upcomingSchedule">
+         <li class="{{item.colorClass}}"><img src="{{item.image}}" alt="profile">
+            <div> 
+              <h6 class="mb-1">{{item.courseName}}</h6>
+              <ul>
+                <li class="f-light">
+                  <svg class="fill-icon f-light">
+                    <use href="assets/svg/icon-sprite.svg#bag"></use>
+                  </svg><span>{{item.date}}</span>
+                </li>
+                <li class="f-light">
+                  <svg class="fill-icon f-success">
+                    <use href="assets/svg/icon-sprite.svg#clock"></use>
+                  </svg><span> {{item.time}}</span>
+                </li>
+              </ul>
+            </div>
+         </li>
+      </ng-container>
+     </ul>
+   </div>
+ </div>
