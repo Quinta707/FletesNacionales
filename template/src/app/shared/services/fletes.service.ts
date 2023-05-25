@@ -155,6 +155,16 @@ export class TableService {
   getFletes(){
     return this.http.get<Flete[]>(this.FletesListado);
   }
+  
+  
+  getBuscarFlete(id){
+    return this.http.get<Flete>(Global + "Fletes/Buscar?id=" + id);
+  }
+  
+  
+  getBuscarDetalles(id){
+    return this.http.get<Flete>(Global + "Fletes/FleteDetalles?flet_Id=" + id);
+  }
 
   getDllMunicipios(){
     return this.http.get<Municipios[]>(Global+"Municipios/Listado")

@@ -2334,8 +2334,10 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_PedidosPorFlete
 )
 AS 
 BEGIN
-	SELECT * FROM flet.VW_tbPedidos
-	WHERE pedi_Estado = 1 AND pedi_Id IN (SELECT pedi_Id FROM flet.tbFleteDetalles WHERE flet_Id = @flet_Id)
+	SELECT	 * 
+			,(SELECT pedi_Id, item_Nombre, item_Descripcion, item_Peso, item_Volumen FROM flet.VW_tbPedidoDetalles Td WHERE Td.pedi_Id = T1.pedi_Id FOR JSON AUTO) AS Items
+	FROM flet.VW_tbPedidos T1
+	WHERE pedi_Estado = 1 AND pedi_Id IN (SELECT pedi_Id FROM flet.tbFleteDetalles WHERE flet_Id = 9)
 END
 
 

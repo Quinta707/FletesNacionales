@@ -159,7 +159,7 @@
                         <h3>Flete</h3>
                       </div>
                       <div class="col text-end">
-                        <h3>Nº 28</h3>
+                        <h3>Nº {{nuevoFlete.flet_Id}}</h3>
                       </div>
                     </div>
                     <div class="row mt-4 d-flex justify-content-between">
@@ -167,7 +167,7 @@
                         <h5>Conductor:</h5>
                       </div>
                       <div class="col text-end">
-                        <h5>Mario Andreti De Senna</h5>
+                        <h5>{{nuevoFlete.empe_NombreCompleto}}</h5>
                       </div>
                     </div>
                     <div class="row mt-2 d-flex justify-content-between">
@@ -175,7 +175,7 @@
                         <h5>Vehiculo:</h5>
                       </div>
                       <div class="col text-end">
-                        <h5>Nissan Skyline R34 <br> #HBO 1542</h5>
+                        <h5>{{nuevoFlete.marc_Nombre}} {{nuevoFlete.mode_Nombre}} <br> {{nuevoFlete.vehi_Placa}}</h5>
                       </div>
                     </div>
                     <div class="row mt-2 d-flex justify-content-between">
@@ -183,7 +183,7 @@
                         <h5>Fecha de salida:</h5>
                       </div>
                       <div class="col text-end">
-                        <h5>10/10/2023</h5>
+                        <h5>{{nuevoFlete.flet_FechaDeSalida}}</h5>
                       </div>
                     </div>
                     <div class="row mt-2 d-flex justify-content-between">
@@ -192,7 +192,7 @@
                           <tbody>
                             <tr>
                               <td><h5>Desde:</h5></td>
-                              <td><h5>Choloma</h5></td>
+                              <td><h5>{{nuevoFlete.muni_NombreInicio}}</h5></td>
                             </tr>
                           </tbody>
                         </table>
@@ -202,7 +202,7 @@
                           <tbody>
                             <tr>
                               <td><h5>Hasta:</h5></td>
-                              <td><h5>Choloma</h5></td>
+                              <td><h5>{{nuevoFlete.muni_NombreFinal}}</h5></td>
                             </tr>
                           </tbody>
                         </table>
@@ -212,57 +212,68 @@
                 </div>
                 <div class="row card-body">
                   <div class="col">
-                    <h5>Pedidos</h5>
+                    <h5 class="ms-2">Pedidos</h5>
                     <ngb-accordion #acc="ngbAccordion">
-                      <ngb-panel>
+                      <ngb-panel *ngFor="let item of pedidosDelNuevoFlete$ | async">
                         <ng-template ngbPanelTitle>
-                          <span><h6> Pedido de Margarido clotacio, Destino: lomas </h6></span>
+                          <span>
+                            <h6>Pedido de {{item.clie_NombreCompleto}}</h6>
+                          </span>
                         </ng-template>
                         <ng-template ngbPanelContent>
-                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
-                          moon officia
-                          aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
-                          moon tempor,
-                          sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim
-                          keffiyeh helvetica,
-                          craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo.
-                          Leggings
-                          occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
-                          accusamus
-                          labore sustainable VHS.
-                        </ng-template>
-                      </ngb-panel>
-                      <ngb-panel>
-                        <ng-template ngbPanelTitle>
-                          <span><h6> Pedido de Margarido clotacio, Destino: lomas </h6></span>
-                        </ng-template>
-                        <ng-template ngbPanelContent>
-                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
-                          moon officia
-                          aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
-                          moon tempor,
-                          sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim
-                          keffiyeh helvetica,
-                          craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo.
-                          Leggings
-                          occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
-                          accusamus
-                          labore sustainable VHS.
+                          <div class="row">
+                            <div class="col">
+                              <span class="text-end"><strong>Direccion Exacta:</strong> {{item.pedi_DestinoFinal}}</span>
+                            </div>
+                          </div>
+                          <div class="row mt-2">
+                            <div class="col">
+                              <span class="text-end"><strong>Telefono:</strong> {{item.clie_Telefono}}</span>
+                            </div>
+                            <div class="col">
+                              <span class="text-end"><strong>Destino:</strong> {{item.pedi_DestinoNombre}}</span>
+                            </div>
+                            <hr>
+                          </div>
+                          <div class="row">
+                            <h5>Items</h5>
+                            <table class="table">
+                              <thead>
+                                <tr>
+                                  <th>Nombre</th>
+                                  <th>Modelo</th>
+                                  <th>Peso</th>
+                                  <th>Volumen</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                  <tr  *ngFor="let item2 of itemsArray$ | async">
+                                    <ng-container *ngIf="item.pedi_Id === item2.pedi_Id">
+                                    <td>{{item2.item_Nombre}}</td>
+                                    <td>{{item2.item_Descripcion}}</td>
+                                    <td>{{item2.item_Peso}}</td>
+                                    <td>{{item2.item_Volumen}}</td>
+                                    </ng-container>
+                                  </tr>
+                              </tbody>
+                            </table>
+                          </div>
+
                         </ng-template>
                       </ngb-panel>
                     </ngb-accordion>
                   </div>
                 </div>
-                <div class="row" hidden>
+                <div class="row">
                   <div class="col">
                     <div class="card">
                       <div class="card-header">
-                        <h5>Street View</h5>
+                        <h5>Ruta</h5>
                       </div>
                       <div class="card-body">
                         <div class="map-js-height">
                           <div class="my-google-map">
-                            <google-map height="500px" width="100%"></google-map>
+                            <google-map height="200" width="100%"></google-map>
                           </div>
                         </div>
                       </div>
@@ -341,3 +352,5 @@
     </div>
       </form>
   </ng-template>
+  Hola
+  <div id="map"></div>

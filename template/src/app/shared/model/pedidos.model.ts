@@ -29,5 +29,6 @@ export class Pedidos{
       user_Creacion !: String;
       user_Modificacion !: String;
       pedi_Array: any[] = [];
+      Items !: String;
 
 }

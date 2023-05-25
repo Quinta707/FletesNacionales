@@ -11,6 +11,10 @@ import { WizardComponent } from 'angular-archwizard';
 import {CustomValidator} from '../../../../shared/validators/OnlyNumbers'
 import Swal from 'sweetalert2';
 import { NgbCalendar, NgbDate, NgbDateParserFormatter, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { ChangeDetectorRef } from '@angular/core';
+import { Observable, of} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-flete-create',
@@ -27,6 +31,50 @@ export class FleteCreateComponent implements OnInit {
    //date pycker
     model: string;
 
+
+
+    //mapa
+
+    initMap() {
+      // Crea un nuevo objeto de mapa de Google
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12, // Nivel de zoom inicial
+        center: { lat: 0, lng: 0 } // Coordenadas iniciales (puede ser cualquier valor)
+      });
+    
+      // Nombre de la ciudad que deseas geocodificar
+      var city = 'San Pedro sula cortes';
+    
+      // Crea una instancia del objeto Geocoder de Google
+      var geocoder = new google.maps.Geocoder();
+    
+      // Realiza la solicitud de geocodificación
+      geocoder.geocode({ address: city }, function(results, status) {
+        if (status === 'OK') {
+          // Obtiene las coordenadas geográficas de la respuesta
+          var location = results[0].geometry.location;
+    
+          // Crea un marcador en el mapa utilizando las coordenadas obtenidas
+          var marker = new google.maps.Marker({
+            position: location,
+            map: map,
+            title: city
+          });
+    
+          // Centra el mapa en las coordenadas del marcador
+          map.setCenter(location);
+        } else {
+          alert('La geocodificación de la ciudad no tuvo éxito debido a: ' + status);
+        }
+      });
+    }
+
+
+
+    puntoA: string; // Nombre de la ciudad de origen
+    puntoB: string; // Nombre de la ciudad de destino
+    apiKey: string = 'AIzaSyBRu-kDG71cfTCa9JjgBH1eZ1j0oW91UXc';
+
   onNavChange(changeEvent: NgbNavChangeEvent) {
     if (changeEvent.nextId === 4) {
       changeEvent.preventDefault();
@@ -34,6 +82,13 @@ export class FleteCreateComponent implements OnInit {
   }
   
   modalRef: NgbModalRef;
+
+  //Nuevos Datos (after insert)
+  nuevoFlete: Flete = new Flete();
+  public pedidosDelNuevoFlete$: Observable<any[]>;
+  public itemsArray$: Observable<any[]>;
+  itemsArray: any[] = [];
+
 
 
 
@@ -107,15 +162,44 @@ export class FleteCreateComponent implements OnInit {
     pedidosArray: ['', [Validators.required]]
   });
 
+  this.obtenerCoordenadas();
+  this.initMap()
   }
 
+  obtenerCoordenadas() {
+    const geocodingUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=`;
+
+    // Obtener coordenadas del punto A (ciudad de origen)
+    this.http.get(`${geocodingUrl}${encodeURIComponent(this.puntoA)}&key=${this.apiKey}`)
+      .subscribe((response: any) => {
+        const results = response.results;
+        if (results.length > 0) {
+          const location = results[0].geometry.location;
+          const puntoACoordinates = `${location.lat},${location.lng}`;
+          this.puntoA = puntoACoordinates;
+        }
+      });
+
+    // Obtener coordenadas del punto B (ciudad de destino)
+    this.http.get(`${geocodingUrl}${encodeURIComponent(this.puntoB)}&key=${this.apiKey}`)
+      .subscribe((response: any) => {
+        const results = response.results;
+        if (results.length > 0) {
+          const location = results[0].geometry.location;
+          const puntoBCoordinates = `${location.lat},${location.lng}`;
+          this.puntoB = puntoBCoordinates;
+        }
+      });
+  }
 
   constructor(
     public service: TableService, 
     private _formBuilder: FormBuilder,
     private toaster: ToastrService,
     private modalService: NgbModal,
-    private calendar: NgbCalendar) 
+    private calendar: NgbCalendar,
+    private cdr: ChangeDetectorRef,
+    private http: HttpClient) 
     {
 
     }
@@ -250,27 +334,51 @@ export class FleteCreateComponent implements OnInit {
       const vehiculo = this.firstFormGroup.value["vehi_Id"] 
       const empleado = this.firstFormGroup.value["empe_Id"] 
       const fecha = this.firstFormGroup.value["flet_FechaDeSalida"] 
-      console.log(fecha);
       this.datosFelte.vehi_Id = parseInt(vehiculo.value);
       this.datosFelte.empe_Id = parseInt(empleado.value);
       this.datosFelte.flet_FechaDeSalida = new Date(fecha.year.toString()+'-'+fecha.month.toString()+'-'+fecha.day.toString());
-
-      console.log(this.datosFelte);
       
        this.service.postInsertarFlete(this.datosFelte)
        .subscribe((data : any)=>{
-        console.log("inserto putas?",data)
 
         let dataDetalles = {
           "pedidosArray": this.pedidosSelect.pedi_Array,
           "fdet_UsuCreacion": 1,
           "flet_Id": parseInt(data.message),
         }
+
         this.service.postInsertarFleteDetalles(dataDetalles)
        .subscribe((data : any)=>{
-        console.log("inserto putas?",data)
+        console.log(data)
+        if(data.message === "1"){
+          this.service.getBuscarFlete(dataDetalles.flet_Id)
+          .subscribe((data : any)=>{
+            this.nuevoFlete = data;
+              this.service.getBuscarDetalles(dataDetalles.flet_Id)
+              .subscribe((data : any)=>{
+                console.log(data.data)
+                this.pedidosDelNuevoFlete$ = of(data.data);
 
-        
+                data.data.forEach(element => {
+                  if (element.items && typeof element.items === 'string') {
+                  const itemsJSON = JSON.parse(element.items); // Parsear el campo "items" a un objeto o arreglo
+                  if (Array.isArray(itemsJSON)) {
+                    // Recorrer el arreglo de objetos
+                    for (const item of itemsJSON) {
+                      this.itemsArray.push(item); // Agregar cada elemento al arreglo itemsArray
+                    }
+
+                    
+                this.itemsArray$ = of(this.itemsArray);
+
+                  }
+                }
+                });
+              })
+          })
+        }
+
+
        })
 
        })
