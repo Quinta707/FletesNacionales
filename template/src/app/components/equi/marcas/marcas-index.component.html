@@ -1,22 +1,29 @@
+<div class="container">
 <app-breadcrumb [title]="'Marcas'" [items]="['Equipo']" [active_item]="'Marcas'"></app-breadcrumb>
-<div class="container-fluid">
   <div class="row widget-grid">
     <div class="col-sm-12">
-        <div class="card">
-          <img class="card-img-top" src="../../../../assets//images/equipo/headers/Marcas.png" alt="Card image cap">
+
+      <div class="shadow-lg">
+        <div class="card card-border">
+          <img class="card-img-top" style="border-radius: 12px;" src="../../../../assets//images/equipo/headers/Marcas.png" alt="Card image cap">
+        </div>  
       </div>
       
-    <div class="card">
+    <div>
+    <div class="card b-l-primary border-2 card-border" >
       <div class="card-body">
-        <button class="btn btn-outline-primary">+ Nuevo</button>
-        <br>
+        <button class="btn btn-success">+ Nuevo</button>
+        <br><br>
         <div class="d-flex justify-content-between mb-2 mx-1">
+          <div class="d-flex aling-content-center">
+            <label>Elementos a mostrar:</label>
           <select class="form-select" style="color: #3c334d; width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-            <option [ngValue]="5">5 Elementos por pagina</option>
-            <option [ngValue]="10">10 Elementos por pagina</option>
-            <option [ngValue]="25">25 Elementos por pagina</option>
-            <option [ngValue]="50">50 Elementos por pagina</option>
+            <option [ngValue]="5">5</option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="25">25</option>
+            <option [ngValue]="50">50</option>
           </select>
+          </div>
           <div class="col-4">
             <div class="input-group">
               <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
@@ -73,9 +80,9 @@
           </div>
         </div>
 
-
       </div>
     </div>
+  </div>
   </div>
   </div>
 </div>
