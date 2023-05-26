@@ -10,7 +10,7 @@
           <div class="card-body">
             <aw-wizard navBarLayout="large-filled-symbols">
               <aw-wizard-step>
-                <form [formGroup]="firstFormGroup">
+                <!-- <form [formGroup]="firstFormGroup">
                   <ng-template awWizardStepSymbol>
                     <div class="f1-step">
                       <div class="f1-step-icon"><i class="fa fa-truck" style="transform: scaleX(-1)"></i></div>
@@ -73,7 +73,155 @@
                   </div>
                   <button class="btn btn-primary pull-right mt-3" type="submit" awNextStep (click)="seleccionarPedidos(content1)"
                     [disabled]="!firstFormGroup.valid">Siguiente</button>
-                </form> 
+                </form>  -->
+                <ng-template awWizardStepSymbol>
+                  <div class="f1-step">
+                    <div class="f1-step-icon"><i class="icofont icofont-truck-loaded"></i></div>
+                    <p>Listo</p>
+                  </div>
+                </ng-template>
+                <div class="card">
+                  <div class="card-header">
+                    <h5>Map with Marker</h5>
+                  </div>
+                  <div class="card-body">
+                    <!-- <div class="map-height" leaflet [leafletOptions]="options4" (leafletMapReady)="onMapReady4($event)"></div> -->
+                  </div>
+                </div>
+              <div class="px-4">
+                <div class="row mt-4">
+                  <div class="col-sm-6" style="border-right: 2px solid black;">
+                    <div class="map-height" leaflet [leafletOptions]="options4" (leafletMapReady)="onMapReady4($event)"></div>
+                  
+                </div>
+                <div class="col-sm-4">
+                  <div class="row mt-6 d-flex justify-content-between">
+                    <div class="col">
+                      <h3>Flete</h3>
+                    </div>
+                    <div class="col text-end">
+                      <h3>Nº {{nuevoFlete.flet_Id}}</h3>
+                    </div>
+                  </div>
+                  <div class="row mt-4 d-flex justify-content-between">
+                    <div class="col">
+                      <h5>Conductor:</h5>
+                    </div>
+                    <div class="col text-end">
+                      <h5>{{nuevoFlete.empe_NombreCompleto}}</h5>
+                    </div>
+                  </div>
+                  <div class="row mt-2 d-flex justify-content-between">
+                    <div class="col">
+                      <h5>Vehiculo:</h5>
+                    </div>
+                    <div class="col text-end">
+                      <h5>{{nuevoFlete.marc_Nombre}} {{nuevoFlete.mode_Nombre}} <br> {{nuevoFlete.vehi_Placa}}</h5>
+                    </div>
+                  </div>
+                  <div class="row mt-2 d-flex justify-content-between">
+                    <div class="col">
+                      <h5>Fecha de salida:</h5>
+                    </div>
+                    <div class="col text-end">
+                      <h5>{{nuevoFlete.flet_FechaDeSalida}}</h5>
+                    </div>
+                  </div>
+                  <div class="row mt-2 d-flex justify-content-between">
+                    <div class="col">
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td><h5>Desde:</h5></td>
+                            <td><h5>{{nuevoFlete.muni_NombreInicio}}</h5></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="col d-flex justify-content-end">
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td><h5>Hasta:</h5></td>
+                            <td><h5>{{nuevoFlete.muni_NombreFinal}}</h5></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row card-body">
+                <div class="col">
+                  <h5 class="ms-2">Pedidos</h5>
+                  <ngb-accordion #acc="ngbAccordion">
+                    <ngb-panel *ngFor="let item of pedidosDelNuevoFlete$ | async">
+                      <ng-template ngbPanelTitle>
+                        <span>
+                          <h6>Pedido de {{item.clie_NombreCompleto}}</h6>
+                        </span>
+                      </ng-template>
+                      <ng-template ngbPanelContent>
+                        <div class="row">
+                          <div class="col">
+                            <span class="text-end"><strong>Direccion Exacta:</strong> {{item.pedi_DestinoFinal}}</span>
+                          </div>
+                        </div>
+                        <div class="row mt-2">
+                          <div class="col">
+                            <span class="text-end"><strong>Telefono:</strong> {{item.clie_Telefono}}</span>
+                          </div>
+                          <div class="col">
+                            <span class="text-end"><strong>Destino:</strong> {{item.pedi_DestinoNombre}}</span>
+                          </div>
+                          <hr>
+                        </div>
+                        <div class="row">
+                          <h5>Items</h5>
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th>Nombre</th>
+                                <th>Modelo</th>
+                                <th>Peso</th>
+                                <th>Volumen</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr  *ngFor="let item2 of itemsArray$ | async">
+                                  <ng-container *ngIf="item.pedi_Id === item2.pedi_Id">
+                                  <td>{{item2.item_Nombre}}</td>
+                                  <td>{{item2.item_Descripcion}}</td>
+                                  <td>{{item2.item_Peso}}</td>
+                                  <td>{{item2.item_Volumen}}</td>
+                                  </ng-container>
+                                </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                      </ng-template>
+                    </ngb-panel>
+                  </ngb-accordion>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="card">
+                    <div class="card-header">
+                      <h5>Ruta</h5>
+                    </div>
+                    <div class="card-body">
+                      <div class="map-js-height">
+                        <div class="my-google-map">
+                          <google-map height="200" width="100%"></google-map>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
               </aw-wizard-step>
               <aw-wizard-step>
                 <form [formGroup]="secondFormGroup">
@@ -142,7 +290,7 @@
                 </form>
               </aw-wizard-step>
               <aw-wizard-completion-step awEnableBackLinks>
-                <ng-template awWizardStepSymbol>
+                <!-- <ng-template awWizardStepSymbol>
                     <div class="f1-step">
                       <div class="f1-step-icon"><i class="icofont icofont-truck-loaded"></i></div>
                       <p>Listo</p>
@@ -151,7 +299,14 @@
                 <div class="px-4">
                   <div class="row mt-4">
                     <div class="col-sm-4" style="border-right: 2px solid black;">
-                      <img src="https://i.ibb.co/D56drx0/11669662-20943860.jpg" alt="No tienes pedidos pendientes" width="100%">
+                      <div class="card">
+                        <div class="card-header">
+                          <h5>Map with Marker</h5>
+                        </div>
+                        <div class="card-body">
+                          <div class="map-height" leaflet [leafletOptions]="options4" (leafletMapReady)="onMapReady4($event)"></div>
+                        </div>
+                      </div>
                   </div>
                   <div class="col-sm-8">
                     <div class="row mt-4 d-flex justify-content-between">
@@ -280,7 +435,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
                   
                   <button class="btn btn-success pull-right" type="button"
                     >Finish</button>
@@ -350,7 +505,10 @@
       <button type="button" class="btn btn-dark" (click)="nopModal()">Cancelar</button>
       <button type="button" class="btn btn-primary" [disabled]="!trayectoriaFormGroup.valid" (click)="siModal2()"  >Guardar</button>
     </div>
-      </form>
+  </form>
   </ng-template>
 
-  <div id="map"></div>
+  
+
+
+  <button type="button" class="btn btn-primary" (click)="updateHomeCoords()"  >Guardar</button>

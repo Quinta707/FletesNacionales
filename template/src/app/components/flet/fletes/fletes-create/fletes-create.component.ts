@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChildren,ViewChild  } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren,ViewChild, AfterViewInit} from '@angular/core';
 import { Flete } from '../../../../shared/model/fletes.model';
 import { Pedidos } from '../../../../shared/model/pedidos.model';
 import { Vehiculos } from '../../../../shared/model/vehiculos.model';
@@ -13,15 +13,15 @@ import Swal from 'sweetalert2';
 import { NgbCalendar, NgbDate, NgbDateParserFormatter, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { ChangeDetectorRef } from '@angular/core';
 import { Observable, of} from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-
+import * as L from 'leaflet';
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: 'app-flete-create',
   templateUrl: './fletes-create.component.html',
   styleUrls: ['./fletes-create.component.scss']
 })
-export class FleteCreateComponent implements OnInit {
+export class FleteCreateComponent implements OnInit  {
   @ViewChild(WizardComponent) wizard: WizardComponent;
   //Guardar datos del flete
    datosFelte: Flete = new Flete();
@@ -31,49 +31,98 @@ export class FleteCreateComponent implements OnInit {
    //date pycker
     model: string;
 
-
-
     //mapa
 
-    initMap() {
-      // Crea un nuevo objeto de mapa de Google
-      var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12, // Nivel de zoom inicial
-        center: { lat: 0, lng: 0 } // Coordenadas iniciales (puede ser cualquier valor)
-      });
-    
-      // Nombre de la ciudad que deseas geocodificar
-      var city = 'San Pedro sula cortes';
-    
-      // Crea una instancia del objeto Geocoder de Google
-      var geocoder = new google.maps.Geocoder();
-    
-      // Realiza la solicitud de geocodificación
-      geocoder.geocode({ address: city }, function(results, status) {
-        if (status === 'OK') {
-          // Obtiene las coordenadas geográficas de la respuesta
-          var location = results[0].geometry.location;
-    
-          // Crea un marcador en el mapa utilizando las coordenadas obtenidas
-          var marker = new google.maps.Marker({
-            position: location,
-            map: map,
-            title: city
-          });
-    
-          // Centra el mapa en las coordenadas del marcador
-          map.setCenter(location);
-        } else {
-          alert('La geocodificación de la ciudad no tuvo éxito debido a: ' + status);
+  //Control de las capas visibles
+    layersControl = {
+        baseLayers: {
+          'Open Street Map': L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' }),
+          'Open Cycle Map': L.tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
+        },
+        overlays: {
+          'Big Circle': L.circle([46.95, -122], { radius: 5000 }),
+          'Big Square': L.polygon([[46.8, -121.55], [46.9, -121.55], [46.9, -121.7], [46.8, -121.7]])
+        }
+      }
+
+  //Declaracion del mapa
+  private map4: L.Map;
+
+      //Coordenadas Iniciales
+  private homeCoords = {
+    lat: 15.5062156,
+    lon: -88.0248937
+  };
+
+  //Alerta
+  private popupText = "Some popup text";
+
+  //Icono inicio
+  private markerIcon = {
+    icon: L.icon({
+      iconSize: [40, 40],
+      iconAnchor: [10, 41],
+      popupAnchor: [2, -40],
+      iconUrl: "assets/images/maker-icon.png",
+      shadowUrl: "assets/images/marker-shadow.png"
+    })
+  };
+
+  //actualiza el mapa con nuevas coordenadas
+  private updateMarker() {
+    const popupInfo = `<b style="color: red; background-color: white">${this.popupText}</b>`;
+    if (this.map4) {
+      this.map4.eachLayer(layer => {
+        if (layer instanceof L.Marker) {
+          this.map4.removeLayer(layer);
         }
       });
+      L.marker([this.homeCoords.lat, this.homeCoords.lon], this.markerIcon)
+        .addTo(this.map4)
+        .bindPopup(popupInfo)
+        .openPopup();
+      L.marker([0, 0], this.markerIcon)
+        .addTo(this.map4)
+        .bindPopup(popupInfo)
+        .openPopup();
     }
+  }
+  //Aca estan las nuevas coordenadas
+  public updateHomeCoords() {
+    // Aquí puedes cambiar los valores de homeCoords
+    this.homeCoords = {
+      lat: 0,
+      lon: 0
+    };
+    this.updateMarker();
+  }
 
+  //Configuracion
+  options4 = {
+    layers: [
+      L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: ""
+      })
+    ],
+    zoom: 8,
+    center: L.latLng(this.homeCoords.lat, this.homeCoords.lon)
+  };
 
+  // initMarkers() {
+  //   const popupInfo = `<b style="color: red; background-color: white">${
+  //     this.popupText
+  //     }</b>`;
+  //   L.marker([this.homeCoords.lat, this.homeCoords.lon], this.markerIcon)
+  //     .addTo(this.map4)
+  //     .bindPopup(popupInfo);
+  // }
 
-    puntoA: string; // Nombre de la ciudad de origen
-    puntoB: string; // Nombre de la ciudad de destino
-    apiKey: string = 'AIzaSyBRu-kDG71cfTCa9JjgBH1eZ1j0oW91UXc';
+   onMapReady4(map: L.Map) {
+     this.map4 = map;
+     this.updateMarker();
+   }
+
 
   onNavChange(changeEvent: NgbNavChangeEvent) {
     if (changeEvent.nextId === 4) {
@@ -88,8 +137,6 @@ export class FleteCreateComponent implements OnInit {
   public pedidosDelNuevoFlete$: Observable<any[]>;
   public itemsArray$: Observable<any[]>;
   itemsArray: any[] = [];
-
-
 
 
   public pedidos: any[] = []; //Listado de pedidos
@@ -108,6 +155,7 @@ export class FleteCreateComponent implements OnInit {
   public selectgroupby: string;
 
   ngOnInit(): void {
+    // this.initializeMap()
     //cargar municipios
    this.service.getDllMunicipios()
    .subscribe((data: any)=>{
@@ -162,36 +210,8 @@ export class FleteCreateComponent implements OnInit {
     pedidosArray: ['', [Validators.required]]
   });
 
-  // this.obtenerCoordenadas();
-  // this.initMap()
   }
-
-  obtenerCoordenadas() {
-    const geocodingUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=`;
-
-    // Obtener coordenadas del punto A (ciudad de origen)
-    this.http.get(`${geocodingUrl}${encodeURIComponent(this.puntoA)}&key=${this.apiKey}`)
-      .subscribe((response: any) => {
-        const results = response.results;
-        if (results.length > 0) {
-          const location = results[0].geometry.location;
-          const puntoACoordinates = `${location.lat},${location.lng}`;
-          this.puntoA = puntoACoordinates;
-        }
-      });
-
-    // Obtener coordenadas del punto B (ciudad de destino)
-    this.http.get(`${geocodingUrl}${encodeURIComponent(this.puntoB)}&key=${this.apiKey}`)
-      .subscribe((response: any) => {
-        const results = response.results;
-        if (results.length > 0) {
-          const location = results[0].geometry.location;
-          const puntoBCoordinates = `${location.lat},${location.lng}`;
-          this.puntoB = puntoBCoordinates;
-        }
-      });
-  }
-
+ 
   constructor(
     public service: TableService, 
     private _formBuilder: FormBuilder,

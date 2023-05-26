@@ -203,5 +203,27 @@ export class TableService {
     return this.http.post<any>(Global+"Fletes/InsertarDetalles",data)
   }
 
+
+  obtenerCoordenadas(municipio: String, departamento: String,){
+
+    const cityName = `${municipio}, ${departamento}, Honduras`;
+    const apiKey = '0ae2030d9b334e63ad7b7d75735626d9'; 
+
+    fetch(`https://api.opencagedata.com/geocode/v1/json?q=${cityName}&key=${apiKey}`)
+      .then(response => response.json())
+      .then(data => {
+        const result = data.results[0];
+
+        let homeCoords = {
+          lat: result.geometry.lat,
+          lon: result.geometry.lng
+        };
+
+        return homeCoords;
+
+      })
+
+  }
+
 }
 

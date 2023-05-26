@@ -7,7 +7,6 @@ import { NgModule } from '@angular/core';
 import { ArchwizardModule } from 'angular-archwizard';
 import { SharedModule } from '../../shared/shared.module';
 
-
 import { ItemListComponent } from './item/items-list/items-list.component';
 import { ClienteListComponent } from './clientes/clientes-list/clientes-list.component';
 import { FleteListPropioComponent } from './fletes/fletes-list-propio/fletes-list-propio.component';
@@ -20,15 +19,12 @@ import { EstadosdelpedidoListComponent } from './estadosdelpedido/estadosdelpedi
 import { TipodevehiculoListComponent } from './tipodevehiculo/tipodevehiculo-list/tipodevehiculo-list.component';
 
 import { FleteListComponent } from './fletes/fletes-list/fletes-list.component';
-
 import { FletRoutingModule } from './flet-routing.module';
-
 import { TrayectosIndexComponent } from './trayectos/trayectos-index/trayectos-index.component';
-
 import { PedidosIndexComponent } from './pedidos/pedidos-index/pedidos-index.component';
 
-
 import { GoogleMapsModule } from "@angular/google-maps";
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
   declarations: [
@@ -48,6 +44,7 @@ import { GoogleMapsModule } from "@angular/google-maps";
   imports: [
     CommonModule,
     FletRoutingModule,
+    LeafletModule,
     GoogleMapsModule,
     FormsModule,
     NgSelectModule,
