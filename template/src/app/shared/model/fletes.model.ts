@@ -38,6 +38,7 @@ export class Flete{
 	flet_Estado!: String;
 	user_Creacion!: String;
 	user_Modificacion!: String;
+	flet_Ubicado!: String;
 	flet_FechaDeSalidaParseada!: Date
     flet_PedidosTotales !: number;
     flet_PedidosCompletados !: number;

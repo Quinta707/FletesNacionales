@@ -15,25 +15,25 @@ import { Global } from '../../../../config';
 import { HttpClient } from '@angular/common/http';
 
 interface SearchResult {
-    tableItem: any[];
-    total: number;
+    tablePendienteItem: any[];
+    totalpendiente: number;
 }
 
 interface State {
-    page: number;
-    pageSize: number;
-    searchTerm: string;
-    sortColumn: SortColumn;
-    sortDirection: SortDirection;
+    pagepediente: number;
+    pagepedienteSize: number;
+    searchpendienteTerm: string;
+    sortColumnPendiente: SortColumn;
+    sortDirectionPendiente: SortDirection;
 }
 
 const compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
-function sort(tableItem: Flete[], column: SortColumn, direction: string): Flete[] {
+function sort(tablePendienteItem: Flete[], column: SortColumn, direction: string): Flete[] {
     if (direction === '' || column === '') {
-        return tableItem;
+        return tablePendienteItem;
     } else {
-        return [...tableItem].sort((a, b) => {
+        return [...tablePendienteItem].sort((a, b) => {
             const res = compare(a[column], b[column]);
             return direction === 'asc' ? res : -res;
         });
@@ -45,94 +45,94 @@ function matches(table: Flete, term: string, pipe: PipeTransform) {
 
 @Injectable({ providedIn: 'root' })
 export class TableService {
-    private _loading$ = new BehaviorSubject<boolean>(true);
-    private _search$ = new Subject<void>();
-    private _tableItem$ = new BehaviorSubject<any[]>([]);
-    private _total$ = new BehaviorSubject<number>(0);
+    private _loadingpendiente$ = new BehaviorSubject<boolean>(true);
+    private _searchpendiente$ = new Subject<void>();
+    private _tablePendienteItem$ = new BehaviorSubject<any[]>([]);
+    private _totalpendiente$ = new BehaviorSubject<number>(0);
 
-    userData;
+    fletePendientesData;
 
-    private _state: State = {
-        page: 1,
-        pageSize: 10,
-        searchTerm: '',
-        sortColumn: '',
-        sortDirection: ''
+    private _statependiente: State = {
+        pagepediente: 1,
+        pagepedienteSize: 10,
+        searchpendienteTerm: '',
+        sortColumnPendiente: '',
+        sortDirectionPendiente: ''
     };
 
     constructor(private pipe: DecimalPipe, private http: HttpClient) {
-        this._search$.pipe(
-          tap(() => this._loading$.next(true)),
+        this._searchpendiente$.pipe(
+          tap(() => this._loadingpendiente$.next(true)),
           debounceTime(200),
-          switchMap(() => this._search()),
+          switchMap(() => this._searchpendiente()),
           delay(200),
-          tap(() => this._loading$.next(false))
+          tap(() => this._loadingpendiente$.next(false))
         ).subscribe(result => {
-          this._tableItem$.next(result.tableItem);
-          this._total$.next(result.total);
+          this._tablePendienteItem$.next(result.tablePendienteItem);
+          this._totalpendiente$.next(result.totalpendiente);
         });
       
-        this._search$.next();
+        this._searchpendiente$.next();
       }
       
 
-    get tableItem$() { return this._tableItem$.asObservable(); }
-    get total$() { return this._total$.asObservable(); }
-    get loading$() { return this._loading$.asObservable(); }
-    get page() { return this._state.page; }
-    get pageSize() { return this._state.pageSize; }
-    get searchTerm() { return this._state.searchTerm; }
+    get tablePendienteItem$() { return this._tablePendienteItem$.asObservable(); }
+    get totalpendiente$() { return this._totalpendiente$.asObservable(); }
+    get loadingpendiente$() { return this._loadingpendiente$.asObservable(); }
+    get pagepediente() { return this._statependiente.pagepediente; }
+    get pagepedienteSize() { return this._statependiente.pagepedienteSize; }
+    get searchpendienteTerm() { return this._statependiente.searchpendienteTerm; }
 
-    set page(page: number) {
-        this._set({ page });
+    set pagepediente(pagepediente: number) {
+        this._set({ pagepediente });
     }
-    set pageSize(pageSize: number) { this._set({ pageSize }); }
-    set searchTerm(searchTerm: string) { this._set({ searchTerm }); }
-    set sortColumn(sortColumn: SortColumn) { this._set({ sortColumn }); }
-    set sortDirection(sortDirection: SortDirection) { this._set({ sortDirection }); }
+    set pagepedienteSize(pagepedienteSize: number) { this._set({ pagepedienteSize }); }
+    set searchpendienteTerm(searchpendienteTerm: string) { this._set({ searchpendienteTerm }); }
+    set sortColumnPendiente(sortColumnPendiente: SortColumn) { this._set({ sortColumnPendiente }); }
+    set sortDirectionPendiente(sortDirectionPendiente: SortDirection) { this._set({ sortDirectionPendiente }); }
 
-    setUserData(val: object) {
-        this.userData = val;
+    setfletePendientesData(val: object) {
+        this.fletePendientesData = val;
     }
 
     deleteSingleData(name: string) {
-        const tableItem = this.userData;  
-        const total = tableItem.length;
+        const tablePendienteItem = this.fletePendientesData;  
+        const totalpendiente = tablePendienteItem.length;
         
-        tableItem.map(item => {
+        tablePendienteItem.map(item => {
                 if(name === item.name){
-                    this.userData.splice(name,1);
+                    this.fletePendientesData.splice(name,1);
                 }
             })
 
         return (
-            this._tableItem$.next(tableItem),
-            this._total$.next(total)
+            this._tablePendienteItem$.next(tablePendienteItem),
+            this._totalpendiente$.next(totalpendiente)
         )
 
     }
 
 
     private _set(patch: Partial<State>) {
-        Object.assign(this._state, patch);
-        this._search$.next();
+        Object.assign(this._statependiente, patch);
+        this._searchpendiente$.next();
     }
 
-    private _search(): Observable<SearchResult> {
-        const { sortColumn, sortDirection, pageSize, page, searchTerm } =
-          this._state;
-    
+    private _searchpendiente(): Observable<SearchResult> {
+        const { sortColumnPendiente, sortDirectionPendiente, pagepedienteSize, pagepediente, searchpendienteTerm } =
+          this._statependiente;
+        console.log(this.fletePendientesData);
         // 1. sort
-        let tableItem = sort(this.userData, sortColumn, sortDirection);
-    
+        let tablePendienteItem = sort(this.fletePendientesData, sortColumnPendiente, sortDirectionPendiente);
+        console.log(tablePendienteItem)
         // 2. filter
-        const total = tableItem.length;
-        tableItem = tableItem.filter((country) =>
-          matches(country, searchTerm, this.pipe)
+        const totalpendiente = tablePendienteItem.length;
+        tablePendienteItem = tablePendienteItem.filter((country) =>
+          matches(country, searchpendienteTerm, this.pipe)
         );
     
         // 3. Parsear la fecha
-        // tableItem.forEach((item) => {
+        // tablePendienteItem.forEach((item) => {
         //     if (typeof item.flet_FechaDeSalida === 'string') {
         //       item.flet_FechaDeSalidaParseada = new Date(item.flet_FechaDeSalida);
         //       item.flet_FechaDeSalida = item.flet_FechaDeSalidaParseada.toLocaleDateString('es-ES', {
@@ -144,10 +144,10 @@ export class TableService {
         //   });
           
     
-        tableItem = tableItem
+        tablePendienteItem = tablePendienteItem
           .map((item, i) => ({ id: i + 1, ...item }))
-          .slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
-        return of({ tableItem, total });
+          .slice((pagepediente - 1) * pagepedienteSize, (pagepediente - 1) * pagepedienteSize + pagepedienteSize);
+        return of({ tablePendienteItem, totalpendiente });
       }
     
   FletesListado = Global + "Fletes/Listado";

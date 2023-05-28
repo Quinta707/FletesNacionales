@@ -40,15 +40,16 @@
                               <th scope="col" sortable="muni_NombreInicio" (sort)="onSort($event)">Desde</th>
                               <th scope="col" sortable="muni_NombreFinal" (sort)="onSort($event)">Hasta</th>
                               <th scope="col" sortable="flet_FechaDeSalida" (sort)="onSort($event)">Fecha de salida</th>
-                              <th scope="col" sortable="flet_PedidosTotales" (sort)="onSort($event)">Pedidos a llevar</th>
+                              <th scope="col" sortable="flet_PedidosTotales" (sort)="onSort($event)">Pedidos</th>
                               <th scope="col" sortable="marc_Nombre" (sort)="onSort($event)">Vehiculo</th>
                               <th scope="col" sortable="vehi_Placa" (sort)="onSort($event)">Matricula</th>
                               <th scope="col">Acciones</th>
                             </tr>
                           </thead>
                           <tbody>
-                            <tr *ngFor="let item of tableItem$ | async">
+                            <ng-container *ngFor="let item of tableItem$ | async" >
                               <ng-container *ngIf="item.estp_Id === 1">
+                                <tr >
                                 <td scope="row">
                                   <ngb-highlight [result]="item.flet_Id" [term]="service.searchTerm"></ngb-highlight>
                                 </td>
@@ -59,7 +60,7 @@
                                   <ngb-highlight [result]="item.muni_NombreFinal" [term]="service.searchTerm"></ngb-highlight>
                                 </td>
                                 <td>
-                                  <ngb-highlight [result]="item.flet_FechaDeSalida"></ngb-highlight>
+                                  <ngb-highlight [result]="item.flet_FechaDeSalida.replace('T00:00:00', '')"></ngb-highlight>
                                 </td>
                                 <td>
                                   <ngb-highlight [result]="item.flet_PedidosTotales"></ngb-highlight>
@@ -81,8 +82,11 @@
                                     </li>
                                   </div>
                                 </td>
+                              </tr>
                               </ng-container>
-                            </tr>
+                            </ng-container>
+                            
+                              
                           </tbody>
                         </table>
                         <div class="d-flex justify-content-between mt-3 mb-2 mx-1">
@@ -126,10 +130,10 @@
                           <thead>
                             <tr>
                               <th scope="col" sortable="flet_Id" (sort)="onSort($event)">Id</th>
-                              <th scope="col" sortable="muni_NombreInicio" (sort)="onSort($event)">Desde</th>
+                              <th scope="col" sortable="muni_NombreInicio" (sort)="onSort($event)">Ubicacion</th>
                               <th scope="col" sortable="muni_NombreFinal" (sort)="onSort($event)">Hasta</th>
                               <th scope="col" sortable="flet_FechaDeSalida" (sort)="onSort($event)">Fecha de salida</th>
-                              <th scope="col" sortable="flet_PedidosCompletados" (sort)="onSort($event)">Pedidos completados</th>
+                              <th scope="col" sortable="flet_PedidosCompletados" (sort)="onSort($event)">Pedidos</th>
                               <th scope="col" sortable="marc_Nombre" (sort)="onSort($event)">Vehiculo</th>
                               <th scope="col" sortable="vehi_Placa" (sort)="onSort($event)">Matricula</th>
                               <th scope="col">Acciones</th>
@@ -142,7 +146,7 @@
                                   <ngb-highlight [result]="item.flet_Id" [term]="service.searchTerm"></ngb-highlight>
                                 </td>
                                 <td>
-                                  <ngb-highlight [result]="item.muni_NombreInicio" [term]="service.searchTerm"></ngb-highlight>
+                                  <ngb-highlight [result]="item.flet_Ubicado" [term]="service.searchTerm"></ngb-highlight>
                                 </td>
                                 <td> 
                                   <ngb-highlight [result]="item.muni_NombreFinal" [term]="service.searchTerm"></ngb-highlight>
@@ -218,7 +222,7 @@
                               <th scope="col" sortable="muni_NombreInicio" (sort)="onSort($event)">Desde</th>
                               <th scope="col" sortable="muni_NombreFinal" (sort)="onSort($event)">Hasta</th>
                               <th scope="col" sortable="flet_FechaDeSalida" (sort)="onSort($event)">Fecha de salida</th>
-                              <th scope="col" sortable="flet_PedidosTotales" (sort)="onSort($event)">Pedidos realizados</th>
+                              <th scope="col" sortable="flet_PedidosTotales" (sort)="onSort($event)">Pedidos</th>
                               <th scope="col" sortable="marc_Nombre" (sort)="onSort($event)">Vehiculo</th>
                               <th scope="col" sortable="vehi_Placa" (sort)="onSort($event)">Matricula</th>
                               <th scope="col">Acciones</th>
@@ -237,7 +241,7 @@
                                   <ngb-highlight [result]="item.muni_NombreFinal" [term]="service.searchTerm"></ngb-highlight>
                                 </td>
                                 <td>
-                                  <ngb-highlight [result]="item.flet_FechaDeSalida"></ngb-highlight>
+                                  <ngb-highlight [result]="item.flet_FechaDeSalida.replace('T00:00:00', '')"></ngb-highlight>
                                 </td>
                                 <td>
                                   <ngb-highlight [result]="item.flet_PedidosTotales"></ngb-highlight>
@@ -279,7 +283,7 @@
               </ng-template>
             </li>
             <li [ngbNavItem]="4" style="margin-left: auto;">
-                <button class="btn btn-success" style="width: 100%;" type="button">Crear un flete</button>
+                <button class="btn btn-success" style="width: 100%;" type="button" (click)="redirectToCreate()">Crear un flete</button>
               <ng-template ngbNavContent>
               </ng-template>
             </li>

@@ -2122,6 +2122,7 @@ SELECT	flet_Id,
 		T12.mode_Nombre,
 		(SELECT ISNULL(COUNT(*),0) FROM flet.VW_tbFleteDetalles as pt WHERE pt.flet_Id = T1.flet_Id) AS flet_PedidosTotales,
 		(SELECT ISNULL(COUNT(*),0) FROM flet.VW_tbFleteDetalles as pc WHERE pc.flet_Id = T1.flet_Id AND pc.estp_Id = 4 ) AS flet_PedidosCompletados,
+		(SELECT TOP(1) pc.muni_Nombre FROM flet.VW_tbUbicacionPorFlete as pc WHERE pc.flet_Id = T1.flet_Id ORDER BY pc.ubif_FechaCreacion desc ) AS flet_Ubicado,
 		T12.marc_Id,
 		T13.marc_Nombre,
 		T1.empe_Id, 
@@ -2179,6 +2180,33 @@ BEGIN
 	WHERE flet_Estado = 1
 END
 
+--************** INDEX PENDIENTES *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexPendientes
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbFletes
+	WHERE flet_Estado = 1 AND estp_Id = 1
+END
+
+--************** INDEX TERMINADOS *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexTerminados
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbFletes
+	WHERE flet_Estado = 1  AND estp_Id = 4
+END
+
+--************** INDEX EN PROCESO *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexEnProceso
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbFletes
+	WHERE flet_Estado = 1  AND estp_Id NOT IN (1,4)
+END
+
 --************** INDEX POR EMPLEADO *****************--
 GO
 CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexPorEmpleado
@@ -2189,6 +2217,45 @@ AS
 BEGIN
 	SELECT * FROM flet.VW_tbFletes
 	WHERE flet_Estado = 1 AND @empe_Id = empe_Id
+END
+
+
+--************** INDEX POR EMPLEADO *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexPorEmpleadoPedientes
+(
+	@empe_Id INT
+)
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbFletes
+	WHERE flet_Estado = 1 AND @empe_Id = empe_Id AND estp_Id = 1
+END
+
+
+--************** INDEX POR EMPLEADO *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexPorEmpleadoEnProceso
+(
+	@empe_Id INT
+)
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbFletes
+	WHERE flet_Estado = 1 AND @empe_Id = empe_Id  AND estp_Id NOT IN (1,4)
+END
+
+
+--************** INDEX POR EMPLEADO *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexPorEmpleadoTerminados
+(
+	@empe_Id INT
+)
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbFletes
+	WHERE flet_Estado = 1 AND @empe_Id = empe_Id AND estp_Id = 4
 END
 
 
@@ -2241,6 +2308,35 @@ BEGIN
 		ROLLBACK
 	END CATCH
 END
+
+--************** Sera usado? *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_VehiculoAsignado
+(
+@vehi_Id			INT, 
+@flet_FechaDeSalida NVARCHAR(100)
+)
+AS
+BEGIN
+	BEGIN TRY
+        
+		IF EXISTS (SELECT * FROM flet.tbFletes WHERE vehi_Id = @vehi_Id AND flet_FechaDeSalida >= @flet_FechaDeSalida)
+		BEGIN
+		 select 0
+		END
+		ELSE
+		BEGIN
+			SELECT 1
+		END
+	END TRY
+	BEGIN CATCH
+		SELECT 0 
+		ROLLBACK
+	END CATCH
+END
+
+
+
 
 --************** UPDATE *****************--
 Go
@@ -2328,7 +2424,7 @@ BEGIN
 	SELECT	 * 
 			,(SELECT pedi_Id, item_Nombre, item_Descripcion, item_Peso, item_Volumen FROM flet.VW_tbPedidoDetalles Td WHERE Td.pedi_Id = T1.pedi_Id FOR JSON AUTO) AS Items
 	FROM flet.VW_tbPedidos T1
-	WHERE pedi_Estado = 1 AND pedi_Id IN (SELECT pedi_Id FROM flet.tbFleteDetalles WHERE flet_Id = 9)
+	WHERE pedi_Estado = 1 AND pedi_Id IN (SELECT pedi_Id FROM flet.tbFleteDetalles WHERE flet_Id = @flet_Id)
 END
 
 
