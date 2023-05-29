@@ -8,6 +8,7 @@ import { SortColumn, SortDirection } from '../directives/NgbdSortableHeader';
 import { Clientes } from '../model/clientes.model';
 import { Global } from '../../../../config';
 import { HttpClient } from '@angular/common/http';
+import { Departamentos } from '../model/Departamentos.model';
 
 interface SearchResult {
     tableItem: any[];
@@ -152,6 +153,10 @@ export class ClientService {
     return this.http.get<Clientes[]>(this.ClientesListado);
   }
 
-
+  DeptosDdl = Global + "Departamentos/Listado";
+  getDeptosDdl(){
+    return this.http.get<Departamentos[]>(this.DeptosDdl);
+  }
+  
 }
 

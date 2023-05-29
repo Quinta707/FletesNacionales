@@ -1,30 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import Inputmask from 'inputmask';
-import { Clientes } from '../../../../shared/model/clientes.model';
-import { ClientService } from '../../../../shared/services/clientes.service';
+import  { ClientService } from '../../../../shared/services/clientes.service';
 
-import { TableService } from '../../../../shared/services/estadosCiviles.service';
 
 @Component({
   selector: 'app-clientes-create',
   templateUrl: './clientes-create.component.html',
   styleUrls: ['./clientes-create.component.scss']
 })
-export class ClientesCreateComponent {
+export class ClientesCreateComponent  implements OnInit {
   public validate = false;
+  public departamentosDDL: []; 
+  depto: any[] = [];
 
-  public EstadosCivilesDDL = [
-    { value: "1", label: "", job: "Developer" },
-    { value: "2", label: "Wyoming", job: "Developer" },
-    { value: "3", label: "Coming", job: "Designer",disabled:true },
-    { value: "4", label: "Hanry Die", job: "Designer" },
-    { value: "5", label: "John Doe", job: "Designer" },
-  ];
-
-  constructor(private router: Router){
-
-  }
+  constructor(private router: Router, service: ClientService){}
   ngOnInit(): void {    
     const inputElementTelefono = document.getElementById('tuInput');
     const inputmaskTelefono = new Inputmask('+(999) 9999-9999');
@@ -34,8 +24,20 @@ export class ClientesCreateComponent {
     const inputmaskIdentidad = new Inputmask('9999-9999-99999');
     inputmaskIdentidad.mask(inputElementIdentidad);
 
-
+    // this.DeptoDDl();
+    
   }
+
+  // DeptoDDl(): void {
+  //   this.service.getDeptosDdl().subscribe(
+  //     (response: any) => {
+  //       this.depto = response;
+  //     },
+  //     (error: any) => {
+  //       console.error('Error al obtener los datos de la API:', error);
+  //     }
+  //   );
+  // }
 
   public Guardar() {
     this.validate = !this.validate;
