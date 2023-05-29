@@ -11,7 +11,25 @@
       </div>
       <div class="card-body">
         <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">
+          <div class="row">
+            <div class="col-sm-12">
+              <input [(ngModel)]="createRol.role_Nombre" class="form-control" id="validationCustom01" type="text" required=""  >
+            </div>
+            
+            <div class="col-sm-6">
+              <ng-multiselect-dropdown
+              [placeholder]="'custom placeholder'"
+              [settings]="dropdownSettings"
+              [data]="dropdownList"
+              [(ngModel)]="selectedItems"
+              (onSelect)="onItemSelect($event)"
+              (onSelectAll)="onSelectAll($event)"
+            >
+            </ng-multiselect-dropdown>
+          </div>
+          </div>
           
+          <button (click)="Create()" class="btn btn-primary">Aver</button>
         </form>
       </div>
     </div>

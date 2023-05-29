@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 
 import { AcceRoutingModule } from './acce-routing.module';
-
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { RolesporPantallaListComponent } from './rolesPorPantalla/rolesPorPantalla-list/rolesPorPantalla-list.component';
 import { RolesporPantallaCreateComponent } from './rolesPorPantalla/rolesPorPantalla-create/rolesPorPantalla-create.component'
 
@@ -22,6 +22,7 @@ import { RolesporPantallaCreateComponent } from './rolesPorPantalla/rolesPorPant
     FormsModule,
     NgbModule,
     SharedModule,
+    NgMultiSelectDropDownModule.forRoot()
   ]
 })
 export class AcceModule { }

@@ -40,7 +40,7 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@role_Nombre", item.role_Nombre, DbType.String, ParameterDirection.Input);
-            parametros.Add("@role_UsuCreacion", item.role_UsuCreacion, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@role_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
             result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.RolesInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
 
             return result;
@@ -79,7 +79,7 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
 
             var parametros = new DynamicParameters();
-            parametros.Add("@role_Nombre", item.role_Nombre, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@role_Nombre", item.role_Nombre, DbType.String, ParameterDirection.Input);
             parametros.Add("@pant_Id", item.pant_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@prol_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
 

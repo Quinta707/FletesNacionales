@@ -165,7 +165,12 @@ export class TableService {
   deleteRol(Roles: RolesporPantalla){
     return this.http.post<RolesporPantalla[]>(this.RolesDelete, Roles);
   }
-
+  
+  PantallasGet = Global + 'Pantallas/Listado'
+  getPantallas()
+  { 
+    return this.http.get<RolesporPantalla[]>(this.PantallasGet);
+  }
 
   RolesporPantallaListado = Global + "Roles/Listado";
   getRolesporPantalla(){
@@ -174,7 +179,7 @@ export class TableService {
 
   RolesporPantallaCreate = Global + 'Roles/InsertarRolxPantalla';
   createRolesporPantalla(Roles: RolesporPantalla){
-    return this.http.post<RolesporPantalla[]>(this.RolesCreate, Roles);
+    return this.http.post<RolesporPantalla[]>(this.RolesporPantallaCreate, Roles);
   }
 
 

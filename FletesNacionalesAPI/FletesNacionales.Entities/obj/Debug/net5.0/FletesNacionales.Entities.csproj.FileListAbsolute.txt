@@ -45,3 +45,15 @@ C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entitie
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.dll
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\ref\FletesNacionales.Entities.dll
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.pdb
+C:\Users\Javinto\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\bin\Debug\net5.0\FletesNacionales.Entities.deps.json
+C:\Users\Javinto\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\bin\Debug\net5.0\FletesNacionales.Entities.dll
+C:\Users\Javinto\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\bin\Debug\net5.0\FletesNacionales.Entities.pdb
+C:\Users\Javinto\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.csproj.AssemblyReference.cache
+C:\Users\Javinto\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Javinto\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.AssemblyInfoInputs.cache
+C:\Users\Javinto\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.AssemblyInfo.cs
+C:\Users\Javinto\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.csproj.CoreCompileInputs.cache
+C:\Users\Javinto\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.dll
+C:\Users\Javinto\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\refint\FletesNacionales.Entities.dll
+C:\Users\Javinto\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.pdb
+C:\Users\Javinto\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\ref\FletesNacionales.Entities.dll

@@ -5,94 +5,76 @@ import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+
 
 @Component({
   selector: 'app-rolesPorPantalla-create',
   templateUrl: './rolesPorPantalla-create.component.html',
   styleUrls: ['./rolesPorPantalla-create.component.scss']
 })
-export class RolesporPantallaCreateComponent implements OnInit {
+export class RolesporPantallaCreateComponent {
   public validate = false;
   public selected = [];
   
+  createRol: RolesporPantalla = new RolesporPantalla();
+  createPantallaPorRol: RolesporPantalla = new RolesporPantalla();
+
   rolesPorPantalla: RolesporPantalla[];
   closeResult: string;
   
-  constructor(config: NgbModalConfig, private modalService: NgbModal, public service: TableService) {
+  constructor(config: NgbModalConfig, public service: TableService) {
     
-    this.tableItem$ = service.tableItem$;
-    this.total$ = service.total$;
     this.service.setUserData(this.rolesPorPantalla)
     config.backdrop = 'static';
     config.keyboard = false;
-
+  }
+  //que te puedo decir amor
+  dropdownList = [];
+  selectedItems: any[] = [];
+  dropdownSettings : IDropdownSettings;
+  ngOnInit() {
+    this.service.getPantallas()
+    .subscribe((data: any) =>{
+      this.dropdownList = data.data
+      console.log(this.dropdownList)
+    })
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'pant_Id',
+      textField: 'pant_Nombre',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
   }
 
+  onItemSelect(item: any) {
+    console.log(item);
+  }
+  onSelectAll(items: any) {
+    console.log(items);
+  }
+  //no es a vos que te deseo
   
-  open(content: any) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+  enviar: RolesporPantalla = new RolesporPantalla();
+  Create()
+  {
+    
+    this.service.createRol(this.createRol).subscribe((data:any) =>{
+      console.log(data)
+    })
+    this.selectedItems.forEach((element: any) => {
+      console.log(element.pant_Id)      
+      console.log(this.createRol)
+      this.enviar.pant_Id = element.pant_Id
+      this.enviar.role_Nombre = this.createRol.role_Nombre
+      this.service.createRolesporPantalla(this.enviar).subscribe((data:any)=>{
+        console.log(data)
+      })  
     });
   }
   
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
-  }
-
-  index(){
-    this.service.getRolesporPantalla()
-    .subscribe((data: any)=>{
-      console.log(data.data)
-       this.rolesPorPantalla= data.data;
-       this.service.setUserData(data.data)
-    })
-  }
- 
-  ngOnInit(): void {
-      
-    this.index()
-  }
-
-
-
-  public tableItem$: Observable<RolesporPantalla[]>;
-  public searchText;
-  total$: Observable<number>;
-
-
-  onSearchInputChange(searchTerm: string) {
-    this.service.searchTerm = searchTerm;
-  }
-
-  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
-
-  onSort({ column, direction }: SortEvent) {
-    // resetting other headers
-    this.headers.forEach((header) => {
-      if (header.sortable !== column) {
-        header.direction = '';
-      }
-    });
-
-    this.service.sortColumn = column;
-    this.service.sortDirection = direction;
-
-  }
-
-  deleteData(id: number){
-    this.tableItem$.subscribe((data: any)=> {      
-      data.map((elem: any,i: any)=>{elem.id == id && data.splice(i,1)})
-      
-    })
-  }
-
  }
  

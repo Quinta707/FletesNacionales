@@ -80,7 +80,7 @@ export class MunicipiosListComponent implements OnInit {
   Actualizar(est: Municipios, content: any) {
     const id = est.muni_Id
 
-    this.service.findMunicipios(id ?? 0)
+    this.service.findMunicipios(id)
     .subscribe((data : any) =>{
       
       this.municipiosEditar = data;
@@ -139,19 +139,14 @@ export class MunicipiosListComponent implements OnInit {
     this.index()
   }
 
-
-
   public tableItem$: Observable<Municipios[]>;
   public searchText;
   total$: Observable<number>;
 
-
   onSearchInputChange(searchTerm: string) {
     this.service.searchTerm = searchTerm;
   }
-
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
-
   onSort({ column, direction }: SortEvent) {
     // resetting other headers
     this.headers.forEach((header) => {
@@ -159,18 +154,13 @@ export class MunicipiosListComponent implements OnInit {
         header.direction = '';
       }
     });
-
     this.service.sortColumn = column;
     this.service.sortDirection = direction;
-
   }
-
   deleteData(id: number){
     this.tableItem$.subscribe((data: any)=> {      
       data.map((elem: any,i: any)=>{elem.id == id && data.splice(i,1)})
-      
     })
   }
-
  }
  
