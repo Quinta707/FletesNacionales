@@ -1,0 +1,117 @@
+<div class="container">
+  <app-breadcrumb [title]="'Items listado'" [items]="['Flet']" [active_item]="'Items'"></app-breadcrumb>
+  <br>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-primary">
+          <div class="text-center">
+            <h3>Listado de Empleados</h3>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between mb-2 mx-1">
+            <select class="form-select" style="color: #3c334d; width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+              <option [ngValue]="5">5 </option>
+              <option [ngValue]="10">10</option>
+              <option [ngValue]="25">25</option>
+              <option [ngValue]="50">50</option>
+            </select>
+            <div class="col-4">
+              <div class="input-group">
+                <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
+                <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange(searchText)" placeholder="Buscar..." />
+              </div>
+            </div>
+          </div>
+            
+          <div class="row mt-3">
+            <div class="col-12">
+              <div class="custom-datatable noscroll">
+                <div class="custom-datatable table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col" sortable="depa_Id" (sort)="onSort($event)">Id</th>
+                        <th scope="col" sortable="empe_NombreCompleto" (sort)="onSort($event)">Nombre</th>
+                        <th scope="col" sortable="empe_Identidad" (sort)="onSort($event)">Identidad</th>
+                        <th scope="col" sortable="empe_FechaNacimiento" (sort)="onSort($event)">Fecha de Nacimiento</th>
+                        <th scope="col" sortable="empe_Sexo" (sort)="onSort($event)">Sexo</th>
+                        <th scope="col" sortable="eciv_Descripcion" (sort)="onSort($event)">Estado Civil</th>
+                        <th scope="col" sortable="muni_Nombre" (sort)="onSort($event)">Municipio</th>
+                        <th scope="col" sortable="empe_DireccionExacta" (sort)="onSort($event)">Direccion</th>
+                        <th scope="col" sortable="empe_Telefono" (sort)="onSort($event)">Telefono</th>
+                        <th scope="col" sortable="sucu_Nombre" (sort)="onSort($event)">Sucursal</th>
+                        <th scope="col" sortable="carg_Descripcion" (sort)="onSort($event)">Cargo</th>
+                        <th scope="col" sortable="acciones" (sort)="onSort($event)">Acciones</th>
+                        <th scope="col">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of tableItem$ | async">
+                        <td scope="row">
+                          <ngb-highlight [result]="item.empe_Id" [term]="service.searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                          <ngb-highlight [result]="item.empe_NombreCompleto" [term]="service.searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                          <ngb-highlight [result]="item.empe_Identidad" [term]="service.searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                          <ngb-highlight [result]="item.empe_FechaNacimiento" [term]="service.searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                          <ngb-highlight [result]="item.empe_Sexo" [term]="service.searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                          <ngb-highlight [result]="item.eciv_Descripcion" [term]="service.searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                          <ngb-highlight [result]="item.muni_Nombre" [term]="service.searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                          <ngb-highlight [result]="item.empe_DireccionExacta" [term]="service.searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                          <ngb-highlight [result]="item.empe_Telefono" [term]="service.searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                          <ngb-highlight [result]="item.sucu_Nombre" [term]="service.searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                          <ngb-highlight [result]="item.carg_Descripcion" [term]="service.searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                          <div class="action">
+                            <li class="edit">
+                              <a href="#"><i class="icon-pencil-alt"></i></a>
+                            </li>
+                            <li class="delete" (click)="onSelect(item.carg_Descripcion)">
+                              <a href="#"><i class="icon-trash"></i></a>
+                            </li>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="d-flex justify-content-between mt-3 mb-2 mx-1">
+                    <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+                      <option [ngValue]="5">5</option>
+                      <option [ngValue]="10">10</option>
+                      <option [ngValue]="25">25</option>
+                      <option [ngValue]="50">50</option>
+                    </select>
+                    <ngb-pagination class="ms-3" [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize"> </ngb-pagination>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

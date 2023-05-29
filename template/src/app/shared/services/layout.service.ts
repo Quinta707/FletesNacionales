@@ -12,7 +12,7 @@ export class LayoutService {
       icon: "stroke-svg",
     },
     color: {
-      primary_color: "#7366ff",
+      primary_color: "#66368e",
       secondary_color: "#f73164",
     },
   };
@@ -39,11 +39,11 @@ export class LayoutService {
   }
 
   resetColor() {
-    document.documentElement.style.setProperty("--theme-deafult", "#7366ff");
+    document.documentElement.style.setProperty("--theme-deafult", "#66368e");
     document.documentElement.style.setProperty("--theme-secondary", "#f73164");
-    (<HTMLInputElement>document.getElementById("ColorPicker1")).value = "#7366ff";
+    (<HTMLInputElement>document.getElementById("ColorPicker1")).value = "#66368e";
     (<HTMLInputElement>document.getElementById("ColorPicker2")).value = "#f73164";
-    localStorage.setItem("primary_color", "#7366ff");
+    localStorage.setItem("primary_color", "#66368e");
     localStorage.setItem("secondary_color", " #f73164");
     window.location.reload();
   }

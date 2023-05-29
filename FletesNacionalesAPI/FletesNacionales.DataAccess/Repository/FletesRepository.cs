@@ -117,11 +117,11 @@ namespace FletesNacionales.DataAccess.Repository
             return result;
         }
         
-        public IEnumerable<VW_tbPedidos> PedidosFlete(tbFletes item)
+        public IEnumerable<VW_tbPedidos> PedidosFlete(int item)
         {
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
-            parametros.Add("@flet_Id", item.flet_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@flet_Id", item, DbType.Int32, ParameterDirection.Input);
             return db.Query<VW_tbPedidos>(ScriptsDataBase.FletesPedidos, parametros, commandType: System.Data.CommandType.StoredProcedure);
         }
     }

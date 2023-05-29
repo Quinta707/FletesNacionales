@@ -3,6 +3,7 @@ import { Flete } from '../../../../shared/model/fletes.model';
 import { TableService } from '../../../../shared/services/fletes.service';
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
+import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -13,6 +14,13 @@ import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSor
 export class FleteListComponent implements OnInit {
   public selected = [];
 
+  public active = 1;
+
+  onNavChange(changeEvent: NgbNavChangeEvent) {
+    if (changeEvent.nextId === 4) {
+      changeEvent.preventDefault();
+    }
+  }
   
   fletes: Flete[];
  

@@ -34,7 +34,7 @@ function sort(tableItem: TipoDeVehiculo[], column: SortColumn, direction: string
     }
 }
 function matches(table: TipoDeVehiculo, term: string, pipe: PipeTransform) {
-  return table?.tipv_Descripcion?.toLowerCase().includes(term.toLowerCase());
+  return table.tipv_Descripcion.toLowerCase().includes(term.toLowerCase());
 }
 
 @Injectable({ providedIn: 'root' })
@@ -131,19 +131,15 @@ export class TableService {
         return of({ tableItem, total });
       }
      
-      TipoDeVehiculoListado = Global + "TipoDeVehiculo/Listado";
-     
+   TipoDeVehiculoListado = Global + "TipoDeVehiculo/Listado";    
   getTipoDeVehiculo(){
     return this.http.get<TipoDeVehiculo[]>(this.TipoDeVehiculoListado);
   }
-
-
-  
+ 
   TipodeVehiculoDelete = Global + "TipoDeVehiculo/Eliminar";
   DeleteTipoDeVehiculo(TipoDeVehiculo: TipoDeVehiculo){
     return this.http.post<TipoDeVehiculo[]>(this.TipodeVehiculoDelete,TipoDeVehiculo)
   }
-
 
   TipodeVehiculoEditar = Global + "TipoDeVehiculo/Editar";
   EditarTipoVehiculoEditar(TipoDeVehiculo:TipoDeVehiculo){

@@ -74,12 +74,12 @@ namespace FletesNacionales.DataAccess.Repository
             return request;
         }
 
+        FleteContext con = new FleteContext();
         public IEnumerable<VW_tbEmpleados> List()
         {
-            using var db = new SqlConnection(FleteContext.ConnectionString);
-            return db.Query<VW_tbEmpleados>(ScriptsDataBase.EmpleadosIndex, null, commandType: System.Data.CommandType.StoredProcedure);
+            return con.VW_tbEmpleados.AsList();
         }
-
+       
         public RequestStatus Update(tbEmpleados item)
         {
             using var db = new SqlConnection(FleteContext.ConnectionString);

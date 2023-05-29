@@ -88,3 +88,21 @@ C:\Users\PC\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacional
 C:\Users\PC\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.DataAccess\obj\Debug\net5.0\ref\FletesNacionales.DataAccess.dll
 C:\Users\PC\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.DataAccess\obj\Debug\net5.0\FletesNacionales.DataAccess.pdb
 C:\Users\PC\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.DataAccess\obj\Debug\net5.0\FletesNacionales.DataAccess.genruntimeconfig.cache
+C:\Users\PC\Desktop\API SARAI\FletesNacionalesAPI\FletesNacionales.DataAccess\bin\Debug\net5.0\FletesNacionales.DataAccess.deps.json
+C:\Users\PC\Desktop\API SARAI\FletesNacionalesAPI\FletesNacionales.DataAccess\bin\Debug\net5.0\FletesNacionales.DataAccess.runtimeconfig.json
+C:\Users\PC\Desktop\API SARAI\FletesNacionalesAPI\FletesNacionales.DataAccess\bin\Debug\net5.0\FletesNacionales.DataAccess.runtimeconfig.dev.json
+C:\Users\PC\Desktop\API SARAI\FletesNacionalesAPI\FletesNacionales.DataAccess\bin\Debug\net5.0\FletesNacionales.DataAccess.dll
+C:\Users\PC\Desktop\API SARAI\FletesNacionalesAPI\FletesNacionales.DataAccess\bin\Debug\net5.0\ref\FletesNacionales.DataAccess.dll
+C:\Users\PC\Desktop\API SARAI\FletesNacionalesAPI\FletesNacionales.DataAccess\bin\Debug\net5.0\FletesNacionales.DataAccess.pdb
+C:\Users\PC\Desktop\API SARAI\FletesNacionalesAPI\FletesNacionales.DataAccess\bin\Debug\net5.0\FletesNacionales.Entities.dll
+C:\Users\PC\Desktop\API SARAI\FletesNacionalesAPI\FletesNacionales.DataAccess\bin\Debug\net5.0\FletesNacionales.Entities.pdb
+C:\Users\PC\Desktop\API SARAI\FletesNacionalesAPI\FletesNacionales.DataAccess\obj\Debug\net5.0\FletesNacionales.DataAccess.csproj.AssemblyReference.cache
+C:\Users\PC\Desktop\API SARAI\FletesNacionalesAPI\FletesNacionales.DataAccess\obj\Debug\net5.0\FletesNacionales.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC\Desktop\API SARAI\FletesNacionalesAPI\FletesNacionales.DataAccess\obj\Debug\net5.0\FletesNacionales.DataAccess.AssemblyInfoInputs.cache
+C:\Users\PC\Desktop\API SARAI\FletesNacionalesAPI\FletesNacionales.DataAccess\obj\Debug\net5.0\FletesNacionales.DataAccess.AssemblyInfo.cs
+C:\Users\PC\Desktop\API SARAI\FletesNacionalesAPI\FletesNacionales.DataAccess\obj\Debug\net5.0\FletesNacionales.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\PC\Desktop\API SARAI\FletesNacionalesAPI\FletesNacionales.DataAccess\obj\Debug\net5.0\FletesNacionales.DataAccess.csproj.CopyComplete
+C:\Users\PC\Desktop\API SARAI\FletesNacionalesAPI\FletesNacionales.DataAccess\obj\Debug\net5.0\FletesNacionales.DataAccess.dll
+C:\Users\PC\Desktop\API SARAI\FletesNacionalesAPI\FletesNacionales.DataAccess\obj\Debug\net5.0\ref\FletesNacionales.DataAccess.dll
+C:\Users\PC\Desktop\API SARAI\FletesNacionalesAPI\FletesNacionales.DataAccess\obj\Debug\net5.0\FletesNacionales.DataAccess.pdb
+C:\Users\PC\Desktop\API SARAI\FletesNacionalesAPI\FletesNacionales.DataAccess\obj\Debug\net5.0\FletesNacionales.DataAccess.genruntimeconfig.cache

@@ -156,8 +156,6 @@ namespace FletesNacionales.BusinessLogic.Services
 
                 if (insert.CodeStatus == 1)
                     return result.SetMessage("Eliminado", ServiceResultType.Success);
-                else if (insert.CodeStatus == -3)
-                    return result.SetMessage("EnUso", ServiceResultType.Success);
                 else if (insert.CodeStatus == 0)
                     return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
                 else

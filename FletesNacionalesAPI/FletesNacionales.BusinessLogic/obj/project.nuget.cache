@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Djnmft3DDhV9Xd/4o4mk/PjazzIxC5I4YO9kYRhBO4I+Elgey1fgzAUoE53XmNiF4vRlzLO9pRQtKwhFvENh+A==",
+  "dgSpecHash": "xch8JF6EGFVJi2GXbLSMjG5yjYK8OFnFbJ2kJLPAWAVIeUzSNL3IneJSBLe0MS27Xe/4DtvfJZ5Fsps4VfDbCw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\PC\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj",
+  "projectFilePath": "C:\\Users\\PC\\Desktop\\API SARAI\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PC\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",

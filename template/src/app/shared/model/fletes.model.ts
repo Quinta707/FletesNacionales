@@ -42,5 +42,4 @@ export class Flete{
     flet_PedidosTotales !: number;
     flet_PedidosCompletados !: number;
 
-
 }

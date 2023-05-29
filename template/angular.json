@@ -86,7 +86,7 @@
               "apexcharts",
               "apexcharts/dist/apexcharts.min.js",
               "calendar-utils/date-adapters/date-fns"
-            ],
+            ],   
             "outputPath": "dist/cuba",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -106,9 +106,11 @@
               "node_modules/font-awesome/scss/font-awesome.scss", 
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css", 
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css", 
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+            ],
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
@@ -190,6 +192,7 @@
       }
     }
   },
+  
   "defaultProject": "cuba",
   "cli": {
     "analytics": false

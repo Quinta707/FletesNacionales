@@ -1,4 +1,4 @@
-let primary_color = localStorage.getItem('primary_color') || '#7366ff';
+let primary_color = localStorage.getItem('primary_color') || '#66368e';
 let secondary_color = localStorage.getItem('secondary_color') || '#f73164';
 
 // barChart
@@ -16,7 +16,7 @@ export var barChartData: any[] = [
 export var barChartColors: Array<any> = [
   {
     backgroundColor: "rgba(145, 46, 252, 0.6)",
-    borderColor: '#7366ff',
+    borderColor: '#66368e',
     borderWidth: 1,
   },
   {
@@ -59,7 +59,7 @@ export var lineGraphColors: Array<any> = [
   },
   {
     backgroundColor: "rgba(145, 46, 252, 0.3)",
-    borderColor: '#7366ff',
+    borderColor: '#66368e',
     borderWidth: 2,
   },
 ];
@@ -91,7 +91,7 @@ export var radarGraphData: any[] = [
 ];
 export var radarGraphColors: Array<any> = [{
   backgroundColor: "rgba(145, 46, 252, 0.3)",
-  borderColor: '#7366ff',
+  borderColor: '#66368e',
   borderWidth: 2,
 }];
 
@@ -123,7 +123,7 @@ export var lineChartColors: Array<any> = [
   },
   {
     backgroundColor: "rgba(145, 46, 252, 0.3)",
-    borderColor: '#7366ff',
+    borderColor: '#66368e',
     borderWidth: 2,
     lineTension: 0,
   }

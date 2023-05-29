@@ -37,7 +37,9 @@
 
         public static string PantallaXRolesInsert = "acce.UDP_tbPantallasPorRoles_Insert";
         public static string PantallaXRolesDelete = "acce.UDP_tbPantallasPorRoles_Delete";
-        public static string PantallaXRolesFind = "acce.UDP_tbPantallasPorRoles_Delete";
+        public static string PantallaXRolesFind = "acce.UDP_tbPantallasPorRoles_Find";
+        public static string PantallaXRolesIndex = "acce.UDP_tbPantallasPorRoles_Index";
+        public static string PantallasXRolesMenu = "acce.tbRolesPorPantallaMenu";
         #endregion
 
         #endregion
@@ -125,6 +127,7 @@
         public static string TrayectosInsert = "flet.UDP_tbTrayectos_Insert";
         public static string TrayectosUpdate = "flet.UDP_tbTrayectos_Update";
         public static string TrayectosDelete = "flet.UDP_tbTrayectos_Delete";
+        public static string TrayectosExiste = "flet.UDP_tbTrayectos_Existe";
 
         #endregion
 
@@ -164,6 +167,7 @@
         public static string PedidosInsert = "flet.UDP_tbPedidos_Insert";
         public static string PedidosUpdate = "flet.UDP_tbPedidos_Update";
         public static string PedidosDelete = "flet.UDP_tbPedidos_Delete";
+        public static string PedidosPorMunicipio = "flet.UDP_tbPedidos_PedidosPorMunicipio";
 
         #endregion
 

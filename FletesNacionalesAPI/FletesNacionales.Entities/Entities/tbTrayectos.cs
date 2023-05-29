@@ -14,8 +14,9 @@ namespace FletesNacionales.Entities.Entities
         }
 
         public int tray_Id { get; set; }
-        public int muni_Inicio { get; set; }
-        public int muni_Final { get; set; }
+        public string muni_Inicio { get; set; }
+        public string muni_Final { get; set; }
+        public decimal? tray_Precio { get; set; }
         public int tray_UsuCreacion { get; set; }
         public DateTime? tray_FechaCreacion { get; set; }
         public int? tray_UsuModificacion { get; set; }

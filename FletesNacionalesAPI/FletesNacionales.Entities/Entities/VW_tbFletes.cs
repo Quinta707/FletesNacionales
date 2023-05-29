@@ -26,7 +26,7 @@ namespace FletesNacionales.Entities.Entities
         public string empe_Sexo { get; set; }
         public int eciv_Id { get; set; }
         public string eciv_Descripcion { get; set; }
-        public int muni_Id { get; set; }
+        public string muni_Id { get; set; }
         public string empe_DireccionExacta { get; set; }
         public string empe_Telefono { get; set; }
         public int sucu_Id { get; set; }
@@ -34,12 +34,12 @@ namespace FletesNacionales.Entities.Entities
         public int carg_Id { get; set; }
         public string carg_Descripcion { get; set; }
         public int tray_Id { get; set; }
-        public int muni_Inicio { get; set; }
-        public int muni_Final { get; set; }
+        public string muni_Inicio { get; set; }
+        public string muni_Final { get; set; }
         public string muni_NombreInicio { get; set; }
-        public string muni_CodigoInicio { get; set; }
+        public string muni_IdInicio { get; set; }
         public string muni_NombreFinal { get; set; }
-        public string muni_CodigoFinal { get; set; }
+        public string muni_IdFinal { get; set; }
         public DateTime flet_FechaDeSalida { get; set; }
         public int flet_UsuCreacion { get; set; }
         public DateTime? flet_FechaCreacion { get; set; }

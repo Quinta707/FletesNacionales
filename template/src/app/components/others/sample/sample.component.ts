@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Cargos } from '../../../../Models/Cargos';
-import { ServiceService } from '../../../../Service/service.service';
 
 @Component({
   selector: 'app-sample',
@@ -10,7 +8,7 @@ import { ServiceService } from '../../../../Service/service.service';
 export class SampleComponent {
   cargos!: Cargos[];
  
-  constructor(private service:ServiceService){}
+  constructor(){}
  
   ngOnInit(): void {
    this.service.getCargos()
@@ -18,6 +16,7 @@ export class SampleComponent {
     console.log(1,data)
      this.cargos= data.data;
    })
+
   }
  }
  

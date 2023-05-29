@@ -140,15 +140,29 @@ namespace FletesNacionales.BusinessLogic.Services
 
 
         #region Pnatallas por Rol
-        public ServiceResult InsertarPantallasPorRoles(tbPantallasPorRoles item)
+
+        public ServiceResult ListadoPantallas()
         {
             var result = new ServiceResult();
             try
             {
-                var list = _pantallasRepository.PantallasPorRolInsert(item);
+                var list = _pantallasRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        public ServiceResult InsertarPantallasPorRoles(VW_tbPantallasPorRoles item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _rolesRepository.InsertRolPorPantalla(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.SetMessage("Exitoso", ServiceResultType.Success);
+                    return result.SetMessage(list.CodeStatus.ToString(), ServiceResultType.Success);
                 }
                 else if (list.CodeStatus == -2)
                 {
@@ -169,28 +183,59 @@ namespace FletesNacionales.BusinessLogic.Services
                 return result.Error(x.Message);
             }
         }
-
-        public ServiceResult EliminarPantallasPorRoles(tbPantallasPorRoles item)
+        public ServiceResult EliminarPantallasPorRoles(VW_tbPantallasPorRoles item)
         {
             var result = new ServiceResult();
-
             try
             {
-                var insert = _pantallasRepository.PantallasPorRolDelete(item);
+                var list = _rolesRepository.DeleteRolPorPantalla(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.SetMessage(list.CodeStatus.ToString(), ServiceResultType.Success);
+                }
 
-                if (insert.CodeStatus == 1)
-                    return result.SetMessage("RegistroEliminado", ServiceResultType.Success);
-                else if (insert.CodeStatus == 0)
+                else if (list.CodeStatus == 0)
+                {
                     return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
+                }
                 else
-                    return result.SetMessage("Conexión perdida", ServiceResultType.Error);
+                {
+                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
+                }
             }
-            catch (Exception ex)
+            catch (Exception x)
             {
-                return result.Error(ex.Message);
+
+                return result.Error(x.Message);
             }
         }
 
+        public VW_tbPantallasPorRoles BuscarPantallasPorRoles(int? id)
+        {
+            try
+            {
+                var list = _rolesRepository.FindRolPorPantalla(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+
+        }
+
+        public IEnumerable<VW_tbPantallasPorRoles> menu(int id, bool esadmin)
+        {
+            try
+            {
+                return _rolesRepository.Menu(id, esadmin);
+            }
+            catch (Exception e)
+            {
+                return Enumerable.Empty<VW_tbPantallasPorRoles>();
+            }
+        }
         #endregion
 
         #region Usuarios
@@ -302,16 +347,19 @@ namespace FletesNacionales.BusinessLogic.Services
             }
         }
         
-        public VW_tbUsuarios LoginUsuario(tbUsuarios item)
+        public ServiceResult LoginUsuario(tbUsuarios item)
         {
+
+            var resultado = new ServiceResult();
+
             try
             {
-                var list = _usuariosRepository.Login(item);
-                return list;
+                var usuario = _usuariosRepository.Login(item);
+                return resultado.Ok(usuario);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return null;
+                return resultado.Error(ex.Message);
             }
         }
 
