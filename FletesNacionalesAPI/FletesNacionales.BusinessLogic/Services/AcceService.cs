@@ -210,7 +210,7 @@ namespace FletesNacionales.BusinessLogic.Services
             }
         }
 
-        public VW_tbPantallasPorRoles BuscarPantallasPorRoles(int? id)
+        public IEnumerable <VW_tbPantallasPorRoles> BuscarPantallasPorRoles(int? id)
         {
             try
             {

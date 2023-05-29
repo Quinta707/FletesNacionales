@@ -40,7 +40,7 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@role_Nombre", item.role_Nombre, DbType.String, ParameterDirection.Input);
-            parametros.Add("@role_UsuCreacion", item.role_UsuCreacion, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@role_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
             result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.RolesInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
 
             return result;
@@ -79,11 +79,11 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
 
             var parametros = new DynamicParameters();
-            parametros.Add("@role_Nombre", item.role_Nombre, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@role_Id", item.role_Id, DbType.String, ParameterDirection.Input);
             parametros.Add("@pant_Id", item.pant_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@prol_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
 
-            result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.PantallaXRolesInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
+             result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.PantallaXRolesInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
 
             return result;
         }
@@ -94,18 +94,18 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
 
             var parametros = new DynamicParameters();
-            parametros.Add("@role_Id", item.role_Nombre, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@role_Id", item.role_Id, DbType.Int32, ParameterDirection.Input);
 
             result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.PantallaXRolesDelete, parametros, commandType: System.Data.CommandType.StoredProcedure);
 
             return result;
         }
-        public VW_tbPantallasPorRoles FindRolPorPantalla(int? id)
+        public IEnumerable<VW_tbPantallasPorRoles> FindRolPorPantalla(int? id)
         {
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@role_Id", id, DbType.Int32, ParameterDirection.Input);
-            return db.QueryFirst<VW_tbPantallasPorRoles>(ScriptsDataBase.PantallaXRolesFind, parametros, commandType: System.Data.CommandType.StoredProcedure);
+            return db.Query<VW_tbPantallasPorRoles>(ScriptsDataBase.PantallaXRolesFind, parametros, commandType: System.Data.CommandType.StoredProcedure);
         }
 
 
