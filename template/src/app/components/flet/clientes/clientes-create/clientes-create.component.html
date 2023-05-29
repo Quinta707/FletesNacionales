@@ -63,14 +63,12 @@
             <div class="row">
                 <div class="col-sm-6">
                     <label class="form-label">Departamento</label>
-                    <select >
-                        <option value="">Seleccione una opción</option>
-                        <option *ngFor="let dato of depto" [value]="depto.id">{{ depto.nombre }}</option>
-                      </select>
+                    <ng-select  placeholder="Seleccione un Departamento"
+                     class="js-example-placeholder-multiple" ></ng-select>
                 </div>
                 <div class="col-sm-6">
                     <label class="form-label">Municipio</label>
-                    <ng-select  placeholder="Select"
+                    <ng-select  placeholder="Seleccione un Municipio"
                      class="js-example-placeholder-multiple" ></ng-select>
                 </div>
             </div><br>
