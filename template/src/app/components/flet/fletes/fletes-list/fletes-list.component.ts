@@ -4,9 +4,10 @@ import { TableService } from '../../../../shared/services/fletes.service';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 import { NgbCalendar, NgbDateStruct, NgbModal, NgbModalRef, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { CellClickedEvent, ColDef, GridReadyEvent } from 'ag-grid-community';
+import { CellClickedEvent, ColDef, DomLayoutType, GridReadyEvent } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
 import { HttpClient } from '@angular/common/http';
+import { Idioma } from '../../../../../../config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
@@ -21,6 +22,9 @@ export class FleteListComponent implements OnInit {
   //tabs
   public selected = [];
   public active = 1;
+  public domLayout: DomLayoutType = 'autoHeight';
+  
+  idioma = Idioma
 
   onNavChange(changeEvent: NgbNavChangeEvent) {
     if (changeEvent.nextId === 4) {
@@ -127,104 +131,6 @@ export class FleteListComponent implements OnInit {
     { cellRenderer: (params) => this.actionButtonRenderer2(params), headerName: 'Acciones', flex: 1 }
   ];
   
-  idioma = {
-    // for set filter
-    selectAll: 'Seleccionar Todo',
-    searchOoo: 'Buscar...',
-    blanks: 'En blanco',
-
-    // for number filter and text filter
-    filterOoo: 'Filtrar',
-    applyFilter: 'Aplicar Filtro...',
-    equals: 'Igual',
-    notEqual: 'No Igual',
-
-    // for number filter
-    lessThan: 'Menos que',
-    greaterThan: 'Mayor que',
-    lessThanOrEqual: 'Menos o igual que',
-    greaterThanOrEqual: 'Mayor o igual que',
-    inRange: 'En rango de',
-
-    // for text filter
-    contains: 'Contiene',
-    notContains: 'No contiene',
-    startsWith: 'Empieza con',
-    endsWith: 'Termina con',
-
-    // filter conditions
-    andCondition: 'Y',
-    orCondition: 'O',
-
-    // the header of the default group column
-    group: 'Grupo',
-
-    // tool panel
-    columns: 'Columnas',
-    filters: 'Filtros',
-    valueColumns: 'Valos de las Columnas',
-    pivotMode: 'Modo Pivote',
-    groups: 'Grupos',
-    values: 'Valores',
-    pivots: 'Pivotes',
-    toolPanelButton: 'BotonDelPanelDeHerramientas',
-
-    // other
-    noRowsToShow: 'No hay filas para mostrar',
-
-    // enterprise menu
-    pinColumn: 'Columna Pin',
-    valueAggregation: 'Agregar valor',
-    autosizeThiscolumn: 'Autoajustar esta columna',
-    autosizeAllColumns: 'Ajustar todas las columnas',
-    groupBy: 'agrupar',
-    ungroupBy: 'desagrupar',
-    resetColumns: 'Reiniciar Columnas',
-    expandAll: 'Expandir todo',
-    collapseAll: 'Colapsar todo',
-    toolPanel: 'Panel de Herramientas',
-    export: 'Exportar',
-    csvExport: 'Exportar a CSV',
-    excelExport: 'Exportar a Excel (.xlsx)',
-    excelXmlExport: 'Exportar a Excel (.xml)',
-
-
-    // enterprise menu pinning
-    pinLeft: 'Pin Izquierdo',
-    pinRight: 'Pin Derecho',
-
-
-    // enterprise menu aggregation and status bar
-    sum: 'Suman',
-    min: 'Minimo',
-    max: 'Maximo',
-    none: 'nada',
-    count: 'contar',
-    average: 'promedio',
-
-    // standard menu
-    copy: 'Copiar',
-    copyWithHeaders: 'Copiar con cabeceras',
-    paste: 'Pegar',
-
-    first: 'Inicio',
-    last: 'Final',
-    avg: 'promedio',
-    filteredRows: 'Filtrado',
-    selectedRows: 'Seleccionado',
-    totalRows: 'Filas totales',
-    totalAndFilteredRows: 'Filas',
-    more: 'Más...',
-    to: 'a',
-    of: 'de',
-    page: 'Pagina',
-    pageLastRowUnknown: '?',
-    nextPage: 'Siguiente',
-    lastPage: 'Ultima',
-    firstPage: 'Primera',
-    previousPage: 'Anterior',
-
-  }
 
   actionButtonRenderer(params: any, modalService: NgbModal) {
     const onClickHandler = () => {
@@ -354,6 +260,10 @@ export class FleteListComponent implements OnInit {
              this.service.putUpdateFlete(this.flete)
               .subscribe((data:any) =>{
                 if(data.message === "Exitoso"){
+                  this.service.getFletesPendientes()
+                    .subscribe((data: any) => {
+                      this.fletesPendiente = data.data;
+                    })
                   this.modalRef.close();
                   Swal.fire({
                     showConfirmButton: false,

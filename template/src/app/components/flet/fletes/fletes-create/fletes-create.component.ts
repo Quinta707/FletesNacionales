@@ -469,11 +469,15 @@ export class FleteCreateComponent implements OnInit {
       if (data2.message === "1") {
 
         Swal.fire({
+          text: 'El flete se a creado exitosamente',
+          imageUrl: 'assets/images/cajasydireccion.jpg',
+          imageWidth: 400,
+          imageHeight: 400,
+          imageAlt: 'Piola',
           showConfirmButton: false,
-          timer: 2500,
+          timer: 4000,
           timerProgressBar: true,
-          title: 'El flete se realizo con exito',
-          icon: 'success'
+          title: '¡Exito!'
         })
 
         const datosdeFlete: any = await this.service.getBuscarFlete(dataDetalles.flet_Id).toPromise()

@@ -183,34 +183,34 @@
                 <div class="col-sm-6">
                   <div class="row mt-6 d-flex justify-content-between">
                     <div class="col">
-                      <h3>Flete</h3>
+                      <h4>Flete</h4>
                     </div>
                     <div class="col text-end">
-                      <h3>Nº {{nuevoFlete.flet_Id}}</h3>
+                      <h4>Nº {{nuevoFlete.flet_Id}}</h4>
                     </div>
                   </div>
                   <div class="row mt-4 d-flex justify-content-between">
                     <div class="col">
-                      <h5>Conductor:</h5>
+                      <h6>Conductor:</h6>
                     </div>
                     <div class="col text-end">
-                      <h5>{{nuevoFlete.empe_NombreCompleto}}</h5>
+                      <h6>{{nuevoFlete.empe_NombreCompleto}}</h6>
                     </div>
                   </div>
                   <div class="row mt-2 d-flex justify-content-between">
                     <div class="col">
-                      <h5>Vehiculo:</h5>
+                      <h6>Vehiculo:</h6>
                     </div>
                     <div class="col text-end">
-                      <h5>{{nuevoFlete.marc_Nombre}} {{nuevoFlete.mode_Nombre}} <br> {{nuevoFlete.vehi_Placa}}</h5>
+                      <h6>{{nuevoFlete.marc_Nombre}} {{nuevoFlete.mode_Nombre}} <br> {{nuevoFlete.vehi_Placa}}</h6>
                     </div>
                   </div>
                   <div class="row mt-2 d-flex justify-content-between">
                     <div class="col">
-                      <h5>Fecha de salida:</h5>
+                      <h6>Fecha de salida:</h6>
                     </div>
                     <div class="col text-end">
-                      <h5>{{nuevoFlete.flet_FechaDeSalida}}</h5>
+                      <h6>{{nuevoFlete.flet_FechaDeSalida}}</h6>
                     </div>
                   </div>
                   <div class="row mt-2 d-flex justify-content-between">
@@ -218,8 +218,8 @@
                       <table>
                         <tbody>
                           <tr>
-                            <td><h5>Desde:</h5></td>
-                            <td><h5>{{nuevoFlete.muni_NombreInicio}}</h5></td>
+                            <td><h6>Desde:</h6></td>
+                            <td><h6>{{nuevoFlete.muni_NombreInicio}}</h6></td>
                           </tr>
                         </tbody>
                       </table>
@@ -228,8 +228,8 @@
                       <table>
                         <tbody>
                           <tr>
-                            <td><h5>Hasta:</h5></td>
-                            <td><h5>{{nuevoFlete.muni_NombreFinal}}</h5></td>
+                            <td><h6>Hasta:</h6></td>
+                            <td><h6>{{nuevoFlete.muni_NombreFinal}}</h6></td>
                           </tr>
                         </tbody>
                       </table>
@@ -242,7 +242,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row card-body">
+              <div class="row mt-4">
                 <div class="col">
                   <h5 class="ms-2">Pedidos</h5>
                   <ngb-accordion #acc="ngbAccordion">
@@ -290,19 +290,19 @@
                             </tbody>
                           </table>
                         </div>
-                        <div class="row d-flex justify-content-end">
-                          <div class="col d-flex justify-content-end">
-                            <button class="btn btn-primary" (click)="updateMarker(item.pedi_DestinoNombre)">Ver destino del pedido en el mapa</button>
+                        <div class="row mt-3">
+                          <div class="col">
+                            <button class="btn btn-success" (click)="updateMarker(item.pedi_DestinoNombre)">Ver destino del pedido en el mapa</button>
                           </div>
                         </div>
                       </ng-template>
                     </ngb-panel>
                   </ngb-accordion>
                 </div>
-              </div>
+              </div>     
+              <button class="btn btn-success pull-right mt-4" type="button" (click)="redirectToList()">Completar</button>
             </div>
                   
-                  <button class="btn btn-success pull-right" type="button" (click)="redirectToList()">Completar</button>
               </aw-wizard-step>
             </aw-wizard>
           </div>
