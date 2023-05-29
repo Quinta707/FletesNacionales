@@ -8,6 +8,8 @@ import { content } from "./shared/routes/routes";
 
 import { AdminGuard } from './shared/guard/admin.guard';
 
+import { ClientesCreateComponent } from './components/flet/clientes/clientes-create/clientes-create.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -33,7 +35,8 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: ''
-  }
+  },
+  {path: 'clientes-create', component: ClientesCreateComponent}
 ];
 
 @NgModule({

@@ -1,22 +1,24 @@
 <div class="container">
-    <app-breadcrumb [title]="'sucursales listado'" [items]="['Flet']" [active_item]="'sucursales'"></app-breadcrumb>
-    <br>
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header bg-primary">
-            <div class="text-center">
-              <h3>Listado de sucursales</h3>
-            </div>
-          </div>
-          <div class="card-body">
+  <app-breadcrumb [title]="'Listado de Sucursales'" [items]="['Fletes']" [active_item]="'Sucursales'"></app-breadcrumb>
+    <div class="row widget-grid">
+      <div class="col-sm-12">
+  
+        <div class="card card-border">
+          <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/Sucursales.png" alt="Card image cap">
+  
+        <div class="card-body">
+          <button class="btn btn-primary" >+ Nuevo</button>
+        <br><br>
             <div class="d-flex justify-content-between mb-2 mx-1">
+              <div class="d-flex aling-content-center">
+                <label>Elementos a mostrar:</label>
               <select class="form-select" style="color: #3c334d; width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-                <option [ngValue]="5">5 Elementos por pagina</option>
-                <option [ngValue]="10">10 Elementos por pagina</option>
-                <option [ngValue]="25">25 Elementos por pagina</option>
-                <option [ngValue]="50">50 Elementos por pagina</option>
+                <option [ngValue]="5">5</option>
+                <option [ngValue]="10">10</option>
+                <option [ngValue]="25">25</option>
+                <option [ngValue]="50">50</option>
               </select>
+              </div>
               <div class="col-4">
                 <div class="input-group">
                   <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
@@ -73,10 +75,10 @@
                     </table>
                     <div class="d-flex justify-content-between mt-3 mb-2 mx-1">
                       <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-                        <option [ngValue]="5">5 Elementos por pagina</option>
-                        <option [ngValue]="10">10 Elementos por pagina</option>
-                        <option [ngValue]="25">25 Elementos por pagina</option>
-                        <option [ngValue]="50">50 Elementos por pagina</option>
+                        <option [ngValue]="5">5</option>
+                        <option [ngValue]="10">10</option>
+                        <option [ngValue]="25">25</option>
+                        <option [ngValue]="50">50</option>
                       </select>
                       <ngb-pagination class="ms-3" [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize"> </ngb-pagination>
                     </div>
@@ -84,11 +86,10 @@
                 </div>
               </div>
             </div>
-            
-          
+    
           </div>
         </div>
       </div>
-    </div>
+      </div>
   </div>
   

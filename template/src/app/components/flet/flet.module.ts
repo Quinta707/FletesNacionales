@@ -27,6 +27,8 @@ import { TrayectosIndexComponent } from './trayectos/trayectos-index/trayectos-i
 
 import { PedidosIndexComponent } from './pedidos/pedidos-index/pedidos-index.component';
 
+import { ClientesCreateComponent } from './clientes/clientes-create/clientes-create.component';
+
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import { PedidosIndexComponent } from './pedidos/pedidos-index/pedidos-index.com
     TipodevehiculoListComponent,
     TrayectosIndexComponent,
     PedidosIndexComponent,
+    ClientesCreateComponent,
   ],
   imports: [
     CommonModule,

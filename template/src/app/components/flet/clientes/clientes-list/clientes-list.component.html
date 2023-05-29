@@ -1,15 +1,14 @@
 <div class="container">
-  <app-breadcrumb [title]="'Clientes listado'" [items]="['Flet']" [active_item]="'Clientes'"></app-breadcrumb>
-  <br>
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header bg-primary">
-          <div class="text-center">
-            <h3>Listado de clientes</h3>
-          </div>
-        </div>
+  <app-breadcrumb [title]="'Listado de Clientes'" [items]="['Fletes']" [active_item]="'Clientes'"></app-breadcrumb>
+    <div class="row widget-grid">
+      <div class="col-sm-12">
+  
+        <div class="card card-border">
+          <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/Clientes.png" alt="Card image cap">
+  
         <div class="card-body">
+          <button class="btn btn-primary" (click)="CrearCliente()" >+ Nuevo</button>
+        <br><br>
           <div class="d-flex justify-content-between mb-2 mx-1">
             <div class="d-flex aling-content-center">
               <label>Elementos a mostrar:</label>
@@ -90,10 +89,9 @@
               </div>
             </div>
           </div>
-          
-        
+  
         </div>
       </div>
     </div>
-  </div>
+    </div>
 </div>

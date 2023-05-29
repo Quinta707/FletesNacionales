@@ -12,6 +12,7 @@ import { EstadosdelpedidoListComponent } from './estadosdelpedido/estadosdelpedi
 import { TipodevehiculoListComponent } from './tipodevehiculo/tipodevehiculo-list/tipodevehiculo-list.component';
 import { TrayectosIndexComponent } from "./trayectos/trayectos-index/trayectos-index.component";
 import { PedidosIndexComponent } from './pedidos/pedidos-index/pedidos-index.component';
+import { ClientesCreateComponent } from './clientes/clientes-create/clientes-create.component';
 
 const routes: Routes = [
   {
@@ -50,6 +51,10 @@ const routes: Routes = [
           {
             path: "List",
             component: ClienteListComponent,
+          },
+          {
+            path: "Create",
+            component: ClientesCreateComponent,
           },
           
         ],
