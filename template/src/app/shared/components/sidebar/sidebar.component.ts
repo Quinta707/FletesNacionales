@@ -42,6 +42,7 @@ export class SidebarComponent {
                 const menutemporal = new Menu();
                 menutemporal.title = item.pant_Nombre;
                 menutemporal.path = item.pant_Url;
+                menutemporal.icon = item.pant_Icono;
                 menutemporal.type = "link";
                 this.menugral.push(menutemporal);
               }
@@ -49,6 +50,7 @@ export class SidebarComponent {
                 const menutemporal = new Menu();
                 menutemporal.title = item.pant_Nombre;
                 menutemporal.path = item.pant_Url;
+                menutemporal.icon = item.pant_Icono;
                 menutemporal.type = "link";
                 this.menuflet.push(menutemporal);
               }
@@ -56,6 +58,7 @@ export class SidebarComponent {
                 const menutemporal = new Menu();
                 menutemporal.title = item.pant_Nombre;
                 menutemporal.path = item.pant_Url;
+                menutemporal.icon = item.pant_Icono;
                 menutemporal.type = "link";
                 this.menuequi.push(menutemporal);
               }
@@ -63,6 +66,7 @@ export class SidebarComponent {
                 const menutemporal = new Menu();
                 menutemporal.title = item.pant_Nombre;
                 menutemporal.path = item.pant_Url;
+                menutemporal.icon = item.pant_Icono;
                 menutemporal.type = "link";
                 this.menuacce.push(menutemporal);
               }
