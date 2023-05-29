@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { positionElements } from './positioning';","map":{"version":3,"names":["positionElements"],"sources":["F:/Plantillas/template/node_modules/positioning/dist/entry.js"],"sourcesContent":["export { positionElements } from './positioning';\n"],"mappings":"AAAA,SAASA,gBAAgB,QAAQ,eAAe"},"metadata":{},"sourceType":"module","externalDependencies":[]}

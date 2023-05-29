@@ -3,11 +3,11 @@
   <div class="row widget-grid">
     <div class="col-sm-12">
 
-        <div class="card card-border">
-          <img class="card-img-top" style="border-radius: 14px;" src="../../../../assets//images/equipo/headers/Marcas.png" alt="Card image cap">
+      <div class="card card-border">
+        <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/Marcas.png" alt="Card image cap">
 
       <div class="card-body">
-        <button class="btn btn-success">+ Nuevo</button>
+        <button class="btn btn-primary" (click)="open(content)">+ Nuevo</button>
         <br><br>
         <div class="d-flex justify-content-between mb-2 mx-1">
           <div class="d-flex aling-content-center">
@@ -80,4 +80,31 @@
     </div>
   </div>
   </div>
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <div class="text-center">
+        <h4 class="modal-title" id="modal-basic-title">Agregar Marcas</h4>
+      </div>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <label for="dateOfBirth">Nueva Marca</label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="marcaInput" required placeholder="Marca"
+            [(ngModel)]="MarcaValue" name="MarcaValue" #MarcaInput="ngModel"
+            [ngClass]="{ 'is-invalid': submitted && MarcaInput.invalid }">
+          <div class="invalid-feedback" *ngIf="MarcaInput?.errors?.required && submitted">Este campo es requerido</div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.close('by: close button')">Cancelar</button>
+      <button class="btn btn-primary" (click)="Guardar($event)">Guardar</button>
+    </div>
+  </ng-template>
+
 </div>
