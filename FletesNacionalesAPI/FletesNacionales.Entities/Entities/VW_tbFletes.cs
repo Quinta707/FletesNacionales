@@ -15,6 +15,7 @@ namespace FletesNacionales.Entities.Entities
         public string mode_Nombre { get; set; }
         public int? flet_PedidosTotales { get; set; }
         public int? flet_PedidosCompletados { get; set; }
+        public string flet_Ubicado { get; set; }
         public int marc_Id { get; set; }
         public string marc_Nombre { get; set; }
         public int empe_Id { get; set; }

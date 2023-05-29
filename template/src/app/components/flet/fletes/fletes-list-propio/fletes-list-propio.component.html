@@ -5,8 +5,8 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header bg-primary">
-          <div class="d-flex justify-content-between">
-            <h3>Fletes de Phynomo</h3>
+          <div class="text-center">
+            <h3>Listado de fletes</h3>
           </div>
         </div>
         <div class="card-body">
@@ -14,282 +14,142 @@
             <li [ngbNavItem]="1">
               <a ngbNavLink>Pendientes</a>
               <ng-template ngbNavContent>
-                <div class="d-flex justify-content-between mb-2 mx-1 mt-3">
-                  <select class="form-select" style="color: #3c334d; width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-                    <option [ngValue]="5">5 Elementos por pagina</option>
-                    <option [ngValue]="10">10 Elementos por pagina</option>
-                    <option [ngValue]="25">25 Elementos por pagina</option>
-                    <option [ngValue]="50">50 Elementos por pagina</option>
-                  </select>
+                <!-- app.component.html -->
+
+                <div class="d-flex justify-content-between mb-2 mx-1 mt-4">
+                  <table>
+                    <thead>
+                      <tr>
+                        <td>Elementos:</td>
+                        <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
+                            [(ngModel)]="paginationPageSize">
+                            <option [ngValue]="5">5</option>
+                            <option [ngValue]="10">10</option>
+                            <option [ngValue]="25">25</option>
+                            <option [ngValue]="50">50</option>
+                          </select>
+                        </td>
+                      </tr>
+                    </thead>
+                  </table>
                   <div class="col-4">
                     <div class="input-group">
                       <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
-                      <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange(searchText)" placeholder="Buscar..." />
+                      <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
+                        placeholder="Buscar..." />
                     </div>
                   </div>
                 </div>
-                  
-                <div class="row mt-3">
-                  <div class="col-12">
-                    <div class="custom-datatable noscroll">
-                      <div class="custom-datatable table-responsive">
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th scope="col" sortable="flet_Id" (sort)="onSort($event)">Id</th>
-                              <th scope="col" sortable="muni_NombreInicio" (sort)="onSort($event)">Desde</th>
-                              <th scope="col" sortable="muni_NombreFinal" (sort)="onSort($event)">Hasta</th>
-                              <th scope="col" sortable="flet_FechaDeSalida" (sort)="onSort($event)">Fecha de salida</th>
-                              <th scope="col" sortable="flet_PedidosTotales" (sort)="onSort($event)">Pedidos a llevar</th>
-                              <th scope="col" sortable="marc_Nombre" (sort)="onSort($event)">Vehiculo</th>
-                              <th scope="col" sortable="vehi_Placa" (sort)="onSort($event)">Matricula</th>
-                              <th scope="col">Acciones</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr *ngFor="let item of tableItem$ | async">
-                              <ng-container *ngIf="item.estp_Id === 1">
-                                <td scope="row">
-                                  <ngb-highlight [result]="item.flet_Id" [term]="service.searchTerm"></ngb-highlight>
-                                </td>
-                                <td>
-                                  <ngb-highlight [result]="item.muni_NombreInicio" [term]="service.searchTerm"></ngb-highlight>
-                                </td>
-                                <td> 
-                                  <ngb-highlight [result]="item.muni_NombreFinal" [term]="service.searchTerm"></ngb-highlight>
-                                </td>
-                                <td>
-                                  <ngb-highlight [result]="item.flet_FechaDeSalida"></ngb-highlight>
-                                </td>
-                                <td>
-                                  <ngb-highlight [result]="item.flet_PedidosTotales"></ngb-highlight>
-                                </td>
-                                <td>
-                                  <ngb-highlight [result]="item.marc_Nombre" [term]="service.searchTerm"></ngb-highlight>,
-                                  <ngb-highlight [result]="item.mode_Nombre" [term]="service.searchTerm"></ngb-highlight>
-                                </td>
-                                <td>
-                                  <ngb-highlight [result]="item.vehi_Placa" [term]="service.searchTerm"></ngb-highlight>
-                                </td>
-                                <td>
-                                  <div class="action">
-                                    <li class="edit">
-                                      <a href="#"><i class="icon-pencil-alt"></i></a>
-                                    </li>
-                                    <li class="delete" (click)="onSelect(item.carg_Descripcion)">
-                                      <a href="#"><i class="icon-trash"></i></a>
-                                    </li>
-                                  </div>
-                                </td>
-                              </ng-container>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <div class="d-flex justify-content-between mt-3 mb-2 mx-1">
-                          <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-                            <option [ngValue]="5">5 Elementos por pagina</option>
-                            <option [ngValue]="10">10 Elementos por pagina</option>
-                            <option [ngValue]="25">25 Elementos por pagina</option>
-                            <option [ngValue]="50">50 Elementos por pagina</option>
-                          </select>
-                          <ngb-pagination class="ms-3" [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize"> </ngb-pagination>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+
+                <ag-grid-angular class="ag-theme-alpine" [columnDefs]="columnDefs" [pagination]="true"
+                  [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
+                  [rowData]="fletesPendiente" [rowSelection]="'multiple'" [domLayout]="domLayout"
+                  [animateRows]="true"></ag-grid-angular>
+                <!-- (cellClicked)="onCellClicked($event)" -->
+
               </ng-template>
             </li>
             <li [ngbNavItem]="2">
               <a ngbNavLink>En proceso</a>
               <ng-template ngbNavContent>
-                <div class="d-flex justify-content-between mb-2 mx-1 mt-3">
-                  <select class="form-select" style="color: #3c334d; width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-                    <option [ngValue]="5">5 Elementos por pagina</option>
-                    <option [ngValue]="10">10 Elementos por pagina</option>
-                    <option [ngValue]="25">25 Elementos por pagina</option>
-                    <option [ngValue]="50">50 Elementos por pagina</option>
-                  </select>
+
+                <div class="d-flex justify-content-between mb-2 mx-1 mt-4">
+                  <table>
+                    <thead>
+                      <tr>
+                        <td>Elementos:</td>
+                        <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
+                            [(ngModel)]="paginationPageSize">
+                            <option [ngValue]="5">5</option>
+                            <option [ngValue]="10">10</option>
+                            <option [ngValue]="25">25</option>
+                            <option [ngValue]="50">50</option>
+                          </select>
+                        </td>
+                      </tr>
+                    </thead>
+                  </table>
                   <div class="col-4">
                     <div class="input-group">
                       <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
-                      <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange(searchText)" placeholder="Buscar..." />
+                      <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
+                        placeholder="Buscar..." />
                     </div>
                   </div>
                 </div>
-                  
-                <div class="row mt-3">
-                  <div class="col-12">
-                    <div class="custom-datatable noscroll">
-                      <div class="custom-datatable table-responsive">
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th scope="col" sortable="flet_Id" (sort)="onSort($event)">Id</th>
-                              <th scope="col" sortable="muni_NombreInicio" (sort)="onSort($event)">Desde</th>
-                              <th scope="col" sortable="muni_NombreFinal" (sort)="onSort($event)">Hasta</th>
-                              <th scope="col" sortable="flet_FechaDeSalida" (sort)="onSort($event)">Fecha de salida</th>
-                              <th scope="col" sortable="flet_PedidosCompletados" (sort)="onSort($event)">Pedidos completados</th>
-                              <th scope="col" sortable="marc_Nombre" (sort)="onSort($event)">Vehiculo</th>
-                              <th scope="col" sortable="vehi_Placa" (sort)="onSort($event)">Matricula</th>
-                              <th scope="col">Acciones</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr *ngFor="let item of tableItem$ | async">
-                              <ng-container *ngIf="item.estp_Id !== 1 && item.estp_Id !== 4">
-                                <td scope="row">
-                                  <ngb-highlight [result]="item.flet_Id" [term]="service.searchTerm"></ngb-highlight>
-                                </td>
-                                <td>
-                                  <ngb-highlight [result]="item.muni_NombreInicio" [term]="service.searchTerm"></ngb-highlight>
-                                </td>
-                                <td> 
-                                  <ngb-highlight [result]="item.muni_NombreFinal" [term]="service.searchTerm"></ngb-highlight>
-                                </td>
-                                <td>
-                                  <ngb-highlight [result]="item.flet_FechaDeSalida"></ngb-highlight>
-                                </td>
-                                <td>
-                                  <ngb-highlight [result]="item.flet_PedidosCompletados"></ngb-highlight> / <ngb-highlight [result]="item.flet_PedidosTotales"></ngb-highlight>
-                                </td>
-                                <td>
-                                  <ngb-highlight [result]="item.marc_Nombre" [term]="service.searchTerm"></ngb-highlight>,
-                                  <ngb-highlight [result]="item.mode_Nombre" [term]="service.searchTerm"></ngb-highlight>
-                                </td>
-                                <td>
-                                  <ngb-highlight [result]="item.vehi_Placa" [term]="service.searchTerm"></ngb-highlight>
-                                </td>
-                                <td>
-                                  <div class="action">
-                                    <li class="edit">
-                                      <a href="#"><i class="icon-pencil-alt"></i></a>
-                                    </li>
-                                    <li class="delete" (click)="onSelect(item.carg_Descripcion)">
-                                      <a href="#"><i class="icon-trash"></i></a>
-                                    </li>
-                                  </div>
-                                </td>
-                              </ng-container>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <div class="d-flex justify-content-between mt-3 mb-2 mx-1">
-                          <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-                            <option [ngValue]="5">5 Elementos por pagina</option>
-                            <option [ngValue]="10">10 Elementos por pagina</option>
-                            <option [ngValue]="25">25 Elementos por pagina</option>
-                            <option [ngValue]="50">50 Elementos por pagina</option>
-                          </select>
-                          <ngb-pagination class="ms-3" [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize"> </ngb-pagination>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+
+                <ag-grid-angular style="width: 100%; height: 500px; border-radius: 15px;" class="ag-theme-alpine"
+                  [columnDefs]="columnDefsEnProceso" [pagination]="true" [paginationPageSize]="paginationPageSize"
+                  [defaultColDef]="defaultColDef" [localeText]="idioma" [rowData]="fletesEnProceso"
+                  [domLayout]="domLayout" [rowSelection]="'multiple'" [animateRows]="true"></ag-grid-angular>
+                 
+                <!-- (cellClicked)="onCellClicked($event)" -->
+
               </ng-template>
             </li>
             <li [ngbNavItem]="3">
               <a ngbNavLink>Terminados</a>
               <ng-template ngbNavContent>
-                <div class="d-flex justify-content-between mb-2 mx-1 mt-3">
-                  <select class="form-select" style="color: #3c334d; width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-                    <option [ngValue]="5">5 Elementos por pagina</option>
-                    <option [ngValue]="10">10 Elementos por pagina</option>
-                    <option [ngValue]="25">25 Elementos por pagina</option>
-                    <option [ngValue]="50">50 Elementos por pagina</option>
-                  </select>
+
+                <div class="d-flex justify-content-between mb-2 mx-1 mt-4">
+                  <table>
+                    <thead>
+                      <tr>
+                        <td>Elementos:</td>
+                        <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
+                            [(ngModel)]="paginationPageSize">
+                            <option [ngValue]="5">5</option>
+                            <option [ngValue]="10">10</option>
+                            <option [ngValue]="25">25</option>
+                            <option [ngValue]="50">50</option>
+                          </select>
+                        </td>
+                      </tr>
+                    </thead>
+                  </table>
                   <div class="col-4">
                     <div class="input-group">
                       <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
-                      <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange(searchText)" placeholder="Buscar..." />
+                      <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
+                        placeholder="Buscar..." />
                     </div>
                   </div>
                 </div>
-                  
-                <div class="row mt-3">
-                  <div class="col-12">
-                    <div class="custom-datatable noscroll">
-                      <div class="custom-datatable table-responsive">
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th scope="col" sortable="flet_Id" (sort)="onSort($event)">Id</th>
-                              <th scope="col" sortable="muni_NombreInicio" (sort)="onSort($event)">Desde</th>
-                              <th scope="col" sortable="muni_NombreFinal" (sort)="onSort($event)">Hasta</th>
-                              <th scope="col" sortable="flet_FechaDeSalida" (sort)="onSort($event)">Fecha de salida</th>
-                              <th scope="col" sortable="flet_PedidosTotales" (sort)="onSort($event)">Pedidos realizados</th>
-                              <th scope="col" sortable="marc_Nombre" (sort)="onSort($event)">Vehiculo</th>
-                              <th scope="col" sortable="vehi_Placa" (sort)="onSort($event)">Matricula</th>
-                              <th scope="col">Acciones</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr *ngFor="let item of tableItem$ | async">
-                              <ng-container *ngIf="item.estp_Id === 4">
-                                <td scope="row">
-                                  <ngb-highlight [result]="item.flet_Id" [term]="service.searchTerm"></ngb-highlight>
-                                </td>
-                                <td>
-                                  <ngb-highlight [result]="item.muni_NombreInicio" [term]="service.searchTerm"></ngb-highlight>
-                                </td>
-                                <td> 
-                                  <ngb-highlight [result]="item.muni_NombreFinal" [term]="service.searchTerm"></ngb-highlight>
-                                </td>
-                                <td>
-                                  <ngb-highlight [result]="item.flet_FechaDeSalida"></ngb-highlight>
-                                </td>
-                                <td>
-                                  <ngb-highlight [result]="item.flet_PedidosTotales"></ngb-highlight>
-                                </td>
-                                <td>
-                                  <ngb-highlight [result]="item.marc_Nombre" [term]="service.searchTerm"></ngb-highlight>,
-                                  <ngb-highlight [result]="item.mode_Nombre" [term]="service.searchTerm"></ngb-highlight>
-                                </td>
-                                <td>
-                                  <ngb-highlight [result]="item.vehi_Placa" [term]="service.searchTerm"></ngb-highlight>
-                                </td>
-                                <td>
-                                  <div class="action">
-                                    <li class="edit">
-                                      <a href="#"><i class="icon-pencil-alt"></i></a>
-                                    </li>
-                                    <li class="delete" (click)="onSelect(item.carg_Descripcion)">
-                                      <a href="#"><i class="icon-trash"></i></a>
-                                    </li>
-                                  </div>
-                                </td>
-                              </ng-container>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <div class="d-flex justify-content-between mt-3 mb-2 mx-1">
-                          <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-                            <option [ngValue]="5">5 Elementos por pagina</option>
-                            <option [ngValue]="10">10 Elementos por pagina</option>
-                            <option [ngValue]="25">25 Elementos por pagina</option>
-                            <option [ngValue]="50">50 Elementos por pagina</option>
-                          </select>
-                          <ngb-pagination class="ms-3" [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize"> </ngb-pagination>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+
+                <ag-grid-angular style="width: 100%; height: 500px" class="ag-theme-alpine"
+                  [columnDefs]="columnDefsTerminado" [pagination]="true" [paginationPageSize]="paginationPageSize"
+                  [defaultColDef]="defaultColDef" [localeText]="idioma" [rowData]="fletesTerminado"
+                  [domLayout]="domLayout" [rowSelection]="'multiple'" [animateRows]="true"></ag-grid-angular>
+                <!-- (cellClicked)="onCellClicked($event)" -->
+
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="4" style="margin-left: auto;">
+              <button class="btn btn-success" style="width: 100%;" type="button" (click)="redirectToCreate()">Crear un
+                flete</button>
+              <ng-template ngbNavContent>
               </ng-template>
             </li>
           </ul>
+
           <div [ngbNavOutlet]="nav" class="mt-2"></div>
-          
+
         </div>
       </div>
     </div>
   </div>
-  <!-- <div class="card">
-        <div class="card-header">
-          <h5>Basic Tabset</h5>
-        </div>
-        
-      
-      </div> -->
 </div>
+
+<ng-template #content let-modal>
+    <div class="modal-body text-center">
+      <h4 class="modal-title" id="modal-basic-title">Empezar flete</h4>
+      <hr>
+      <img src="../../../../../assets/images/Camioncito.jpg" style="width: 100%;" alt="">
+      <h6>¿Es esto lo que deseas?</h6>
+    </div>
+    <div class="modal-footer text-center d-flex justify-content-center">
+      <!-- <button type="button" class="btn btn-outline-dark" (click)="printFechas()">Save</button> -->
+      <button class="btn btn-dark" (click)="modal.dismiss('Cross click')" type="button">No</button>
+      <button class="btn btn-primary" (click)="printFechas()" type="button" >Si</button>
+    </div>
+</ng-template>

@@ -59,6 +59,18 @@ namespace FletesNacionales.DataAccess.Repository
 
             return result;
         }
+    public RequestStatus VehiDispo(int vehi_Id, string fechaSalida)
+        {
+            RequestStatus result = new RequestStatus();
+
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+            var parametros = new DynamicParameters();
+            parametros.Add("@vehi_Id", vehi_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@flet_FechaDeSalida", fechaSalida, DbType.Date, ParameterDirection.Input);
+            result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.FletesVehiDisponible, parametros, commandType: System.Data.CommandType.StoredProcedure);
+
+            return result;
+        }
         public RequestStatus DetallesInsert(tbFleteDetalles item)
         {
             RequestStatus result = new RequestStatus();
@@ -72,11 +84,61 @@ namespace FletesNacionales.DataAccess.Repository
 
             return result;
         }
+        public IEnumerable<VW_tbFletes> ListEmpleado(int id)
+        {
+            using var db = new SqlConnection(FleteContext.ConnectionString);
 
+            var parametros = new DynamicParameters();
+            parametros.Add("@flet_Id", id, DbType.Int32, ParameterDirection.Input);
+
+            return db.Query<VW_tbFletes>(ScriptsDataBase.FletesIndexEmpleado, parametros, commandType: System.Data.CommandType.StoredProcedure);
+        }
+        public IEnumerable<VW_tbFletes> ListEmpleadoPendiente(int id)
+        {
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+            parametros.Add("@flet_Id", id, DbType.Int32, ParameterDirection.Input);
+
+            return db.Query<VW_tbFletes>(ScriptsDataBase.FletesIndexEmpleadoPendiente, parametros, commandType: System.Data.CommandType.StoredProcedure);
+        }
+        public IEnumerable<VW_tbFletes> ListEmpleadoEnProceso(int id)
+        {
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+            parametros.Add("@flet_Id", id, DbType.Int32, ParameterDirection.Input);
+
+            return db.Query<VW_tbFletes>(ScriptsDataBase.FletesIndexEmpleadoEnProceso, parametros, commandType: System.Data.CommandType.StoredProcedure);
+        }
+        public IEnumerable<VW_tbFletes> ListEmpleadoTerminado(int id)
+        {
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+            parametros.Add("@flet_Id", id, DbType.Int32, ParameterDirection.Input);
+
+            return db.Query<VW_tbFletes>(ScriptsDataBase.FletesIndexEmpleadoTerminado, parametros, commandType: System.Data.CommandType.StoredProcedure);
+        }
         public IEnumerable<VW_tbFletes> List()
         {
             using var db = new SqlConnection(FleteContext.ConnectionString);
             return db.Query<VW_tbFletes>(ScriptsDataBase.FletesIndex, null, commandType: System.Data.CommandType.StoredProcedure);
+        }
+        public IEnumerable<VW_tbFletes> ListPendientes()
+        {
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+            return db.Query<VW_tbFletes>(ScriptsDataBase.FletesIndexPendientes, null, commandType: System.Data.CommandType.StoredProcedure);
+        }
+        public IEnumerable<VW_tbFletes> ListTerminados()
+        {
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+            return db.Query<VW_tbFletes>(ScriptsDataBase.FletesIndexTermiandos, null, commandType: System.Data.CommandType.StoredProcedure);
+        }
+        public IEnumerable<VW_tbFletes> ListEnProceso()
+        {
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+            return db.Query<VW_tbFletes>(ScriptsDataBase.FletesIndexEnProcesp, null, commandType: System.Data.CommandType.StoredProcedure);
         }
         
         public IEnumerable<VW_tbFleteDetalles> ListDetallesxFlete(int id)
@@ -94,11 +156,8 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@flet_Id", item.flet_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@vehi_Id", item.vehi_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@empe_Id", item.empe_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@tray_Id", item.tray_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@flet_FechaDeSalida", item.flet_FechaDeSalida, DbType.Date, ParameterDirection.Input);
-            parametros.Add("@flet_UsuCreacion", item.flet_UsuCreacion, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@flet_UsuModificacion", item.flet_UsuModificacion, DbType.Int32, ParameterDirection.Input);
             result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.FletesUpdate, parametros, commandType: System.Data.CommandType.StoredProcedure);
 
             return result;

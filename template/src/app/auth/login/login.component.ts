@@ -3,6 +3,9 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import Swal from 'sweetalert2';
 import { NavService } from "src/app/shared/services/nav.service";
+import { Global } from '../../../../config';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: "app-login",

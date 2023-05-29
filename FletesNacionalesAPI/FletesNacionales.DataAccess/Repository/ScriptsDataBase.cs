@@ -135,11 +135,19 @@
 
         public static string FletesFind = "flet.UDP_tbFletes_Find";
         public static string FletesIndex = "flet.UDP_tbFletes_Index";
+        public static string FletesIndexPendientes = "flet.UDP_tbFletes_IndexPendientes";
+        public static string FletesIndexTermiandos = "flet.UDP_tbFletes_IndexTerminados";
+        public static string FletesIndexEnProcesp = "flet.UDP_tbFletes_IndexEnProceso";
         public static string FletesInsert = "flet.UDP_tbFletes_Insert";
         public static string FletesUpdate = "flet.UDP_tbFletes_Update";
         public static string FletesDelete = "flet.UDP_tbFletes_Delete";
         public static string FletesEmpezar = "flet.UDP_tbFletes_Empezar";
         public static string FletesPedidos = "flet.UDP_tbFletes_PedidosPorFlete";
+        public static string FletesVehiDisponible = "flet.UDP_tbFletes_VehiculoAsignado";
+        public static string FletesIndexEmpleado = "flet.UDP_tbFletes_IndexPorEmpleado";
+        public static string FletesIndexEmpleadoPendiente = "flet.UDP_tbFletes_IndexPorEmpleadoPendientes";
+        public static string FletesIndexEmpleadoEnProceso = "flet.UDP_tbFletes_IndexPorEmpleadoEnProceso";
+        public static string FletesIndexEmpleadoTerminado = "flet.UDP_tbFletes_IndexPorEmpleadoTerminados";
 
 
         public static string FletesDetallesFind = "flet.UDP_tbFleteDetalles_Find";

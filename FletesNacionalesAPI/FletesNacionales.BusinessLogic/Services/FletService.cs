@@ -372,6 +372,101 @@ namespace FletesNacionales.BusinessLogic.Services
                 return result.Error(e.Message);
             }
         }
+        
+        public ServiceResult ListadoFletesPendientes()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _fletesRepository.ListPendientes();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        
+        public ServiceResult ListadoFletesTerminados()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _fletesRepository.ListTerminados();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+
+        public ServiceResult ListadoFletesEmpleado(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _fletesRepository.ListEmpleado(id);
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        public ServiceResult ListadoFletesEmpleadoPendiente(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _fletesRepository.ListEmpleadoPendiente(id);
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        public ServiceResult ListadoFletesEmpleadoEnProceso(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _fletesRepository.ListEmpleadoEnProceso(id);
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        public ServiceResult ListadoFletesEmpleadoTerminado(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _fletesRepository.ListEmpleadoTerminado(id);
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+
+        public ServiceResult ListadoFletesEnProceso()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _fletesRepository.ListEnProceso();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
 
         public ServiceResult InsertarFletes(tbFletes item)
         {
@@ -390,6 +485,32 @@ namespace FletesNacionales.BusinessLogic.Services
                 else if (list.CodeStatus == 0)
                 {
                     return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                }
+                else
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                }
+            }
+            catch (Exception xe)
+            {
+
+                return result.Error(xe.Message);
+            }
+        }
+        
+        public ServiceResult VehiDisponible(int vehi_Id, string fechaSalida)
+        {
+            ServiceResult result = new ServiceResult();
+            try
+            {
+                var list = _fletesRepository.VehiDispo(vehi_Id, fechaSalida);
+                if (list.CodeStatus == 1)
+                {
+                    return result.SetMessage(list.CodeStatus.ToString(), ServiceResultType.Success);
+                }
+                else if (list.CodeStatus == 0)
+                {
+                    return result.SetMessage(list.CodeStatus.ToString(), ServiceResultType.Error);
                 }
                 else
                 {

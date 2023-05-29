@@ -13,6 +13,8 @@ import { TipodevehiculoListComponent } from './tipodevehiculo/tipodevehiculo-lis
 import { TrayectosIndexComponent } from "./trayectos/trayectos-index/trayectos-index.component";
 import { PedidosIndexComponent } from './pedidos/pedidos-index/pedidos-index.component';
 import { ReporteComponent } from './reporte/reporte/reporte.component';
+import { FletedetailsComponent } from './fletes/fletes-details/fletes-details.component';
+
 const routes: Routes = [
   {
     path: "",
@@ -31,6 +33,10 @@ const routes: Routes = [
           {
             path: "PersonalList",
             component: FleteListPropioComponent,
+          },
+          {
+            path: "Details",
+            component: FletedetailsComponent,
           },
         ],
       },
