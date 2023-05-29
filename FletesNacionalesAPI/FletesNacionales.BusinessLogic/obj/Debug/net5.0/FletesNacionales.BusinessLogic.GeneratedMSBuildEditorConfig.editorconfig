@@ -7,4 +7,4 @@ build_property.PublishSingleFile =
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
 build_property.RootNamespace = FletesNacionales.BusinessLogic
-build_property.ProjectDir = C:\Users\PC\Desktop\API SARAI\FletesNacionalesAPI\FletesNacionales.BusinessLogic\
+build_property.ProjectDir = C:\Users\LAB02\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\

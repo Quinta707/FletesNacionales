@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\PC\\Desktop\\API SARAI\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj": {}
+    "C:\\Users\\LAB02\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj": {}
   },
   "projects": {
-    "C:\\Users\\PC\\Desktop\\API SARAI\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj": {
+    "C:\\Users\\LAB02\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC\\Desktop\\API SARAI\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj",
+        "projectUniqueName": "C:\\Users\\LAB02\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj",
         "projectName": "FletesNacionales.BusinessLogic",
-        "projectPath": "C:\\Users\\PC\\Desktop\\API SARAI\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj",
-        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC\\Desktop\\API SARAI\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\obj\\",
+        "projectPath": "C:\\Users\\LAB02\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj",
+        "packagesPath": "C:\\Users\\LAB02\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\LAB02\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\LAB02\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -32,8 +32,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\PC\\Desktop\\API SARAI\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj": {
-                "projectPath": "C:\\Users\\PC\\Desktop\\API SARAI\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj"
+              "C:\\Users\\LAB02\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj": {
+                "projectPath": "C:\\Users\\LAB02\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj"
               }
             }
           }
@@ -62,24 +62,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.411\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\PC\\Desktop\\API SARAI\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj": {
+    "C:\\Users\\LAB02\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC\\Desktop\\API SARAI\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj",
+        "projectUniqueName": "C:\\Users\\LAB02\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj",
         "projectName": "FletesNacionales.DataAccess",
-        "projectPath": "C:\\Users\\PC\\Desktop\\API SARAI\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj",
-        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC\\Desktop\\API SARAI\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\obj\\",
+        "projectPath": "C:\\Users\\LAB02\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj",
+        "packagesPath": "C:\\Users\\LAB02\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\LAB02\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\LAB02\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -94,8 +94,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\PC\\Desktop\\API SARAI\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj": {
-                "projectPath": "C:\\Users\\PC\\Desktop\\API SARAI\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj"
+              "C:\\Users\\LAB02\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj": {
+                "projectPath": "C:\\Users\\LAB02\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj"
               }
             }
           }
@@ -146,24 +146,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.411\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\PC\\Desktop\\API SARAI\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj": {
+    "C:\\Users\\LAB02\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC\\Desktop\\API SARAI\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
+        "projectUniqueName": "C:\\Users\\LAB02\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
         "projectName": "FletesNacionales.Entities",
-        "projectPath": "C:\\Users\\PC\\Desktop\\API SARAI\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
-        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC\\Desktop\\API SARAI\\FletesNacionalesAPI\\FletesNacionales.Entities\\obj\\",
+        "projectPath": "C:\\Users\\LAB02\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
+        "packagesPath": "C:\\Users\\LAB02\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\LAB02\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\LAB02\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -204,7 +204,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.411\\RuntimeIdentifierGraph.json"
         }
       }
     }
