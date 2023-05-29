@@ -26,6 +26,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
 
 import { OverlayModule } from '@angular/cdk/overlay';
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
 }

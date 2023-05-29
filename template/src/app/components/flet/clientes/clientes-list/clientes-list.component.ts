@@ -1,8 +1,9 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Clientes } from '../../../../shared/model/clientes.model';
-import { TableService } from '../../../../shared/services/clientes.service';
+import { ClientService } from '../../../../shared/services/clientes.service';
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class ClienteListComponent implements OnInit {
   public searchText;
   total$: Observable<number>;
 
-  constructor(public service: TableService) {
+  constructor(public service: ClientService, public router: Router) {
 
     this.tableItem$ = service.tableItem$;
     this.total$ = service.total$;
@@ -62,5 +63,8 @@ export class ClienteListComponent implements OnInit {
     })
   }
 
+  CrearCliente(){
+    this.router.navigate(['clientes-create']);
+  }
  }
  

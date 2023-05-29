@@ -5,6 +5,8 @@ import { MunicipiosListComponent } from "./municipios/municipios-list/municipios
 import { EstadosDelPedidoListComponent } from './estadosDelPedido/estadosDelPedido-list/estadosDelPedido-list.component'
 import { EmpleadosListComponent } from './empleados/empleados-list/empleados-list.component'
 import { MetodosDePagoListComponent } from './metodosDePago/municipios-list/metodosDePago-list.component'
+
+
 import { EstadosCivilesComponent } from './estadosCiviles/estadosCiviles-list/estadosCiviles-list.component'
 
 

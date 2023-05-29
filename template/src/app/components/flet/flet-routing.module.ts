@@ -14,6 +14,7 @@ import { TrayectosIndexComponent } from "./trayectos/trayectos-index/trayectos-i
 import { PedidosIndexComponent } from './pedidos/pedidos-index/pedidos-index.component';
 import { ReporteComponent } from './reporte/reporte/reporte.component';
 import { FletedetailsComponent } from './fletes/fletes-details/fletes-details.component';
+import { ClientesCreateComponent } from './clientes/clientes-create/clientes-create.component';
 
 const routes: Routes = [
   {
@@ -56,6 +57,10 @@ const routes: Routes = [
           {
             path: "List",
             component: ClienteListComponent,
+          },
+          {
+            path: "Create",
+            component: ClientesCreateComponent,
           },
           
         ],

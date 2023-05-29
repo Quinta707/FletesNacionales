@@ -32,6 +32,8 @@ import { PedidosIndexComponent } from './pedidos/pedidos-index/pedidos-index.com
 import { GoogleMapsModule } from "@angular/google-maps";
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { AgGridModule } from 'ag-grid-angular';
+import { ClientesCreateComponent } from './clientes/clientes-create/clientes-create.component';
+
 
 @NgModule({
   declarations: [
@@ -49,6 +51,7 @@ import { AgGridModule } from 'ag-grid-angular';
     TrayectosIndexComponent,
     PedidosIndexComponent,
     ReporteComponent,
+    ClientesCreateComponent,
   ],
   imports: [
     CommonModule,
