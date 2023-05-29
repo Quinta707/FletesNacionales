@@ -11,4 +11,5 @@ export class Departamentos{
     user_Modificacion!: String;
     depa_FechaModificacion!: String;
     depa_Estado!: number;
+    
 }

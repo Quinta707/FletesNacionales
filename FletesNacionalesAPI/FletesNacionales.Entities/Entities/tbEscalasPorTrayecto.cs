@@ -10,7 +10,7 @@ namespace FletesNacionales.Entities.Entities
     {
         public int estr_Id { get; set; }
         public int flet_Id { get; set; }
-        public int muni_Escala { get; set; }
+        public string muni_Escala { get; set; }
         public int estr_UsuCreacion { get; set; }
         public DateTime? estr_FechaCreacion { get; set; }
         public int? estr_UsuModificacion { get; set; }

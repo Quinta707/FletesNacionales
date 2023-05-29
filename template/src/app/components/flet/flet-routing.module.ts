@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { FleteListComponent } from './fletes/fletes-list/fletes-list.component';
+import { FleteCreateComponent } from './fletes/fletes-create/fletes-create.component';
 import { ItemListComponent } from './item/items-list/items-list.component';
 import { ClienteListComponent } from './clientes/clientes-list/clientes-list.component';
 import { FleteListPropioComponent } from './fletes/fletes-list-propio/fletes-list-propio.component';
@@ -9,7 +10,9 @@ import { SucursalesListComponent } from './sucursales/sucursales-list/sucursales
 import { EmpleadosListComponent } from './empleados/empleados-list/empleados-list.component';
 import { EstadosdelpedidoListComponent } from './estadosdelpedido/estadosdelpedido-list/estadosdelpedido-list.component';
 import { TipodevehiculoListComponent } from './tipodevehiculo/tipodevehiculo-list/tipodevehiculo-list.component';
-
+import { TrayectosIndexComponent } from "./trayectos/trayectos-index/trayectos-index.component";
+import { PedidosIndexComponent } from './pedidos/pedidos-index/pedidos-index.component';
+import { ReporteComponent } from './reporte/reporte/reporte.component';
 const routes: Routes = [
   {
     path: "",
@@ -20,6 +23,10 @@ const routes: Routes = [
           {
             path: "List",
             component: FleteListComponent,
+          },
+          {
+            path: "Create",
+            component: FleteCreateComponent,
           },
           {
             path: "PersonalList",
@@ -96,6 +103,36 @@ const routes: Routes = [
           },
           
         ],
+      },
+      {
+        path: "Trayectos",
+        children: [
+          {
+            path: "List",
+            component: TrayectosIndexComponent,
+          },
+        ],
+        
+      },
+      {
+        path: "Pedidos",
+        children: [
+          {
+            path: "List",
+            component: PedidosIndexComponent,
+          },
+        ],
+        
+      },
+      {
+        path: "Reporte",
+        children: [
+          {
+            path: "List",
+            component: ReporteComponent,
+          },
+        ],
+        
       },
     ],
   },

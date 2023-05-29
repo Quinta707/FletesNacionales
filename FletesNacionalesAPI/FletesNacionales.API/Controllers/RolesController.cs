@@ -83,6 +83,12 @@ namespace FletesNacionales.API.Controllers
             return Ok(list);
         }
 
+        [HttpGet("Menu/{id}/{esadmin}")]
+        public IActionResult Menu(int id, bool esadmin)
+        {
+            var list = _acceService.menu(id, esadmin);
+            return Ok(list);
+        }
 
     }
 }

@@ -149,4 +149,8 @@ export const content: Routes = [
     path: "acce",
     loadChildren: () => import("../../components/acce/acce.module").then((m) => m.AcceModule),
   },
+  {
+    path: "equi",
+    loadChildren: () => import("../../components/equi/equi.module").then((m) => m.EquiModule),
+  },
 ];

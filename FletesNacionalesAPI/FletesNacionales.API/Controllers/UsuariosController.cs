@@ -61,7 +61,6 @@ namespace FletesNacionales.API.Controllers
             return Ok(list);
         }
 
-
         [HttpPost("Login")]
         public IActionResult Login(UsuariosViewModel usuarios)
         {

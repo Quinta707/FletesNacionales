@@ -96,20 +96,6 @@ END;
 GO
 
 EXEC acce.UDP_tbUsuarios_Insert 'Admin', '123', 1, NULL, 1;
-
-EXEC acce.UDP_tbUsuarios_Insert 'Javier', 'Javier', 1, NULL, 1;
-
-EXEC acce.UDP_tbUsuarios_Insert 'Sarai', 'Sarai', 1, NULL, 1;
-
-EXEC acce.UDP_tbUsuarios_Insert 'Ian', 'Ian', 1, NULL, 1;
-
-EXEC acce.UDP_tbUsuarios_Insert 'Daniel', 'Daniel', 1, NULL, 1;
-
-EXEC acce.UDP_tbUsuarios_Insert 'Phynomo', 'Phynomo', 1, NULL, 1;
-
-EXEC acce.UDP_tbUsuarios_Insert 'Javinto7', 'Javinto7', 1, NULL, 1;
-GO
-
 GO
 ALTER TABLE acce.tbRoles
 ADD CONSTRAINT FK_acce_tbRoles_acce_tbUsuarios_role_UsuCreacion_user_Id 	FOREIGN KEY(role_UsuCreacion) REFERENCES acce.tbUsuarios(user_Id),
@@ -124,6 +110,7 @@ GO
 UPDATE acce.tbUsuarios
 SET role_Id = 1
 WHERE user_Id = 1;
+
 
 GO
 ALTER TABLE [acce].[tbUsuarios]
@@ -568,6 +555,7 @@ CONSTRAINT FK_flet_tbEscalasPorTrayecto_gral_tbMunicipios_muni_Escala			FOREIGN 
 CONSTRAINT FK_flet_tbEscalasPorTrayecto_acce_tbUsuarios_pedi_UsuCreacion        FOREIGN KEY(estr_UsuCreacion) REFERENCES acce.tbUsuarios(User_Id),
 CONSTRAINT FK_flet_tbEscalasPorTrayecto_acce_tbUsuarios_pedi_UsuModificacion    FOREIGN KEY(estr_UsuModificacion) REFERENCES acce.tbUsuarios(User_Id)
 );
+
 
 -----------------SOLO TABLAS-----------------
 

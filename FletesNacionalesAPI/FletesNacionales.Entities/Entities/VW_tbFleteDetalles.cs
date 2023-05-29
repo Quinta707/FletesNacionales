@@ -24,7 +24,7 @@ namespace FletesNacionales.Entities.Entities
         public DateTime empe_FechaNacimiento { get; set; }
         public string empe_Sexo { get; set; }
         public int eciv_Id { get; set; }
-        public int muni_Id { get; set; }
+        public string muni_Id { get; set; }
         public string empe_DireccionExacta { get; set; }
         public string empe_Telefono { get; set; }
         public int sucu_Id { get; set; }
@@ -35,13 +35,13 @@ namespace FletesNacionales.Entities.Entities
         public int pedi_Id { get; set; }
         public int estp_Id { get; set; }
         public string estp_Nombre { get; set; }
-        public int muni_Destino { get; set; }
-        public int muni_Origen { get; set; }
+        public string muni_Destino { get; set; }
+        public string muni_Origen { get; set; }
         public string pedi_OrigenNombre { get; set; }
-        public int pedi_DepaOrigenId { get; set; }
+        public string pedi_DepaOrigenId { get; set; }
         public string pedi_DepaOrigen { get; set; }
         public string pedi_DestinoNombre { get; set; }
-        public int pedi_DepaDestinoId { get; set; }
+        public string pedi_DepaDestinoId { get; set; }
         public string pedi_DepaDestino { get; set; }
         public int fdet_UsuCreacion { get; set; }
         public DateTime? fdet_FechaCreacion { get; set; }

@@ -13,7 +13,6 @@ namespace FletesNacionales.API.Models
         public string empe_Sexo { get; set; }
         public int eciv_Id { get; set; }
         public string eciv_Descripcion { get; set; }
-        public int muni_Id { get; set; }
         public string muni_Id { get; set; }
         public string muni_Nombre { get; set; }
         public int depa_Id { get; set; }

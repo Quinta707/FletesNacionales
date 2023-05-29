@@ -63,8 +63,7 @@ export class EstadosdelpedidoListComponent {
     this.service.sortDirection = direction;
   }
 
-    
-
+  
   open(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       // Acción a realizar cuando se cierra el modal
@@ -76,7 +75,7 @@ export class EstadosdelpedidoListComponent {
   }
 
   Guardar(e: Event) {
-    const apiUrl = 'https://localhost:44339/api/EstadosDelPedido/Insertar';
+
     e.preventDefault();
     if (!this.estadodelPedidoValue) {
       this.submitted = true;
@@ -89,8 +88,9 @@ export class EstadosdelpedidoListComponent {
         title: '¡ERROR!, El campo de Estado del Pedido no puede estar vacío',
         icon: 'error'
       });
+      return; // Detener la ejecución del código si el campo está vacío
     }
-  
+    const apiUrl = 'https://localhost:44339/api/EstadosDelPedido/Insertar';
     const requestBody = {
       estp_Nombre: this.estadodelPedidoValue
     };
@@ -110,16 +110,16 @@ export class EstadosdelpedidoListComponent {
               title: '¡Registro Ingresado con éxito!',
               icon: 'success'
             }).then(() => {
-            
+  
               this.modalRef?.close(); // Cerrar el modal
               this.estadodelPedidoValue = ''; // Restablecer el valor del campo
               this.submitted = false; // Reiniciar el estado del formulario
               this.service.getEstadosdelPedido()
-              .subscribe((data: any)=>{
-                this.items= data.data;
-                this.service.setUserData(data.data);
-              });
-              this.modalService.dismissAll( )
+                .subscribe((data: any) => {
+                  this.items = data.data;
+                  this.service.setUserData(data.data);
+                });
+              this.modalService.dismissAll();
             });
           } else if (response.message === "YaExiste") {
             Swal.fire({

@@ -39,7 +39,7 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
-        [HttpPut("Editar")]
+        [HttpPost("Editar")]
         public IActionResult Edit(ItemsViewModel items)
         {
             var item = _mapper.Map<tbItems>(items);
@@ -47,7 +47,7 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
-        [HttpPut("Eliminar")]
+        [HttpPost("Eliminar")]
         public IActionResult Delete(ItemsViewModel items)
         {
             var item = _mapper.Map<tbItems>(items);
