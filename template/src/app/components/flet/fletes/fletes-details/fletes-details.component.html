@@ -1,0 +1,150 @@
+<div class="container">
+  <app-breadcrumb [title]="'Fletes crear'" [items]="['Flet']" [active_item]="'Fletes'"></app-breadcrumb>
+  <br>
+  <div class="row">
+    <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h5>Flete</h5>
+          </div>
+          <div class="card-body">
+            <div class="px-4">
+              <div class="row mt-4">
+                <div class="col-sm-6" style="border-right: 2px solid black;">
+                  <div class="map-height" leaflet [leafletOptions]="options4" (leafletMapReady)="onMapReady4($event)"></div>
+              </div>
+              <div class="col-sm-6">
+                <div class="row mt-6 d-flex justify-content-between">
+                  <div class="col">
+                    <h3>Flete</h3>
+                  </div>
+                  <div class="col text-end">
+                    <h3>Nº {{nuevoFlete.flet_Id}}</h3>
+                  </div>
+                </div>
+                <div class="row mt-4 d-flex justify-content-between">
+                  <div class="col">
+                    <h5>Conductor:</h5>
+                  </div>
+                  <div class="col text-end">
+                    <h5>{{nuevoFlete.empe_NombreCompleto}}</h5>
+                  </div>
+                </div>
+                <div class="row mt-2 d-flex justify-content-between">
+                  <div class="col">
+                    <h5>Vehiculo:</h5>
+                  </div>
+                  <div class="col text-end">
+                    <h5>{{nuevoFlete.marc_Nombre}} {{nuevoFlete.mode_Nombre}} <br> {{nuevoFlete.vehi_Placa}}</h5>
+                  </div>
+                </div>
+                <div class="row mt-2 d-flex justify-content-between">
+                  <div class="col">
+                    <h5>Fecha de salida:</h5>
+                  </div>
+                  <div class="col text-end">
+                    <h5>{{ nuevoFlete.flet_FechaDeSalida.toString().replace("T00:00:00", "") }}</h5>
+                  </div>
+                </div>
+                <div class="row mt-2 d-flex justify-content-between">
+                  <div class="col">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td><h5>Desde:</h5></td>
+                          <td><h5>{{nuevoFlete.muni_NombreInicio}}</h5></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col d-flex justify-content-end text-end">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td><h5>Hasta:</h5></td>
+                          <td><h5>{{nuevoFlete.muni_NombreFinal}}</h5></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="row mt-2 d-flex justify-content-between">
+                  <div class="col-6">
+                    <h5>Pedidos:</h5>
+                  </div>
+                  <div class="col text-end">
+                    <h5>{{ nuevoFlete.flet_PedidosCompletados }}/{{ nuevoFlete.flet_PedidosTotales }}</h5>
+                  </div>
+                </div>
+                <div class="row d-flex justify-content-end">
+                  <div class="col d-flex justify-content-end">
+                    <button class="btn btn-primary" (click)="recuperarMarker()">Ver municipios en el mapa</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row card-body">
+              <div class="col">
+                <h5 class="ms-2">Pedidos</h5>
+                <ngb-accordion #acc="ngbAccordion">
+                  <ngb-panel *ngFor="let item of pedidosDelNuevoFlete$ | async">
+                    <ng-template ngbPanelTitle>
+                      <span (click)="handlePanelClick(item)">
+                        <h6>Pedido de {{item.clie_NombreCompleto}}</h6>
+                      </span>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                      <div class="row">
+                        <div class="col">
+                          <span class="text-end"><strong>Direccion Exacta:</strong> {{item.pedi_DestinoFinal}}</span>
+                        </div>
+                      </div>
+                      <div class="row mt-2">
+                        <div class="col">
+                          <span class="text-end"><strong>Telefono:</strong> {{item.clie_Telefono}}</span>
+                        </div>
+                        <div class="col">
+                          <span class="text-end"><strong>Destino:</strong> {{item.pedi_DestinoNombre}}</span>
+                        </div>
+                        <hr>
+                      </div>
+                      <div class="row">
+                        <h5>Items</h5>
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Nombre</th>
+                              <th>Modelo</th>
+                              <th>Peso</th>
+                              <th>Volumen</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                              <tr  *ngFor="let item2 of itemsArray$ | async">
+                                <ng-container *ngIf="item.pedi_Id === item2.pedi_Id">
+                                <td>{{item2.item_Nombre}}</td>
+                                <td>{{item2.item_Descripcion}}</td>
+                                <td>{{item2.item_Peso}}</td>
+                                <td>{{item2.item_Volumen}}</td>
+                                </ng-container>
+                              </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="row d-flex justify-content-end">
+                        <div class="col d-flex justify-content-end">
+                          <button class="btn btn-primary" (click)="updateMarker(item.pedi_DestinoNombre)">Ver destino del pedido en el mapa</button>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </ngb-panel>
+                </ngb-accordion>
+              </div>
+            </div>      
+            <button class="btn btn-dark pull-right" type="button" (click)="redirectToList()">Regresar</button>
+          </div>                
+           </div>
+        </div>
+    </div>
+  </div>
+  

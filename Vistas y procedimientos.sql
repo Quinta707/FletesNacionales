@@ -2343,10 +2343,7 @@ Go
 CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_Update
 (
 @flet_Id				INT,
-@vehi_Id				INT, 
-@empe_Id				INT, 
-@tray_Id				INT, 
-@flet_FechaDeSalida		DATE, 
+@flet_FechaDeSalida		NVARCHAR(100), 
 @flet_UsuModificacion	INT
  )
 AS
@@ -2354,10 +2351,7 @@ BEGIN
 	BEGIN TRY
       
 		UPDATE	flet.tbFletes
-		SET		vehi_Id = @vehi_Id,
-				empe_Id	= @empe_Id,
-				tray_Id	= @tray_Id,
-				flet_FechaDeSalida = @flet_FechaDeSalida,
+		SET		flet_FechaDeSalida = @flet_FechaDeSalida,
 				flet_UsuModificacion = @flet_UsuModificacion,
 				flet_FechaModificacion = GETDATE()
 		WHERE	flet_Id = @flet_Id

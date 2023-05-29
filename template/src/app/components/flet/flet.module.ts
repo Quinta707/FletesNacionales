@@ -11,6 +11,7 @@ import { ItemListComponent } from './item/items-list/items-list.component';
 import { ClienteListComponent } from './clientes/clientes-list/clientes-list.component';
 import { FleteListPropioComponent } from './fletes/fletes-list-propio/fletes-list-propio.component';
 import { FleteCreateComponent } from './fletes/fletes-create/fletes-create.component';
+import { FletedetailsComponent } from './fletes/fletes-details/fletes-details.component';
 
 import { VehiculosLstComponent } from './vehiculos/vehiculos-lst/vehiculos-lst.component';
 import { SucursalesListComponent } from './sucursales/sucursales-list/sucursales-list.component';
@@ -25,11 +26,13 @@ import { PedidosIndexComponent } from './pedidos/pedidos-index/pedidos-index.com
 
 import { GoogleMapsModule } from "@angular/google-maps";
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
   declarations: [
     FleteListComponent,
     FleteListPropioComponent,
+    FletedetailsComponent,
     ItemListComponent,
     ClienteListComponent,
     FleteCreateComponent,
@@ -44,6 +47,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
   imports: [
     CommonModule,
     FletRoutingModule,
+    AgGridModule,
     LeafletModule,
     GoogleMapsModule,
     FormsModule,

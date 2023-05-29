@@ -209,6 +209,10 @@ export class TableService {
   postInsertarFlete(data: any){
     return this.http.post<any>(Global+"Fletes/Insertar",data)
   }
+ 
+  putUpdateFlete(data: any){
+    return this.http.put<any>(Global+"Fletes/Editar",data)
+  }
   
   postInsertarFleteDetalles(data: any){
     return this.http.post<any>(Global+"Fletes/InsertarDetalles",data)

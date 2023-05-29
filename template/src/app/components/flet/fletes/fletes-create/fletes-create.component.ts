@@ -29,7 +29,7 @@ export class FleteCreateComponent implements OnInit {
   datosTrayecto: Trayectos = new Trayectos();
   pedidosSelect: Pedidos = new Pedidos();
 
-  //date pycker
+  //date picker
   model: string;
 
   //mapa

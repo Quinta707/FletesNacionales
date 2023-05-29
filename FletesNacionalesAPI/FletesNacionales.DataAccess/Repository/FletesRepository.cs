@@ -156,11 +156,8 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@flet_Id", item.flet_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@vehi_Id", item.vehi_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@empe_Id", item.empe_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@tray_Id", item.tray_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@flet_FechaDeSalida", item.flet_FechaDeSalida, DbType.Date, ParameterDirection.Input);
-            parametros.Add("@flet_UsuCreacion", item.flet_UsuCreacion, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@flet_UsuModificacion", item.flet_UsuModificacion, DbType.Int32, ParameterDirection.Input);
             result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.FletesUpdate, parametros, commandType: System.Data.CommandType.StoredProcedure);
 
             return result;

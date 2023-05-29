@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { AgGridModule } from 'ag-grid-angular';
 
 // // for HttpClient import:
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
@@ -47,6 +48,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppRoutingModule,
     NgbToastModule,
     HttpClientModule,
+    AgGridModule,
     NgbModule,
     ToastrModule.forRoot(),
     TranslateModule.forRoot({
