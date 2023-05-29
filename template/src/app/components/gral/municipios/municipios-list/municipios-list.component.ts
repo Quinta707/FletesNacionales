@@ -25,7 +25,6 @@ export class MunicipiosListComponent implements OnInit {
     this.service.setUserData(this.municipios)
     config.backdrop = 'static';
     config.keyboard = false;
-
   }
 
   public submit() {

@@ -4,6 +4,7 @@ import { TableService } from '../../../../shared/services/rolesPorPantalla.servi
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
@@ -23,13 +24,12 @@ export class RolesporPantallaCreateComponent {
   rolesPorPantalla: RolesporPantalla[];
   closeResult: string;
   
-  constructor(config: NgbModalConfig, public service: TableService) {
+  constructor(config: NgbModalConfig, public service: TableService, private router: Router) {
     
     this.service.setUserData(this.rolesPorPantalla)
     config.backdrop = 'static';
     config.keyboard = false;
   }
-  //que te puedo decir amor
   dropdownList = [];
   selectedItems: any[] = [];
   dropdownSettings : IDropdownSettings;
@@ -43,8 +43,9 @@ export class RolesporPantallaCreateComponent {
       singleSelection: false,
       idField: 'pant_Id',
       textField: 'pant_Nombre',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
+      selectAllText: 'Seleccionar todo',
+      searchPlaceholderText: 'Buscar pantalla' ,
+      unSelectAllText: 'Deseleccionar',
       itemsShowLimit: 3,
       allowSearchFilter: true
     };
@@ -56,24 +57,40 @@ export class RolesporPantallaCreateComponent {
   onSelectAll(items: any) {
     console.log(items);
   }
-  //no es a vos que te deseo
-  
+  Index() {
+    this.router.navigate(['/acce/Roles/List'])
+  }
   enviar: RolesporPantalla = new RolesporPantalla();
   Create()
   {
-    
-    this.service.createRol(this.createRol).subscribe((data:any) =>{
-      console.log(data)
-    })
-    this.selectedItems.forEach((element: any) => {
-      console.log(element.pant_Id)      
-      console.log(this.createRol)
-      this.enviar.pant_Id = element.pant_Id
-      this.enviar.role_Nombre = this.createRol.role_Nombre
-      this.service.createRolesporPantalla(this.enviar).subscribe((data:any)=>{
-        console.log(data)
-      })  
-    });
+
+    this.validate = true;
+    if(this.createRol.role_Nombre == "" || this.createRol.role_Nombre == null)
+    {
+      this.validate = true;
+      console.log('inserte un nombre')
+    }
+    if(this.selectedItems.length == 0)
+    {
+      console.log('ta vacio las pantallas')
+    }
+    if(this.createRol.role_Nombre != "" || this.createRol.role_Nombre != null  && this.selectedItems.length != 0)
+    {
+      this.validate = false;
+
+      this.service.createRol(this.createRol).subscribe((data:any) =>{
+        this.selectedItems.forEach((element: any) => {
+        this.enviar.pant_Id = element.pant_Id
+        this.enviar.role_Id = data.message
+        this.service.createRolesporPantalla(this.enviar).subscribe((data:any)=>{
+          this.router.navigate(['acce/Roles/List'])
+        })
+      });
+      })
+      
+     
+    }
+
   }
   
  }

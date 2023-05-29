@@ -158,14 +158,19 @@ export class TableService {
   
   RolesUpdate = Global + 'Roles/Actualizar';
   updateRol(Roles: RolesporPantalla){
-    return this.http.post<RolesporPantalla[]>(this.RolesUpdate, Roles);
+    return this.http.put<RolesporPantalla[]>(this.RolesUpdate, Roles);
   }
   
   RolesDelete = Global + 'Roles/Eliminar';
   deleteRol(Roles: RolesporPantalla){
-    return this.http.post<RolesporPantalla[]>(this.RolesDelete, Roles);
+    return this.http.put<RolesporPantalla[]>(this.RolesDelete, Roles);
   }
   
+  RolesFind = Global + 'Roles/Buscar?id=';
+  findRol(id?: number){
+    return this.http.get<RolesporPantalla[]>(this.RolesFind + id);
+  }
+
   PantallasGet = Global + 'Pantallas/Listado'
   getPantallas()
   { 

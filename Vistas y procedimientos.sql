@@ -2983,7 +2983,6 @@ SELECT T1.[role_Id]
   ON T1.role_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
   ON T1.role_UsuModificacion = T3.[user_Id]
 
-
 --************** INDEX *****************--
 GO
 CREATE OR ALTER PROCEDURE acce.UDP_tbRoles_Index
@@ -3324,14 +3323,12 @@ END
 GO
 
 CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Insert 
-	@role_Nombre nvarchar(150),
+	@role_Id int,
 	@pant_Id int,
 	@prol_UsuCreacion int
 AS
 BEGIN
     BEGIN TRY
-		DECLARE @role_Id INT 
-		SELECT @role_Id = role_Id FROM acce.tbRoles WHERE role_Nombre = @role_Nombre
 		
         IF EXISTS (SELECT * FROM acce.tbPantallasPorRoles WHERE role_Id = @role_Id AND pant_Id = @pant_Id AND prol_Estado = 1)
         BEGIN
@@ -3382,7 +3379,7 @@ GO
 --*********************DELETE*********************--
 
 GO
-CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Delete
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Delete 
 (@role_Id INT)
 AS
 BEGIN
@@ -3397,6 +3394,7 @@ BEGIN
 	END CATCH
 END
 
+select * from acce.tbPantallasPorRoles where role_Id = 6
 --************** FIND *****************--
 GO
 CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Find  
