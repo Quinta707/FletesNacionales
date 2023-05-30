@@ -3095,7 +3095,6 @@ SELECT T1.[role_Id]
   ON T1.role_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
   ON T1.role_UsuModificacion = T3.[user_Id]
 
-
 --************** INDEX *****************--
 GO
 CREATE OR ALTER PROCEDURE acce.UDP_tbRoles_Index
@@ -3424,31 +3423,7 @@ GO
 
 -- ************* TABLA ROLES/PANTALLA *****************--
 
---************** VIEW *****************--
-CREATE OR ALTER VIEW acce.VW_tbPantallasPorRoles
-AS
-SELECT 
-prr.pant_Id, 
-
-pant_Nombre, 
-pant_Url, 
-pant_Menu, 
-pant_Icono, 
-pant_Estado,
-
-prr.role_Id, 
-role_Nombre, 
-role_UsuCreacion, 
-role_FechaCreacion, 
-role_UsuModificacion, 
-role_FechaModificacion, 
-role_Habilitado, 
-role_Estado
-
-from acce.tbPantallasPorRoles prr inner join acce.tbPantallas pnt 
-on prr.pant_Id = pnt.pant_Id inner join acce.tbRoles rol 
-on rol.role_Id = prr.role_Id
-GO
+--************** VIEW *****************--7
 
 --************** Index *****************--
 CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Index
@@ -3460,17 +3435,15 @@ END
 GO
 
 CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Insert 
-	@role_Nombre nvarchar(150),
+	@role_Id int,
 	@pant_Id int,
 	@prol_UsuCreacion int
 AS
 BEGIN
     BEGIN TRY
-		DECLARE @role_Id INT 
-		SELECT @role_Id = role_Id FROM acce.tbRoles WHERE role_Nombre = @role_Nombre
+		
         IF EXISTS (SELECT * FROM acce.tbPantallasPorRoles WHERE role_Id = @role_Id AND pant_Id = @pant_Id AND prol_Estado = 1)
         BEGIN
-
             SELECT -2 
 
         END
@@ -3518,7 +3491,7 @@ GO
 --*********************DELETE*********************--
 
 GO
-CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Delete
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Delete 
 (@role_Id INT)
 AS
 BEGIN
@@ -3533,9 +3506,10 @@ BEGIN
 	END CATCH
 END
 
+select * from acce.tbPantallasPorRoles where role_Id = 6
 --************** FIND *****************--
 GO
-CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Find 
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Find  
 (
 @role_Id	INT
 )
@@ -3544,7 +3518,6 @@ BEGIN
 	SELECT * FROM acce.VW_tbPantallasPorRoles
 	WHERE role_Id = @role_Id
 END
-
 
 
 

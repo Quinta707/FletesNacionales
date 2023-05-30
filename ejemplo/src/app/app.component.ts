@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'ejemplo';
-  
+
   constructor  (private router:Router){}
 
   Listar() {
@@ -16,6 +16,9 @@ export class AppComponent {
   }
   Agregar() {
     this.router.navigate(['create'])
+  }
+  Agregar2() {
+    this.router.navigate(['dataTable'])
   }
 }
 

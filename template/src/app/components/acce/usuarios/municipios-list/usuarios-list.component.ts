@@ -1,15 +1,15 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { Municipios } from '../../../../shared/model/municipios.model';
-import { TableService } from '../../../../shared/services/municipios.services';
+import { Municipios } from '../../../../shared/model/usuarios.model';
+import { TableService } from '../../../../shared/services/usuarios.services';
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
-  selector: 'app-municipios-list',
-  templateUrl: './municipios-list.component.html',
-  styleUrls: ['./municipios-list.component.scss']
+  selector: 'app-usuarios-list',
+  templateUrl: './usuarios-list.component.html',
+  styleUrls: ['./usuarios-list.component.scss']
 })
 export class MunicipiosListComponent implements OnInit {
   public validate = false;
