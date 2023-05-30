@@ -241,21 +241,18 @@ namespace FletesNacionales.BusinessLogic.Services
             try
             {
                 var map = _tiposDeVehiculosRepository.Delete(item);
-                if (map.CodeStatus == 1)
+                if (map.CodeStatus > 0)
                 {
                     return result.Ok(map);
-                } 
-                else if (map.CodeStatus == 0)
-                {
-                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
                 else
                 {
-                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
                 }
             }
-            catch (Exception ex)
-            {   
+            catch (Exception)
+            {
                 throw;
             }
         }
@@ -270,17 +267,10 @@ namespace FletesNacionales.BusinessLogic.Services
                 {
                     return result.Ok(map);
                 }
-                else if (map.CodeStatus == -2)
-                {
-                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
-                }
-                else if (map.CodeStatus == 0)
-                {
-                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
-                }
                 else
                 {
-                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
                 }
             }
             catch (Exception)
@@ -294,26 +284,19 @@ namespace FletesNacionales.BusinessLogic.Services
             try
             {
                 var map = _tiposDeVehiculosRepository.Update(item);
-                if (map.CodeStatus == 1)
+                if (map.CodeStatus > 0)
                 {
                     return result.Ok(map);
                 }
-                else if (map.CodeStatus == -2)
-                {
-                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
-                }
-                else if (map.CodeStatus == 0)
-                {
-                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
-                }
                 else
                 {
-                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
                 }
             }
-            catch (Exception xe)
+            catch (Exception)
             {
-                return result.Error(xe.Message);
+                throw;
             }
         }
 

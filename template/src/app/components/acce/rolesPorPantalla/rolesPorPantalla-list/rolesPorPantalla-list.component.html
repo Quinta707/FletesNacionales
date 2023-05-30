@@ -10,7 +10,8 @@
         </div>
       </div>
       <div class="card-body">
-        <button class="btn btn-lg btn-outline-primary" (click)="Insertar()">Crear Rol</button>
+        
+        <button class="btn btn-lg btn-outline-primary" >Crear Rol</button>
           <hr>
         <div class="d-flex justify-content-between mb-2 mx-1">
           <select class="form-select" style="color: #3c334d; width: auto" name="pageSize" [(ngModel)]="service.pageSize">
@@ -27,18 +28,6 @@
           </div>
         </div>
           
-        <ng-template #Delete let-modal>
-          <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Eliminar Rol</h4>
-            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-          </div>
-          <div class="modal-body">
-            <h3>Desea Eliminar Este Registro?</h3>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-success" (click)="delete()">Eliminar</button>
-          </div>
-        </ng-template>
         <div class="row mt-3">
           <div class="col-12">
             <div class="custom-datatable noscroll">
@@ -52,38 +41,24 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <ng-container *ngFor="let outerRow of outerTableData; let i = index">
-                    <tr (click)="toggleTasks(i, outerRow.role_Id)">
-                        <td><ngb-highlight [result]="outerRow.role_Id" [term]="service.searchTerm"></ngb-highlight></td>
-                        <td><ngb-highlight [result]="outerRow.role_Nombre" [term]="service.searchTerm"></ngb-highlight></td>
-                      <td><div class="action">
-                          <li class="edit" (click)="Actualizar(outerRow.role_Id)">
-                            <a ><i class="icon-pencil-alt"></i></a></li>
-                          <li class="delete" (click)="Eliminar(outerRow, Delete)">
-                            <a ><i class="icon-trash"></i></a></li>
-                      </div></td>
-                    </tr>
-                    <tr *ngIf="i === selectedRowIndex">
-                      <td colspan="3">
-                        <table class="inner-table table">
-                          <thead>
-                            <tr>
-                              <th>ID</th>
-                              <th>Nombre</th>
-                              <th>Esquema al que pertenece</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr *ngFor="let innerRow of innerTableData">
-                              <td>{{ innerRow.pant_Id }}</td>
-                              <td>{{ innerRow.pant_Nombre }}</td>
-                              <td>{{ innerRow.pant_Menu }}</td>
-                            </tr>
-                          </tbody>
-                        </table>
+                    <tr *ngFor="let item of tableItem$ | async">
+                        <td>
+                        <ngb-highlight [result]="item.role_Id" [term]="service.searchTerm"></ngb-highlight>
+                      </td>
+                      <td>
+                        <ngb-highlight [result]="item.role_Nombre" [term]="service.searchTerm"></ngb-highlight>
+                      </td>
+                      <td>
+                        <div class="action">
+                          <li class="edit" (click)="Actualizar(item, Update)">
+                            <a ><i class="icon-pencil-alt"></i></a>
+                          </li>
+                          <li class="delete" (click)="Eliminar(item, Delete)">
+                            <a ><i class="icon-trash"></i></a>
+                          </li>
+                        </div>
                       </td>
                     </tr>
-                  </ng-container>
                   </tbody>
                 </table>
                 <div class="d-flex justify-content-between mt-3 mb-2 mx-1">
@@ -104,5 +79,4 @@
       </div>
     </div>
   </div>
-  
 </div>

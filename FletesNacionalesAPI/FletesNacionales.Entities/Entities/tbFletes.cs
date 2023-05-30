@@ -19,7 +19,6 @@ namespace FletesNacionales.Entities.Entities
         public int vehi_Id { get; set; }
         public int empe_Id { get; set; }
         public int tray_Id { get; set; }
-        public int estp_Id { get; set; }
         public DateTime flet_FechaDeSalida { get; set; }
         public int flet_UsuCreacion { get; set; }
         public DateTime? flet_FechaCreacion { get; set; }
@@ -28,7 +27,6 @@ namespace FletesNacionales.Entities.Entities
         public bool? flet_Estado { get; set; }
 
         public virtual tbEmpleados empe { get; set; }
-        public virtual tbEstadosDelPedido estp { get; set; }
         public virtual tbUsuarios flet_UsuCreacionNavigation { get; set; }
         public virtual tbUsuarios flet_UsuModificacionNavigation { get; set; }
         public virtual tbTrayectos tray { get; set; }

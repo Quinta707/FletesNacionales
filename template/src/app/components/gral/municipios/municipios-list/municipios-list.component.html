@@ -13,7 +13,7 @@
         <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">
           <ng-template #Create let-modal>
             <div class="modal-header">
-              <h4 class="modal-title" id="modal-basic-title">Insertar Municipios</h4>
+              <h4 class="modal-title" id="modal-basic-title">Insertar Estado Civil</h4>
               <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
             </div>
             <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">    
@@ -25,12 +25,12 @@
                 <div class="col-sm-6">
               <input [(ngModel)]="municipiosCreate.muni_Nombre" class="form-control" id="validationCustom01" type="text" required=""  />
             </div>
+          </div>
+            <div class="row">
+              <div class="col-sm-6">
+              <input [(ngModel)]="municipiosCreate.muni_Codigo" class="form-control" id="validationCustom01" type="text" required=""  />
             </div>
-              <div class="row">
-                <div class="col-sm-6">
-                <input [(ngModel)]="municipiosCreate.muni_Id" class="form-control" id="validationCustom01" type="text" required=""  />
-              </div>
-            </div>
+          </div>
             </div>
             <div class="modal-footer">
               <button class="btn btn-primary" type="button" (click)="Guardar()">Crear</button>
@@ -40,11 +40,11 @@
         </form>
           <ng-template #Update let-modal>
             <div class="modal-header">
-              <h4 class="modal-title" id="modal-basic-title">Actualizar Municipios</h4>
+              <h4 class="modal-title" id="modal-basic-title">Actualizar Estado Civil</h4>
               <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
             </div>
             <div class="modal-body">
-              <label class="form-label" for="validationCustom01">Municipios</label>
+              <label class="form-label" for="validationCustom01">Estado Civil</label>
               <div class="row">
                 <div class="col-sm-6">
                 <ng-select [(ngModel)]="municipiosEditar.depa_Id" bindValue="value" [items]="departamentosDDL" placeholder="Departamento"></ng-select>
@@ -53,7 +53,7 @@
               <input [(ngModel)]="municipiosEditar.muni_Nombre" class="form-control" id="validationCustom01" type="text" required=""  />
             </div>
               <div class="col-sm-6">
-              <input [disabled]="" [(ngModel)]="municipiosEditar.muni_Id" class="form-control" id="validationCustom01" type="text" required="" disabled />
+              <input [(ngModel)]="municipiosEditar.muni_Codigo" class="form-control" id="validationCustom01" type="text" required="" disabled />
             </div>
           </div>
             </div>
@@ -64,7 +64,7 @@
 
           <ng-template #Delete let-modal>
             <div class="modal-header">
-              <h4 class="modal-title" id="modal-basic-title">Eliminar Municipios</h4>
+              <h4 class="modal-title" id="modal-basic-title">Eliminar Estado Civil</h4>
               <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
             </div>
             <div class="modal-body">
@@ -75,7 +75,7 @@
             </div>
           </ng-template>
           
-          <button class="btn btn-lg btn-outline-primary" (click)="open(Create)">Crear Municipios</button><div class="container">   
+          <button class="btn btn-lg btn-outline-primary" (click)="open(Create)">Crear Estado civil</button><div class="container">   
           <hr>
         <div class="d-flex justify-content-between mb-2 mx-1">
           <select class="form-select" style="color: #3c334d; width: auto" name="pageSize" [(ngModel)]="service.pageSize">
@@ -99,7 +99,7 @@
                 <table class="table">
                   <thead>
                     <tr>
-                      <th scope="col" sortable="muni_Id" (sort)="onSort($event)">Id</th>
+                      <th scope="col" sortable="muni_Codigo" (sort)="onSort($event)">Id</th>
                       <th scope="col" sortable="muni_Nombre" (sort)="onSort($event)">Nombre</th>
                       <th scope="col" sortable="depa_Nombre" (sort)="onSort($event)">Departamento</th>
                       <th scope="col">Acciones</th>
@@ -108,7 +108,7 @@
                   <tbody>
                     <tr *ngFor="let item of tableItem$ | async">
                         <td>
-                        <ngb-highlight [result]="item.muni_Id" [term]="service.searchTerm"></ngb-highlight>
+                        <ngb-highlight [result]="item.muni_Codigo" [term]="service.searchTerm"></ngb-highlight>
                       </td>
                       <td>
                         <ngb-highlight [result]="item.muni_Nombre" [term]="service.searchTerm"></ngb-highlight>

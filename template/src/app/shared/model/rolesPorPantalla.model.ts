@@ -1,16 +1,16 @@
 export class RolesporPantalla{
-  pant_Id!: Number;
-  pant_Nombre!: String;
-  pant_Url!: String;
-  pant_Menu!: String;
-  pant_Icono!: String;
+  pant_Id!: number;
+  pant_Nombre!: string;
+  pant_Url!: string;
+  pant_Menu!: string;
+  pant_Icono!: string;
   pant_Estado!: true;
-  role_Id!: Number;
-  role_Nombre!: String;
-  role_UsuCreacion!: Number;
-  role_FechaCreacion!: String;
-  role_UsuModificacion!: Number;
-  role_FechaModificacion!:String;
+  role_Id!: number;
+  role_Nombre!: string;
+  role_UsuCreacion!: number;
+  role_FechaCreacion!: string;
+  role_UsuModificacion!: number;
+  role_FechaModificacion!:string;
   role_Habilitado!: true;
   role_Estado!: true;
 }

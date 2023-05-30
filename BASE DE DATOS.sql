@@ -96,6 +96,20 @@ END;
 GO
 
 EXEC acce.UDP_tbUsuarios_Insert 'Admin', '123', 1, NULL, 1;
+
+EXEC acce.UDP_tbUsuarios_Insert 'Javier', 'Javier', 1, NULL, 1;
+
+EXEC acce.UDP_tbUsuarios_Insert 'Sarai', 'Sarai', 1, NULL, 1;
+
+EXEC acce.UDP_tbUsuarios_Insert 'Ian', 'Ian', 1, NULL, 1;
+
+EXEC acce.UDP_tbUsuarios_Insert 'Daniel', 'Daniel', 1, NULL, 1;
+
+EXEC acce.UDP_tbUsuarios_Insert 'Phynomo', 'Phynomo', 1, NULL, 1;
+
+EXEC acce.UDP_tbUsuarios_Insert 'Javinto7', 'Javinto7', 1, NULL, 1;
+GO
+
 GO
 ALTER TABLE acce.tbRoles
 ADD CONSTRAINT FK_acce_tbRoles_acce_tbUsuarios_role_UsuCreacion_user_Id 	FOREIGN KEY(role_UsuCreacion) REFERENCES acce.tbUsuarios(user_Id),
@@ -110,7 +124,6 @@ GO
 UPDATE acce.tbUsuarios
 SET role_Id = 1
 WHERE user_Id = 1;
-
 
 GO
 ALTER TABLE [acce].[tbUsuarios]
@@ -131,9 +144,9 @@ ADD CONSTRAINT FK_acce_tbPantallasPorRoles_acce_tbUsuarios_pantrole_UsuCreacion_
 --********** DEPARTAMENTOS ************--
 GO
 CREATE TABLE [gral].[tbDepartamentos](
-    --depa_Id                     INT IDENTITY(1,1),
+    depa_Id                     INT IDENTITY(1,1),
 	depa_Nombre 				NVARCHAR(100) NOT NULL,
-	depa_Id  				CHAR(2) NOT NULL,
+	depa_Codigo  				CHAR(2) NOT NULL,
 	depa_UsuCreacion			INT NOT NULL,
 	depa_FechaCreacion			DATETIME NOT NULL CONSTRAINT DF_depa_FechaCreacion DEFAULT(GETDATE()),
 	depa_UsuModificacion		INT,
@@ -149,10 +162,10 @@ CREATE TABLE [gral].[tbDepartamentos](
 --********TABLA MUNICIPIO****************---
 GO
 CREATE TABLE gral.tbMunicipios(
-	--muni_Id                 INT IDENTITY(1,1),
+	muni_Id                 INT IDENTITY(1,1),
     muni_Nombre				NVARCHAR(80) NOT NULL,
-	muni_Id				CHAR(4)	NOT NULL,
-	depa_Id					CHAR(2)	NOT NULL,
+	muni_Codigo				CHAR(4)	NOT NULL,
+	depa_Id					INT	NOT NULL,
 	muni_UsuCreacion		INT	NOT NULL,
 	muni_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_muni_FechaCreacion DEFAULT(GETDATE()),
 	muni_UsuModificacion	INT,
@@ -280,14 +293,12 @@ GO
 CREATE TABLE equi.tbVehiculos(
 vehi_Id						INT IDENTITY(1,1),
 mode_Id						INT NOT NULL,
-vehi_PesoMaximo				DECIMAL(18,2)NOT NULL,
-vehi_VolumenMaximo			DECIMAL(18,2)NOT NULL,
 vehi_Placa					NVARCHAR(30) NOT NULL,
 vehi_UsuCreacion			INT NOT NULL,
 vehi_FechaCreacion			DATETIME CONSTRAINT DF_equi_tbVehiculos_vehi_FechaCreacion DEFAULT(GETDATE()),
 vehi_UsuModificacion		INT ,
 vehi_FechaModificacion		DATETIME,
-vehi_EnUso					BIT NOT NULL CONSTRAINT DF_vehi_EnUso DEFAULT(0),
+vehi_EnUso					BIT NOT NULL CONSTRAINT DF_role_Habilitado DEFAULT(0),
 vehi_Estado					BIT CONSTRAINT DF_equi_tbVehiculos_vehi_Estado DEFAULT(1)
 CONSTRAINT PK_equi_tbVehiculos_vehi_Id                                  PRIMARY KEY(vehi_Id),
 CONSTRAINT FK_equi_tbVehiculos_equi_tbMarcas_marc_Id					FOREIGN KEY(mode_Id) REFERENCES equi.tbModelos(mode_Id),
@@ -307,7 +318,7 @@ GO
 CREATE TABLE flet.tbSucursales(
 sucu_Id							INT IDENTITY(1,1),
 sucu_Nombre						NVARCHAR(200)   NOT NULL,
-muni_Id							CHAR(4)				NOT NULL,
+muni_Id							INT				NOT NULL,
 sucu_Direccion					NVARCHAR(200)   NOT NULL,
 sucu_UsuCreacion				INT             NOT NULL,
 sucu_FechaCreacion				DATETIME        CONSTRAINT DF_flet_tbSucursales_sucu_FechaCreacion DEFAULT(GETDATE()),
@@ -330,7 +341,7 @@ empe_Identidad				NVARCHAR(15)	NOT NULL,
 empe_FechaNacimiento		DATE			NOT NULL,
 empe_Sexo					CHAR(1)			NOT NULL,
 eciv_Id					    INT				NOT NULL,
-muni_Id						CHAR(4)	    		NOT NULL,
+muni_Id						INT	    		NOT NULL,
 empe_DireccionExacta		NVARCHAR(250)	NOT NULL,
 empe_Telefono				NVARCHAR(20)	NOT NULL,
 sucu_Id						INT				NOT NULL,
@@ -362,7 +373,7 @@ clie_Identidad				NVARCHAR(15)	NOT NULL,
 clie_FechaNacimiento		DATE			NOT NULL,
 clie_Sexo					CHAR(1)			NOT NULL,
 eciv_Id					    INT				NOT NULL,
-muni_Id						CHAR(4)	    		NOT NULL,
+muni_Id						INT	    		NOT NULL,
 clie_DireccionExacta		NVARCHAR(250)	NOT NULL,
 clie_Telefono				NVARCHAR(20)	NOT NULL,
 clie_UsuCreacion			INT				NOT NULL,
@@ -423,10 +434,10 @@ GO
 CREATE TABLE flet.tbPedidos(
 pedi_Id						INT IDENTITY(1,1),
 clie_Id						INT NOT NULL,
-muni_Origen					CHAR(4) NOT NULL, --Municipio de recogida del producto
-muni_Destino				CHAR(4) NOT NULL, --Municipio de entrega del producto
+muni_Origen					INT NOT NULL, --Municipio de recogida del producto
+muni_Destino				INT NOT NULL, --Municipio de entrega del producto
 pedi_DestinoFinal			NVARCHAR(250), --Direccion exacta del destino final
-estp_Id						INT NOT NULL CONSTRAINT DF_flet_tbPedidos_estp_Id DEFAULT(1) , --Dice el estado del pedido 
+estp_Id						INT NOT NULL, --Dice el estado del pedido 
 pedi_UsuCreacion			INT NOT NULL,
 pedi_FechaCreacion			DATETIME CONSTRAINT DF_flet_tbPedidos_pedi_FechaCreacion DEFAULT(GETDATE()),
 pedi_UsuModificacion		INT ,
@@ -444,7 +455,6 @@ CONSTRAINT FK_flet_tbPedidos_acce_tbUsuarios_pedi_UsuModificacion     FOREIGN KE
 GO
 CREATE TABLE flet.tbPedidoDetalles(
 pdet_Id						INT IDENTITY(1,1),
-pedi_Id						INT NOT NULL,
 item_Id						INT NOT NULL,
 pdet_Cantidad				INT NOT NULL,
 pdet_UsuCreacion			INT NOT NULL,
@@ -452,21 +462,18 @@ pdet_FechaCreacion			DATETIME CONSTRAINT DF_flet_tbPedidoDetalles_pdet_FechaCrea
 pdet_UsuModificacion		INT ,
 pdet_FechaModificacion		DATETIME,
 pdet_Estado					BIT CONSTRAINT DF_flet_tbPedidoDetalles_pdet_Estado DEFAULT(1)
-CONSTRAINT FK_flet_tbPedidoDetalles_pedi_Id_flet_tbPedidos_pedi_Id			FOREIGN KEY (pedi_Id) REFERENCES flet.tbPedidos(pedi_Id),
-CONSTRAINT PK_flet_tbPedidoDetalles_pdet_Id                                 PRIMARY KEY(pdet_Id),
-CONSTRAINT FK_flet_tbPedidoDetalles_flet_tbItems_item_Id					FOREIGN KEY(item_Id) REFERENCES flet.tbItems(item_Id),
-CONSTRAINT FK_flet_tbPedidoDetalles_acce_tbUsuarios_pdet_UsuCreacion        FOREIGN KEY(pdet_UsuCreacion) REFERENCES acce.tbUsuarios(User_Id),
-CONSTRAINT FK_flet_tbPedidoDetalles_acce_tbUsuarios_pdet_UsuModificacion    FOREIGN KEY(pdet_UsuModificacion) REFERENCES acce.tbUsuarios(User_Id)
+CONSTRAINT PK_flet_tbPedidoDetalles_pdet_Id                                  PRIMARY KEY(pdet_Id),
+CONSTRAINT FK_flet_tbPedidoDetalles_flet_tbItems_item_Id					 FOREIGN KEY(item_Id) REFERENCES flet.tbItems(item_Id),
+CONSTRAINT FK_flet_tbPedidoDetalles_acce_tbUsuarios_pdet_UsuCreacion         FOREIGN KEY(pdet_UsuCreacion) REFERENCES acce.tbUsuarios(User_Id),
+CONSTRAINT FK_flet_tbPedidoDetalles_acce_tbUsuarios_pdet_UsuModificacion     FOREIGN KEY(pdet_UsuModificacion) REFERENCES acce.tbUsuarios(User_Id)
 );
-
 
 --********** TRAYECTOS ************--
 GO
 CREATE TABLE flet.tbTrayectos(
 tray_Id						INT IDENTITY(1,1),
-muni_Inicio					CHAR(4) NOT NULL,
-muni_Final					CHAR(4) NOT NULL,
-tray_Precio					DECIMAL(18,2),
+muni_Inicio					INT NOT NULL,
+muni_Final					INT NOT NULL,
 tray_UsuCreacion			INT NOT NULL,
 tray_FechaCreacion			DATETIME CONSTRAINT DF_flet_tbTrayectos_tray_FechaCreacion DEFAULT(GETDATE()),
 tray_UsuModificacion		INT ,
@@ -478,6 +485,25 @@ CONSTRAINT FK_flet_tbTrayectos_gral_tbMunicipios_muni_Final				FOREIGN KEY(muni_
 CONSTRAINT FK_flet_tbTrayectos_acce_tbUsuarios_pedi_UsuCreacion         FOREIGN KEY(tray_UsuCreacion) REFERENCES acce.tbUsuarios(User_Id),
 CONSTRAINT FK_flet_tbTrayectos_acce_tbUsuarios_pedi_UsuModificacion     FOREIGN KEY(tray_UsuModificacion) REFERENCES acce.tbUsuarios(User_Id)
 );
+
+--********** ESCALAS POR TRAYECTO ************--
+GO
+CREATE TABLE flet.tbEscalasPorTrayecto(
+estr_Id						INT IDENTITY(1,1),
+tray_Id						INT NOT NULL,
+muni_Escala					INT NOT NULL,
+estr_UsuCreacion			INT NOT NULL,
+estr_FechaCreacion			DATETIME CONSTRAINT DF_flet_tbEscalasPorTrayecto_estr_FechaCreacion DEFAULT(GETDATE()),
+estr_UsuModificacion		INT ,
+estr_FechaModificacion		DATETIME,
+estr_Estado					BIT CONSTRAINT DF_flet_tbEscalasPorTrayecto_estr_Estado DEFAULT(1)
+CONSTRAINT PK_flet_tbEscalasPorTrayecto_estr_Id                                  PRIMARY KEY(estr_Id),
+CONSTRAINT FK_flet_tbEscalasPorTrayecto_flet_tbTrayectos_tray_Id				 FOREIGN KEY(tray_Id) REFERENCES flet.tbTrayectos(tray_Id),
+CONSTRAINT FK_flet_tbEscalasPorTrayecto_gral_tbMunicipios_muni_Escala			 FOREIGN KEY(muni_Escala) REFERENCES gral.tbMunicipios(muni_Id),
+CONSTRAINT FK_flet_tbEscalasPorTrayecto_acce_tbUsuarios_pedi_UsuCreacion         FOREIGN KEY(estr_UsuCreacion) REFERENCES acce.tbUsuarios(User_Id),
+CONSTRAINT FK_flet_tbEscalasPorTrayecto_acce_tbUsuarios_pedi_UsuModificacion     FOREIGN KEY(estr_UsuModificacion) REFERENCES acce.tbUsuarios(User_Id)
+);
+
 --********** FLETES ************--
 GO
 CREATE TABLE flet.tbFletes(
@@ -485,7 +511,6 @@ flet_Id						INT IDENTITY(1,1),
 vehi_Id						INT NOT NULL,
 empe_Id						INT NOT NULL,
 tray_Id						INT NOT NULL,
-estp_Id						INT NOT NULL CONSTRAINT DF_flet_tbFletes_estp_Id DEFAULT(1), --Dice el estado del pedido 
 flet_FechaDeSalida			DATE NOT NULL,
 flet_UsuCreacion			INT NOT NULL,
 flet_FechaCreacion			DATETIME CONSTRAINT DF_flet_tbFletes_flet_FechaCreacion DEFAULT(GETDATE()),
@@ -493,7 +518,6 @@ flet_UsuModificacion		INT ,
 flet_FechaModificacion		DATETIME,
 flet_Estado					BIT CONSTRAINT DF_flet_tbFletes_flet_Estado DEFAULT(1)
 CONSTRAINT PK_flet_tbFletes_flet_Id                                  PRIMARY KEY(flet_Id),
-CONSTRAINT FK_flet_tbFletes_flet_tbEstadosDelPedido_estp_Id			 FOREIGN KEY(estp_Id) REFERENCES flet.tbEstadosDelPedido(estp_Id),
 CONSTRAINT FK_flet_tbFletes_equi_tbVehiculos_vehi_Id				 FOREIGN KEY(vehi_Id) REFERENCES equi.tbVehiculos(vehi_Id),
 CONSTRAINT FK_flet_tbFletes_flet_tbEmpleados_empe_Id				 FOREIGN KEY(empe_Id) REFERENCES flet.tbEmpleados(empe_Id),
 CONSTRAINT FK_flet_tbFletes_flet_tbTrayectos_tray_Id				 FOREIGN KEY(tray_Id) REFERENCES flet.tbTrayectos(tray_Id),
@@ -524,7 +548,7 @@ GO
 CREATE TABLE flet.tbUbicacionPorFlete(
 ubif_Id						INT IDENTITY(1,1),
 flet_Id						INT NOT NULL,
-muni_Id						CHAR(4) NOT NULL,
+muni_Id						INT NOT NULL,
 ubif_UbicacionExacta		NVARCHAR(MAX), --¿Qué iba aquí?
 ubif_UsuCreacion			INT NOT NULL,
 ubif_FechaCreacion			DATETIME CONSTRAINT DF_flet_tbUbicacionPorFlete_ubif_FechaCreacion DEFAULT(GETDATE()),
@@ -536,26 +560,6 @@ CONSTRAINT FK_flet_tbUbicacionPorFlete_flet_tbFletes_flet_Id					FOREIGN KEY(fle
 CONSTRAINT FK_flet_tbUbicacionPorFlete_acce_tbUsuarios_pdet_UsuCreacion         FOREIGN KEY(ubif_UsuCreacion) REFERENCES acce.tbUsuarios(User_Id),
 CONSTRAINT FK_flet_tbUbicacionPorFlete_acce_tbUsuarios_pdet_UsuModificacion     FOREIGN KEY(ubif_UsuModificacion) REFERENCES acce.tbUsuarios(User_Id)
 );
-
-
---********** ESCALAS POR TRAYECTO ************--
-GO
-CREATE TABLE flet.tbEscalasPorTrayecto(
-estr_Id						INT IDENTITY(1,1),
-flet_Id						INT NOT NULL,
-muni_Escala					char(4) NOT NULL,
-estr_UsuCreacion			INT NOT NULL,
-estr_FechaCreacion			DATETIME CONSTRAINT DF_flet_tbEscalasPorTrayecto_estr_FechaCreacion DEFAULT(GETDATE()),
-estr_UsuModificacion		INT ,
-estr_FechaModificacion		DATETIME,
-estr_Estado					BIT CONSTRAINT DF_flet_tbEscalasPorTrayecto_estr_Estado DEFAULT(1)
-CONSTRAINT PK_flet_tbEscalasPorTrayecto_estr_Id                                 PRIMARY KEY(estr_Id),
-CONSTRAINT FK_flet_tbEscalasPorTrayecto_flet_Id_flet_tbFletes_flet_Id			FOREIGN KEY(flet_Id) REFERENCES flet.tbFletes (flet_Id),
-CONSTRAINT FK_flet_tbEscalasPorTrayecto_gral_tbMunicipios_muni_Escala			FOREIGN KEY(muni_Escala) REFERENCES gral.tbMunicipios(muni_Id),
-CONSTRAINT FK_flet_tbEscalasPorTrayecto_acce_tbUsuarios_pedi_UsuCreacion        FOREIGN KEY(estr_UsuCreacion) REFERENCES acce.tbUsuarios(User_Id),
-CONSTRAINT FK_flet_tbEscalasPorTrayecto_acce_tbUsuarios_pedi_UsuModificacion    FOREIGN KEY(estr_UsuModificacion) REFERENCES acce.tbUsuarios(User_Id)
-);
-
 
 -----------------SOLO TABLAS-----------------
 
@@ -602,24 +606,21 @@ CONSTRAINT FK_flet_tbEscalasPorTrayecto_acce_tbUsuarios_pedi_UsuModificacion    
 ------------------EQUIPO---------------------
 --Modelos ✓
 --Marcas ✓
---Vehiculos ✓
+--Vehiculos
 --Tipo de vehiculo ✓
 
-------------------FLETE--------------------
---Clientes ✓
+------------------Empresa--------------------
 --Empleados ✓
---EscalasPorTrayecto X
-
---Estado del Pedido ✓
-
---Flete detalle
---Fletes
---Items ✓
---PedidosDetalles ✓
---Pedidos ✓
+--Clientes ✓
 --Sucursales ✓
+--Items ✓
+--Pedidos
+--PedidosDetalles
+--Fletes
+--Flete detalle
 --Trayectos ✓
---Ubicacion por flete X
+--EscalasPorTrayecto
+--Ubicacion por flete
 
 ------------------ACCESO--------------------
 --Roles  ✓

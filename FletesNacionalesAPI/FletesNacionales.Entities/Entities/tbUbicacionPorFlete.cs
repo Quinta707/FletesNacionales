@@ -10,7 +10,7 @@ namespace FletesNacionales.Entities.Entities
     {
         public int ubif_Id { get; set; }
         public int flet_Id { get; set; }
-        public string muni_Id { get; set; }
+        public int muni_Id { get; set; }
         public string ubif_UbicacionExacta { get; set; }
         public int ubif_UsuCreacion { get; set; }
         public DateTime? ubif_FechaCreacion { get; set; }

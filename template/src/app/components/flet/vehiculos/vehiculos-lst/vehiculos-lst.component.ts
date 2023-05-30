@@ -11,6 +11,7 @@ import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSor
 })
 export class VehiculosLstComponent {
   public selected = [];
+
   
   items: Vehiculos[];
  

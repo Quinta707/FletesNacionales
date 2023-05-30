@@ -16,7 +16,7 @@ export class Flete{
 	empe_Sexo!: String;
 	eciv_Id!: number;
 	eciv_Descripcion!: String;
-	muni_Id!: String;
+	muni_Id!: number;
 	empe_DireccionExacta!: String;
 	empe_Telefono!: String;
 	sucu_Id!: number;
@@ -24,13 +24,13 @@ export class Flete{
 	carg_Id!: number;
 	carg_Descripcion!: String;
 	tray_Id!: number;
-	muni_Inicio!: String;
-	muni_Final!: String;
+	muni_Inicio!: number;
+	muni_Final!: number;
 	muni_NombreInicio!: String;
 	muni_CodigoInicio!: String;
 	muni_NombreFinal!: String;
 	muni_CodigoFinal!: String;
-	flet_FechaDeSalida!: Date;
+	flet_FechaDeSalida!: String;
 	flet_UsuCreacion!: number;
 	flet_FechaCreacion!: String;
 	flet_UsuModificacion!: number;
@@ -38,7 +38,6 @@ export class Flete{
 	flet_Estado!: String;
 	user_Creacion!: String;
 	user_Modificacion!: String;
-	flet_Ubicado!: String;
 	flet_FechaDeSalidaParseada!: Date
     flet_PedidosTotales !: number;
     flet_PedidosCompletados !: number;

@@ -15,17 +15,15 @@ namespace FletesNacionales.Entities.Entities
         public DateTime clie_FechaNacimiento { get; set; }
         public string clie_Sexo { get; set; }
         public int eciv_Id { get; set; }
-        public decimal? pedi_Peso { get; set; }
-        public decimal? pedi_Volumen { get; set; }
         public string clie_DireccionExacta { get; set; }
         public string clie_Telefono { get; set; }
-        public string muni_Origen { get; set; }
+        public int muni_Origen { get; set; }
         public string pedi_OrigenNombre { get; set; }
-        public string pedi_DepaOrigenId { get; set; }
+        public int pedi_DepaOrigenId { get; set; }
         public string pedi_DepaOrigen { get; set; }
-        public string muni_Destino { get; set; }
+        public int muni_Destino { get; set; }
         public string pedi_DestinoNombre { get; set; }
-        public string pedi_DepaDestinoId { get; set; }
+        public int pedi_DepaDestinoId { get; set; }
         public string pedi_DepaDestino { get; set; }
         public string pedi_DestinoFinal { get; set; }
         public int estp_Id { get; set; }
@@ -37,6 +35,5 @@ namespace FletesNacionales.Entities.Entities
         public bool? pedi_Estado { get; set; }
         public string user_Creacion { get; set; }
         public string user_Modificacion { get; set; }
-        public string Items { get; set; }
     }
 }

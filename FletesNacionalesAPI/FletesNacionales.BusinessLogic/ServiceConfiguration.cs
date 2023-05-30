@@ -35,7 +35,6 @@ namespace Agence.BusinessLogic
             service.AddScoped<TrayectosRepository>();
             service.AddScoped<UsuariosRepository>();
             service.AddScoped<VehiculosRepository>();
-            service.AddScoped<PantallasRepository>();
             service.AddScoped<PedidoDetallesRepository>();
             FleteContext.BuildConnectionString(connectionString);
         }

@@ -4,116 +4,11 @@ DROP DATABASE FletesNacionales
 */
 
 USE FletesNacionales
---****************************************INSERTS ACCESO****************************************--
---****************************************ROLES****************************************--
-INSERT INTO acce.tbRoles (role_Nombre,role_UsuCreacion)
-VALUES	
-		('Digitador', 1),
-		('Empleado',1);
---****************************************PANTALLAS****************************************--
-INSERT INTO acce.tbPantallas (pant_Nombre, pant_Url, pant_Menu, pant_Icono, pant_UsuCreacion)
-VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','flag-icon flag-icon-hn',1),
-	   ('Estado Civiles',		'/gral/Municipios/List',			'gral','fa fa-list',1),
-	   ('Municipios',			'/gral/Municipios/List',			'gral','fa fa-tag',1),
-	   ('Tipo de Pagos',		'/gral/TiposDePago/List',			'gral','fa fa-credit-card-alt',1) ,
-	   ('Cargos',				'/gral/Cargos/List',				'gral','fa fa-user-plus',1) ,
-
-	   ('Clientes',				'/flet/Clientes/List',				'flet','fa fa-users',1),
-	   ('Fletes',				'/flet/Fletes/List',				'flet','fa fa-industry',1),
-	   ('Items',				'/flet/Items/List',					'flet','fa fa-paper-plane-o',1),
-	   ('Pedidos',				'/flet/Pedidos/List',				'flet','fa fa-briefcase',1),
-	   ('Sucursales',			'/flet/Sucursales/List',			'flet','fa fa-building-o',1),
-	   ('Trayectos',			'/flet/Trayectos/List',				'flet','fa fa-map',1),
-	   ('Ubicacion por Flete',	'/flet/UbicacionPorFlete/List ',	'flet','fa fa-map-marker',1),
-	   ('Estados del Pedido',	'/flet/EstadosdelPedido/List',		'flet','fa fa-check-circle-o',1),
-	   ('Escala por Trayecto',	'/flet/EscalasPorTrayecto/List ',	'flet','fa fa-map-signs',1),
-	   ('Empleados',			'/flet/Empleados/List',				'flet','fa fa-address-card',1),
-
-	   ('Modelos',				'/equi/Modelos/List',				'equi','fa fa-car',1),
-	   ('Marcas',				'/equi/Marcas/List',				'equi','fa fa-truck',1),
-	   ('Vehiculos',			'/flet/Vehiculos/List',				'equi','fa fa-truck',1),
-	   ('Tipos de Vehiculos',	'/flet/TipodeVehiculo/List ',		'equi','fa fa-car',1),
-
-	   ('Usuarios',				'/acce/Usuarios/List',				'acce','fa fa-user',1),
-       ('Roles Por Pantalla',	'/acce/RolesPorPantalla/List ',		'acce','fa fa-credit-card-alt',1),
-	   ('Pantallas',			'/acce/Pantallas/List',				'acce','fa fa-credit-card-alt',1),
-	   ('Grafica',				'/acce/Grafica/List',				'acce','icofont icofont-chart-bar-graph',1)
-GO
-	    
---****************************************ROLES POR PANTALLAS****************************************--
-INSERT INTO acce.tbPantallasPorRoles(pant_Id,role_Id , prol_UsuCreacion)
-VALUES	--Admin
-		--generales
-		(1 ,1 ,1),
-		(2 ,1 ,1),
-		(3 ,1 ,1),
-		(4 ,1 ,1),
-		(5 ,1 ,1),
-		--fletes
-		(6 ,1 ,1),
-		(7 ,1 ,1),
-		(8 ,1 ,1),
-		(9 ,1 ,1),
-		(10,1 ,1),
-		(11,1 ,1),
-		(12,1 ,1),
-		(13,1 ,1),
-		(14,1 ,1),
-		(15,1 ,1),
-		--equipo
-		(16,1 ,1),
-		(17,1 ,1),
-		(18,1 ,1),
-		(19,1 ,1),
-		--acceso
-		(20,1 ,1),
-		(21,1 ,1),
-		(22,1 ,1),
-		(23,1 ,1),
-	
-		--Digitador
-		--generales
-		(1 ,2,1),
-		(2 ,2,1),
-		(3 ,2,1),
-		(4 ,2,1),
-		(5 ,2,1),
-		--fl3es
-		(6 ,2,1),
-		(7 ,2,1),
-		(8 ,2,1),
-		(9 ,2,1),
-		(10,2,1),
-		(11,2,1),
-		(12,2,1),
-		(13,2,1),
-		(14,2,1),
-		(15,2,1),
-		--eq3po
-		(16,2,1),
-		(17,2,1),
-		(18,2,1),
-		(19,2,1),
-
-		--Empleado
-		--generales
-		(1 ,3 ,1),
-		(2 ,3 ,1),
-		(3 ,3 ,1),
-		(4 ,3 ,1),
-		(5 ,3 ,1),
-		--eq4ipo
-		(16,3 ,1),
-		(17,3 ,1),
-		(18,3 ,1),
-		(19,3 ,1)
-GO
-
 
 
 --****************************************INSERTS GENERALES****************************************--
 --****************************************DEPARTAMENTOS****************************************--
-INSERT INTO gral.tbDepartamentos(depa_Id, depa_Nombre, depa_Estado, depa_UsuCreacion, depa_FechaCreacion, depa_UsuModificacion, depa_FechaModificacion)
+INSERT INTO gral.tbDepartamentos(depa_Codigo, depa_Nombre, depa_Estado, depa_UsuCreacion, depa_FechaCreacion, depa_UsuModificacion, depa_FechaModificacion)
 VALUES	('01','Atlántida', '1', 1, GETDATE(), NULL, NULL),
 		('02','Colón', '1', 1, GETDATE(), NULL, NULL),
 		('03','Comayagua', '1', 1, GETDATE(), NULL,NULL),
@@ -137,163 +32,163 @@ VALUES	('01','Atlántida', '1', 1, GETDATE(), NULL, NULL),
 GO
 
 --****************************************MUNICIPIOS****************************************--
-INSERT INTO gral.tbMunicipios(depa_Id, muni_Id, muni_Nombre, muni_Estado, muni_UsuCreacion, muni_FechaCreacion, muni_UsuModificacion, muni_FechaModificacion)
-VALUES	('01','0101','La Ceiba', '1', 1, GETDATE(), NULL, GETDATE()),
-		('01','0102','El Porvenir', '1', 1, GETDATE(), NULL, GETDATE()),
-		('01','0103','Tela', '1', 1, GETDATE(), NULL, GETDATE()),
-		('01','0104','Jutiapa', '1', 1, GETDATE(), NULL, GETDATE()),
-		('01','0105','La Masica', '1', 1, GETDATE(), NULL, GETDATE()),
-		('01','0106','San Francisco', '1', 1, GETDATE(), NULL, GETDATE()),
-		('01','0107','Arizona', '1', 1, GETDATE(), NULL, GETDATE()),
-		('01','0108','Esparta', '1', 1, GETDATE(), NULL, GETDATE()),
-		  
-		  
-		('02','0201','Trujillo', '1', 1, GETDATE(), NULL, GETDATE()),
-		('02','0202','Balfate', '1', 1, GETDATE(), NULL, GETDATE()),
-		('02','0203','Iriona', '1', 1, GETDATE(), NULL, GETDATE()),
-		('02','0204','Limón', '1', 1, GETDATE(), NULL, GETDATE()),
-		('02','0205','Sab�', '1', 1, GETDATE(), NULL, GETDATE()),
-		('02','0206','Santa Fe', '1', 1, GETDATE(), NULL, GETDATE()),
-		('02','0207','Santa Rosa de Agu�n', '1', 1, GETDATE(), NULL, GETDATE()),
-		('02','0208','Sonaguera', '1', 1, GETDATE(), NULL, GETDATE()),
-		('02','0209','Tocoa', '1', 1, GETDATE(), NULL, GETDATE()),
-		('02','0210','Bonito Oriental', '1', 1, GETDATE(), NULL, GETDATE()),
-		  
-		  
-		('03',		'0301',		'Comayagua', '1', 1, GETDATE(), NULL, GETDATE()),
-		('03',		'0302',		'Ajuterique', '1', 1, GETDATE(), NULL, GETDATE()),
-		('03',		'0303',		'El Rosario', '1', 1, GETDATE(), NULL, GETDATE()),
-		('03',		'0304',		'Esqu�as', '1', 1, GETDATE(), NULL, GETDATE()),
-		('03',		'0305',		'Humuya', '1', 1, GETDATE(), NULL, GETDATE()),
-		('03',		'0306',		'La Libertad', '1', 1, GETDATE(), NULL, GETDATE()),
-		('03',		'0307',		'Laman�', '1', 1, GETDATE(), NULL, GETDATE()),
-		('03',		'0308',		'La Trinidad', '1', 1, GETDATE(), NULL, GETDATE()),
-		('03',		'0309',		'Lejaman�', '1', 1, GETDATE(), NULL, GETDATE()),
-		('03',		'0310',		'Me�mbar', '1', 1, GETDATE(), NULL, GETDATE()),
-		('03',		'0311',		'Minas de Oro', '1', 1, GETDATE(), NULL, GETDATE()),
-		('03',		'0312',		'Ojos de Agua', '1', 1, GETDATE(), NULL, GETDATE()),
-		('03',		'0313',		'San Jer�nimo', '1', 1, GETDATE(), NULL, GETDATE()),
-		('03',		'0314',		'San Jos� de Comayagua', '1', 1, GETDATE(), NULL, GETDATE()),
-		('03',		'0315',		'San Jos� del Potrero', '1', 1, GETDATE(), NULL, GETDATE()),
-		('03',		'0316',		'San Luis', '1', 1, GETDATE(), NULL, GETDATE()),
-		('03',		'0317',		'San Sebasti�n', '1', 1, GETDATE(), NULL, GETDATE()),
-		('03',		'0318',		'Siguatepeque', '1', 1, GETDATE(), NULL, GETDATE()),
-		('03',		'0319',		'Villa de San Antonio', '1', 1, GETDATE(), NULL, GETDATE()),
-		('03',		'0320',		'Las Lajas', '1', 1, GETDATE(), NULL, GETDATE()),
-		  
-		('04',	'0401','Santa Rosa de Cop�n', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0402','Caba�as', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0403','Concepci�n', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0404','Cop�n Ruinas', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0405','Corqu�n', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0406','Cucuyagua', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0407','Dolores', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0408','Dulce Nombre', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0409','El Para�so', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0410','Florida', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0411','La Jigua', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0412','La Uni�n', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0413','Nueva Arcadia', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0414','San Agust�n', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0415','San Antonio', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0416','San Jer�nimo', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0417','San Jos�', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0418','San Juan de Opoa', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0419','San Nicol�s', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0420','San Pedro', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0421','Santa Rita', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0422','Trinidad de Cop�n', '1', 1, GETDATE(), NULL, GETDATE()),
-		('04',	'0423','Veracruz', '1', 1, GETDATE(), NULL, GETDATE()),
-		  
-		  
-		('05',	'0501','San Pedro Sula', '1', 1, GETDATE(), NULL, GETDATE()),
-		('05',	'0502','Choloma', '1', 1, GETDATE(), NULL, GETDATE()),
-		('05',	'0503','Omoa', '1', 1, GETDATE(), NULL, GETDATE()),
-		('05',	'0504','Pimienta', '1', 1, GETDATE(), NULL, GETDATE()),
-		('05',	'0505','Potrerillos', '1', 1, GETDATE(), NULL, GETDATE()),
-		('05',	'0506','Puerto Cort�s', '1', 1, GETDATE(), NULL, GETDATE()),
-		('05',	'0507','San Antonio de Cort�s', '1', 1, GETDATE(), NULL, GETDATE()),
-		('05',	'0508','San Francisco de Yojoa', '1', 1, GETDATE(), NULL, GETDATE()),
-		('05',	'0509','San Manuel', '1', 1, GETDATE(), NULL, GETDATE()),
-		('05',	'0510','Santa Cruz de Yojoa', '1', 1, GETDATE(), NULL, GETDATE()),
-		('05',	'0511','Villanueva', '1', 1, GETDATE(), NULL, GETDATE()),
-		('05',	'0512','La Lima', '1', 1, GETDATE(), NULL, GETDATE()),
-		  
-		  
-		('06',	'0601','Choluteca', '1', 1, GETDATE(), NULL, GETDATE()),
-		('06',	'0602','Apacilagua', '1', 1, GETDATE(), NULL, GETDATE()),
-		('06',	'0603','Concepci�n de Mar�a', '1', 1, GETDATE(), NULL, GETDATE()),
-		('06',	'0604','Duyure', '1', 1, GETDATE(), NULL, GETDATE()),
-		('06',	'0605','El Corpus', '1', 1, GETDATE(), NULL, GETDATE()),
-		('06',	'0606','El Triunfo', '1', 1, GETDATE(), NULL, GETDATE()),
-		('06',	'0607','Marcovia', '1', 1, GETDATE(), NULL, GETDATE()),
-		('06',	'0608','Morolica', '1', 1, GETDATE(), NULL, GETDATE()),
-		('06',	'0609','Namasig�e', '1', 1, GETDATE(), NULL, GETDATE()),
-		('06',	'0610','Orocuina', '1', 1, GETDATE(), NULL, GETDATE()),
-		('06',	'0611','Pespire', '1', 1, GETDATE(), NULL, GETDATE()),
-		('06',	'0612','San Antonio de Flores', '1', 1, GETDATE(), NULL, GETDATE()),
-		('06',	'0613','San Isidro', '1', 1, GETDATE(), NULL, GETDATE()),
-		('06',	'0614','San Jos�', '1', 1, GETDATE(), NULL, GETDATE()),
-		('06',	'0615','San Marcos de Col�n', '1', 1, GETDATE(), NULL, GETDATE()),
-		('06',	'0616','Santa Ana de Yusguare', '1', 1, GETDATE(), NULL, GETDATE()),
-		  
-		  
-		('07', '0701', 'Yuscar�n', '1', 1, GETDATE(), NULL, GETDATE()),
-		('07', '0702', 'Alauca', '1', 1, GETDATE(), NULL, GETDATE()),
-		('07', '0703', 'Danl�', '1', 1, GETDATE(), NULL, GETDATE()),
-		('07', '0704', 'El Para�so', '1', 1, GETDATE(), NULL, GETDATE()),
-		('07', '0705', 'G�inope', '1', 1, GETDATE(), NULL, GETDATE()),
-		('07', '0706', 'Jacaleapa', '1', 1, GETDATE(), NULL, GETDATE()),
-		('07', '0707', 'Liure', '1', 1, GETDATE(), NULL, GETDATE()),
-		('07', '0708', 'Morocel�', '1', 1, GETDATE(), NULL, GETDATE()),
-		('07', '0709', 'Oropol�', '1', 1, GETDATE(), NULL, GETDATE()),
-		('07', '0710', 'Potrerillos', '1', 1, GETDATE(), NULL, GETDATE()),
-		('07', '0711', 'San Antonio de Flores', '1', 1, GETDATE(), NULL, GETDATE()),
-		('07', '0712', 'San Lucas', '1', 1, GETDATE(), NULL, GETDATE()),
-		('07', '0713', 'San Mat�as', '1', 1, GETDATE(), NULL, GETDATE()),
-		('07', '0714', 'Soledad', '1', 1, GETDATE(), NULL, GETDATE()),
-		('07', '0715', 'Teupasenti', '1', 1, GETDATE(), NULL, GETDATE()),
-		('07', '0716', 'Texiguat', '1', 1, GETDATE(), NULL, GETDATE()),
-		('07', '0717', 'Vado Ancho', '1', 1, GETDATE(), NULL, GETDATE()),
-		('07', '0718', 'Yauyupe', '1', 1, GETDATE(), NULL, GETDATE()),
-		('07', '0719', 'Trojes', '1', 1, GETDATE(), NULL, GETDATE()),
-		  
-		  
-		('08', '0801', 'Distrito Central', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0802', 'Alubar�n', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0803', 'Cedros', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0804', 'Curar�n', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0805', 'El Porvenir', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0806', 'Guaimaca', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0807', 'La Libertad', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0808', 'La Venta', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0809', 'Lepaterique', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0810', 'Maraita', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0811', 'Marale', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0812', 'Nueva Armenia', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0813', 'Ojojona', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0814', 'Orica', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0815', 'Reitoca', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0816', 'Sabanagrande', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0817', 'San Antonio de Oriente', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0818', 'San Buenaventura', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0819', 'San Ignacio', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0820', 'San Juan de Flores', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0821', 'San Miguelito', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0822', 'Santa Ana', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0823', 'Santa Luc�a', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0824', 'Talanga', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0825', 'Tatumbla', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0826', 'Valle de �ngeles', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0827', 'Villa de San Francisco', '1', 1, GETDATE(), NULL, GETDATE()),
-		('08', '0828', 'Vallecillo', '1', 1, GETDATE(), NULL, GETDATE()),
-		  
-		('09', '0901', 'Puerto Lempira', '1', 1, GETDATE(), NULL, GETDATE()),
-		('09', '0902', 'Brus Laguna', '1', 1, GETDATE(), NULL, GETDATE()),
-		('09', '0903', 'Ahuas', '1', 1, GETDATE(), NULL, GETDATE()),
-		('09', '0904', 'Juan Francisco Bulnes', '1', 1, GETDATE(), NULL, GETDATE()),
-		('09', '0905', 'Ram�n Villeda Morales', '1', 1, GETDATE(), NULL, GETDATE()),
-		('09', '0906', 'Wampusirpe', '1', 1, GETDATE(), NULL, GETDATE()),
+INSERT INTO gral.tbMunicipios(depa_Id, muni_Codigo, muni_Nombre, muni_Estado, muni_UsuCreacion, muni_FechaCreacion, muni_UsuModificacion, muni_FechaModificacion)
+VALUES	('1','0101','La Ceiba', '1', 1, GETDATE(), NULL, GETDATE()),
+		('1','0102','El Porvenir', '1', 1, GETDATE(), NULL, GETDATE()),
+		('1','0103','Tela', '1', 1, GETDATE(), NULL, GETDATE()),
+		('1','0104','Jutiapa', '1', 1, GETDATE(), NULL, GETDATE()),
+		('1','0105','La Masica', '1', 1, GETDATE(), NULL, GETDATE()),
+		('1','0106','San Francisco', '1', 1, GETDATE(), NULL, GETDATE()),
+		('1','0107','Arizona', '1', 1, GETDATE(), NULL, GETDATE()),
+		('1','0108','Esparta', '1', 1, GETDATE(), NULL, GETDATE()),
+	
+
+		('2','0201','Trujillo', '1', 1, GETDATE(), NULL, GETDATE()),
+		('2','0202','Balfate', '1', 1, GETDATE(), NULL, GETDATE()),
+		('2','0203','Iriona', '1', 1, GETDATE(), NULL, GETDATE()),
+		('2','0204','Limón', '1', 1, GETDATE(), NULL, GETDATE()),
+		('2','0205','Sab�', '1', 1, GETDATE(), NULL, GETDATE()),
+		('2','0206','Santa Fe', '1', 1, GETDATE(), NULL, GETDATE()),
+		('2','0207','Santa Rosa de Agu�n', '1', 1, GETDATE(), NULL, GETDATE()),
+		('2','0208','Sonaguera', '1', 1, GETDATE(), NULL, GETDATE()),
+		('2','0209','Tocoa', '1', 1, GETDATE(), NULL, GETDATE()),
+		('2','0210','Bonito Oriental', '1', 1, GETDATE(), NULL, GETDATE()),
+
+
+		('3',		'0301',		'Comayagua', '1', 1, GETDATE(), NULL, GETDATE()),
+		('3',		'0302',		'Ajuterique', '1', 1, GETDATE(), NULL, GETDATE()),
+		('3',		'0303',		'El Rosario', '1', 1, GETDATE(), NULL, GETDATE()),
+		('3',		'0304',		'Esqu�as', '1', 1, GETDATE(), NULL, GETDATE()),
+		('3',		'0305',		'Humuya', '1', 1, GETDATE(), NULL, GETDATE()),
+		('3',		'0306',		'La Libertad', '1', 1, GETDATE(), NULL, GETDATE()),
+		('3',		'0307',		'Laman�', '1', 1, GETDATE(), NULL, GETDATE()),
+		('3',		'0308',		'La Trinidad', '1', 1, GETDATE(), NULL, GETDATE()),
+		('3',		'0309',		'Lejaman�', '1', 1, GETDATE(), NULL, GETDATE()),
+		('3',		'0310',		'Me�mbar', '1', 1, GETDATE(), NULL, GETDATE()),
+		('3',		'0311',		'Minas de Oro', '1', 1, GETDATE(), NULL, GETDATE()),
+		('3',		'0312',		'Ojos de Agua', '1', 1, GETDATE(), NULL, GETDATE()),
+		('3',		'0313',		'San Jer�nimo', '1', 1, GETDATE(), NULL, GETDATE()),
+		('3',		'0314',		'San Jos� de Comayagua', '1', 1, GETDATE(), NULL, GETDATE()),
+		('3',		'0315',		'San Jos� del Potrero', '1', 1, GETDATE(), NULL, GETDATE()),
+		('3',		'0316',		'San Luis', '1', 1, GETDATE(), NULL, GETDATE()),
+		('3',		'0317',		'San Sebasti�n', '1', 1, GETDATE(), NULL, GETDATE()),
+		('3',		'0318',		'Siguatepeque', '1', 1, GETDATE(), NULL, GETDATE()),
+		('3',		'0319',		'Villa de San Antonio', '1', 1, GETDATE(), NULL, GETDATE()),
+		('3',		'0320',		'Las Lajas', '1', 1, GETDATE(), NULL, GETDATE()),
+
+		('4',	'0401','Santa Rosa de Cop�n', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0402','Caba�as', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0403','Concepci�n', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0404','Cop�n Ruinas', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0405','Corqu�n', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0406','Cucuyagua', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0407','Dolores', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0408','Dulce Nombre', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0409','El Para�so', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0410','Florida', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0411','La Jigua', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0412','La Uni�n', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0413','Nueva Arcadia', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0414','San Agust�n', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0415','San Antonio', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0416','San Jer�nimo', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0417','San Jos�', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0418','San Juan de Opoa', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0419','San Nicol�s', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0420','San Pedro', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0421','Santa Rita', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0422','Trinidad de Cop�n', '1', 1, GETDATE(), NULL, GETDATE()),
+		('4',	'0423','Veracruz', '1', 1, GETDATE(), NULL, GETDATE()),
+
+
+		('5',	'0501','San Pedro Sula', '1', 1, GETDATE(), NULL, GETDATE()),
+		('5',	'0502','Choloma', '1', 1, GETDATE(), NULL, GETDATE()),
+		('5',	'0503','Omoa', '1', 1, GETDATE(), NULL, GETDATE()),
+		('5',	'0504','Pimienta', '1', 1, GETDATE(), NULL, GETDATE()),
+		('5',	'0505','Potrerillos', '1', 1, GETDATE(), NULL, GETDATE()),
+		('5',	'0506','Puerto Cort�s', '1', 1, GETDATE(), NULL, GETDATE()),
+		('5',	'0507','San Antonio de Cort�s', '1', 1, GETDATE(), NULL, GETDATE()),
+		('5',	'0508','San Francisco de Yojoa', '1', 1, GETDATE(), NULL, GETDATE()),
+		('5',	'0509','San Manuel', '1', 1, GETDATE(), NULL, GETDATE()),
+		('5',	'0510','Santa Cruz de Yojoa', '1', 1, GETDATE(), NULL, GETDATE()),
+		('5',	'0511','Villanueva', '1', 1, GETDATE(), NULL, GETDATE()),
+		('5',	'0512','La Lima', '1', 1, GETDATE(), NULL, GETDATE()),
+
+
+		('6',	'0601','Choluteca', '1', 1, GETDATE(), NULL, GETDATE()),
+		('6',	'0602','Apacilagua', '1', 1, GETDATE(), NULL, GETDATE()),
+		('6',	'0603','Concepci�n de Mar�a', '1', 1, GETDATE(), NULL, GETDATE()),
+		('6',	'0604','Duyure', '1', 1, GETDATE(), NULL, GETDATE()),
+		('6',	'0605','El Corpus', '1', 1, GETDATE(), NULL, GETDATE()),
+		('6',	'0606','El Triunfo', '1', 1, GETDATE(), NULL, GETDATE()),
+		('6',	'0607','Marcovia', '1', 1, GETDATE(), NULL, GETDATE()),
+		('6',	'0608','Morolica', '1', 1, GETDATE(), NULL, GETDATE()),
+		('6',	'0609','Namasig�e', '1', 1, GETDATE(), NULL, GETDATE()),
+		('6',	'0610','Orocuina', '1', 1, GETDATE(), NULL, GETDATE()),
+		('6',	'0611','Pespire', '1', 1, GETDATE(), NULL, GETDATE()),
+		('6',	'0612','San Antonio de Flores', '1', 1, GETDATE(), NULL, GETDATE()),
+		('6',	'0613','San Isidro', '1', 1, GETDATE(), NULL, GETDATE()),
+		('6',	'0614','San Jos�', '1', 1, GETDATE(), NULL, GETDATE()),
+		('6',	'0615','San Marcos de Col�n', '1', 1, GETDATE(), NULL, GETDATE()),
+		('6',	'0616','Santa Ana de Yusguare', '1', 1, GETDATE(), NULL, GETDATE()),
+
+
+		('7', '0701', 'Yuscar�n', '1', 1, GETDATE(), NULL, GETDATE()),
+		('7', '0702', 'Alauca', '1', 1, GETDATE(), NULL, GETDATE()),
+		('7', '0703', 'Danl�', '1', 1, GETDATE(), NULL, GETDATE()),
+		('7', '0704', 'El Para�so', '1', 1, GETDATE(), NULL, GETDATE()),
+		('7', '0705', 'G�inope', '1', 1, GETDATE(), NULL, GETDATE()),
+		('7', '0706', 'Jacaleapa', '1', 1, GETDATE(), NULL, GETDATE()),
+		('7', '0707', 'Liure', '1', 1, GETDATE(), NULL, GETDATE()),
+		('7', '0708', 'Morocel�', '1', 1, GETDATE(), NULL, GETDATE()),
+		('7', '0709', 'Oropol�', '1', 1, GETDATE(), NULL, GETDATE()),
+		('7', '0710', 'Potrerillos', '1', 1, GETDATE(), NULL, GETDATE()),
+		('7', '0711', 'San Antonio de Flores', '1', 1, GETDATE(), NULL, GETDATE()),
+		('7', '0712', 'San Lucas', '1', 1, GETDATE(), NULL, GETDATE()),
+		('7', '0713', 'San Mat�as', '1', 1, GETDATE(), NULL, GETDATE()),
+		('7', '0714', 'Soledad', '1', 1, GETDATE(), NULL, GETDATE()),
+		('7', '0715', 'Teupasenti', '1', 1, GETDATE(), NULL, GETDATE()),
+		('7', '0716', 'Texiguat', '1', 1, GETDATE(), NULL, GETDATE()),
+		('7', '0717', 'Vado Ancho', '1', 1, GETDATE(), NULL, GETDATE()),
+		('7', '0718', 'Yauyupe', '1', 1, GETDATE(), NULL, GETDATE()),
+		('7', '0719', 'Trojes', '1', 1, GETDATE(), NULL, GETDATE()),
+
+
+		('8', '0801', 'Distrito Central', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0802', 'Alubar�n', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0803', 'Cedros', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0804', 'Curar�n', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0805', 'El Porvenir', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0806', 'Guaimaca', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0807', 'La Libertad', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0808', 'La Venta', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0809', 'Lepaterique', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0810', 'Maraita', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0811', 'Marale', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0812', 'Nueva Armenia', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0813', 'Ojojona', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0814', 'Orica', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0815', 'Reitoca', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0816', 'Sabanagrande', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0817', 'San Antonio de Oriente', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0818', 'San Buenaventura', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0819', 'San Ignacio', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0820', 'San Juan de Flores', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0821', 'San Miguelito', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0822', 'Santa Ana', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0823', 'Santa Luc�a', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0824', 'Talanga', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0825', 'Tatumbla', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0826', 'Valle de �ngeles', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0827', 'Villa de San Francisco', '1', 1, GETDATE(), NULL, GETDATE()),
+		('8', '0828', 'Vallecillo', '1', 1, GETDATE(), NULL, GETDATE()),
+		
+		('9', '0901', 'Puerto Lempira', '1', 1, GETDATE(), NULL, GETDATE()),
+		('9', '0902', 'Brus Laguna', '1', 1, GETDATE(), NULL, GETDATE()),
+		('9', '0903', 'Ahuas', '1', 1, GETDATE(), NULL, GETDATE()),
+		('9', '0904', 'Juan Francisco Bulnes', '1', 1, GETDATE(), NULL, GETDATE()),
+		('9', '0905', 'Ram�n Villeda Morales', '1', 1, GETDATE(), NULL, GETDATE()),
+		('9', '0906', 'Wampusirpe', '1', 1, GETDATE(), NULL, GETDATE()),
 		
 		('10', '1001', 'La Esperanza', '1', 1, GETDATE(), NULL, GETDATE()),
 		('10', '1002', 'Camasca', '1', 1, GETDATE(), NULL, GETDATE()),
@@ -492,6 +387,55 @@ VALUES	('Tarjeta de crédito', '1'),
 		('Cheque', 1),
 		('Efectivo', 1);
 		
+--****************************************INSERTS ACCESO****************************************--
+--****************************************ROLES****************************************--
+INSERT INTO acce.tbRoles (role_Nombre,role_UsuCreacion)
+VALUES	('Admin', 1),
+		('Digitador', 1),
+		('Empleado',1);
+		
+--****************************************PANTALLAS****************************************--
+INSERT INTO acce.tbPantallas (pant_Nombre, pant_Url, pant_Menu, pant_Icono, pant_UsuCreacion)
+VALUES ('Departamentos',' ',' ',' ',1),
+	   ('Direcciones',' ',' ',' ',1),
+	   ('Estado Civiles',' ',' ',' ',1),
+	   ('Municipios',' ',' ',' ',1),
+	   ('Tipo de Pagos',' ',' ',' ',1) ,
+
+	   ('Clientes',' ',' ',' ',1),
+	   ('Empleados',' ',' ',' ',1),
+	   ('Modelos',' ',' ',' ',1),
+	   ('Marcas',' ',' ',' ',1),
+	   ('Vehiculos',' ',' ',' ',1),
+	   ('Tipos de Vehiculos',' ',' ',' ',1),
+
+	   ('Usuarios',' ',' ',' ',1),
+       ('Roles Por Pantalla',' ',' ',' ',1)
+	   --('Grafica',1) --17
+GO
+	    
+--****************************************ROLES POR PANTALLAS****************************************--
+--INSERT INTO acce.tbPantallasPorRoles(role_Id, pant_Id, prol_UsuCreacion)
+--VALUES	( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1),
+--		( , ,1)
+GO
 --****************************************INSERTS EQUIPO****************************************--
 --****************************************MARCA****************************************--
 INSERT INTO equi.tbMarcas(marc_Nombre, marc_UsuCreacion)
@@ -527,276 +471,234 @@ VALUES ('Serie 2 Gran Tourer',1,1,1),
 	   ('Punto',1,3,1),
 	   ('Grand Cherokee',1,2,1),
 	   ('Picanto',1,2,1),
-	   ('Camaro',2,2,1)
+	   ('Camaro',1,2,1)
 
 GO
---****************************************VEHICULO****************************************--
-
-INSERT INTO equi.tbVehiculos (mode_Id,vehi_PesoMaximo,vehi_VolumenMaximo,vehi_Placa,vehi_UsuCreacion) 
-VALUES (1,500,400,'PAA-1234',1),
-(2,1000,900,'BVM-7890',1),
-(3,2000,1900,'LNH-9012',1),
-(4,7000,6900,'RTD-3456',1),
-(5,35000,30000,'PAA-4321',1),
-(6,8000,7500,'JIK-2345',1),
-(7,9000,8700,'XSY-6789',1),
-(8,10000,9000,'ZAN-0123',1),
-(9 ,30000,27000,'DFR-4567',1),
-(10 ,40000,34000,'RFD-4237',1)
 
 --****************************************INSERTS FLETES****************************************--
 --****************************************CLIENTE****************************************--
 
 INSERT INTO flet.tbClientes(clie_Nombres, clie_Apellidos, clie_Identidad, clie_FechaNacimiento, clie_Sexo, eciv_Id, muni_Id, clie_DireccionExacta, clie_Telefono, clie_UsuCreacion)
-VALUES	('Cristian', 'Aguilar', '0501-2004-98213', '02-02-2004', 'M', '1', '0501', 'Sps', '+504 8989-6734', '1'),
-		('Esdra', 'Cerna', '1904-1989-67251', '04-02-1989', 'F', '1', '0501', 'Sps',  '+504 9341-9097', '1'),
-		('Sarai', 'Quintanilla', '1109-1990-62781', '12-02-1990', 'F', '1', '0501', 'Sps',  '+504 9123-5543', '1'),
-		('Marco', 'Torrez', '1109-1998-28192', '09-02-1998', 'M', '1', '0501', 'Sps',  '+504 8908-5463', '1'),
-		('Celina', 'Arias', '0912-1990-64782', '09-07-1990', 'F', '1', '0501', 'Sps',  '+504 9657-7483', '1'),
-		('Luis', 'Chicas', '0910-1992-98128', '09-01-1992', 'M', '1', '0501', 'Sps',  '+504 9834-5621', '1'),
-		('Angie', 'Andino', '0912-1990-28739', '05-01-1990', 'F', '1', '0501', 'Sps',  '+504 9064-7869', '1'),
-		('Nelson', 'Umaña', '1102-1989-00090', '02-07-1989', 'M', '1', '0501', 'Sps',  '+504 9345-5161', '1'),
-		('Marbella', 'Gómez', '0815-1997-89023', '09-02-1997', 'F', '1', '0501', 'Sps',  '+504 9809-5461', '1'),
-		('Carlos', 'Amaya', '0914-1995-67281', '09-05-1995', 'M', '1', '0501', 'Sps',  '+504 9109-6573', '1'),
-		('Dayana', 'Erazo', '1805-1996-78934', '03-08-1995', 'F', '1', '0501', 'Sps',  '+504 9563-7381', '1'),
-		('Jasson', 'Zaldívar', '0912-1998-56271', '09-08-1998', 'M', '1', '0501', 'Sps',  '+504 9100-7584', '1'),
-		('Marlin', 'Guzmán', '0213-1994-56721', '10-07-1994', 'F', '1', '0501', 'Sps',  '+504 9822-5216', '1'),
-		('Yoner', 'Zaldívar', '0913-1992-45162', '09-08-1992', 'M', '1', '0501', 'Sps',  '+504 8145-6627', '1'),
-		('Juan', 'Sagastume', '0914-1998-20192', '09-07-1988', 'M', '1', '0501', 'Sps',  '+504 9203-8749', '1'),
-		('Anthony', 'Leiva', '0415-1989-62592', '11-03-1989', 'M', '1', '0501', 'Sps',  '+504 9631-7521', '1'),
-		('Paola', 'Decas', '0914-1996-78291', '09-08-1996', 'F', '1', '0501', 'Sps',  '+504 9561-2331', '1'),
-		('Caleb', 'Benítez', '1401-1990-78676', '03-08-1990', 'M', '1', '0501', 'Sps',  '+504 9521-5547', '1'),
-		('Exibia', 'Bueso', '0314-1998-00989', '02-08-1998', 'F', '1', '0501', 'Sps',  '+504 9312-7584', '1'),
-		('Carlos', 'Herrera', '0314-1990-62712', '04-02-1990', 'M', '1', '0501', 'Sps',  '+504 9623-9956', '1'),
-		('Ana', 'Fajardo', '0913-1990-92738', '09-09-1998', 'F', '1', '0501', 'Sps',  '+504 9027-8867', '1');
+VALUES	('Cristian', 'Aguilar', '0501-2004-98213', '02-02-2004', 'M', '1', '63', 'Sps', '+504 8989-6734', '1'),
+		('Esdra', 'Cerna', '1904-1989-67251', '04-20-1989', 'F', '1', '63', 'Sps',  '+504 9341-9097', '1'),
+		('Sarai', 'Quintanilla', '1109-1990-62781', '12-15-1990', 'F', '1', '63', 'Sps',  '+504 9123-5543', '1'),
+		('Marco', 'Torrez', '1109-1998-28192', '09-12-1998', 'M', '1', '63', 'Sps',  '+504 8908-5463', '1'),
+		('Celina', 'Arias', '0912-1990-64782', '09-12-1990', 'F', '1', '63', 'Sps',  '+504 9657-7483', '1'),
+		('Luis', 'Chicas', '0910-1992-98128', '09-27-1992', 'M', '1', '63', 'Sps',  '+504 9834-5621', '1'),
+		('Angie', 'Andino', '0912-1990-28739', '05-21-1990', 'F', '1', '63', 'Sps',  '+504 9064-7869', '1'),
+		('Nelson', 'Umaña', '1102-1989-00090', '02-10-1989', 'M', '1', '63', 'Sps',  '+504 9345-5161', '1'),
+		('Marbella', 'Gómez', '0815-1997-89023', '09-02-1997', 'F', '1', '63', 'Sps',  '+504 9809-5461', '1'),
+		('Carlos', 'Amaya', '0914-1995-67281', '09-05-1995', 'M', '1', '63', 'Sps',  '+504 9109-6573', '1'),
+		('Dayana', 'Erazo', '1805-1996-78934', '03-21-1995', 'F', '1', '63', 'Sps',  '+504 9563-7381', '1'),
+		('Jasson', 'Zaldívar', '0912-1998-56271', '09-21-1998', 'M', '1', '63', 'Sps',  '+504 9100-7584', '1'),
+		('Marlin', 'Guzmán', '0213-1994-56721', '10-07-1994', 'F', '1', '63', 'Sps',  '+504 9822-5216', '1'),
+		('Yoner', 'Zaldívar', '0913-1992-45162', '09-25-1992', 'M', '1', '63', 'Sps',  '+504 8145-6627', '1'),
+		('Juan', 'Sagastume', '0914-1998-20192', '09-07-1988', 'M', '1', '63', 'Sps',  '+504 9203-8749', '1'),
+		('Anthony', 'Leiva', '0415-1989-62592', '11-03-1989', 'M', '1', '63', 'Sps',  '+504 9631-7521', '1'),
+		('Paola', 'Decas', '0914-1996-78291', '09-23-1996', 'F', '1', '63', 'Sps',  '+504 9561-2331', '1'),
+		('Caleb', 'Benítez', '1401-1990-78676', '03-27-1990', 'M', '1', '63', 'Sps',  '+504 9521-5547', '1'),
+		('Exibia', 'Bueso', '0314-1998-00989', '02-15-1998', 'F', '1', '63', 'Sps',  '+504 9312-7584', '1'),
+		('Carlos', 'Herrera', '0314-1990-62712', '04-22-1990', 'M', '1', '63', 'Sps',  '+504 9623-9956', '1'),
+		('Ana', 'Fajardo', '0913-1990-92738', '09-23-1998', 'F', '1', '63', 'Sps',  '+504 9027-8867', '1');
 
---INSERT TABLA USUARIOS
-DECLARE @Pass AS NVARCHAR(MAX), @Clave AS NVARCHAR(250);
-SET @Clave = 'xdd';
-SET @Pass = CONVERT(NVARCHAR(MAX), HASHBYTES('sha2_512', @Clave))
-
-INSERT INTO ACCE.tbUsuarios([user_NombreUsuario],[user_Contrasena],[user_EsAdmin],[role_ID],[empe_ID],[user_UsuCreacion])
-VALUES('OscarB', @Pass, 0,2,2,1);
-GO
-
-DECLARE @Pass AS NVARCHAR(MAX), @Clave AS NVARCHAR(250);
-SET @Clave = 'lalisa'
-SET @Pass = CONVERT (NVARCHAR(MAX), HASHBYTES('sha2_512',@Clave))
-
-INSERT INTO ACCE.tbUsuarios([user_NombreUsuario],[user_Contrasena],[user_EsAdmin],[role_ID],[empe_ID],[user_UsuCreacion])
-VALUES('Lisa', @Pass, 0,3,3,1);
-GO
-
-DECLARE @Pass AS NVARCHAR(MAX), @Clave AS NVARCHAR(250);
-SET @Clave = 'nimodo'
-SET @Pass = CONVERT (NVARCHAR(MAX), HASHBYTES('sha2_512',@Clave))
-
-INSERT INTO ACCE.tbUsuarios([user_NombreUsuario],[user_Contrasena],[user_EsAdmin],[role_ID],[empe_ID],[user_UsuCreacion])
-VALUES('JoseXD', @Pass, 0,3,4,1 );
-GO
-
-DECLARE @Pass AS NVARCHAR(MAX), @Clave AS NVARCHAR(250);
-SET @Clave = 'lagorda'
-SET @Pass = CONVERT (NVARCHAR(MAX), HASHBYTES('sha2_512',@Clave))
-INSERT INTO ACCE.tbUsuarios([user_NombreUsuario],[user_Contrasena],[user_EsAdmin],[role_ID],[empe_ID],[user_UsuCreacion])
-VALUES('lornaSSD', @Pass, 0,3,5,1 );
-GO
 --****************************************ITEMS****************************************--
 INSERT INTO flet.tbItems (item_Nombre, item_Descripcion, item_Peso, item_Volumen, item_UsuCreacion)
-VALUES	('Lavadora Samsung','Modelo X$/AE LGBT',700,20.8, 1),
-		('Lavadora LG','Modelo X$/AE LGBT',700,20.8, 1),
-		('Lavadora Whirlpool','Modelo X$/AE LGBT',700,20.8, 1),
-		('Lavadora Electrolux','Modelo X$/AE LGBT',700,20.8, 1),
-		('Lavadora Bosch','Modelo X$/AE LGBT',700,20.8, 1),
+VALUES	('Lavadora Samsung','Modelo X$/AE LGBT',70,2.8, 1),
+		('Lavadora LG','Modelo X$/AE LGBT',70,2.8, 1),
+		('Lavadora Whirlpool','Modelo X$/AE LGBT',70,2.8, 1),
+		('Lavadora Electrolux','Modelo X$/AE LGBT',70,2.8, 1),
+		('Lavadora Bosch','Modelo X$/AE LGBT',70,2.8, 1),
 
-		('Refrigerador Samsung','Modelo Samsung RF28R7551SR',400 ,70.6 ,1),
-		('Refrigerador LG','Modelo LG LFXS28968S',400,70.6 ,1),
-		('Refrigerador Whirlpool','Modelo Whirlpool WRF535SWHZ',400 ,70.6,1),
-		('Refrigerador Electrolux','Modelo Electrolux EI23BC82SS',400,70.6 ,1),
-		('Refrigerador Bosch','Modelo Bosch B36CT80SNS',400,70.6 ,1),
+		('Refrigerador Samsung','Modelo Samsung RF28R7551SR',40 ,7.6 ,1),
+		('Refrigerador LG','Modelo LG LFXS28968S',40,7.6 ,1),
+		('Refrigerador Whirlpool','Modelo Whirlpool WRF535SWHZ',40 ,7.6,1),
+		('Refrigerador Electrolux','Modelo Electrolux EI23BC82SS',40,7.6 ,1),
+		('Refrigerador Bosch','Modelo Bosch B36CT80SNS',40,7.6 ,1),
 
-		('Horno KitchenAid','Modelo KitchenAid KOSE500ESS',350.3 ,70.6,1),
-		('Horno Bosch','Modelo Bosch HBL8453UC',350.3 ,70.6,1),
-		('Horno Whirlpool','Modelo Whirlpool WOS51EC0AS',380.3 ,70.6,1),
-		('Horno LG','Modelo LG LWS3063ST',360.3 ,70.6,1),
-		('Horno GE Appliances','Modelo GE JT5000SFSS',370.3 ,70.6,1),
+		('Horno KitchenAid','Modelo KitchenAid KOSE500ESS',35.3 ,7.6,1),
+		('Horno Bosch','Modelo Bosch HBL8453UC',35.3 ,7.6,1),
+		('Horno Whirlpool','Modelo Whirlpool WOS51EC0AS',38.3 ,7.6,1),
+		('Horno LG','Modelo LG LWS3063ST',36.3 ,7.6,1),
+		('Horno GE Appliances','Modelo GE JT5000SFSS',37.3 ,7.6,1),
 
-		('Televisor Samsung',' Samsung QN65Q80A ',10.61 ,150,1),
-		('Televisor Bosch','Modelo Bosch HBL8453UC',10.59,150,1),
-		('Televisor Sony','Modelo Sony XBR55X950H ',10.5 ,150,1),
-		('Televisor LG','Modelo TCL 65R635',10.3 ,150,1),
-		('Televisor TCL','Modelo LG NanoCell 85 Series 75NANO85UNA ',10 ,150,1),
+		('Televisor Samsung',' Samsung QN65Q80A ',1.61 ,15,1),
+		('Televisor Bosch','Modelo Bosch HBL8453UC',1.59,15,1),
+		('Televisor Sony','Modelo Sony XBR55X950H ',1.5 ,15,1),
+		('Televisor LG','Modelo TCL 65R635',1.3 ,15,1),
+		('Televisor TCL','Modelo LG NanoCell 85 Series 75NANO85UNA ',1 ,15,1),
 
-		('Aspiradora Dyson',' Dyson QN6WEREW5Q80A XBOX',20.5 ,50,1),
-		('Aspiradora Shark','Modelo Shark HBLHGHFG8453UC',20.5,50,1),
-		('Aspiradora Miele','Modelo Miele XBRBVCBCV55X950H ',20.50 ,5,1),
-		('Aspiradora Hoover','Modelo Hoover 65R66635 PRO',20.5,50,1),
-		('Aspiradora Bissell','Modelo Bissell DISCORD CELL',20.5,50,1)
-
-
+		('Aspiradora Dyson',' Dyson QN6WEREW5Q80A XBOX',2.5 ,5,1),
+		('Aspiradora Shark','Modelo Shark HBLHGHFG8453UC',2.5,5,1),
+		('Aspiradora Miele','Modelo Miele XBRBVCBCV55X950H ',2.5 ,5,1),
+		('Aspiradora Hoover','Modelo Hoover 65R66635 PRO',2.5,5,1),
+		('Aspiradora Bissell','Modelo Bissell DISCORD CELL',2.5,5,1)
 
 --****************************************SUCURSALES****************************************--
 INSERT INTO flet.tbSucursales (sucu_Nombre, muni_Id, sucu_Direccion, sucu_UsuCreacion)
-VALUES	('Fletes Horizon San Pedro Sula','0501','123 Calle Ficticia, Barrio Imaginario, San Pedro Sula, Honduras',1),
-('Fletes Horizon Tegucigalpa','0801','Avenida Ejemplo 123, Colonia Imaginaria, Tegucigalpa, Honduras',1),
-('Fletes Horizon Santa Rosa De Copan', '0401','Calle Ficticia 456, Barrio Imaginario, Santa Rosa de Copán, Honduras',1),
-('Fletes Horizon Puerto Cortes','0506','Avenida Imaginaria 789, Colonia Ficticia, Puerto Cortés, Honduras',1),
-('Fletes Horizon Santa Barbara','1601','Calle Principal 456, Colonia Santa Rosa, Santa Bárbara, Honduras',1),
-('Fletes Horizon El Progreso','1804','Calle Ficticia 123, Barrio Imaginario, El Progreso, Honduras',1),
-('Fletes Horizon Tocoa','0209','Avenida Central 789, Barrio San Juan, Tocoa, Honduras',1),
-('Fletes Horizon La Ceiba','0101','Calle Principal 123, Barrio El Paraíso, La Ceiba, Honduras',1),
-('Fletes Horizon Tela','0103','Avenida Costera 456, Colonia Playa Azul, Tela, Honduras',1),
-('Fletes Horizon Siguatepeque','0318','Calle Principal 789, Barrio El Carmen, Siguatepeque, Honduras',1)
+VALUES	('Fletes Horizon San Pedro Sula',62,'123 Calle Ficticia, Barrio Imaginario, San Pedro Sula, Honduras',1),
+('Fletes Horizon Tegucigalpa',109,'Avenida Ejemplo 123, Colonia Imaginaria, Tegucigalpa, Honduras',1),
+('Fletes Horizon Santa Rosa De Copan',39,'Calle Ficticia 456, Barrio Imaginario, Santa Rosa de Copán, Honduras',1),
+('Fletes Horizon Puerto Cortes',67,'Avenida Imaginaria 789, Colonia Ficticia, Puerto Cortés, Honduras',1),
+('Fletes Horizon Santa Barbara',250,'Calle Principal 456, Colonia Santa Rosa, Santa Bárbara, Honduras',1),
+('Fletes Horizon El Progreso',290,'Calle Ficticia 123, Barrio Imaginario, El Progreso, Honduras',1),
+('Fletes Horizon Tocoa',17,'Avenida Central 789, Barrio San Juan, Tocoa, Honduras',1),
+('Fletes Horizon La Ceiba',1,'Calle Principal 123, Barrio El Paraíso, La Ceiba, Honduras',1),
+('Fletes Horizon Tela',3,'Avenida Costera 456, Colonia Playa Azul, Tela, Honduras',1),
+('Fletes Horizon Siguatepeque',36,'Calle Principal 789, Barrio El Carmen, Siguatepeque, Honduras',1)
 GO
+
+select t1.muni_Id , t2.muni_Nombre from flet.tbSucursales t1 inner join gral.tbMunicipios t2 on t1.muni_id = t2.muni_Id
+ where t1.muni_Id in (62,109,39,67,250,290,17,1,3,36)
 
 --****************************************EMPLEADO****************************************--
 INSERT INTO flet.tbEmpleados(empe_Nombres, empe_Apellidos, empe_Identidad, empe_FechaNacimiento, empe_Sexo, eciv_Id, muni_Id, empe_DireccionExacta, empe_Telefono, sucu_Id, carg_Id, empe_UsuCreacion)
-VALUES	('Maria Antonia', 'Aguilar', '0101-1990-01238', '02-08-1990', 'F', '4', '0101', 'Col. El Sauce, La Ceiba', '+504 3892-0126', '1', '1', '1'),
-		('Oscar', 'Blanco', '0101-1992-23743', '12-08-1992', 'M', '1', '0101', 'Col. La Esperanza, La Ceiba', '+504 7892-2839', '1', '2', '1'),
-		('Lisa', 'Caballero', '0101-1989-73982', '04-08-1989', 'F', '1', '0101', 'Col. La Flor, La Ceiba', '+504 6389-2948', '1', '2', '1'),
-		('José', 'Antúnez', '0101-2000-00021', '01-01-2000', 'M', '1', '0101', 'Col. Libertad, La Ceiba', '+504 8946-3846', '1', '2', '1'),
-		('Lorna', 'Chaín', '0101-2002-00293', '02-05-2002', 'F', '1', '0101', 'Residencial El Toronjal, La Ceiba', '+504 3628-3826', '1', '2', '1'),
+VALUES	('Maria Antonia', 'Aguilar', '0101-1990-01238', '02-16-1990', 'F', '4', '1', 'Col. El Sauce, La Ceiba', '+504 3892-0126', '1', '1', '1'),
+		('Oscar', 'Blanco', '0101-1992-23743', '12-30-1992', 'M', '1', '1', 'Col. La Esperanza, La Ceiba', '+504 7892-2839', '1', '2', '1'),
+		('Lisa', 'Caballero', '0101-1989-73982', '04-25-1989', 'F', '1', '1', 'Col. La Flor, La Ceiba', '+504 6389-2948', '1', '2', '1'),
+		('José', 'Antúnez', '0101-2000-00021', '01-01-2000', 'M', '1', '1', 'Col. Libertad, La Ceiba', '+504 8946-3846', '1', '2', '1'),
+		('Lorna', 'Chaín', '0101-2002-00293', '02-05-2002', 'F', '1', '1', 'Residencial El Toronjal, La Ceiba', '+504 3628-3826', '1', '2', '1'),
 		----
-		('Rafael', 'Caballero', '0501-2005-00293', '01-08-2005', 'M', '1', '0501', 'Col. Santa Marta, San Pedro Sula', '+504 6372-3792', '2', '1', '1'),
-		('Melissa', 'Torres', '0501-2000-02353', '05-08-2000', 'F', '1', '0501', 'Col. El Carmen, San Pedro Sula', '+504 5739-3827', '2', '2', '1'),
-		('Junior', 'Estrada', '0501-2004-07384', '07-08-2004', 'M', '2', '0501', 'Los Alamos, San Pedro Sula', '+504 3728-9303', '2', '2', '1'),
-		('Jesús', 'Barreda', '0501-1975-27394', '10-08-1975', 'M', '1', '0501', 'Ticamaya, San Pedro Sula', '+504 7293-8567', '2', '2', '1'),
-		('Jessica', 'Ángeles', '0501-1995-83923', '11-05-1995', 'F', '2', '0501', 'Casa Maya 3, San Pedro Sula', '+504 4729-8395', '2', '2', '1'),
+		('Rafael', 'Caballero', '0501-2005-00293', '01-13-2005', 'M', '1', '63', 'Col. Santa Marta, San Pedro Sula', '+504 6372-3792', '2', '1', '1'),
+		('Melissa', 'Torres', '0501-2000-02353', '05-10-2000', 'F', '1', '63', 'Col. El Carmen, San Pedro Sula', '+504 5739-3827', '2', '2', '1'),
+		('Junior', 'Estrada', '0501-2004-07384', '07-28-2004', 'M', '2', '63', 'Los Alamos, San Pedro Sula', '+504 3728-9303', '2', '2', '1'),
+		('Jesús', 'Barreda', '0501-1975-27394', '10-10-1975', 'M', '1', '63', 'Ticamaya, San Pedro Sula', '+504 7293-8567', '2', '2', '1'),
+		('Jessica', 'Ángeles', '0501-1995-83923', '11-05-1995', 'F', '2', '63', 'Casa Maya 3, San Pedro Sula', '+504 4729-8395', '2', '2', '1'),
 		----
-		('Wiliam', 'Afton', '0801-1985-03647', '10-05-1985', 'M', '1', '0801', 'Kennedy, Tegucigalpa', '+504 6473-7483', '3', '1', '1'),
-		('Roberto', 'Contreras', '0801-1974-00947', '04-08-1974', 'M', '1', '0801', 'Col. Ulloa, Tegucigalpa', '+504 9858-8465', '3', '2', '1'),
-		('Karen', 'Mejía', '0801-1995-09273', '03-08-1995', 'F', '1', '0801', 'Col. Divino Paraíso, Tegucigalpa', '+504 7234-8212', '3', '2', '1'),
-		('Roxana', 'Martínez', '0801-1980-15263', '08-08-1980', 'F', '1', '0801', 'Col. Arturo Quezada, Tegucigalpa', '+504 7483-9837', '3', '2', '1'),
-		('Julia', 'Calderón', '0801-1981-11823', '09-09-1981', 'F', '1', '0801', 'Col. Arturo Quezada, Tegucigalpa', '+504 8790-9085', '3', '2', '1'),
+		('Wiliam', 'Afton', '0801-1985-03647', '10-05-1985', 'M', '1', '110', 'Kennedy, Tegucigalpa', '+504 6473-7483', '3', '1', '1'),
+		('Roberto', 'Contreras', '0801-1974-00947', '04-15-1974', 'M', '1', '110', 'Col. Ulloa, Tegucigalpa', '+504 9858-8465', '3', '2', '1'),
+		('Karen', 'Mejía', '0801-1995-09273', '03-25-1995', 'F', '1', '110', 'Col. Divino Paraíso, Tegucigalpa', '+504 7234-8212', '3', '2', '1'),
+		('Roxana', 'Martínez', '0801-1980-15263', '08-12-1980', 'F', '1', '110', 'Col. Arturo Quezada, Tegucigalpa', '+504 7483-9837', '3', '2', '1'),
+		('Julia', 'Calderón', '0801-1981-11823', '09-09-1981', 'F', '1', '110', 'Col. Arturo Quezada, Tegucigalpa', '+504 8790-9085', '3', '2', '1'),
 		----
-		('Sheila', 'Torres', '0503-1981-09283', '02-09-1981', 'F', '1', '0503', 'Buena Vista, Omoa', '+504 7384-8974', '4', '1', '1'),
-		('Victor', 'Mateo', '0503-1997-00829', '03-09-1997', 'M', '1', '0503', 'Corinto, Omoa', '+504 9087-9056', '4', '2', '1'),
-		('Amelia', 'Lara', '0503-1998-00023', '04-09-1998', 'F', '1', '0503', 'La Venada, Omoa', '+504 9585-7456', '4', '2', '1'),
-		('Laura', 'Serrano', '0503-1999-01724', '05-09-1999', 'F', '1', '0503', 'Col. La Loma, Omoa', '+504 8869-9504', '4', '2', '1'),
-		('Karla', 'Menjivar', '0503-2000-72834', '06-09-2000', 'F', '1', '0503', 'Chivana, Omoa', '+504 9090-2524', '4', '2', '1'),
+		('Sheila', 'Torres', '0503-1981-09283', '02-09-1981', 'F', '1', '65', 'Buena Vista, Omoa', '+504 7384-8974', '4', '1', '1'),
+		('Victor', 'Mateo', '0503-1997-00829', '03-09-1997', 'M', '1', '65', 'Corinto, Omoa', '+504 9087-9056', '4', '2', '1'),
+		('Amelia', 'Lara', '0503-1998-00023', '04-09-1998', 'F', '1', '65', 'La Venada, Omoa', '+504 9585-7456', '4', '2', '1'),
+		('Laura', 'Serrano', '0503-1999-01724', '05-09-1999', 'F', '1', '65', 'Col. La Loma, Omoa', '+504 8869-9504', '4', '2', '1'),
+		('Karla', 'Menjivar', '0503-2000-72834', '06-09-2000', 'F', '1', '65', 'Chivana, Omoa', '+504 9090-2524', '4', '2', '1'),
 		----
-		('Laura', 'Marano', '1804-1995-83629', '11-08-1995', 'F', '1', '1804', 'Arenas Blancas, El Progreso', '+504 7384-9382', '5', '1', '1'),
-		('Ross', 'Lynch', '1804-1995-18294', '12-08-1995', 'M', '1', '1804', 'Diez Alborotos, El Progreso', '+504 9283-9472', '5', '2', '1'),
-		('Timothée', 'Chalamet', '1804-1995-18200', '12-08-1995', 'M', '1', '1804', 'Diez Alborotos, El Progreso', '+504 8273-9488', '5', '2', '1'),
-		('Bill', 'Kaulitz', '1804-1989-00283', '09-01-1989', 'M', '1', '1804', 'Campo Amapa, El Progreso', '+504 9984-7383', '5', '2', '1'),
-		('Tom', 'Kaulitz', '1804-1989-00284', '09-01-1989', 'M', '2', '1804', 'Campo Amapa, El Progreso', '+504 9863-7482', '5', '2', '1');
+		('Laura', 'Marano', '1804-1995-83629', '11-29-1995', 'F', '1', '291', 'Arenas Blancas, El Progreso', '+504 7384-9382', '5', '1', '1'),
+		('Ross', 'Lynch', '1804-1995-18294', '12-29-1995', 'M', '1', '291', 'Diez Alborotos, El Progreso', '+504 9283-9472', '5', '2', '1'),
+		('Timothée', 'Chalamet', '1804-1995-18200', '12-27-1995', 'M', '1', '291', 'Diez Alborotos, El Progreso', '+504 8273-9488', '5', '2', '1'),
+		('Bill', 'Kaulitz', '1804-1989-00283', '09-01-1989', 'M', '1', '291', 'Campo Amapa, El Progreso', '+504 9984-7383', '5', '2', '1'),
+		('Tom', 'Kaulitz', '1804-1989-00284', '09-01-1989', 'M', '2', '291', 'Campo Amapa, El Progreso', '+504 9863-7482', '5', '2', '1');
 		----
 GO
-INSERT INTO [flet].[tbTrayectos](tray_Precio ,muni_Inicio, muni_Final, tray_UsuCreacion)
-VALUES	(100, '0501','0801',1),
-		(100, '0501','0401',1),
-		(100, '0501','0506',1),
-		(100, '0501','1601',1),
-		(100, '0501','1804',1),
-		(100, '0501','0209',1),
-		(100, '0501','0101',1),
-		(100, '0501','0103',1),
-		(100, '0501','0318',1),
+INSERT INTO [flet].[tbTrayectos](muni_Inicio, muni_Final, tray_UsuCreacion)
+VALUES	(62,109,1),
+		(62,39,1),
+		(62,67,1),
+		(62,250,1),
+		(62,290,1),
+		(62,17,1),
+		(62,1,1),
+		(62,3,1),
+		(62,36,1),
 
-		(100, '0801','0501' ,1),
-		(100, '0801','0401' ,1),
-		(100, '0801','0506' ,1),
-		(100, '0801','1601' ,1),
-		(100, '0801','1804' ,1),
-		(100, '0801','0209' ,1),
-		(100, '0801','0101' ,1),
-		(100, '0801','0103' ,1),
-		(100, '0801','0318' ,1)
+		(109,62 ,1),
+		(109,39 ,1),
+		(109,67 ,1),
+		(109,250 ,1),
+		(109,290 ,1),
+		(109,17 ,1),
+		(109,1 ,1),
+		(109,3 ,1),
+		(109,36 ,1)
 
 GO
-INSERT INTO [flet].[tbTrayectos](tray_Precio ,muni_Inicio, muni_Final, tray_UsuCreacion)
+INSERT INTO [flet].[tbTrayectos](muni_Inicio, muni_Final, tray_UsuCreacion)
 VALUES
-		(150, '0401','0501' ,1),
-		(150, '0401','0801' ,1),
-		(150, '0401','0506' ,1),
-		(150, '0401','1601' ,1),
-		(150, '0401','1804' ,1),
-		(150, '0401','0209' ,1),
-		(150, '0401','0101' ,1),
-		(150, '0401','0103' ,1),
-		(150, '0401','0318' ,1),
-			  	 
-		(150, '0506','0501' ,1),
-		(150, '0506','0801' ,1),
-		(150, '0506','0401' ,1),
-		(150, '0506','1601' ,1),
-		(150, '0506','1804' ,1),
-		(150, '0506','0209' ,1),
-		(150, '0506','0101' ,1),
-		(150, '0506','0103' ,1),
-		(150, '0506','0318' ,1)
+		(39,62 ,1),
+		(39,109 ,1),
+		(39,67 ,1),
+		(39,250 ,1),
+		(39,290 ,1),
+		(39,17 ,1),
+		(39,1 ,1),
+		(39,3 ,1),
+		(39,36 ,1),
+
+		(67,62 ,1),
+		(67,109 ,1),
+		(67,39 ,1),
+		(67,250 ,1),
+		(67,290 ,1),
+		(67,17 ,1),
+		(67,1 ,1),
+		(67,3 ,1),
+		(67,36 ,1)
 
 GO
-INSERT INTO [flet].[tbTrayectos](tray_Precio ,muni_Inicio, muni_Final, tray_UsuCreacion)
+INSERT INTO [flet].[tbTrayectos](muni_Inicio, muni_Final, tray_UsuCreacion)
 VALUES
-		(120, '1601','0501' ,1),
-		(120, '1601','0801' ,1),
-		(120, '1601','0401' ,1),
-		(120, '1601','1804' ,1),
-		(120, '1601','0506' ,1),
-		(120, '1601','0209' ,1),
-		(120, '1601','0101' ,1),
-		(120, '1601','0103' ,1),
-		(120, '1601','0318' ,1),
-			 
-		(120, '1804','0501' ,1),
-		(120, '1804','0801' ,1),
-		(120, '1804','0401' ,1),
-		(120, '1804','1601' ,1),
-		(120, '1804','0506' ,1),
-		(120, '1804','0209' ,1),
-		(120, '1804','0101' ,1),
-		(120, '1804','0103' ,1),
-		(120, '1804','0318' ,1)
+		(250,62 ,1),
+		(250,109 ,1),
+		(250,39 ,1),
+		(250,290 ,1),
+		(250,67 ,1),
+		(250,17 ,1),
+		(250,1 ,1),
+		(250,3 ,1),
+		(250,36 ,1),
+
+		(290,62 ,1),
+		(290,109 ,1),
+		(290,39 ,1),
+		(290,250 ,1),
+		(290,67 ,1),
+		(290,17 ,1),
+		(290,1 ,1),
+		(290,3 ,1),
+		(290,36 ,1)
 GO
-INSERT INTO [flet].[tbTrayectos](tray_Precio ,muni_Inicio, muni_Final, tray_UsuCreacion)
+INSERT INTO [flet].[tbTrayectos](muni_Inicio, muni_Final, tray_UsuCreacion)
 VALUES
-		(100, '0209','0501' ,1),
-		(100, '0209','0801' ,1),
-		(100, '0209','0401' ,1),
-		(100, '0209','1601' ,1),
-		(100, '0209','0506' ,1),
-		(100, '0209','1804' ,1),
-		(100, '0209','0101' ,1),
-		(100, '0209','0103' ,1),
-		(100, '0209','0318' ,1),
-		
-		(100, '0101','0501' ,1),
-		(100, '0101','0801' ,1),
-		(100, '0101','0401' ,1),
-		(100, '0101','1601' ,1),
-		(100, '0101','0506' ,1),
-		(100, '0101','1804' ,1),
-		(100, '0101','0209' ,1),
-		(100, '0101','0103' ,1),
-		(100, '0101','0318' ,1)
+		(17,62 ,1),
+		(17,109 ,1),
+		(17,39 ,1),
+		(17,250 ,1),
+		(17,67 ,1),
+		(17,290 ,1),
+		(17,1 ,1),
+		(17,3 ,1),
+		(17,36 ,1),
+
+		(1,62 ,1),
+		(1,109 ,1),
+		(1,39 ,1),
+		(1,250 ,1),
+		(1,67 ,1),
+		(1,290 ,1),
+		(1,17 ,1),
+		(1,3 ,1),
+		(1,36 ,1)
 GO
-INSERT INTO [flet].[tbTrayectos](tray_Precio ,muni_Inicio, muni_Final, tray_UsuCreacion)
+INSERT INTO [flet].[tbTrayectos](muni_Inicio, muni_Final, tray_UsuCreacion)
 VALUES
-		(100,'0103','0501' ,1),
-		(100,'0103','0801' ,1),
-		(100,'0103','0401' ,1),
-		(100,'0103','1601' ,1),
-		(100,'0103','0506' ,1),
-		(100,'0103','1804' ,1),
-		(100,'0103','0209' ,1),
-		(100,'0103','0101' ,1),
-		(100,'0103','0318' ,1),
-		
-		(100,'0318','0501' ,1),
-		(100,'0318','0801' ,1),
-		(100,'0318','0401' ,1),
-		(100,'0318','1601' ,1),
-		(100,'0318','0506' ,1),
-		(100,'0318','1804' ,1),
-		(100,'0318','0209' ,1),
-		(100,'0318','0101' ,1),
-		(100,'0318','0103' ,1)
+		(3,62 ,1),
+		(3,109 ,1),
+		(3,39 ,1),
+		(3,250 ,1),
+		(3,67 ,1),
+		(3,290 ,1),
+		(3,17 ,1),
+		(3,1 ,1),
+		(3,36 ,1),
+
+		(36,62 ,1),
+		(36,109 ,1),
+		(36,39 ,1),
+		(36,250 ,1),
+		(36,67 ,1),
+		(36,290 ,1),
+		(36,17 ,1),
+		(36,1 ,1),
+		(36,3 ,1)
 
 GO
+ALTER TABLE [acce].[tbUsuarios]
+ADD CONSTRAINT FK_acce_tbUsuarios_flet_tbEmpleados_empe_Id FOREIGN KEY(empe_Id) REFERENCES flet.tbEmpleados(empe_Id)
 
---****************************************ESTADO DEL PEDIDO****************************************--
-
+GO
 INSERT INTO flet.tbEstadosDelPedido(estp_Nombre,estp_UsuCreacion)
 VALUES
 		('Pendiente',1),
@@ -804,265 +706,3 @@ VALUES
 		('En tránsito',1),
 		('Entregado',1),
 		('Cancelado',1)
-
---****************************************PEDIDO****************************************--
-INSERT INTO [flet].[tbPedidos](clie_Id, muni_Origen, muni_Destino, pedi_DestinoFinal,estp_Id, pedi_UsuCreacion)
-VALUES	(1,'0501','0801','Dirección: Avenida Principal 123, Colonia Bella Vista, Tegucigalpa. Referencias: Cerca del parque central, al lado del supermercado "El Sol", frente a la escuela "San José".',1,1),
-		(2,'0401','0501','Dirección: Calle Principal 456, Barrio San Miguel, San Pedro Sula. Referencias: A una cuadra del parque central, cerca de la iglesia "San Juan", frente al centro comercial "La Plaza".',1,1),
-		(3,'1804','0318','Dirección: Avenida Central 789, Colonia El Bosque, Siguatepeque.	Referencias: Cerca del parque central, al lado del restaurante "El Rincón del Sabor", frente a la escuela "Miguel Paz Barahona".',1,1),
-		(4,'0101','1804','Dirección: Calle Principal 123, Barrio El Centro, El Progreso. Referencias: Junto al parque central, cerca de la iglesia "San Pedro", frente al mercado municipal.',1,1),
-		(5,'0401','0103','Dirección: Avenida Costera 456, Colonia Playa Azul, Tela. Referencias: Cerca de la playa principal, al lado del hotel "Mar Azul", frente al restaurante "La Brisa".',1,1),
-		(6,'1601','0318','Dirección: Calle Flores 789, Barrio San Francisco, Siguatepeque. Referencias: Cerca del parque central, al lado de la tienda "El Encanto", frente a la escuela "San José".',1,1),
-		(7,'0103','0101','Dirección: Avenida Principal 123, Colonia Los Pinos, La Ceiba. Referencias: Cerca del malecón, al lado del supermercado "El Mar", frente al parque "La Libertad".',1,1),
-		(8,'0501','1601','Dirección: Calle Principal 456, Barrio El Centro, Santa Bárbara. Referencias: Cerca del parque central, al lado del centro de salud, frente a la iglesia "San Juan".',1,1),
-		(9,'0506','0501','Dirección: Avenida Roosevelt 789, Colonia El Bosque, San Pedro Sula. Referencias: Cerca del parque central, al lado del centro comercial "Mega Plaza", frente al hospital "San Pedro".',1,1),
-		(10, '0501','0501','Dirección: Calle Principal 123, Colonia El Carmen, San Pedro Sula. Referencias: Cerca del parque central, al lado del supermercado "El Sol", frente a la escuela "San José".',1,1)	
-GO
---****************************************PEDIDO DETALLES****************************************--
-INSERT INTO [flet].[tbPedidoDetalles](pedi_Id, item_Id, pdet_Cantidad, pdet_UsuCreacion)
-VALUES	(1,1,1,1),
-		(1,7,1,1),
-		(1,9,1,1),
-
-		(2,3,2,1),
-		(2,8,2,1),
-		(2,4,2,1),
-		
-		(3,2,7,1),
-		(3,10,5,1),
-		(3,5,6,1),
-		(3,12,2,1),
-		(3,11,1,1),
-
-		(4,17,1,1),
-
-		(5,19,3,1),
-
-		(6,25,1,1),
-		(6,24,2,1),
-
-		(7,23,2,1),
-		(7,20,1,1),
-
-		(8,14,1,1),
-		(8,16,1,1),
-
-		(9,13,2,1),
-		(9,15,3,1),
-		(9,18,5,1),
-
-		(10,21,3,1),
-		(10,22,4,1)
-
-		
---****************************************FLETE****************************************--
-
-select mun.muni_Nombre, [muni_Origen],fin.muni_Nombre, [muni_Destino],sum(item_Peso)item_Peso, sum(item_Volumen)item_Volumen
-from flet.tbItems itm inner join flet.tbPedidoDetalles pdt on itm.item_Id = pdt.item_Id 
-inner join flet.tbPedidos pdd on   pdd.pedi_Id = pdt.pedi_Id 
-inner join gral.tbMunicipios mun on mun.muni_Id = pdd.[muni_Origen]
-inner join gral.tbMunicipios fin on fin.muni_Id = pdd.[muni_Destino]
-group by pdd.pedi_Id ,[muni_Origen],[muni_Destino],mun.muni_Nombre, fin.muni_Nombre
-
-select tray_Id,mun.muni_Nombre, muni_Inicio, fin.muni_Nombre, muni_Final from [flet].[tbTrayectos] tra 
-inner join gral.tbMunicipios mun on mun.muni_Id = tra.muni_Inicio
-inner join gral.tbMunicipios fin on fin.muni_Id = tra.muni_Final
-WHERE muni_Inicio = 62 and muni_Final = 109 or
-muni_Inicio = 39 and muni_Final = 62 or
-muni_Inicio = 290 and muni_Final = 36 or
-muni_Inicio = 1 and muni_Final = 290 or
-muni_Inicio = 39 and muni_Final = 3 or
-muni_Inicio = 250 and muni_Final = 36 or
-muni_Inicio = 3 and muni_Final = 1 or
-muni_Inicio = 62 and muni_Final = 250 or
-muni_Inicio = 67 and muni_Final = 62 or
-muni_Inicio = 62 and muni_Final = 62 
-
-
-
-INSERT INTO flet.tbFletes(vehi_Id, empe_Id, tray_Id, flet_FechaDeSalida, flet_UsuCreacion)
-VALUES 
-(1,1,1,	'05-08-2023',1),
-(2,2,19,'05-08-2023',1), --EN PARADAS HAY QUE HACER QUE ESTE FLETE (CON LOS ID DE PEDIDO 2 Y 3) VAYA PARA TELA TMB XD (EL TRAYECTO ES 26)
-(3,3,36,'05-08-2023',1), 
-(4,4,69,'05-08-2023',1),
-(5,5,5,	'05-08-2023',1),
-(2,2,80,'05-08-2023',1),
-(5,5,45,'05-08-2023',1)
-
-
-INSERT INTO [flet].[tbFleteDetalles] (flet_Id, pedi_Id, fdet_UsuCreacion)
-VALUES 
-(1,1,1),
-(2,2,1),
-(2,6,1),
-(3,3,1),
-(4,4,1)
---****************************************FLETE DETALLES****************************************--
-
-
---ALTER TABLE [acce].[tbUsuarios]
---ADD CONSTRAINT FK_acce_tbUsuarios_flet_tbEmpleados_empe_Id FOREIGN KEY(empe_Id) REFERENCES flet.tbEmpleados(empe_Id)
-
---GO
-
-
-----****************************************INSERTS ACCESO****************************************--
-----****************************************ROLES****************************************--
---INSERT INTO acce.tbRoles (role_Nombre,role_UsuCreacion)
---VALUES	('Admin', 1),
---		('Digitador', 1),
---		('Empleado',1);
-----****************************************PANTALLAS****************************************--
---INSERT INTO acce.tbPantallas (pant_Nombre, pant_Url, pant_Menu, pant_Icono, pant_UsuCreacion)
---VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','<i class="flag-icon flag-icon-hn"></i>',1),
---	   ('Estado Civiles',		'/gral/Municipios/List',			'gral','<i class="fa fa-list"></i>',1),
---	   ('Municipios',			'/gral/Municipios/List',			'gral','<i class="fa fa-tag"></i>',1),
---	   ('Tipo de Pagos',		'/gral/TiposDePago/List',			'gral','<i class="fa fa-credit-card-alt"></i>',1) ,
---	   ('Cargos',				'/gral/Cargos/List',				'gral','',1) ,
-
---	   ('Clientes',				'/flet/Clientes/List',				'flet','<i class="fa fa-users"></i>',1),
---	   ('Fletes',				'/flet/Fletes/List',				'flet','',1),
---	   ('Items',				'/flet/Items/List',					'flet','',1),
---	   ('Pedidos',				'/flet/Pedidos/List',				'flet','',1),
---	   ('Sucursales',			'/flet/Sucursales/List',			'flet','',1),
---	   ('Trayectos',			'/flet/Trayectos/List',				'flet','',1),
---	   ('Ubicacion por Flete',	'/flet/UbicacionPorFlete/List ',	'flet','',1),
---	   ('Estados del Pedido',	'/flet/EstadosDelPedido/List',		'flet','',1),
---	   ('Escala por Trayecto',	'/flet/EscalasPorTrayecto/List ',	'flet','',1),
---	   ('Empleados',			'/flet/Empleados/List',				'flet','<i class="fa fa-users"></i>',1),
-
---	   ('Modelos',				'/equi/Modelos/List',				'equi','',1),
---	   ('Marcas',				'/equi/Marcas/List',				'equi','',1),
---	   ('Vehiculos',			'/equi/Vehiculos/List',				'equi','',1),
---	   ('Tipos de Vehiculos',	'/equi/TiposDeVehiculos/List ',		'equi','<i class="fa fa-car"></i>',1),
-
---	   ('Usuarios',				'/acce/Usuarios/List',				'acce','',1),
---       ('Roles Por Pantalla',	'/acce/RolesPorPantalla/List ',		'acce','',1),
---	   ('Pantallas',			'/acce/Pantallas/List',				'acce','',1),
---	   ('Grafica',				'/acce/Grafica/List',				'acce','<i class="icofont icofont-chart-bar-graph"></i>',1)
---GO
-	    
-----****************************************ROLES POR PANTALLAS****************************************--
---INSERT INTO acce.tbPantallasPorRoles(pant_Id,role_Id , prol_UsuCreacion)
---VALUES	--Admin
---		--generales
---		(1 ,1 ,1),
---		(2 ,1 ,1),
---		(3 ,1 ,1),
---		(4 ,1 ,1),
---		(5 ,1 ,1),
---		--fletes
---		(6 ,1 ,1),
---		(7 ,1 ,1),
---		(8 ,1 ,1),
---		(9 ,1 ,1),
---		(10,1 ,1),
---		(11,1 ,1),
---		(12,1 ,1),
---		(13,1 ,1),
---		(14,1 ,1),
---		(15,1 ,1),
---		--equipo
---		(16,1 ,1),
---		(17,1 ,1),
---		(18,1 ,1),
---		(19,1 ,1),
---		--acceso
---		(20,1 ,1),
---		(21,1 ,1),
---		(22,1 ,1),
---		(23,1 ,1),
-
---		--Admin
---		--generales
---		(1 ,2 ,1),
---		(2 ,2 ,1),
---		(3 ,2 ,1),
---		(4 ,2 ,1),
---		(5 ,2 ,1),
---		--fl2tes
---		(6 ,2 ,1),
---		(7 ,2 ,1),
---		(8 ,2 ,1),
---		(9 ,2 ,1),
---		(10,2 ,1),
---		(11,2 ,1),
---		(12,2 ,1),
---		(13,2 ,1),
---		(14,2 ,1),
---		(15,2 ,1),
---		--eq2ipo
---		(16,2 ,1),
---		(17,2 ,1),
---		(18,2 ,1),
---		(19,2 ,1),
---		--ac2eso
---		(20,2 ,1),
---		(21,2 ,1),
---		(22,2 ,1),
---		(23,2 ,1),
-
---		--Digitador
---		--generales
---		(1 ,3,1),
---		(2 ,3,1),
---		(3 ,3,1),
---		(4 ,3,1),
---		(5 ,3,1),
---		--fl3es
---		(6 ,3,1),
---		(7 ,3,1),
---		(8 ,3,1),
---		(9 ,3,1),
---		(10,3,1),
---		(11,3,1),
---		(12,3,1),
---		(13,3,1),
---		(14,3,1),
---		(15,3,1),
---		--eq3po
---		(16,3,1),
---		(17,3,1),
---		(18,3,1),
---		(19,3,1),
-
---		--Empleado
---		--generales
---		(1 ,4 ,1),
---		(2 ,4 ,1),
---		(3 ,4 ,1),
---		(4 ,4 ,1),
---		(5 ,4 ,1),
---		--eq4ipo
---		(16,4 ,1),
---		(17,4 ,1),
---		(18,4 ,1),
---		(19,4 ,1)
---GO
-
-/*
-POR SI NO FUNCIONA
-
-
-SELECT * FROM gral.tbDepartamentos
-
-
-SELECT * FROM gral.tbMunicipios
-SELECT * FROM gral.tbEstadosCiviles
-		SELECT * FROM gral.tbCargos
-		SELECT * FROM gral.tbMetodosdePago
-		SELECT * FROM equi.tbMarcas
-		SELECT * FROM equi.tbTipoDeVehiculo
-		SELECT * FROM equi.tbModelos
-		SELECT * FROM equi.tbVehiculos
-		SELECT * FROM flet.tbClientes
-		SELECT * FROM flet.tbItems
-		SELECT * FROM flet.tbSucursales
-		SELECT * FROM flet.tbEmpleados
-		SELECT * FROM flet.tbTrayectos
-		SELECT * FROM flet.tbEstadosDelPedido		
-		SELECT * FROM flet.[tbPedidos]
-				SELECT * FROM flet.[tbPedidoDetalles]
-				
-*/

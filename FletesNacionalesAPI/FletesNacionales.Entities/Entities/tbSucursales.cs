@@ -15,7 +15,7 @@ namespace FletesNacionales.Entities.Entities
 
         public int sucu_Id { get; set; }
         public string sucu_Nombre { get; set; }
-        public string muni_Id { get; set; }
+        public int muni_Id { get; set; }
         public string sucu_Direccion { get; set; }
         public int sucu_UsuCreacion { get; set; }
         public DateTime? sucu_FechaCreacion { get; set; }

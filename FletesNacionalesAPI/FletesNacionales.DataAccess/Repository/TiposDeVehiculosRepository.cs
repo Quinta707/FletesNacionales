@@ -18,15 +18,9 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@tipv_Id", item.tipv_Id, DbType.Int32, ParameterDirection.Input);
-            var result = db.QueryFirst<int>(ScriptsDataBase.TipoDeVehiculoDelete, parametros, commandType: System.Data.CommandType.StoredProcedure);
 
-            RequestStatus request = new()
-            {
-                CodeStatus = result
-            };
-
-
-            return request;
+            var result = db.QueryFirst<RequestStatus>(ScriptsDataBase.TipoDeVehiculoDelete, parametros, commandType: System.Data.CommandType.StoredProcedure);
+            return result;
         }
 
         public VW_tbTipoDeVehiculo find(int? id)
@@ -43,17 +37,10 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@tipv_Descripcion", item.tipv_Descripcion, DbType.String, ParameterDirection.Input);
-           // parametros.Add("@tipv_UsuCreacion", item.tipv_UsuCreacion, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@tipv_UsuCreacion", item.tipv_UsuCreacion, DbType.Int32, ParameterDirection.Input);
 
-            var result = db.QueryFirst<int>(ScriptsDataBase.TipoDeVehiculoInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
-
-            RequestStatus request = new()
-            {
-                CodeStatus = result
-            };
-
-
-            return request;
+            var result = db.QueryFirst<RequestStatus>(ScriptsDataBase.TipoDeVehiculoInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
+            return result;
         }
 
         public IEnumerable<VW_tbTipoDeVehiculo> List()
@@ -68,16 +55,10 @@ namespace FletesNacionales.DataAccess.Repository
             var parametros = new DynamicParameters();
             parametros.Add("@tipv_Id", item.tipv_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@tipv_Descripcion", item.tipv_Descripcion, DbType.String, ParameterDirection.Input);
-            //parametros.Add("@tipv_UsuModificacion", item.tipv_UsuModificacion, DbType.Int32, ParameterDirection.Input);
-         
-            var result = db.QueryFirst<int>(ScriptsDataBase.TipoDeVehiculoUpdate, parametros, commandType: System.Data.CommandType.StoredProcedure);
-            RequestStatus request = new()
-            {
-                CodeStatus = result
-            };
+            parametros.Add("@tipv_UsuModificacion", item.tipv_UsuModificacion, DbType.Int32, ParameterDirection.Input);
 
-
-            return request;
+            var result = db.QueryFirst<RequestStatus>(ScriptsDataBase.TipoDeVehiculoUpdate, parametros, commandType: System.Data.CommandType.StoredProcedure);
+            return result;
         }
     }
 }

@@ -10,109 +10,47 @@ import { LayoutService } from '../../services/layout.service';
   encapsulation: ViewEncapsulation.None
 })
 export class SidebarComponent {
+
   public iconSidebar;
-  menuItems: Menu[] = [];
-  menugral: Menu[] = [];
-  menuflet: Menu[] = [];
-  menuequi: Menu[] = [];
-  menuacce: Menu[] = [];
+  public menuItems: Menu[];
   public url: any;
   public fileurl: any;
+
+  // For Horizontal Menu
   public margin: any = 0;
   public width: any = window.innerWidth;
   public leftArrowNone: boolean = true;
   public rightArrowNone: boolean = false;
 
-  constructor(private router: Router, private navServices: NavService,
+  constructor(private router: Router, public navServices: NavService,
     public layout: LayoutService) {
-      
+    this.navServices.items.subscribe(menuItems => {
+      this.menuItems = menuItems;
+      this.router.events.subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+          menuItems.filter(items => {
+            if (items.path === event.url) {
+              this.setNavActive(items);
+            }
+            if (!items.children) { return false; }
+            items.children.filter(subItems => {
+              if (subItems.path === event.url) {
+                this.setNavActive(subItems);
+              }
+              if (!subItems.children) { return false; }
+              subItems.children.filter(subSubItems => {
+                if (subSubItems.path === event.url) {
+                  this.setNavActive(subSubItems);
+                }
+              });
+            });
+          });
+        }
+      });
+    });
+
   }
 
-  ngOnInit(): void {
-    if (localStorage.getItem('isLoggedin')) {
-      const roleId = localStorage.getItem("role_Id");
-      const isAdmin = localStorage.getItem("user_EsAdmin");
-      this.navServices.getMenuItems(parseInt(roleId,0), isAdmin).subscribe(
-        (menuResponse:any) => {
-          menuResponse.forEach(
-            item => {
-            
-              if(item.pant_Menu === "gral"){
-                console.log(item)
-                const menutemporal = new Menu();
-                menutemporal.title = item.pant_Nombre;
-                menutemporal.path = item.pant_Url;
-                menutemporal.icon = item.pant_Icono;
-                menutemporal.type = "link";
-                this.menugral.push(menutemporal);
-              }
-              if(item.pant_Menu === "flet"){
-                const menutemporal = new Menu();
-                menutemporal.title = item.pant_Nombre;
-                menutemporal.path = item.pant_Url;
-                menutemporal.icon = item.pant_Icono;
-                menutemporal.type = "link";
-                this.menuflet.push(menutemporal);
-              }
-              if(item.pant_Menu === "equi"){
-                const menutemporal = new Menu();
-                menutemporal.title = item.pant_Nombre;
-                menutemporal.path = item.pant_Url;
-                menutemporal.icon = item.pant_Icono;
-                menutemporal.type = "link";
-                this.menuequi.push(menutemporal);
-              }
-              if(item.pant_Menu === "acce"){
-                const menutemporal = new Menu();
-                menutemporal.title = item.pant_Nombre;
-                menutemporal.path = item.pant_Url;
-                menutemporal.icon = item.pant_Icono;
-                menutemporal.type = "link";
-                this.menuacce.push(menutemporal);
-              }
-            }
-          )
-          if(this.menugral.length > 0){
-            const menuTitulo = new Menu();
-            menuTitulo.headTitle1 = "General";
-            this.menuItems.push(menuTitulo);
-            this.menugral.forEach(item => {
-              this.menuItems.push(item);
-            })
-           }
-           if(this.menuflet.length > 0){
-            const menuTitulo = new Menu();
-            menuTitulo.headTitle1 = "Fletes";
-            this.menuItems.push(menuTitulo);
-            this.menuflet.forEach(item => {
-              this.menuItems.push(item);
-            })
-           }
-           if(this.menuequi.length > 0){
-            const menuTitulo = new Menu();
-            menuTitulo.headTitle1 = "Equipo";
-            this.menuItems.push(menuTitulo);
-            this.menuequi.forEach(item => {
-              this.menuItems.push(item);
-            })
-           }
-           if(this.menuacce.length > 0){
-            const menuTitulo = new Menu();
-            menuTitulo.headTitle1 = "Acceso";
-            this.menuItems.push(menuTitulo);
-            this.menuacce.forEach(item => {
-              this.menuItems.push(item);
-            })
-           }
-        },
-        (error: any) => {
-          console.error(error);
-        }
-      );
-    }
-    console.log(this.menugral.length)
-   
-  }
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.width = event.target.innerWidth - 500;

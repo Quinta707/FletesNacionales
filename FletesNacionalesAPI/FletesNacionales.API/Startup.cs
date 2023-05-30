@@ -1,5 +1,3 @@
-using Agence.BusinessLogic;
-using FletesNacionales.API.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,9 +27,9 @@ namespace FletesNacionales.API
         {
             services.AddControllers();
             AddSwagger(services);
-            services.DataAccess(Configuration.GetConnectionString("FletesConn"));
-            services.BusinessLogic();
-            services.AddAutoMapper(x => x.AddProfile<MappingProfileExtensions>(), AppDomain.CurrentDomain.GetAssemblies());
+            //services.DataAccess(Configuration.GetConnectionString("AgenceConn"));
+            //services.BusinessLogic();
+            //services.AddAutoMapper(x => x.AddProfile<MappingProfileExtensions>(), AppDomain.CurrentDomain.GetAssemblies());
             services.AddSession();
 
             services.AddControllersWithViews();
@@ -47,6 +45,7 @@ namespace FletesNacionales.API
                     //builder.WithOrigins("http://localhost:61025/#/"); // Reemplaza con la URL de tu aplicación Flutter
                 });
             });
+
         }
 
         private void AddSwagger(IServiceCollection services)
@@ -81,8 +80,6 @@ namespace FletesNacionales.API
 
             app.UseHttpsRedirection();
 
-            app.UseCors("AllowFlutterApp");
-
             app.UseRouting();
 
             app.UseAuthorization();
@@ -91,7 +88,6 @@ namespace FletesNacionales.API
             {
                 endpoints.MapControllers();
             });
-
         }
     }
 }

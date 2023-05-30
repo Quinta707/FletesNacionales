@@ -36,7 +36,7 @@ div{
     .edit{
       margin-right: 5px;
       i{
-        color: $primary-color;
+        color: $success-color;
       }
       [dir="rtl"] & {
         margin-left: 5px;
@@ -45,11 +45,6 @@ div{
     .delete{
       i{
         color: $danger-color;
-      }
-    }
-    .detail{
-      i{
-        color: lightseagreen;
       }
     }
   }

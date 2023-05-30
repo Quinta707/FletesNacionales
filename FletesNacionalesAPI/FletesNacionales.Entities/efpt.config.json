@@ -114,18 +114,6 @@
          "ObjectType": 0
       },
       {
-         "Name": "[acce].[VW_tbPantallasPorRoles]",
-         "ObjectType": 3
-      },
-      {
-         "Name": "[acce].[VW_tbRoles]",
-         "ObjectType": 3
-      },
-      {
-         "Name": "[acce].[VW_tbUsuarios]",
-         "ObjectType": 3
-      },
-      {
          "Name": "[equi].[VW_tbMarcas]",
          "ObjectType": 3
       },
@@ -210,7 +198,7 @@
          "ObjectType": 3
       }
    ],
-   "UiHint": "DESKTOP-J3T0LDQ\\SQLEXPRESS.FletesNacionales",
+   "UiHint": "DESKTOP-AJ8GUH2\\SQLEXPRESS.FletesNacionales",
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": true,
    "UseDbContextSplitting": false,

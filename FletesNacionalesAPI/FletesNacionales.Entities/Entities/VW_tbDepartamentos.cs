@@ -8,8 +8,9 @@ namespace FletesNacionales.Entities.Entities
 {
     public partial class VW_tbDepartamentos
     {
-        public string depa_Id { get; set; }
+        public int depa_Id { get; set; }
         public string depa_Nombre { get; set; }
+        public string depa_Codigo { get; set; }
         public int depa_UsuCreacion { get; set; }
         public bool depa_Habilitado { get; set; }
         public string depa_Visible { get; set; }

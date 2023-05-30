@@ -12,10 +12,8 @@ import { EstadosdelpedidoListComponent } from './estadosdelpedido/estadosdelpedi
 import { TipodevehiculoListComponent } from './tipodevehiculo/tipodevehiculo-list/tipodevehiculo-list.component';
 import { TrayectosIndexComponent } from "./trayectos/trayectos-index/trayectos-index.component";
 import { PedidosIndexComponent } from './pedidos/pedidos-index/pedidos-index.component';
-import { FletedetailsComponent } from './fletes/fletes-details/fletes-details.component';
 import { ClientesCreateComponent } from './clientes/clientes-create/clientes-create.component';
 
-import { ReporteComponent } from './reporte/reporte/reporte.component';
 const routes: Routes = [
   {
     path: "",
@@ -34,10 +32,6 @@ const routes: Routes = [
           {
             path: "PersonalList",
             component: FleteListPropioComponent,
-          },
-          {
-            path: "Details",
-            component: FletedetailsComponent,
           },
         ],
       },
@@ -131,16 +125,6 @@ const routes: Routes = [
           {
             path: "List",
             component: PedidosIndexComponent,
-          },
-        ],
-        
-      },
-      {
-        path: "Reporte",
-        children: [
-          {
-            path: "List",
-            component: ReporteComponent,
           },
         ],
         
