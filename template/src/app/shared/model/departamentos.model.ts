@@ -2,6 +2,7 @@ export class Departamentos{
 
     depa_Id!: String;
     depa_Nombre!: String;
+    depa_Codigo!: String;
     depa_UsuCreacion!: number;
     depa_Habilitado!: number;
     depa_Visible!: String;
@@ -11,4 +12,5 @@ export class Departamentos{
     user_Modificacion!: String;
     depa_FechaModificacion!: String;
     depa_Estado!: number;
+    
 }

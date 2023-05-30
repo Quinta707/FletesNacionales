@@ -1,22 +1,25 @@
+<div class="container">
 <app-breadcrumb [title]="'Marcas'" [items]="['Equipo']" [active_item]="'Marcas'"></app-breadcrumb>
-<div class="container-fluid">
   <div class="row widget-grid">
     <div class="col-sm-12">
-        <div class="card">
-          <img class="card-img-top" src="../../../../assets//images/equipo/headers/Marcas.png" alt="Card image cap">
-      </div>
-      
-    <div class="card">
+
+      <div class="card card-border">
+        <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/Marcas.png" alt="Card image cap">
+
       <div class="card-body">
-        <button class="btn btn-outline-primary">+ Nuevo</button>
-        <br>
+        <button class="btn btn-primary" (click)="open(content)">+ Nuevo</button>
+        <br><br>
         <div class="d-flex justify-content-between mb-2 mx-1">
+          <div class="d-flex aling-content-center">
+            
+            <label>Elementos a mostrar:</label>
           <select class="form-select" style="color: #3c334d; width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-            <option [ngValue]="5">5 Elementos por pagina</option>
-            <option [ngValue]="10">10 Elementos por pagina</option>
-            <option [ngValue]="25">25 Elementos por pagina</option>
-            <option [ngValue]="50">50 Elementos por pagina</option>
+            <option [ngValue]="5">5</option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="25">25</option>
+            <option [ngValue]="50">50</option>
           </select>
+          </div>
           <div class="col-4">
             <div class="input-group">
               <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
@@ -73,9 +76,35 @@
           </div>
         </div>
 
-
       </div>
     </div>
   </div>
   </div>
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <div class="text-center">
+        <h4 class="modal-title" id="modal-basic-title">Agregar Marcas</h4>
+      </div>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <label for="dateOfBirth">Nueva Marca</label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="marcaInput" required placeholder="Marca"
+            [(ngModel)]="MarcaValue" name="MarcaValue" #MarcaInput="ngModel"
+            [ngClass]="{ 'is-invalid': submitted && MarcaInput.invalid }">
+          <div class="invalid-feedback" *ngIf="MarcaInput?.errors?.required && submitted">Este campo es requerido</div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.close('by: close button')">Cancelar</button>
+      <button class="btn btn-primary" (click)="Guardar($event)">Guardar</button>
+    </div>
+  </ng-template>
+
 </div>

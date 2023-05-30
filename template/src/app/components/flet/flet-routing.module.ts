@@ -13,6 +13,7 @@ import { TipodevehiculoListComponent } from './tipodevehiculo/tipodevehiculo-lis
 import { TrayectosIndexComponent } from "./trayectos/trayectos-index/trayectos-index.component";
 import { PedidosIndexComponent } from './pedidos/pedidos-index/pedidos-index.component';
 import { FletedetailsComponent } from './fletes/fletes-details/fletes-details.component';
+import { ClientesCreateComponent } from './clientes/clientes-create/clientes-create.component';
 
 const routes: Routes = [
   {
@@ -55,6 +56,10 @@ const routes: Routes = [
           {
             path: "List",
             component: ClienteListComponent,
+          },
+          {
+            path: "Create",
+            component: ClientesCreateComponent,
           },
           
         ],

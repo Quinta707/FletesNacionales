@@ -1,0 +1,97 @@
+<div class="container">
+    <app-breadcrumb [title]="'Ingresar un nuevo Cliente'" [items]="['Fletes']" [active_item]="'Clientes'"></app-breadcrumb>
+      <div class="row widget-grid">
+        <div class="col-sm-12">
+    
+          <div class="card card-border">
+            <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../../assets/images/equipo/headers/agregar-headers/IngresarCliente.png" alt="Card image cap">
+    
+          <div class="card-body">
+            
+            <div class="row">
+                <div class="col-sm-6">
+                    <label class="form-label" for="NombresVal">Nombres</label>
+                    <input class="form-control" id="NombresVal" type="text" placeholder="Nombres" required="" onlyAlphabets />
+                    <div class="valid-feedback"></div>
+                </div>
+                <div class="col-sm-6">
+                    <label class="form-label" for="ApeVal">Apellidos</label>
+                    <input class="form-control" id="ApeVal" type="text" placeholder="Apellidos" required="" onlyAlphabets />
+                    <div class="valid-feedback"></div>
+                </div>
+            </div><br>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <label class="form-label" for="identVal">Identidad</label>
+                    <input class="form-control" id="IdentidadInput" type="text" placeholder="0000-0000-00000" required="" />
+                    <div class="valid-feedback"></div>
+                </div>
+                <div class="col-sm-6">
+                    <label class="form-label" for="FechaVal">Fecha de nacimiento</label>
+                    <input class="form-control" id="FechaVal" type="date"required="" />
+                    <div class="valid-feedback"></div>
+                </div>
+            </div><br>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <label class="form-label" for="SexoVal">Sexo</label>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="radio radio-primary">
+                                <input class="form-check-input" id="radio44" type="radio" name="radio1" value="option1" />
+                                <label class="form-check-label" for="radio44">Femenino</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="radio radio-primary">
+                                <input class="form-check-input" id="radio33" type="radio" name="radio1" value="option1" />
+                                <label class="form-check-label" for="radio33">Masculino</label>
+                              </div>
+                        </div>
+                    </div>
+                   
+                </div>
+                <div class="col-sm-6">
+                    <label class="form-label" >Estado Civil</label>
+                    <ng-select  placeholder="Select"
+                     class="js-example-placeholder-multiple" ></ng-select>
+                </div>
+            </div><br>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <label class="form-label">Departamento</label>
+                    <ng-select  placeholder="Seleccione un Departamento"
+                     class="js-example-placeholder-multiple" ></ng-select>
+                </div>
+                <div class="col-sm-6">
+                    <label class="form-label">Municipio</label>
+                    <ng-select  placeholder="Seleccione un Municipio"
+                     class="js-example-placeholder-multiple" ></ng-select>
+                </div>
+            </div><br>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <label class="form-label" for="DirecVal">Direccion exacta</label>
+                    <input class="form-control" id="DirecVal" type="text" required="" />
+                    <div class="valid-feedback"></div>
+                </div>
+                <div class="col-sm-6">
+                    <label class="form-label" for="TelVal">Telefono</label>
+                    <input class="form-control" id="tuInput" placeholder="+(000) 0000-0000" required=""/>
+                    <div class="valid-feedback"></div>
+                </div>
+            </div><br>
+
+            <div class="aling-content-center">
+                <button class="btn btn-success" (click)="Guardar()">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+  </div>
+  

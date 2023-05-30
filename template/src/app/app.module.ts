@@ -21,12 +21,9 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 
 import { AdminGuard } from './shared/guard/admin.guard';
 import { CookieService } from 'ngx-cookie-service';
-
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
-
 import { OverlayModule } from '@angular/cdk/overlay';
-
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");

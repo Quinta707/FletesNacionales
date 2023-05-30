@@ -8,6 +8,7 @@ import { SortColumn, SortDirection } from '../directives/NgbdSortableHeader';
 import { Clientes } from '../model/clientes.model';
 import { Global } from '../../../../config';
 import { HttpClient } from '@angular/common/http';
+import { Departamentos } from '../model/Departamentos.model';
 
 interface SearchResult {
     tableItem: any[];
@@ -39,7 +40,7 @@ function matches(table: Clientes, term: string, pipe: PipeTransform) {
   }
 
 @Injectable({ providedIn: 'root' })
-export class TableService {
+export class ClientService {
  
     private _loading$ = new BehaviorSubject<boolean>(true);
     private _search$ = new Subject<void>();
@@ -152,6 +153,10 @@ export class TableService {
     return this.http.get<Clientes[]>(this.ClientesListado);
   }
 
-
+  DeptosDdl = Global + "Departamentos/Listado";
+  getDeptosDdl(){
+    return this.http.get<Departamentos[]>(this.DeptosDdl);
+  }
+  
 }
 
