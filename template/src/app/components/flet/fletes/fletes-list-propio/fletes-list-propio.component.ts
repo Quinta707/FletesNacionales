@@ -148,11 +148,7 @@ export class FleteListPropioComponent implements OnInit {
 
       this.updateDate.get('flet_FechaDeSalida').setValue(this.flet_FechaDeSalida);
       
-<<<<<<< HEAD
     this.modalRef = this.modalService.open(this.modalContent, { centered: true, size: 'lg' });
-=======
-    this.modalRef = this.modalService.open(this.modalContent, { centered: true });
->>>>>>> Ian
     };
   
     const redireccion = () => {
@@ -357,11 +353,7 @@ export class FleteListPropioComponent implements OnInit {
   }
 
   openModal() {
-<<<<<<< HEAD
     this.modalRef = this.modalService.open(this.modalContent, { centered: true, size: 'lg' });
-=======
-    this.modalRef = this.modalService.open(this.modalContent, { centered: true });
->>>>>>> Ian
   }
 
   redirectToCreate() {

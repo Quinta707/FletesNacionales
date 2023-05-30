@@ -30,7 +30,6 @@ import { GoogleMapsModule } from "@angular/google-maps";
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { AgGridModule } from 'ag-grid-angular';
 import { ClientesCreateComponent } from './clientes/clientes-create/clientes-create.component';
-import { ReporteComponent } from './reporte/reporte/reporte.component';
 
 
 
@@ -42,10 +41,7 @@ import { ReporteComponent } from './reporte/reporte/reporte.component';
     FleteListComponent,
     FleteListPropioComponent,
     FletedetailsComponent,
-<<<<<<< HEAD
     FleteDetailsPropioComponent,
-=======
->>>>>>> Ian
     ItemListComponent,
     ClienteListComponent,
     FleteCreateComponent,
