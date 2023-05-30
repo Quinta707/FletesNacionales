@@ -150,10 +150,6 @@ export const content: Routes = [
     loadChildren: () => import("../../components/acce/acce.module").then((m) => m.AcceModule),
   },
   {
-    path: "flet",
-    loadChildren: () => import("../../components/flet/flet.module").then((m) => m.FletModule),
-  },
-  {
     path: "equi",
     loadChildren: () => import("../../components/equi/equi.module").then((m) => m.EquiModule),
   },

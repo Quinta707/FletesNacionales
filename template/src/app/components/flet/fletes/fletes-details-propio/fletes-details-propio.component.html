@@ -1,19 +1,18 @@
 <div class="container">
-  <app-breadcrumb [title]="'Fletes crear'" [items]="['Flet']" [active_item]="'Fletes'"></app-breadcrumb>
-  <br>
+  <app-breadcrumb [title]="'Administracion de flete'" [items]="['Flet']" [active_item]="'Fletes'"></app-breadcrumb>
   <div class="row">
     <div class="col-12">
         <div class="card">
-          <div class="card-header">
-            <h5>Flete</h5>
-          </div>
+          <!-- <div class="card-header">
+            <h5></h5>
+          </div> -->
           <div class="card-body">
             <div class="px-4">
-              <div class="row mt-4">
-                <div class="col-sm-6" style="border-right: 2px solid black;">
+              <div class="row mt-2">
+                <div class="col-sm-12">
                   <div class="map-height" leaflet [leafletOptions]="options4" (leafletMapReady)="onMapReady4($event)"></div>
               </div>
-              <div class="col-sm-6">
+              <!-- <div class="col-sm-6">
                 <div class="row mt-6 d-flex justify-content-between">
                   <div class="col">
                     <h4>Flete</h4>
@@ -81,6 +80,34 @@
                     <button class="btn btn-primary" (click)="recuperarMarker()">Ver municipios en el mapa</button>
                   </div>
                 </div>
+              </div> -->
+            </div>
+            <div class="row mt-3 px-1 d-flex justify-content-between">
+              <div class="col">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td> <h6><strong>Destino:</strong></h6></td>
+                      <td><h6>{{nuevoFlete.muni_NombreFinal}}</h6></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col d-flex justify-content-end">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td> <h6><strong>Pedidos:</strong></h6></td>
+                      <td><h6>{{ nuevoFlete.flet_PedidosCompletados }}/{{ nuevoFlete.flet_PedidosTotales }}</h6></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <button type="button" class="btn btn-secondary">Ver destino</button>
+                <button type="button" class="btn btn-primary mx-2">Actualizar ubicacion actual</button>
               </div>
             </div>
             <hr>
@@ -106,6 +133,9 @@
                         </div>
                         <div class="col">
                           <span class="text-end"><strong>Destino:</strong> {{item.pedi_DestinoNombre}}</span>
+                        </div>
+                        <div class="col">
+                          <span class="text-end"><strong>Estado:</strong> {{item.estp_Nombre}}</span>
                         </div>
                         <hr>
                       </div>
@@ -136,16 +166,24 @@
                         <div class="col">
                           <button class="btn btn-success" (click)="updateMarker(item.pedi_DestinoNombre)">Ver destino del pedido en el mapa</button>
                         </div>
-                        <div class="col d-flex justify-content-end me-5">
-                          <span class="text-end"><strong>Estado:</strong> {{item.estp_Nombre}}</span>
+                        <div class="col d-flex justify-content-end ">
+                          <button type="button" class="btn btn-primary">Actualizar estado del pedido</button>
                         </div>
                       </div>
                     </ng-template>
                   </ngb-panel>
                 </ngb-accordion>
               </div>
-            </div>      
-            <button class="btn btn-dark pull-right mt-3" type="button" (click)="redirectToList()">Regresar</button>
+            </div>     
+            <div class="row mt-3">
+              <div class="col">
+                <button class="btn btn-dark pull-right mt-3" type="button" (click)="redirectToList()">Regresar</button>
+              </div>
+              <div class="col d-flex justify-content-end ">
+                <button type="button" class="btn btn-primary">Terminar flete</button>
+              </div>
+            </div> 
+            </div>
           </div>                
            </div>
         </div>

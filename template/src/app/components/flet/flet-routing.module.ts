@@ -111,7 +111,7 @@ const routes: Routes = [
         ],
       },
       {
-        path: "TipoDeVehiculo",
+        path: "TipodeVehiculo",
         children: [
           {
             path: "List",

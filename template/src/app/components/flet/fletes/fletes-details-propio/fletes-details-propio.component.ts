@@ -30,6 +30,7 @@ import {
 import { ChangeDetectorRef } from "@angular/core";
 import { Observable, of } from "rxjs";
 import * as L from "leaflet";
+import 'leaflet-routing-machine';
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
@@ -83,7 +84,11 @@ export class FleteDetailsPropioComponent implements OnInit {
     lat: 0,
     lon: 0,
   };
-
+  waypoints = [
+    L.latLng(this.coordenadasIncio.lat, this.coordenadasIncio.lon), 
+    L.latLng(this.coordenadasFin.lat, this.coordenadasFin.lon), 
+    L.latLng(this.coordenadasFin.lat, this.coordenadasFin.lon)
+  ]
   //Iconos
   private markerIcon = {
     icon: L.icon({
@@ -239,6 +244,40 @@ export class FleteDetailsPropioComponent implements OnInit {
         this.coordenadasUbicacion = cords2;
       }
 
+      // this.pedidosDelNuevoFlete$.forEach((element:any) => {
+      //   console.log(element);
+      // });
+
+      const dataObservable: Observable<any[]> = this.pedidosDelNuevoFlete$; // Tu Observable con el array de datos
+
+      await dataObservable.toPromise()
+      .then(async data => {
+        for (const element of data) {
+          console.log(element.pedi_DestinoNombre);
+          const result = await this.service.obtenerCoordenadas(element.pedi_DestinoNombre).toPromise();
+          const result2 = result.results[0];
+          console.log("coordenada", result2.geometry.lat)
+          let ll = [
+            result2.geometry.lat, result2.geometry.lng
+          ]
+          console.log(ll)
+          this.waypoints.push(L.latLng(result2.geometry.lat, result2.geometry.lng));
+        }
+        console.log(this.waypoints); // Imprimir el array acumulativo
+      })
+      .catch(error => {
+        // Manejar el error
+      });
+    
+
+      // this.waypoints = [
+      //   L.latLng(this.coordenadasIncio.lat, this.coordenadasIncio.lon), 
+      //   L.latLng(this.coordenadasFin.lat, this.coordenadasFin.lon), 
+      //   L.latLng(this.coordenadasFin.lat, this.coordenadasFin.lon)
+      // ]
+  // this.waypoints.push(L.latLng(parseFloat(result2.geometry.lat), parseFloat(result2.geometry.ing))); // Agregar el resultado al array acumulativo
+        
+
       const popupInicio = `<b style="color: red; background-color: white">Lugar de salida: ${this.nuevoFlete.muni_NombreInicio}</b>`;
       const popupFinal = `<b style="color: red; background-color: white">Lugar de destino: ${this.nuevoFlete.muni_NombreFinal}</b>`;
       const popupLocal = `<b style="color: red; background-color: white">Flete local en: ${this.nuevoFlete.muni_NombreFinal}</b>`;
@@ -261,20 +300,36 @@ export class FleteDetailsPropioComponent implements OnInit {
             .bindPopup(popupLocal)
             .closePopup();
         } else {
-          L.marker(
-            [this.coordenadasIncio.lat, this.coordenadasIncio.lon],
-            this.IconInicio
-          )
-            .addTo(this.map4)
-            .bindPopup(popupInicio)
-            .closePopup();
-          L.marker(
-            [this.coordenadasFin.lat, this.coordenadasFin.lon],
-            this.IconDestino
-          )
-            .addTo(this.map4)
-            .bindPopup(popupFinal)
-            .closePopup();
+          // L.marker(
+          //   [this.coordenadasIncio.lat, this.coordenadasIncio.lon],
+          //   this.IconInicio
+          // ) .addTo(this.map4)
+          //   .bindPopup(popupInicio)
+          //   .closePopup();
+          // L.marker(
+          //   [this.coordenadasFin.lat, this.coordenadasFin.lon],
+          //   this.IconDestino
+          // ).addTo(this.map4)
+          //   .bindPopup(popupFinal)
+          //   .closePopup();
+          
+          
+          console.log("------Hizo la carga-------")
+          L.Routing.control({
+            waypoints: this.waypoints,
+            routeWhileDragging: true,
+            showAlternatives: true,
+            altLineOptions: {
+              styles: [
+                { color: 'lightseagreen', opacity: 0.6, weight: 4 } // Configuración de estilo de la ruta alternativa
+              ],
+              extendToWaypoints: true,
+              missingRouteTolerance: 100
+            }
+          }).addTo(this.map4);
+          console.log("------Hizo la carga-------")
+          
+
           if (this.nuevoFlete.flet_Ubicado) {
             L.marker(
               [this.coordenadasUbicacion.lat, this.coordenadasUbicacion.lon],
