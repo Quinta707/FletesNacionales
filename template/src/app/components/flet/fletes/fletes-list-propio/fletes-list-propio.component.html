@@ -141,15 +141,23 @@
 </div>
 
 <ng-template #content let-modal>
-    <div class="modal-body text-center">
-      <h4 class="modal-title" id="modal-basic-title">Empezar flete</h4>
+    <div class="modal-body">
+      <h4 class="modal-title text-center" id="modal-basic-title">Empezar flete</h4>
       <hr>
-      <img src="../../../../../assets/images/Camioncito.jpg" style="width: 100%;" alt="">
-      <h6>¿Es esto lo que deseas?</h6>
-    </div>
-    <div class="modal-footer text-center d-flex justify-content-center">
-      <!-- <button type="button" class="btn btn-outline-dark" (click)="printFechas()">Save</button> -->
-      <button class="btn btn-dark" (click)="modal.dismiss('Cross click')" type="button">No</button>
-      <button class="btn btn-primary" (click)="printFechas()" type="button" >Si</button>
+      <div class="row">
+        <div class="col">
+          <img src="../../../../../assets/images/Camioncito.jpg" style="width: 100%;" alt="">
+        </div>
+        <div class="col px-3 d-flex align-items-center">
+          <div class="px-3" style="text-align: justify;">
+            <h5>Iniciemos con la mejor entrega de todas</h5>
+            <h6 class="mt-1">Recuerda siempre brindar el mejor servicio de todos para demostar la calidad y profecionalismo de la empresa</h6>
+            <!-- <button type="button" class="btn btn-outline-dark" (click)="printFechas()">Save</button> -->
+            <button class="btn btn-dark mt-2 " (click)="modal.dismiss('Cross click')" type="button">Cancelar</button>
+            <button class="btn btn-primary mt-2 mx-2" (click)="printFechas()" type="button" >Iniciar</button>
+          </div>
+        </div>
+      </div>
+      
     </div>
 </ng-template>
