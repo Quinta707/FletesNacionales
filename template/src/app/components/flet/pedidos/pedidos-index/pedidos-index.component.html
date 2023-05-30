@@ -1,17 +1,16 @@
-<app-breadcrumb [title]="'Modelos'" [items]="['Equipo']" [active_item]="'Modelos'"></app-breadcrumb>
-<div class="container-fluid">
-  <div class="row widget-grid">
-    <div class="col-sm-12">
-        <div class="card">
-          <img class="card-img-top" src="../../../../../assets/images/equipo/headers/Pedidos.png" alt="Card image cap">
-      </div>
-      
-    <div class="card">
-      <div class="card-body">
+<div class="container">
+  <app-breadcrumb [title]="'Listado de Pedidos'" [items]="['Fletes']" [active_item]="'Pedidos'"></app-breadcrumb>
+    <div class="row widget-grid">
+      <div class="col-sm-12">
+  
+        <div class="card card-border">
+          <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/Pedidos.png" alt="Card image cap">
+  
+        <div class="card-body">
         <button (click)="Nuevo()" class="btn btn-primary">+ Nuevo</button>
         <br><br>
         <div class="table-responsive">
-            <table datatable class="table table-bordered" style="color: darkslateblue;">
+            <table datatable class="table" style="color: darkslateblue;">
                 <thead>
                     <tr>
                       <th>Pedido Id</th>
@@ -41,10 +40,10 @@
       
                 </tbody>
               </table>
+            </div>
+          </div>
         </div>
-        
       </div>
     </div>
   </div>
-  </div>
-</div>
+
