@@ -151,14 +151,6 @@ export class TableService {
     return this.http.get<Items[]>(this.itemsListado);
   }
 
-  ItemsDelete = Global + "Items/Eliminar";
-  DeleteItems(Items: Items){
-    return this.http.post<Items[]>(this.ItemsDelete,Items)
-  }
 
-  ItemsEditar = Global + "Items/Editar";
-  EditarItems(Items:Items){
-    return this.http.post<Items[]>(this.ItemsEditar,Items)
-  }
 }
 

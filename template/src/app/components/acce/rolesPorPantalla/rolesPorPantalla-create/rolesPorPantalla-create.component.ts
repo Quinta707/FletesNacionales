@@ -4,9 +4,6 @@ import { TableService } from '../../../../shared/services/rolesPorPantalla.servi
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
-
-import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 
 @Component({
@@ -14,84 +11,88 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
   templateUrl: './rolesPorPantalla-create.component.html',
   styleUrls: ['./rolesPorPantalla-create.component.scss']
 })
-export class RolesporPantallaCreateComponent {
+export class RolesporPantallaCreateComponent implements OnInit {
   public validate = false;
   public selected = [];
   
-  createRol: RolesporPantalla = new RolesporPantalla();
-  createPantallaPorRol: RolesporPantalla = new RolesporPantalla();
-
   rolesPorPantalla: RolesporPantalla[];
   closeResult: string;
   
-  constructor(config: NgbModalConfig, public service: TableService, private router: Router) {
+  constructor(config: NgbModalConfig, private modalService: NgbModal, public service: TableService) {
     
+    this.tableItem$ = service.tableItem$;
+    this.total$ = service.total$;
     this.service.setUserData(this.rolesPorPantalla)
     config.backdrop = 'static';
     config.keyboard = false;
-  }
-  dropdownList = [];
-  selectedItems: any[] = [];
-  dropdownSettings : IDropdownSettings;
-  ngOnInit() {
-    this.service.getPantallas()
-    .subscribe((data: any) =>{
-      this.dropdownList = data.data
-      console.log(this.dropdownList)
-    })
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'pant_Id',
-      textField: 'pant_Nombre',
-      selectAllText: 'Seleccionar todo',
-      searchPlaceholderText: 'Buscar pantalla' ,
-      unSelectAllText: 'Deseleccionar',
-      itemsShowLimit: 3,
-      allowSearchFilter: true
-    };
+
   }
 
-  onItemSelect(item: any) {
-    console.log(item);
-  }
-  onSelectAll(items: any) {
-    console.log(items);
-  }
-  Index() {
-    this.router.navigate(['/acce/Roles/List'])
-  }
-  enviar: RolesporPantalla = new RolesporPantalla();
-  Create()
-  {
-
-    this.validate = true;
-    if(this.createRol.role_Nombre == "" || this.createRol.role_Nombre == null)
-    {
-      this.validate = true;
-      console.log('inserte un nombre')
-    }
-    if(this.selectedItems.length == 0)
-    {
-      console.log('ta vacio las pantallas')
-    }
-    if(this.createRol.role_Nombre != "" || this.createRol.role_Nombre != null  && this.selectedItems.length != 0)
-    {
-      this.validate = false;
-
-      this.service.createRol(this.createRol).subscribe((data:any) =>{
-        this.selectedItems.forEach((element: any) => {
-        this.enviar.pant_Id = element.pant_Id
-        this.enviar.role_Id = data.message
-        this.service.createRolesporPantalla(this.enviar).subscribe((data:any)=>{
-          this.router.navigate(['acce/Roles/List'])
-        })
-      });
-      })
-      
-     
-    }
-
+  
+  open(content: any) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
   }
   
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
+
+  index(){
+    this.service.getRolesporPantalla()
+    .subscribe((data: any)=>{
+      console.log(data.data)
+       this.rolesPorPantalla= data.data;
+       this.service.setUserData(data.data)
+    })
+  }
+ 
+  ngOnInit(): void {
+      
+    this.index()
+  }
+
+
+
+  public tableItem$: Observable<RolesporPantalla[]>;
+  public searchText;
+  total$: Observable<number>;
+
+
+  onSearchInputChange(searchTerm: string) {
+    this.service.searchTerm = searchTerm;
+  }
+
+  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+
+  onSort({ column, direction }: SortEvent) {
+    // resetting other headers
+    this.headers.forEach((header) => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+
+    this.service.sortColumn = column;
+    this.service.sortDirection = direction;
+
+  }
+
+  deleteData(id: number){
+    this.tableItem$.subscribe((data: any)=> {      
+      data.map((elem: any,i: any)=>{elem.id == id && data.splice(i,1)})
+      
+    })
+  }
+
  }
  

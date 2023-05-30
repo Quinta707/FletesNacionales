@@ -132,16 +132,16 @@ export class TableService {
         );
     
         // 3. Parsear la fecha
-        // tableItem.forEach((item) => {
-        //     if (typeof item.flet_FechaDeSalida === 'string') {
-        //       item.flet_FechaDeSalidaParseada = new Date(item.flet_FechaDeSalida);
-        //       item.flet_FechaDeSalida = item.flet_FechaDeSalidaParseada.toLocaleDateString('es-ES', {
-        //         day: '2-digit',
-        //         month: '2-digit',
-        //         year: 'numeric'
-        //       });
-        //     }
-        //   });
+        tableItem.forEach((item) => {
+            if (typeof item.flet_FechaDeSalida === 'string') {
+              item.flet_FechaDeSalidaParseada = new Date(item.flet_FechaDeSalida);
+              item.flet_FechaDeSalida = item.flet_FechaDeSalidaParseada.toLocaleDateString('es-ES', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+              });
+            }
+          });
           
     
         tableItem = tableItem
@@ -154,27 +154,6 @@ export class TableService {
 
   getFletes(){
     return this.http.get<Flete[]>(this.FletesListado);
-  }
-  
-  getFletesPendientes(){
-    return this.http.get<Flete[]>(Global + "Fletes/ListadoPendientes");
-  }
-
-  getFletesEnProceso(){
-    return this.http.get<Flete[]>(Global + "Fletes/ListadoEnProceso");
-  }
-
-  getFletesTerminados(){
-    return this.http.get<Flete[]>(Global + "Fletes/ListadoTerminados");
-  }
-  
-  getBuscarFlete(id){
-    return this.http.get<Flete>(Global + "Fletes/Buscar?id=" + id);
-  }
-  
-  
-  getBuscarDetalles(id){
-    return this.http.get<Pedidos>(Global + "Fletes/FleteDetalles?flet_Id=" + id);
   }
 
   getDllMunicipios(){
@@ -193,60 +172,19 @@ export class TableService {
     return this.http.get<Pedidos[]>(Global+"Pedidos/Listado")
   }
   
-  getPedidosPorMunicipio(id: string){
+  getPedidosPorMunicipio(id: number){
     return this.http.get<Pedidos[]>(Global+"Pedidos/PedidoPorMunicipio?muni="+id.toString())
   }
   
-  getTrayectoId(desde: string, hasta: string){
+  getTrayectoId(desde: number, hasta: number){
     return this.http.get<Trayectos[]>(Global+"Trayectos/Existe?desde="+desde.toString()+"&hasta="+hasta.toString())
   }
   
   
   postTrayectoCreate(data: Trayectos){
-    return this.http.post<any>(Global+"Trayectos/Insertar",data)
+    return this.http.post<Trayectos[]>(Global+"Trayectos/Insertar",data)
   }
 
-  postInsertarFlete(data: any){
-    return this.http.post<any>(Global+"Fletes/Insertar",data)
-  }
- 
-  putUpdateFlete(data: any){
-    return this.http.put<any>(Global+"Fletes/Editar",data)
-  }
-  
-  postInsertarFleteDetalles(data: any){
-    return this.http.post<any>(Global+"Fletes/InsertarDetalles",data)
-  }
-  
-  
-  getVehiculoDisponible(vehi_id: number, fechaSalida: string){
-    return this.http.get<any>(Global+`Fletes/VehiculoDisponible?vehi_Id=${vehi_id.toString()}&fechaSalida=${fechaSalida}`)
-  }
-
-
-  obtenerCoordenadas(municipio: String){
-
-    const cityName = `${municipio}, Honduras`;
-    const apiKey = '0ae2030d9b334e63ad7b7d75735626d9'; 
-
-    return this.http.get<any>(`https://api.opencagedata.com/geocode/v1/json?q=${cityName}&key=${apiKey}`)
-
-  //   fetch(`https://api.opencagedata.com/geocode/v1/json?q=${cityName}&key=${apiKey}`)
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       const result = data.results[0];
-
-  //       let homeCoords = {
-  //         lat: result.geometry.lat,
-  //         lon: result.geometry.lng
-  //       };
-
-  //       return homeCoords;
-
-  //     })
-      
-  //     return 0;
-   }
 
 }
 

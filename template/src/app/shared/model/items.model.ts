@@ -3,8 +3,8 @@ export class Items{
 	item_Id !: number; 
 	item_Nombre !: String;
 	item_Descripcion !: String;
-	item_Peso !: number;
-	item_Volumen !: number;
+	item_Peso !: String;
+	item_Volumen !: String;
 	item_Habilitado !: String;
 	item_Visible !: String;
 	item_UsuCreacion !: number; 

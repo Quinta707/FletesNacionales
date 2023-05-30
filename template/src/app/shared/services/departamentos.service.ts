@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { DecimalPipe, SlicePipe } from '@angular/common';
 import { debounceTime, delay, map, switchMap, tap } from 'rxjs/operators';
 import { SortColumn, SortDirection } from '../directives/NgbdSortableHeader';
-import { Departamentos } from '../model/Departamentos.model';
+import { Departamentos } from '../model/departamentos.model';
 import { Global } from '../../../../config';
 import { HttpClient } from '@angular/common/http';
 
@@ -147,18 +147,9 @@ export class TableService {
       }
     
   DepartamentosListado = Global + "Departamentos/Listado";
+
   getDepartamentos(){
     return this.http.get<Departamentos[]>(this.DepartamentosListado);
-  }
-
-  DepartamentosDelete = Global + "Departamentos/Eliminar";
-  DeleteDepartamento(Departamentos: Departamentos){
-    return this.http.post<Departamentos[]>(this.DepartamentosDelete,Departamentos)
-  }
-
-  DepartamentosEditar = Global + "Departamentos/Editar";
-  EditarDepartamento(Departamentos:Departamentos){
-    return this.http.post<Departamentos[]>(this.DepartamentosEditar,Departamentos)
   }
 
 

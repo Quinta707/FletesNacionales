@@ -158,42 +158,37 @@ export class TableService {
   
   RolesUpdate = Global + 'Roles/Actualizar';
   updateRol(Roles: RolesporPantalla){
-    return this.http.put<RolesporPantalla[]>(this.RolesUpdate, Roles);
+    return this.http.post<RolesporPantalla[]>(this.RolesUpdate, Roles);
   }
   
   RolesDelete = Global + 'Roles/Eliminar';
   deleteRol(Roles: RolesporPantalla){
-    return this.http.put<RolesporPantalla[]>(this.RolesDelete, Roles);
-  }
-  
-  RolesFind = Global + 'Roles/Buscar?id=';
-  findRol(id?: number){
-    return this.http.get<RolesporPantalla[]>(this.RolesFind + id);
+    return this.http.post<RolesporPantalla[]>(this.RolesDelete, Roles);
   }
 
-  PantallasGet = Global + 'Pantallas/Listado'
-  getPantallas()
-  { 
-    return this.http.get<RolesporPantalla[]>(this.PantallasGet);
-  }
 
   RolesporPantallaListado = Global + "Roles/Listado";
   getRolesporPantalla(){
     return this.http.get<RolesporPantalla[]>(this.RolesporPantallaListado);
   }
 
-  RolesporPantallaCreate = Global + 'Roles/InsertarRolxPantalla';
+  RolesporPantallaCreate = Global + 'Roles/Insertar';
   createRolesporPantalla(Roles: RolesporPantalla){
-    return this.http.post<RolesporPantalla[]>(this.RolesporPantallaCreate, Roles);
+    return this.http.post<RolesporPantalla[]>(this.RolesCreate, Roles);
   }
 
 
-  RolesporPantallaFind = Global + 'Roles/BuscarRolxPantalla?id=';
+  RolesporPantallaFind = Global + 'Roles/Buscar?id=';
   findRolesporPantalla(id?: number) {
     return this.http.get<RolesporPantalla[]>(this.RolesporPantallaFind + id);
   }
+  
+  RolesporPantallaUpdate = Global + 'Roles/Editar';
+  updateRolesporPantalla(RolesporPantalla: RolesporPantalla){
+    return this.http.put<RolesporPantalla[]>(this.RolesporPantallaUpdate, RolesporPantalla);
+  }
 
-  RolesporPantallaDelete = Global + 'Roles/EliminarRolxPantalla';
+  RolesporPantallaDelete = Global + 'Roles/Eliminar';
   deleteRolesporPantalla(RolesporPantalla: RolesporPantalla){
     return this.http.put<RolesporPantalla[]>(this.RolesporPantallaDelete, RolesporPantalla);
   }

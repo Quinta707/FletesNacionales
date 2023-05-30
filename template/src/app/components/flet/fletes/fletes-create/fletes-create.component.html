@@ -8,9 +8,9 @@
             <h5>Flete</h5>
           </div>
           <div class="card-body">
-            <aw-wizard navBarLayout="large-filled-symbols" [disableNavigationBar]='true'>
+            <aw-wizard navBarLayout="large-filled-symbols">
               <aw-wizard-step>
-                 <form [formGroup]="firstFormGroup">
+                <form [formGroup]="firstFormGroup">
                   <ng-template awWizardStepSymbol>
                     <div class="f1-step">
                       <div class="f1-step-icon"><i class="fa fa-truck" style="transform: scaleX(-1)"></i></div>
@@ -53,12 +53,11 @@
                       <p class="text-danger">El municipio de destino es necesario</p></ng-container>
                     </div>
                   </div>
-                  <div class="row mt-2 custom-datepicker custom-datepicker-dropdown">
+                  <div class="row mt-2">
                     <div class="col-6" >
                       <div class="col-form-label">Fecha de salida</div>
                       <input  class="datepicker-here form-control digits text-dark"
                               formControlName="flet_FechaDeSalida"
-                              [(ngModel)]="datosFelte.flet_FechaDeSalida"
                               placeholder="yyyy-mm-dd"
                               name="dp"
                               ngbDatepicker
@@ -71,10 +70,9 @@
                       <p class="text-danger">La fecha de salida es necesaria</p></ng-container>
                     </div>
                   </div>
-                  <button class="btn btn-primary pull-right mt-3" type="submit" (click)="seleccionarPedidos(content1)"
+                  <button class="btn btn-primary pull-right mt-3" type="submit" awNextStep (click)="seleccionarPedidos(content1)"
                     [disabled]="!firstFormGroup.valid">Siguiente</button>
-                  <button class="btn btn-dark pull-right mt-3 mx-2" type="button" (click)="redirectToList()">Cancelar</button>
-                </form> 
+                </form>
               </aw-wizard-step>
               <aw-wizard-step>
                 <form [formGroup]="secondFormGroup">
@@ -94,34 +92,7 @@
 
 
                   <div *ngIf="pedidos.length > 0" class="card-body megaoptions-border-space-sm">
-                    <div class="row">
-                      <div class="col-8">
-                        <ng-container *ngIf="secondFormGroup.get('pedidosArray').hasError('required') || pesoMax < pesoUso || voluMax < voluUso">
-                          <ng-container *ngIf="secondFormGroup.get('pedidosArray').hasError('required')">
-                            <ngb-alert [type]="'danger'" [dismissible]="false">
-                              Seleccione al menos un pedido
-                            </ngb-alert>
-                          </ng-container>
-                          <ng-container *ngIf="pesoMax < pesoUso && voluMax < voluUso">
-                            <ngb-alert [type]="'danger'" [dismissible]="false">
-                              El peso y el volumen superan la cantidad maxima
-                            </ngb-alert>
-                          </ng-container>
-                          <ng-container *ngIf="pesoMax < pesoUso && voluMax > voluUso">
-                            <ngb-alert [type]="'danger'" [dismissible]="false">
-                              El peso supera la cantidad maxima
-                            </ngb-alert>
-                          </ng-container>
-                          <ng-container *ngIf="pesoMax > pesoUso && voluMax < voluUso">
-                            <ngb-alert [type]="'danger'" [dismissible]="false">
-                              El volumen supera la cantidad maxima
-                            </ngb-alert>
-                          </ng-container>
-                          
-                          
-                          
-                        </ng-container>
-                      </div>
+                    <div class="row d-flex justify-content-end">
                       <div class="col d-flex justify-content-end">
                         <table> 
                           <tbody>
@@ -137,7 +108,7 @@
                         
                       </div>
                     </div>
-                    <div class="mega-inline row mt-3">
+                    <div class="mega-inline row">
                         <div class="col-6" *ngFor="let item of pedidos">
                           <div class="card">
                             <div class="media p-20">
@@ -157,153 +128,31 @@
                         
                     </div>
                      <div class="text-center mt-2">
-                   
+                   <ng-container
+                    *ngIf="secondFormGroup.get('pedidosArray').hasError('required')">
+                        <h5 class="text-danger">Seleccione al menos un pedido</h5></ng-container>
                   </div>
                   </div>
                  
                   
-                  <button class="btn btn-primary pull-right" (click)="guardar()" type="button" awNextStep
-                    [disabled]="!secondFormGroup.valid || pesoMax < pesoUso || voluMax < voluUso">Listo</button>
+                  <button class="btn btn-primary pull-right" (click)="guardarEliminar()" type="button" awNextStep
+                    [disabled]="!secondFormGroup.valid || pesoMax >= pesoUso || voluMax >= voluUso">Listo</button>
                   <button class="btn btn-secondary pull-right me-1" type="button" awPreviousStep>Anterior</button>
                 </form>
               </aw-wizard-step>
-              <aw-wizard-step >
-              <!-- <aw-wizard-completion-step awEnableBackLinks> -->
-                <ng-template awWizardStepSymbol>
-                  <div class="f1-step">
-                    <div class="f1-step-icon"><i class="icofont icofont-truck-loaded"></i></div>
-                    <p>Listo</p>
-                  </div>
-                </ng-template>
-              <div class="px-4">
-                <div class="row mt-4">
-                  <div class="col-sm-6" style="border-right: 2px solid black;">
-                    <div class="map-height" leaflet [leafletOptions]="options4" (leafletMapReady)="onMapReady4($event)"></div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="row mt-6 d-flex justify-content-between">
-                    <div class="col">
-                      <h4>Flete</h4>
+              <aw-wizard-completion-step awEnableBackLinks>
+                <form>
+                  <ng-template awWizardStepSymbol>
+                    <div class="f1-step">
+                      <div class="f1-step-icon"><i class="icofont icofont-truck-loaded"></i></div>
+                      <p>Listo</p>
                     </div>
-                    <div class="col text-end">
-                      <h4>Nº {{nuevoFlete.flet_Id}}</h4>
-                    </div>
-                  </div>
-                  <div class="row mt-4 d-flex justify-content-between">
-                    <div class="col">
-                      <h6>Conductor:</h6>
-                    </div>
-                    <div class="col text-end">
-                      <h6>{{nuevoFlete.empe_NombreCompleto}}</h6>
-                    </div>
-                  </div>
-                  <div class="row mt-2 d-flex justify-content-between">
-                    <div class="col">
-                      <h6>Vehiculo:</h6>
-                    </div>
-                    <div class="col text-end">
-                      <h6>{{nuevoFlete.marc_Nombre}} {{nuevoFlete.mode_Nombre}} <br> {{nuevoFlete.vehi_Placa}}</h6>
-                    </div>
-                  </div>
-                  <div class="row mt-2 d-flex justify-content-between">
-                    <div class="col">
-                      <h6>Fecha de salida:</h6>
-                    </div>
-                    <div class="col text-end">
-                      <h6>{{nuevoFlete.flet_FechaDeSalida}}</h6>
-                    </div>
-                  </div>
-                  <div class="row mt-2 d-flex justify-content-between">
-                    <div class="col">
-                      <table>
-                        <tbody>
-                          <tr>
-                            <td><h6>Desde:</h6></td>
-                            <td><h6>{{nuevoFlete.muni_NombreInicio}}</h6></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div class="col d-flex justify-content-end">
-                      <table>
-                        <tbody>
-                          <tr>
-                            <td><h6>Hasta:</h6></td>
-                            <td><h6>{{nuevoFlete.muni_NombreFinal}}</h6></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <div class="row d-flex justify-content-end">
-                    <div class="col d-flex justify-content-end">
-                      <button class="btn btn-primary" (click)="recuperarMarker()">Ver municipios en el mapa</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row mt-4">
-                <div class="col">
-                  <h5 class="ms-2">Pedidos</h5>
-                  <ngb-accordion #acc="ngbAccordion">
-                    <ngb-panel *ngFor="let item of pedidosDelNuevoFlete$ | async">
-                      <ng-template ngbPanelTitle>
-                        <span (click)="handlePanelClick(item)">
-                          <h6>Pedido de {{item.clie_NombreCompleto}}</h6>
-                        </span>
-                      </ng-template>
-                      <ng-template ngbPanelContent>
-                        <div class="row">
-                          <div class="col">
-                            <span class="text-end"><strong>Direccion Exacta:</strong> {{item.pedi_DestinoFinal}}</span>
-                          </div>
-                        </div>
-                        <div class="row mt-2">
-                          <div class="col">
-                            <span class="text-end"><strong>Telefono:</strong> {{item.clie_Telefono}}</span>
-                          </div>
-                          <div class="col">
-                            <span class="text-end"><strong>Destino:</strong> {{item.pedi_DestinoNombre}}</span>
-                          </div>
-                          <hr>
-                        </div>
-                        <div class="row">
-                          <h5>Items</h5>
-                          <table class="table">
-                            <thead>
-                              <tr>
-                                <th>Nombre</th>
-                                <th>Modelo</th>
-                                <th>Peso</th>
-                                <th>Volumen</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                <tr  *ngFor="let item2 of itemsArray$ | async">
-                                  <ng-container *ngIf="item.pedi_Id === item2.pedi_Id">
-                                  <td>{{item2.item_Nombre}}</td>
-                                  <td>{{item2.item_Descripcion}}</td>
-                                  <td>{{item2.item_Peso}}</td>
-                                  <td>{{item2.item_Volumen}}</td>
-                                  </ng-container>
-                                </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                        <div class="row mt-3">
-                          <div class="col">
-                            <button class="btn btn-success" (click)="updateMarker(item.pedi_DestinoNombre)">Ver destino del pedido en el mapa</button>
-                          </div>
-                        </div>
-                      </ng-template>
-                    </ngb-panel>
-                  </ngb-accordion>
-                </div>
-              </div>     
-              <button class="btn btn-success pull-right mt-4" type="button" (click)="redirectToList()">Completar</button>
-            </div>
-                  
-              </aw-wizard-step>
+                  </ng-template>
+                  <button class="btn btn-success pull-right" type="button"
+                    [disabled]="">Finish</button>
+                  <button class="btn btn-secondary pull-right me-1" id="prevBtn" type="button" awPreviousStep>Anterior</button>
+                </form>
+              </aw-wizard-completion-step>
             </aw-wizard>
           </div>
         </div>
@@ -368,5 +217,5 @@
       <button type="button" class="btn btn-dark" (click)="nopModal()">Cancelar</button>
       <button type="button" class="btn btn-primary" [disabled]="!trayectoriaFormGroup.valid" (click)="siModal2()"  >Guardar</button>
     </div>
-  </form>
+      </form>
   </ng-template>

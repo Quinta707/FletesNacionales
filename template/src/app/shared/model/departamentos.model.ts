@@ -1,6 +1,6 @@
 export class Departamentos{
 
-    depa_Id!: String;
+    depa_Id!: number;
     depa_Nombre!: String;
     depa_Codigo!: String;
     depa_UsuCreacion!: number;

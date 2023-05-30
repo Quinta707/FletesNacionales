@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Global } from '../../../../config';
-import  { Trayectos } from '../model/trayectos.model';
+import  { Trayectos } from '../model/Trayectos.model';
 
 @Injectable({
   providedIn: 'root'

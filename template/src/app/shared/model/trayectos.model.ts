@@ -2,13 +2,13 @@ export class Trayectos {
     tray_Id!: number;
     tray_Precio!: number;
     tray_Descripcion!: String;
-    muni_Inicio!: String;
+    muni_Inicio!: number;
     muni_InicioNombre!: String;
-    depa_Inicio!: String;
+    depa_Inicio!: number;
     depa_InicioNombre!: String;
-    muni_Final!: String;
+    muni_Final!: number;
     muni_FinalNombre!: String;
-    depa_Final!: String;
+    depa_Final!: number;
     depa_FinalNombre!: String;
     tray_UsuCreacion!: number;
     tray_FechaCreacion!: String;
