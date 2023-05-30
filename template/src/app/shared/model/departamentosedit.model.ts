@@ -1,13 +1,14 @@
 export class DepartamentosEdit {
-    depa_Id!: string;
-    depa_Nombre!: string;
-    depa_UsuCreacion!: number;
-    depa_Habilitado!: number;
-    depa_Visible!: string;
-    user_Creacion!: string;
-    depa_FechaCreacion!: string;
-    depa_UsuModificacion!: number;
-    user_Modificacion!: string;
-    depa_FechaModificacion!: string;
-    depa_Estado!: number;
+  depa_Id!: String;
+  depa_Nombre!: String;
+  depa_Codigo!: String;
+  depa_UsuCreacion!: number;
+  depa_Habilitado!: number;
+  depa_Visible!: String;
+  user_Creacion!: String;
+  depa_FechaCreacion!: String;
+  depa_UsuModificacion!: number;
+  user_Modificacion!: String;
+  depa_FechaModificacion!: String;
+  depa_Estado!: number;
   }
