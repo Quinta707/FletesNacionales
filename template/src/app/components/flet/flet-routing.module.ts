@@ -16,7 +16,10 @@ import { FletedetailsComponent } from './fletes/fletes-details/fletes-details.co
 import { ClientesCreateComponent } from './clientes/clientes-create/clientes-create.component';
 
 import { ReporteComponent } from './reporte/reporte/reporte.component';
+<<<<<<< HEAD
 import { FleteDetailsPropioComponent } from "./fletes/fletes-details-propio/fletes-details-propio.component";
+=======
+>>>>>>> Ian
 const routes: Routes = [
   {
     path: "",
@@ -37,10 +40,13 @@ const routes: Routes = [
             component: FleteListPropioComponent,
           },
           {
+<<<<<<< HEAD
             path: "PersonalDetails",
             component: FleteDetailsPropioComponent,
           },
           {
+=======
+>>>>>>> Ian
             path: "Details",
             component: FletedetailsComponent,
           },
