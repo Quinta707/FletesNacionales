@@ -13,7 +13,7 @@ import { ClientesCreateComponent } from './components/flet/clientes/clientes-cre
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard/default',
+    redirectTo: 'auth/login',
     pathMatch: 'full'
   },
   {

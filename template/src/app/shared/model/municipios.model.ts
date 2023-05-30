@@ -1,8 +1,8 @@
 export class Municipios{
-    muni_Id!: number;
+    muni_Id!: String;
     muni_Nombre!: String;
     muni_Codigo!: String;
-    depa_Id!: number;
+    depa_Id!: String;
     muni_UsuCreacion!: String;
     muni_Habilitado!: number;
     muni_Visible!: String;

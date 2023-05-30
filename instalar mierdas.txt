@@ -1,0 +1,4 @@
+npm install jspdf jspdf-autotable
+npm install pdfjs-dist
+npm install inputmask --save
+

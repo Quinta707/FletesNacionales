@@ -10,25 +10,23 @@
             </a>
           </div>
           <div class="login-main">
-            <form class="theme-form" [formGroup]="loginForm">
+            <form class="theme-form" [ngClass]="{ 'ng-submitted': submitted, 'needs-validation': submitted }" (ngSubmit)="onLoggedin($event)">
               <h4>Iniciar sesión</h4>
               <p>ingresa tu usuario y contraseña</p>
-              <ngb-alert *ngIf="successMessage" type="danger" [dismissible]="false" (closed)="successMessage = null">{{ successMessage }}
-              </ngb-alert>
               <div class="form-group">
-                <label class="col-form-label">Usuario</label>
-                <input class="form-control" type="email" required="" placeholder="JIDS" formControlName="email" />
-                <div *ngIf="loginForm.controls.email.touched && loginForm.controls.email.errors?.required" class="text text-danger mt-1">El usuario es requerido</div>
+                <label for="exampleInputEmail1" class="form-label">Nombre de usuario</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" #requried="ngModel" required placeholder="Nombre de usuario"
+                  [(ngModel)]="usuario" name="usuario" [ngClass]="{ 'is-invalid': submitted && requried?.invalid }">
+                <div class="invalid-feedback" *ngIf="requried?.errors?.required && submitted">Nombre de usuario requerido</div>
               </div>
               <div class="form-group">
-                <label class="col-form-label">Contaseña</label>
-                <input class="form-control" [type]="show ? 'text' : 'password'" formControlName="password" required="" placeholder="*********" />
-                <div class="show-hide" (click)="showPassword()" *ngIf="!show"><span class="show"></span></div>
-                <div class="show-hide" (click)="showPassword()" *ngIf="show"><span class="hide"></span></div>
-                <div *ngIf="loginForm.controls.password.touched && loginForm.controls.password.errors?.required" class="text text-danger mt-1">La contraseña es requerida</div>
+                <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" #contra="ngModel" required autocomplete="current-password"
+                  placeholder="Contraseña" name="password" [(ngModel)]="password" [ngClass]="{ 'is-invalid': submitted && contra?.invalid }">
+                <div class="invalid-feedback" *ngIf="contra?.errors?.required && submitted">Contraseña requerida</div>
               </div>
               <div class="text-end mt-3">
-                <button class="btn btn-primary d-block w-100" [disabled]="!loginForm.valid" (click)="login()" type="button"><span>Iniciar sesión</span></button>
+                <button class="btn btn-primary d-block w-100" type="submit"><span>Iniciar sesión</span></button>
               </div>
             </form>
           </div>

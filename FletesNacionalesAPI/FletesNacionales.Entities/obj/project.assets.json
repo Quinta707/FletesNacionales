@@ -8,19 +8,19 @@
     "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Sarai Quintanilla\\.nuget\\packages\\": {}
+    "C:\\Users\\danie\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Sarai Quintanilla\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
+      "projectUniqueName": "C:\\Users\\danie\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
       "projectName": "FletesNacionales.Entities",
-      "projectPath": "C:\\Users\\Sarai Quintanilla\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
-      "packagesPath": "C:\\Users\\Sarai Quintanilla\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Sarai Quintanilla\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\obj\\",
+      "projectPath": "C:\\Users\\danie\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
+      "packagesPath": "C:\\Users\\danie\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\danie\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Sarai Quintanilla\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\danie\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -60,7 +60,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
       }
     }
   }

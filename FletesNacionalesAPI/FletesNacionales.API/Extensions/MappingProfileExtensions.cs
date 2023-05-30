@@ -12,6 +12,22 @@ namespace FletesNacionales.API.Extensions
     {
         public MappingProfileExtensions()
         {
+            CreateMap<RolesViewModel, tbRoles>().ReverseMap();
+            CreateMap<PantallasPorRolesViewModel, tbPantallas>().ReverseMap();
+            CreateMap<PantallasPorRolesViewModel, VW_tbPantallasPorRoles>().ReverseMap();
+            CreateMap<UsuariosViewModel, tbUsuarios>().ReverseMap();
+            CreateMap<ClienteViewModel, tbClientes>().ReverseMap();
+            CreateMap<FletesViewModel, tbFleteDetalles>().ReverseMap();
+            CreateMap<FletesViewModel, tbFletes>().ReverseMap();
+            CreateMap<ItemsViewModel, tbItems>().ReverseMap();
+            CreateMap<CargosViewModel, tbCargos>().ReverseMap();
+            CreateMap<DepartamentosViewModel, tbDepartamentos>().ReverseMap();
+            CreateMap<EmpleadoViewModel, tbEmpleados>().ReverseMap();
+            CreateMap<EstadoCivilViewModel, tbEstadosCiviles>().ReverseMap();
+            CreateMap<EstadoDelPedidoViewModel, tbEstadosDelPedido>().ReverseMap();
+            CreateMap<MetodoDePagoViewModel, tbMetodosdePago>().ReverseMap();
+            CreateMap<MunicipiosViewModel, tbMunicipios>().ReverseMap();
+            CreateMap<SucursalesViewModel, tbSucursales>().ReverseMap();
             #region equi
             CreateMap<MarcasViewModel, tbMarcas>().ReverseMap();
             CreateMap<ModelosViewModel, tbModelos>().ReverseMap();
