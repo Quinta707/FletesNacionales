@@ -35,7 +35,7 @@ VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','flag-icon flag-i
 	   ('Tipos de Vehiculos',	'/flet/TipodeVehiculo/List ',		'equi','fa fa-car',1),
 
 	   ('Usuarios',				'/acce/Usuarios/List',				'acce','fa fa-user',1),
-       ('Roles Por Pantalla',	'/acce/Roles/List ',		'acce','fa fa-credit-card-alt',1),
+       ('Roles Por Pantalla',	'/acce/Roles/List',					'acce','fa fa-credit-card-alt',1),
 	   ('Pantallas',			'/acce/Pantallas/List',				'acce','fa fa-credit-card-alt',1),
 	   ('Grafica',				'/acce/Grafica/List',				'acce','icofont icofont-chart-bar-graph',1)
 GO

@@ -32,7 +32,6 @@ export class RolesporPantallaupdateComponent {
     config.backdrop = 'static';
     config.keyboard = false;
   }
-  //que te puedo decir amor
   dropdownList = [];
   selectedItems: any[] = [];
   dropdownSettings : IDropdownSettings;
@@ -76,7 +75,6 @@ export class RolesporPantallaupdateComponent {
     localStorage.setItem("role_Id", null)
     this.router.navigate(['/acce/Roles/List'])
   }
-  //no es a vos que te deseo
   
   enviar: RolesporPantalla = new RolesporPantalla();
   eliminar: RolesporPantalla = new RolesporPantalla();

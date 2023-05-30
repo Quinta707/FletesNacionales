@@ -13,7 +13,7 @@
         <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">
           <div class="row">
             <div class="col-sm-6">
-              <input placeholder="Nombre rol" [(ngModel)]="createRol.role_Nombre" class="form-control" id="validationCustom01" type="text" required >
+              <input placeholder="Nombre rol" [(ngModel)]="createRol.role_Nombre" class="form-control" id="validationCustom01" type="text" required="" >
             </div>
             
             <div class="col-sm-6">
@@ -24,23 +24,23 @@
               [(ngModel)]="selectedItems"
               (onSelect)="onItemSelect($event)"
               (onSelectAll)="onSelectAll($event)"
-              required
+              required=""
             >
             </ng-multiselect-dropdown>
           </div>
          
         </div>
+        
+      </form>
         <div class="row mt-3">
           <div class="col-sm-6">
-            <button (click)="Create()" class="btn btn-primary">Insertar</button>
+            <button class="btn btn-primary" type="button" (click)="Create()">Insertar</button>
           </div>
           <div class="col-sm-6">
             <button type="button" (click)="Index()" class="btn btn-primary">Volver</button>
           </div>
           </div>
-        </form>
       </div>
     </div>
   </div>
 </div>
- 

@@ -10,7 +10,69 @@
         </div>
       </div>
       <div class="card-body">
-        <button class="btn btn-lg btn-outline-primary" (click)="Insertar()">Crear Rol</button>
+        <ng-template #Create let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Create Rol</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+          </div>
+          <div class="modal-body"><form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">
+            <div class="row">
+              <div class="col-sm-6">
+                <input placeholder="Nombre rol" [(ngModel)]="createRol.role_Nombre" class="form-control" id="validationCustom01" type="text" required="" >
+              </div>              
+              <div class="col-sm-6">
+                <ng-multiselect-dropdown
+                [placeholder]="'Seleccione las Pantallas'"
+                [settings]="dropdownSettings"
+                [data]="dropdownList"
+                [(ngModel)]="selectedItems"
+                (onSelect)="onItemSelect($event)"
+                (onSelectAll)="onSelectAll($event)"
+                required=""
+              >
+              </ng-multiselect-dropdown>
+            </div>           
+          </div>          
+        </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" type="button" (click)="Create()">Insertar</button>
+          </div>
+        </ng-template>
+        <ng-template #Update let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Actualizar Rol</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">
+              <div class="row">
+                <div class="col-sm-6">
+                  <input placeholder="Nombre rol" [(ngModel)]="updateRol.role_Nombre" class="form-control" id="validationCustom01" type="text" required >
+                </div>
+                
+                <div class="col-sm-6">
+                  <ng-multiselect-dropdown
+                  [placeholder]="'Seleccione las Pantallas'"
+                  [settings]="dropdownSettings"
+                  [data]="dropdownList"
+                  [(ngModel)]="selectedItems"
+                  (onSelect)="onItemSelect($event)"
+                  (onSelectAll)="onSelectAll($event)"
+                  required
+                >
+                </ng-multiselect-dropdown>
+              </div>
+             
+            </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" (click)="hola()" class="btn btn-primary">hola</button>
+            <button type="button" (click)="Update()" class="btn btn-primary">Actualizar</button>
+          </div>
+        </ng-template>
+        <button class="btn btn-lg btn-outline-primary" (click)="open(Create)">Crear Rol</button>
           <hr>
         <div class="d-flex justify-content-between mb-2 mx-1">
           <select class="form-select" style="color: #3c334d; width: auto" name="pageSize" [(ngModel)]="service.pageSize">
@@ -26,7 +88,7 @@
             </div>
           </div>
         </div>
-          
+
         <ng-template #Delete let-modal>
           <div class="modal-header">
             <h4 class="modal-title" id="modal-basic-title">Eliminar Rol</h4>
@@ -57,13 +119,13 @@
                         <td><ngb-highlight [result]="outerRow.role_Id" [term]="service.searchTerm"></ngb-highlight></td>
                         <td><ngb-highlight [result]="outerRow.role_Nombre" [term]="service.searchTerm"></ngb-highlight></td>
                       <td><div class="action">
-                          <li class="edit" (click)="Actualizar(outerRow.role_Id)">
+                        <li class="edit" (click)="toggleTasks(i, outerRow.role_Id, 'Update',Update); $event.stopPropagation()">
                             <a ><i class="icon-pencil-alt"></i></a></li>
-                          <li class="delete" (click)="Eliminar(outerRow, Delete)">
+                            <li class="delete" (click)="toggleTasks(i, outerRow, 'Delete',Delete); $event.stopPropagation()">
                             <a ><i class="icon-trash"></i></a></li>
                       </div></td>
                     </tr>
-                    <tr *ngIf="i === selectedRowIndex">
+                    <tr *ngIf="i === selectedRowIndex && showInnerTable">
                       <td colspan="3">
                         <table class="inner-table table">
                           <thead>

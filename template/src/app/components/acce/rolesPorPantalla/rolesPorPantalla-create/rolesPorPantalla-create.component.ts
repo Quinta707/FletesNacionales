@@ -61,9 +61,8 @@ export class RolesporPantallaCreateComponent {
     this.router.navigate(['/acce/Roles/List'])
   }
   enviar: RolesporPantalla = new RolesporPantalla();
-  Create()
-  {
 
+  public Create() {
     this.validate = true;
     if(this.createRol.role_Nombre == "" || this.createRol.role_Nombre == null)
     {
@@ -74,10 +73,8 @@ export class RolesporPantallaCreateComponent {
     {
       console.log('ta vacio las pantallas')
     }
-    if(this.createRol.role_Nombre != "" || this.createRol.role_Nombre != null  && this.selectedItems.length != 0)
-    {
-      this.validate = false;
-
+    if(this.createRol.role_Nombre != "" && this.createRol.role_Nombre != null && this.selectedItems.length != 0)
+    {      
       this.service.createRol(this.createRol).subscribe((data:any) =>{
         this.selectedItems.forEach((element: any) => {
         this.enviar.pant_Id = element.pant_Id
@@ -87,10 +84,7 @@ export class RolesporPantallaCreateComponent {
         })
       });
       })
-      
-     
     }
-
   }
   
  }

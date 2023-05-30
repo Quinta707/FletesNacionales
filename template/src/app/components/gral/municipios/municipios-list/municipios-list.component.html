@@ -16,8 +16,9 @@
               <h4 class="modal-title" id="modal-basic-title">Insertar Municipios</h4>
               <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
             </div>
-            <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">    
+           
             <div class="modal-body">
+              <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">    
               <div class="row">
                 <div class="col-sm-6">
                 <ng-select [(ngModel)]="municipiosCreate.depa_Id" class="form-control" bindValue="value" [items]="departamentosDDL" placeholder="Departamento"></ng-select>
@@ -26,7 +27,8 @@
               <input [(ngModel)]="municipiosCreate.muni_Nombre" class="form-control" id="validationCustom01" type="text" required=""  />
             </div>
             </div>
-            
+              
+            </form>
               <div class="col-sm-6 ">
                 <div class="input-group">
                 <span class="input-group-text text-dark">{{ municipiosCreate.depa_Id ? municipiosCreate.depa_Id : '00' }}</span>  
@@ -37,7 +39,6 @@
             <div class="modal-footer">
               <button class="btn btn-primary" type="button" (click)="Guardar()">Crear</button>
             </div>  
-          </form>
           </ng-template>
           
         </form>
