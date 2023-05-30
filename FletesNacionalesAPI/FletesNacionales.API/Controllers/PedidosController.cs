@@ -30,14 +30,6 @@ namespace FletesNacionales.API.Controllers
             return Ok(list);
         }
 
-        [HttpPost("Eliminar")]
-        public IActionResult Delete(PedidosViewModel Pedidos)
-        {
-            var item = _mapper.Map<tbPedidos>(Pedidos);
-            var result = _fletService.EliminarPedidos(item);
-            return Ok(result);
-        }
-
         [HttpPost("Insertar")]
         public IActionResult Insert(PedidosViewModel Pedidos)
         {
@@ -46,7 +38,7 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("Editar")]
+        [HttpPut("Editar")]
         public IActionResult Update(PedidosViewModel Pedidos)
         {
             var item = _mapper.Map<tbPedidos>(Pedidos);
@@ -54,10 +46,25 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
+        [HttpPut("Eliminar")]
+        public IActionResult Delete(PedidosViewModel Pedidos)
+        {
+            var item = _mapper.Map<tbPedidos>(Pedidos);
+            var result = _fletService.EliminarPedidos(item);
+            return Ok(result);
+        }
+
         [HttpGet("Buscar")]
         public IActionResult Find(int? id)
         {
             var list = _fletService.BuscarPedidos(id);
+            return Ok(list);
+        }
+
+        [HttpGet("PedidoPorMunicipio")]
+        public IActionResult PedidoPorMunicipio(int muni)
+        {
+            var list = _fletService.PedidosPorMunicipio(muni);
             return Ok(list);
         }
     }

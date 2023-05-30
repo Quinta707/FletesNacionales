@@ -1,0 +1,34 @@
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <div class="card">
+            <div class="card-header">
+                <div class="text-center" >
+                    <h3>Listar Categorias</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cargo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of categorias">
+                            <td>{{item.carg_Id}}</td>
+                            <td>{{item.carg_Descripcion}}</td>
+                            <td>
+                                <button (click)="Editar(item)" class="btn btn-success">Editar</button>
+                    
+                                <button class="btn btn-primary">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

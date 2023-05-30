@@ -1,0 +1,93 @@
+table {
+  width: 100%;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.arrow {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: solid #000;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+}
+
+.arrow-down {
+  transform: rotate(135deg);
+}
+
+.arrow-right {
+  transform: rotate(45deg);
+}
+.inner-table {
+  width: 100%;
+  margin-top: 10px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.inner-table.open {
+  max-height: 500px; /* Ajusta el valor según sea necesario */
+  transition: max-height 1s ease; /* Ajusta el valor según sea necesario */
+}
+
+.inner-table th,
+.inner-table td {
+  border: none;
+}
+
+.active-row {
+  background-color: #eff0f6;
+}

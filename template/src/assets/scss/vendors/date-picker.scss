@@ -88,6 +88,7 @@
    }
    .ngb-dp-navigation-select {
      .form-select {
+       color: black;
        width: 100px;
        &:first-child {
          margin-right: 15px;
@@ -198,6 +199,7 @@
    }
    .ngb-dp-navigation-select {
      .form-select {
+       color: black;
        width: 100px;
        &:first-child {
          margin-right: 15px;
@@ -262,7 +264,7 @@
      font-size: 14px;
      width: auto;
      margin: 6px 6px 0 0;
-     color: $theme-body-font-color;
+     color: black;
    }
  }
  .time-picker-custom {

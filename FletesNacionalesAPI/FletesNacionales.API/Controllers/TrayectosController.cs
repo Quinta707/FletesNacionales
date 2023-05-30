@@ -30,14 +30,6 @@ namespace FletesNacionales.API.Controllers
             return Ok(list);
         }
 
-        [HttpPost("Eliminar")]
-        public IActionResult Delete(TrayectosViewModel Trayectos)
-        {
-            var item = _mapper.Map<tbTrayectos>(Trayectos);
-            var result = _fletService.EliminarTrayectos(item);
-            return Ok(result);
-        }
-
         [HttpPost("Insertar")]
         public IActionResult Insert(TrayectosViewModel Trayectos)
         {
@@ -46,7 +38,7 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("Editar")]
+        [HttpPut("Editar")]
         public IActionResult Update(TrayectosViewModel Trayectos)
         {
             var item = _mapper.Map<tbTrayectos>(Trayectos);
@@ -54,10 +46,25 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
+        [HttpPut("Eliminar")]
+        public IActionResult Delete(TrayectosViewModel Trayectos)
+        {
+            var item = _mapper.Map<tbTrayectos>(Trayectos);
+            var result = _fletService.EliminarTrayectos(item);
+            return Ok(result);
+        }
+
         [HttpGet("Buscar")]
         public IActionResult Find(int? id)
         {
             var list = _fletService.BuscarTrayectos(id);
+            return Ok(list);
+        }
+
+        [HttpGet("Existe")]
+        public IActionResult Existe(string desde, string hasta)
+        {
+            var list = _fletService.ExisteTrayecto(desde, hasta);
             return Ok(list);
         }
     }
