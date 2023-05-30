@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/adjacent-overload-signatures */
 import { Injectable, PipeTransform } from '@angular/core';
-
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { DecimalPipe, SlicePipe } from '@angular/common';
 import { debounceTime, delay, map, switchMap, tap } from 'rxjs/operators';
@@ -126,20 +125,7 @@ export class TableService {
         tableItem = tableItem.filter((country) =>
           matches(country, searchTerm, this.pipe)
         );
-    
-        // // 3. Parsear la fecha
-        //  tableItem.forEach((item) => {
-        //      if (typeof item. === 'string') {
-        //        let data = new Date(item.clie_FechaNacimiento);
-        //        item.clie_FechaNacimiento = data.toLocaleDateString('es-ES', {
-        //          day: '2-digit',
-        //          month: '2-digit',
-        //          year: 'numeric'
-        //        });
-        //      }
-        //    });
-          
-    
+            
         tableItem = tableItem
           .map((item, i) => ({ id: i + 1, ...item }))
           .slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);

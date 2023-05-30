@@ -106,16 +106,6 @@ const routes: Routes = [
         ],
       },
       {
-        path: "TipoDeVehiculo",
-        children: [
-          {
-            path: "List",
-            component: TipodevehiculoListComponent,
-          },
-          
-        ],
-      },
-      {
         path: "Trayectos",
         children: [
           {
@@ -131,6 +121,16 @@ const routes: Routes = [
           {
             path: "List",
             component: PedidosIndexComponent,
+          },
+        ],
+        
+      },
+      {
+        path: "TipodeVehiculo",
+        children: [
+          {
+            path: "List",
+            component: TipodevehiculoListComponent,
           },
         ],
         
