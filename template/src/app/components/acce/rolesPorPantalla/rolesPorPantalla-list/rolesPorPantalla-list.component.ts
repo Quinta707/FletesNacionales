@@ -4,6 +4,8 @@ import { TableService } from '../../../../shared/services/rolesPorPantalla.servi
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+
 
 
 @Component({
@@ -17,8 +19,13 @@ export class RolesporPantallaListComponent implements OnInit {
   
   rolesPorPantalla: RolesporPantalla[];
   closeResult: string;
+
+
+  outerTableData: any[] = [];
+
+  innerTableData: any[] = [];
   
-  constructor(config: NgbModalConfig, private modalService: NgbModal, public service: TableService) {
+  constructor(config: NgbModalConfig, private modalService: NgbModal, private router: Router, public service: TableService) {
     
     this.tableItem$ = service.tableItem$;
     this.total$ = service.total$;
@@ -26,15 +33,6 @@ export class RolesporPantallaListComponent implements OnInit {
     config.backdrop = 'static';
     config.keyboard = false;
 
-  }
-
-  
-  open(content: any) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
   }
   
   private getDismissReason(reason: any): string {
@@ -49,10 +47,10 @@ export class RolesporPantallaListComponent implements OnInit {
 
   index(){
     this.service.getRolesporPantalla()
-    .subscribe((data: any)=>{
+    .subscribe((data: any)=>{      
       console.log(data.data)
-      
        this.rolesPorPantalla= data.data;
+       this.outerTableData = data.data
        this.service.setUserData(data.data)
     })
   }
@@ -61,11 +59,53 @@ export class RolesporPantallaListComponent implements OnInit {
       
     this.index()
   }
+  
+  open(content: any) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  
 
+  rolesPorPantallaEliminar: RolesporPantalla = new RolesporPantalla()
+  Eliminar(est: RolesporPantalla, content) {
+    console.log('a')
+    this.rolesPorPantallaEliminar.role_Id = est.role_Id
+   
+    console.log('b')
+    this.open(content)
+  }
+
+  delete() {
+    
+    console.log('c')
+    console.log(this.rolesPorPantallaEliminar.role_Id)
+    this.service.deleteRol(this.rolesPorPantallaEliminar)
+    .subscribe(() => {      
+      this.service.deleteRolesporPantalla(this.rolesPorPantallaEliminar)
+      .subscribe(()=>{  
+        this.modalService.dismissAll()
+        this.index()
+      })
+    })
+  }
+  Actualizar(id: any)
+  {
+    console.log(id)
+    localStorage.setItem("role_Id", id)
+    this.router.navigate(["/acce/Roles/Update"])
+  }
+  Insertar()
+  {
+    this.router.navigate(["/acce/Roles/Create"])
+  }
 
 
   public tableItem$: Observable<RolesporPantalla[]>;
   public searchText;
+  public pantallas: [];
   total$: Observable<number>;
 
 
@@ -94,6 +134,26 @@ export class RolesporPantallaListComponent implements OnInit {
       
     })
   }
+  selectedRowIndex: number = -1;
 
+  toggleTasks(index: any, id: any): void {
+    if (index === this.selectedRowIndex) {
+      this.selectedRowIndex = -1;
+      this.innerTableData = [];
+    } else {
+      this.selectedRowIndex = index;
+
+      this.dataPantallas(id);
+    }
+   
+  }
+
+  dataPantallas(id) {
+    this.service.findRolesporPantalla(id)
+    .subscribe((data: any)=>{
+      console.log(data)
+      this.innerTableData = data
+    })
+  }
  }
  
