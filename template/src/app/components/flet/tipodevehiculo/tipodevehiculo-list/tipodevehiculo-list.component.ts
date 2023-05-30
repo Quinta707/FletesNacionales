@@ -66,7 +66,6 @@ export class TipodevehiculoListComponent {
   }
 
     
-
   open(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       // Acción a realizar cuando se cierra el modal

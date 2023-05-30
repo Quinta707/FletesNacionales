@@ -682,7 +682,7 @@ namespace FletesNacionales.BusinessLogic.Services
                 var list = _itemsRepository.Insert(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.SetMessage("Exitoso", ServiceResultType.Success);
+                    return result.Ok(list);
                 }
                 else if (list.CodeStatus == -2)
                 {
@@ -712,7 +712,7 @@ namespace FletesNacionales.BusinessLogic.Services
                 var list = _itemsRepository.Update(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.SetMessage("Exitoso", ServiceResultType.Success);
+                    return result.Ok(list);
                 }
                 else if (list.CodeStatus == -2)
                 {

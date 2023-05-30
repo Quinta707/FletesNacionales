@@ -100,6 +100,16 @@ namespace FletesNacionales.DataAccess.Repository
 
             return result;
         }
+
+        public IEnumerable<VW_tbPantallasPorRoles> Menu(int id, bool esadmin)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@role_ID", id, DbType.Int32, ParameterDirection.Input);
+            parameters.Add("@esAdmin", esadmin, DbType.Int32, ParameterDirection.Input);
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+            return db.Query<VW_tbPantallasPorRoles>(ScriptsDataBase.PantallasXRolesMenu, parameters, commandType: CommandType.StoredProcedure);
+        }
+
         public IEnumerable<VW_tbPantallasPorRoles> FindRolPorPantalla(int? id)
         {
             using var db = new SqlConnection(FleteContext.ConnectionString);

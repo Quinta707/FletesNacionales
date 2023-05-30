@@ -39,6 +39,7 @@
         public static string PantallaXRolesDelete = "acce.UDP_tbPantallasPorRoles_Delete";
         public static string PantallaXRolesFind = "acce.UDP_tbPantallasPorRoles_Find";
         public static string PantallaXRolesIndex = "acce.UDP_tbPantallasPorRoles_Index";
+        public static string PantallasXRolesMenu = "acce.tbRolesPorPantallaMenu";
         #endregion
 
         #endregion

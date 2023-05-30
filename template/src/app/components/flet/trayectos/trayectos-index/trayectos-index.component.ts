@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Trayectos } from 'src/app/shared/model/Trayectos.model';
+import { Trayectos } from 'src/app/shared/model/trayectos.model';
 import { TrayectosService } from 'src/app/shared/services/trayectos.service';
 
 @Component({

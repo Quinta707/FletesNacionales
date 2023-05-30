@@ -1,5 +1,7 @@
 GO
 USE FletesNacionales
+
+
 -------------------------------------------------
 ----------------TABLAS GENERALES-----------------
 -------------------------------------------------
@@ -151,6 +153,7 @@ CREATE OR ALTER VIEW gral.VW_tbDepartamentos
 AS
 SELECT	depa_Id, 
 		depa_Nombre, 
+		depa_Codigo, 
 		depa_UsuCreacion, 
 		depa_Habilitado,
 		CASE
@@ -172,69 +175,72 @@ ON T1.depa_UsuModificacion = T3.[user_Id];
 --**************  INSERT ******************--
 GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbDepartamentos_Insert
-(
-    @depa_Nombre        NVARCHAR(100),
-    @depa_Id            CHAR(2)
-)
+(@depa_Nombre			NVARCHAR(100),
+@depa_Codigo			CHAR(2),
+ @depa_UsuCreacion		INT)
 AS
 BEGIN
-    BEGIN TRY
-        IF EXISTS (SELECT depa_Id, depa_Nombre FROM gral.tbDepartamentos WHERE (depa_Nombre = @depa_Nombre OR depa_Id = @depa_Id) AND depa_Estado = 1)
-        BEGIN
-            SELECT -2 
-        END
-        ELSE IF EXISTS (SELECT depa_Id, depa_Nombre FROM gral.tbDepartamentos WHERE depa_Nombre = @depa_Nombre AND depa_Id = @depa_Id)
-        BEGIN
-            UPDATE gral.tbDepartamentos
-            SET
-                depa_Nombre = @depa_Nombre, 
-                depa_UsuCreacion = 1, 
-                depa_FechaCreacion = GETDATE(), 
-                depa_UsuModificacion = NULL, 
-                depa_FechaModificacion = NULL, 
-                depa_Estado = 1
-            WHERE depa_Id = @depa_Id;
+	BEGIN TRY
+		IF EXISTS (SELECT * FROM gral.tbDepartamentos WHERE (depa_Nombre = @depa_Nombre OR depa_Codigo = @depa_Codigo) AND depa_Estado = 1)
+			BEGIN
+				SELECT -2 
+			END
+		ELSE IF NOT EXISTS (SELECT * FROM gral.tbDepartamentos WHERE depa_Nombre = @depa_Nombre)
+			BEGIN
+				INSERT INTO [gral].[tbDepartamentos] (depa_Nombre, depa_Codigo, depa_UsuCreacion, depa_UsuModificacion, depa_FechaModificacion)
+				VALUES (@depa_Nombre, @depa_Codigo, @depa_UsuCreacion, NULL, NULL);
 
-            SELECT depa_Id, depa_Nombre FROM gral.tbDepartamentos WHERE depa_Nombre = @depa_Nombre AND depa_Id = @depa_Id 
-        END
-        ELSE 
-        BEGIN
-            INSERT INTO [gral].[tbDepartamentos] (depa_Nombre, depa_Id, depa_UsuCreacion, depa_UsuModificacion, depa_FechaModificacion)
-            VALUES (@depa_Nombre, @depa_Id, 1, NULL, NULL);
+				SELECT 1 
+			END
+		ELSE 
+			BEGIN
+				UPDATE gral.tbDepartamentos
+				SET depa_Nombre = @depa_Nombre, 
+					depa_Codigo = @depa_Codigo,				
+					depa_UsuCreacion = @depa_UsuCreacion, 
+					depa_FechaCreacion = GETDATE(), 
+					depa_UsuModificacion = NULL, 
+					depa_FechaModificacion = NULL, 
+					depa_Estado = 1
+				WHERE depa_Nombre = @depa_Nombre
 
-            SELECT 1 
-        END
-    END TRY
-    BEGIN CATCH
-        SELECT 0 
-    END CATCH
+				SELECT 1 
+			END
+	END TRY
+	BEGIN CATCH
+		SELECT 0 
+	END CATCH
 END
+
 
 --**************  UPDATE ******************--
 GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbDepartamentos_Update
 (@depa_Id INT,
- @depa_Nombre NVARCHAR(100))
+ @depa_Nombre NVARCHAR(100),
+ @depa_Codigo CHAR(2),
+ @depa_UsuModificacion INT)
 AS
 BEGIN
 	BEGIN TRY
-		IF EXISTS (SELECT depa_Nombre FROM gral.tbDepartamentos WHERE depa_Nombre = @depa_Nombre AND depa_Id != @depa_Id)
+		IF EXISTS (SELECT * FROM gral.tbDepartamentos WHERE ((depa_Nombre = @depa_Nombre OR depa_Codigo = @depa_Codigo) AND depa_Id != @depa_Id))
 			BEGIN
-				SELECT -2 AS codeStatus
+				SELECT -2 
 			END
 		ELSE
 			BEGIN
 				UPDATE gral.tbDepartamentos
 				SET   depa_Nombre = @depa_Nombre,  
-					  depa_UsuModificacion = 1, 
+					  depa_Codigo = @depa_Codigo,
+					  depa_UsuModificacion = @depa_UsuModificacion, 
 					  depa_FechaModificacion = GETDATE()
 				WHERE depa_Id = @depa_Id		
 
-				SELECT 1 AS codeStatus
+				SELECT 1 
 			END 
 	END TRY
 	BEGIN CATCH
-		SELECT 0 AS codeStatus
+		SELECT 0 
 	END CATCH
 END
 
@@ -246,16 +252,27 @@ CREATE OR ALTER PROCEDURE  gral.UDP_tbDepartamentos_Delete
 AS
 BEGIN
 	BEGIN TRY
+		
+		IF EXISTS (SELECT * FROM gral.tbDepartamentos WHERE depa_Id = @depa_Id)
+		BEGIN
+			SELECT - 3
+		END
+		ELSE 
+			BEGIN
 				UPDATE	gral.tbDepartamentos
 				SET		[depa_Estado] = 0
 	
-				WHERE	depa_Id = @depa_Id		
+				WHERE	depa_Id = @depa_Id
+		
 			SELECT 1 
+		END
+	
 	END TRY
 	BEGIN CATCH
 		SELECT 0 
 	END CATCH
 END
+
 --**************  INDEX ******************--
 GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbDepartamentos_Index
@@ -286,8 +303,9 @@ CREATE OR ALTER VIEW gral.VW_tbMunicipios
 AS
 SELECT	muni_Id, 
 		muni_Nombre, 
+		muni_Codigo, 
 		T1.depa_Id, 
-		T2.depa_Nombre,
+		T2.depa_Nombre
 		muni_UsuCreacion, 
 		muni_Habilitado,
 		CASE
@@ -307,27 +325,23 @@ ON T1.muni_UsuCreacion = t3.user_Id LEFT JOIN acce.tbUsuarios AS T4
 ON T1.muni_UsuModificacion = t4.user_Id
 
 --**************  CREATE ******************--
-GO 
+GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbMunicipios_Insert
 (@muni_Nombre NVARCHAR(100),
- @muni_Id char(4),
- @depa_Id char(2),
+ @muni_Codigo char(4),
+ @depa_Id INT,
  @muni_UsuCreacion INT)
 AS
 BEGIN
 	BEGIN TRY
-		IF EXISTS (SELECT * FROM gral.tbMunicipios WHERE muni_Id = @muni_Id AND muni_Estado = 1)
+		IF EXISTS (SELECT * FROM gral.tbMunicipios WHERE muni_Codigo = @muni_Codigo AND muni_Estado = 1)
 			BEGIN
 				SELECT -2 
 			END
-			ELSE IF EXISTS (SELECT * FROM gral.tbMunicipios WHERE muni_Nombre = @muni_Nombre AND depa_Id = @depa_Id)
+		ELSE IF NOT EXISTS (SELECT * FROM gral.tbMunicipios WHERE muni_Codigo = @muni_Codigo)
 			BEGIN
-				SELECT -2
-			END
-		ELSE IF NOT EXISTS (SELECT * FROM gral.tbMunicipios WHERE muni_Id = @muni_Id)
-			BEGIN
-				INSERT INTO [gral].[tbMunicipios] (muni_Nombre, muni_Id, depa_Id, muni_UsuCreacion, muni_UsuModificacion, muni_FechaModificacion)
-				VALUES (@muni_Nombre, @muni_Id,@depa_Id, @muni_UsuCreacion, NULL, NULL);
+				INSERT INTO [gral].[tbMunicipios] (muni_Nombre, muni_Codigo, depa_Id, muni_UsuCreacion, muni_UsuModificacion, muni_FechaModificacion)
+				VALUES (@muni_Nombre, @muni_Codigo, @depa_Id, @muni_UsuCreacion, NULL, NULL);
 
 				SELECT 1 
 			END
@@ -341,7 +355,7 @@ BEGIN
 					muni_UsuModificacion = NULL, 
 					muni_FechaModificacion = NULL, 
 					muni_Estado = 1
-				WHERE muni_Id = @muni_Id
+				WHERE muni_Codigo = @muni_Codigo
 				
 
 				SELECT 1 
@@ -416,8 +430,8 @@ GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbMunicipios_Index
 AS
 BEGIN
-	SELECT * FROM gral.VW_tbMunicipios 
-	WHERE muni_Estado = 1 order by muni_Id ;
+	SELECT * FROM gral.VW_tbMunicipios
+	WHERE muni_Estado = 1;
 END
 
 --**************  FIND  ******************--
@@ -462,9 +476,10 @@ ON T1.eciv_UsuModificacion = T3.[user_Id]
 
 --**************  CREATE ******************--
 GO
-CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_Insert 
-(@eciv_Descripcion NVARCHAR(100),
- @eciv_UsuCreacion INT)
+CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_Insert
+(
+  @eciv_Descripcion NVARCHAR(100)
+)
 AS
 BEGIN
   BEGIN TRY 
@@ -476,7 +491,7 @@ BEGIN
     BEGIN
       UPDATE [gral].[tbEstadosCiviles] 
       SET eciv_Estado = 1,
-          eciv_UsuCreacion = @eciv_UsuCreacion,
+          eciv_UsuCreacion = 1,
           eciv_FechaCreacion = GETDATE(),
           eciv_UsuModificacion = NULL,
           eciv_FechaModificacion = NULL
@@ -497,7 +512,7 @@ BEGIN
       VALUES 
       (
         @eciv_Descripcion, 
-        @eciv_UsuCreacion,
+        1,
         GETDATE(),
         NULL, 
         NULL
@@ -520,7 +535,7 @@ CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_Update
 AS
 BEGIN
 	BEGIN TRY
-	    IF EXISTS (SELECT * FROM gral.tbEstadosCiviles WHERE (eciv_Descripcion = @eciv_Descripcion AND eciv_Id = @eciv_Id))
+	    IF EXISTS (SELECT * FROM gral.tbEstadosCiviles WHERE (eciv_Descripcion = @eciv_Descripcion AND eciv_Id != @eciv_Id))
 			BEGIN
 				SELECT -2 
 			END
@@ -558,6 +573,31 @@ BEGIN
 
 		SELECT 1 
 		end
+	END TRY
+	BEGIN CATCH
+		SELECT 0 
+	END CATCH
+END
+GO
+
+CREATE OR ALTER PROCEDURE  gral.UDP_tbEstadosCiviles_Delete
+(@eciv_Id INT)
+AS
+BEGIN
+	BEGIN TRY
+		
+		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('gral.tbEstadosCiviles') AND EXISTS ( SELECT 1 FROM gral.tbEstadosCiviles WHERE eciv_Id = @eciv_Id))
+		BEGIN
+			SELECT - 3
+		END
+		ELSE 
+			BEGIN
+				UPDATE	gral.tbEstadosCiviles
+				SET		eciv_Estado = 0
+				WHERE	eciv_Id = @eciv_Id
+
+				SELECT 1 
+			END
 	END TRY
 	BEGIN CATCH
 		SELECT 0 
@@ -1352,7 +1392,21 @@ GO
 CREATE OR ALTER PROCEDURE equi.UDP_tbVehiculos_Index
 AS
 BEGIN
-	SELECT	*
+	SELECT	vehi_Id, 
+			mode_Id, 
+			mode_Nombre, 
+			tipv_Id, 
+			tipv_Descripcion,
+			marc_Id, 
+			marc_Nombre, 
+			vehi_Placa, 
+			vehi_UsuCreacion, 
+			vehi_FechaCreacion, 
+			vehi_UsuModificacion, 
+			vehi_FechaModificacion, 
+			vehi_Estado, 
+			user_Creacion, 
+			user_Modificacion
 	FROM	equi.VW_tbVehiculos
 	WHERE	vehi_Estado = 1;
 END
@@ -1403,8 +1457,10 @@ SELECT	clie_Id,
 		T1.eciv_Id, 
 		T6.eciv_Descripcion,
 		T1.muni_Id, 
+		T4.muni_Codigo,
 		T4.muni_Nombre,
 		T5.depa_Id,
+		T5.depa_Codigo,
 		T5.depa_Nombre,
 		clie_DireccionExacta, 
 		clie_Telefono,
@@ -1578,9 +1634,11 @@ SELECT T1.[empe_Id]
       ,[empe_Sexo]
       ,T1.[eciv_Id]
 	  ,T4.eciv_Descripcion
-	  ,T5.muni_Id
+      ,T1.[muni_Id]
+	  ,T5.muni_Codigo
 	  ,T5.muni_Nombre
 	  ,T6.depa_Id
+	  ,T6.depa_Codigo
 	  ,T6.depa_Nombre
       ,[empe_DireccionExacta]
       ,[empe_Telefono]
@@ -1804,9 +1862,10 @@ AS
 SELECT	estr_Id, 
 		T1.flet_Id,
 		muni_Escala, 
-		T5.muni_Id,
+		T5.muni_Codigo,
 		T5.muni_Nombre,
 		T6.depa_Id,
+		T6.depa_Codigo,
 		T6.depa_Nombre,
 		estr_UsuCreacion, 
 		estr_FechaCreacion, 
@@ -2013,7 +2072,7 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbFleteDetalles_FindxFlete
 (
 @flet_Id	INT
 )
-AS	
+AS 
 BEGIN
 	SELECT * FROM flet.VW_tbFleteDetalles
 	WHERE flet_Id = @flet_Id
@@ -2108,7 +2167,6 @@ SELECT	flet_Id,
 		T12.mode_Nombre,
 		(SELECT ISNULL(COUNT(*),0) FROM flet.VW_tbFleteDetalles as pt WHERE pt.flet_Id = T1.flet_Id) AS flet_PedidosTotales,
 		(SELECT ISNULL(COUNT(*),0) FROM flet.VW_tbFleteDetalles as pc WHERE pc.flet_Id = T1.flet_Id AND pc.estp_Id = 4 ) AS flet_PedidosCompletados,
-		(SELECT TOP(1) pc.muni_Nombre FROM flet.VW_tbUbicacionPorFlete as pc WHERE pc.flet_Id = T1.flet_Id ORDER BY pc.ubif_FechaCreacion desc ) AS flet_Ubicado,
 		T12.marc_Id,
 		T13.marc_Nombre,
 		T1.empe_Id, 
@@ -2131,9 +2189,9 @@ SELECT	flet_Id,
 		T7.muni_Inicio,
 		T7.muni_Final,
 		T8.muni_Nombre AS muni_NombreInicio,
-		T8.muni_Id AS muni_IdInicio,
+		T8.muni_Codigo AS muni_CodigoInicio,
 		T9.muni_Nombre AS muni_NombreFinal,
-		T9.muni_Id AS muni_IdFinal,
+		T9.muni_Codigo AS muni_CodigoFinal,
 		flet_FechaDeSalida, 
 		flet_UsuCreacion, 
 		flet_FechaCreacion, 
@@ -2166,33 +2224,6 @@ BEGIN
 	WHERE flet_Estado = 1
 END
 
---************** INDEX PENDIENTES *****************--
-GO
-CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexPendientes
-AS 
-BEGIN
-	SELECT * FROM flet.VW_tbFletes
-	WHERE flet_Estado = 1 AND estp_Id = 1
-END
-
---************** INDEX TERMINADOS *****************--
-GO
-CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexTerminados
-AS 
-BEGIN
-	SELECT * FROM flet.VW_tbFletes
-	WHERE flet_Estado = 1  AND estp_Id = 4
-END
-
---************** INDEX EN PROCESO *****************--
-GO
-CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexEnProceso
-AS 
-BEGIN
-	SELECT * FROM flet.VW_tbFletes
-	WHERE flet_Estado = 1  AND estp_Id NOT IN (1,4)
-END
-
 --************** INDEX POR EMPLEADO *****************--
 GO
 CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexPorEmpleado
@@ -2203,45 +2234,6 @@ AS
 BEGIN
 	SELECT * FROM flet.VW_tbFletes
 	WHERE flet_Estado = 1 AND @empe_Id = empe_Id
-END
-
-
---************** INDEX POR EMPLEADO *****************--
-GO
-CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexPorEmpleadoPedientes
-(
-	@empe_Id INT
-)
-AS 
-BEGIN
-	SELECT * FROM flet.VW_tbFletes
-	WHERE flet_Estado = 1 AND @empe_Id = empe_Id AND estp_Id = 1
-END
-
-
---************** INDEX POR EMPLEADO *****************--
-GO
-CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexPorEmpleadoEnProceso
-(
-	@empe_Id INT
-)
-AS 
-BEGIN
-	SELECT * FROM flet.VW_tbFletes
-	WHERE flet_Estado = 1 AND @empe_Id = empe_Id  AND estp_Id NOT IN (1,4)
-END
-
-
---************** INDEX POR EMPLEADO *****************--
-GO
-CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexPorEmpleadoTerminados
-(
-	@empe_Id INT
-)
-AS 
-BEGIN
-	SELECT * FROM flet.VW_tbFletes
-	WHERE flet_Estado = 1 AND @empe_Id = empe_Id AND estp_Id = 4
 END
 
 
@@ -2265,7 +2257,7 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_Insert
 @vehi_Id			INT, 
 @empe_Id			INT, 
 @tray_Id			INT, 
-@flet_FechaDeSalida NVARCHAR(100), 
+@flet_FechaDeSalida DATE, 
 @flet_UsuCreacion	INT
 )
 AS
@@ -2285,51 +2277,25 @@ BEGIN
 			SET vehi_EnUso = 1
 			WHERE @vehi_Id = vehi_Id
 
-			SELECT SCOPE_IDENTITY()
 			COMMIT
+			SELECT 1 
 		END
 	END TRY
 	BEGIN CATCH
-		SELECT 0 
 		ROLLBACK
+		SELECT 0 
 	END CATCH
 END
-
---************** Sera usado? *****************--
-GO
-CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_VehiculoAsignado
-(
-@vehi_Id			INT, 
-@flet_FechaDeSalida NVARCHAR(100)
-)
-AS
-BEGIN
-	BEGIN TRY
-        
-		IF EXISTS (SELECT * FROM flet.tbFletes WHERE vehi_Id = @vehi_Id AND flet_FechaDeSalida >= @flet_FechaDeSalida)
-		BEGIN
-		 select 0
-		END
-		ELSE
-		BEGIN
-			SELECT 1
-		END
-	END TRY
-	BEGIN CATCH
-		SELECT 0 
-		ROLLBACK
-	END CATCH
-END
-
-
-
 
 --************** UPDATE *****************--
 Go
 CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_Update
 (
 @flet_Id				INT,
-@flet_FechaDeSalida		NVARCHAR(100), 
+@vehi_Id				INT, 
+@empe_Id				INT, 
+@tray_Id				INT, 
+@flet_FechaDeSalida		DATE, 
 @flet_UsuModificacion	INT
  )
 AS
@@ -2337,7 +2303,10 @@ BEGIN
 	BEGIN TRY
       
 		UPDATE	flet.tbFletes
-		SET		flet_FechaDeSalida = @flet_FechaDeSalida,
+		SET		vehi_Id = @vehi_Id,
+				empe_Id	= @empe_Id,
+				tray_Id	= @tray_Id,
+				flet_FechaDeSalida = @flet_FechaDeSalida,
 				flet_UsuModificacion = @flet_UsuModificacion,
 				flet_FechaModificacion = GETDATE()
 		WHERE	flet_Id = @flet_Id
@@ -2401,9 +2370,7 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_PedidosPorFlete
 )
 AS 
 BEGIN
-	SELECT	 * 
-			,(SELECT pedi_Id, item_Nombre, item_Descripcion, item_Peso, item_Volumen FROM flet.VW_tbPedidoDetalles Td WHERE Td.pedi_Id = T1.pedi_Id FOR JSON AUTO) AS Items
-	FROM flet.VW_tbPedidos T1
+	SELECT * FROM flet.VW_tbPedidos
 	WHERE pedi_Estado = 1 AND pedi_Id IN (SELECT pedi_Id FROM flet.tbFleteDetalles WHERE flet_Id = @flet_Id)
 END
 
@@ -2486,28 +2453,39 @@ END
 
 --************** INSERT *****************--
 GO
-
 CREATE OR ALTER PROCEDURE flet.UDP_tbItems_Insert 
 (
-   @item_Nombre		   NVARCHAR(100), 
-   @item_Descripcion	NVARCHAR(100),
-   @item_Peso			DECIMAL(18,2), 
-   @item_Volumen		DECIMAL(18,2)
+@item_Nombre		NVARCHAR(100), 
+@item_Descripcion	NVARCHAR(100),
+@item_Peso			DECIMAL(18,2), 
+@item_Volumen		DECIMAL(18,2), 
+@item_UsuCreacion	INT
 )
 AS
 BEGIN
-    BEGIN TRY
-        IF EXISTS (SELECT item_Nombre FROM flet.tbItems WHERE item_Nombre = @item_Nombre AND item_Estado = 1)
-        BEGIN
-            SELECT -2 
-        END
-        ELSE IF EXISTS ( SELECT item_Nombre FROM flet.tbItems WHERE item_Nombre = @item_Nombre)
-        BEGIN
-            UPDATE [flet].[tbItems]
+	BEGIN TRY
+        
+		IF EXISTS (SELECT * FROM flet.tbItems WHERE item_Nombre = @item_Nombre AND item_Estado = 1)
+		BEGIN
+			SELECT -2
+		END
+		ELSE IF NOT EXISTS( SELECT * FROM flet.tbItems WHERE item_Nombre = @item_Nombre)
+		BEGIN
+
+		INSERT INTO flet.tbItems (item_Nombre, item_Descripcion, item_Peso, item_Volumen, item_UsuCreacion)
+		VALUES	(@item_Nombre, @item_Descripcion, @item_Peso, @item_Volumen, @item_UsuCreacion)
+
+		SELECT 1 
+
+		END
+		ELSE
+		BEGIN
+
+			UPDATE [flet].[tbItems]
 			   SET [item_Descripcion] = @item_Descripcion
 				  ,[item_Peso] = @item_Peso
 				  ,[item_Volumen] = @item_Volumen
-				  ,[item_UsuCreacion] = 1
+				  ,[item_UsuCreacion] = @item_UsuCreacion
 				  ,[item_FechaCreacion] = GETDATE()
 				  ,[item_UsuModificacion] = NULL
 				  ,[item_FechaModificacion] = NULL
@@ -2515,20 +2493,14 @@ BEGIN
 				  ,[item_Estado] = 1
 			 WHERE [item_Nombre] = @item_Nombre
 
-            SELECT item_Nombre FROM flet.tbItems WHERE item_Nombre = @item_Nombre 
-        END
-        ELSE 
-        BEGIN
-            INSERT INTO flet.tbItems (item_Nombre, item_Descripcion, item_Peso, item_Volumen, item_UsuCreacion)
-		    VALUES	(@item_Nombre, @item_Descripcion, @item_Peso, @item_Volumen, 1)
-
-		SELECT 1 
-        END
-    END TRY
-    BEGIN CATCH
-        SELECT 0 
-    END CATCH
+			SELECT 1
+		END
+	END TRY
+	BEGIN CATCH
+		SELECT 0 
+	END CATCH
 END
+
 --************** UPDATE *****************--
 Go
 CREATE OR ALTER PROCEDURE flet.UDP_tbItems_Update
@@ -2537,16 +2509,16 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbItems_Update
 @item_Nombre			NVARCHAR(100), 
 @item_Descripcion		NVARCHAR(100),
 @item_Peso				DECIMAL(18,2), 
-@item_Volumen			DECIMAL(18,2) 
---@item_UsuModificacion	INT 
+@item_Volumen			DECIMAL(18,2), 
+@item_UsuModificacion	INT 
  )
 AS
 BEGIN
 	BEGIN TRY
       
-	  IF EXISTS (SELECT item_Nombre FROM flet.tbItems WHERE @item_Nombre = item_Nombre AND item_Id != @item_Id)
+	  IF EXISTS (SELECT * FROM flet.tbItems WHERE @item_Nombre = item_Nombre AND item_Id != @item_Id)
 	  BEGIN
-		SELECT -2 AS codeStatus
+		SELECT -2
 	  END
 	  ELSE
 	  BEGIN
@@ -2555,15 +2527,15 @@ BEGIN
 				item_Descripcion = @item_Descripcion,
 				item_Peso = @item_Peso,
 				item_Volumen = @item_Volumen,
-				item_UsuModificacion = 1,
+				item_UsuModificacion = @item_UsuModificacion,
 				item_FechaModificacion  = GETDATE()
 		WHERE	item_Id = @item_Id
 
-		SELECT 1 AS codeStatus
+		SELECT 1 
 	  END
 	END TRY
 	BEGIN CATCH
-		SELECT 0 AS codeStatus
+		SELECT 0  
 	END CATCH
 END
 
@@ -2596,6 +2568,8 @@ BEGIN
 		SELECT 0 
 	END CATCH
 END
+
+
 -----------------------------------------------------------------------------------------------------------------------------
 --******************PEDIDO DETALLES*******************--
 
@@ -2733,9 +2707,7 @@ SELECT	T1.pedi_Id,
 		clie_Identidad, 
 		clie_FechaNacimiento, 
 		clie_Sexo, 
-		eciv_Id,
-		(select SUM(item_Peso) FROM flet.VW_tbPedidoDetalles ga WHERE ga.pedi_Id = T1.pedi_Id) AS pedi_Peso,
-		(select SUM(item_Volumen) FROM flet.VW_tbPedidoDetalles ga WHERE ga.pedi_Id = T1.pedi_Id) AS pedi_Volumen,
+		eciv_Id,  
 		clie_DireccionExacta, 
 		clie_Telefono, 
 		muni_Origen, 
@@ -2774,20 +2746,6 @@ AS
 BEGIN
 	SELECT * FROM flet.VW_tbPedidos
 	WHERE pedi_Estado = 1
-END
-
-
-GO
---************** PEDIDOS POR MUNICIPIO *****************--
-CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_PedidosPorMunicipio
-(
-	@muni_Id INT
-)
-AS 
-BEGIN
-	SELECT * FROM flet.VW_tbPedidos
-	WHERE muni_Origen = @muni_Id AND estp_Id = 1 AND pedi_Estado = 1
-	ORDER BY pedi_FechaCreacion ASC
 END
 
 
@@ -3073,6 +3031,7 @@ SELECT T1.[role_Id]
   FROM [acce].[tbRoles] T1 INNER JOIN acce.tbUsuarios T2
   ON T1.role_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
   ON T1.role_UsuModificacion = T3.[user_Id]
+
 
 --************** INDEX *****************--
 GO
@@ -3382,61 +3341,15 @@ END
 
 
 GO
-
 CREATE OR ALTER PROCEDURE acce.UDP_tbPantallas_Index
 AS
 BEGIN
-	SELECT pant_Id, 
-	pant_Nombre, 
-	pant_Url, 
-	pant_Menu, 
-	pant_Icono, 
-	pant_UsuCreacion, 
-	pant_FechaCreacion, 
-	pant_UsuModificacion, 
-	pant_FechaModificacion, 
-	pant_Estado FROM acce.tbPantallas
+	SELECT * FROM acce.tbPantallas
 	WHERE pant_Estado = 1
 END
-GO
 
 -- ************* TABLA ROLES/PANTALLA *****************--
-
---************** VIEW *****************--
-CREATE OR ALTER VIEW acce.VW_tbPantallasPorRoles
-AS
-SELECT 
-prr.pant_Id, 
-
-pant_Nombre, 
-pant_Url, 
-pant_Menu, 
-pant_Icono, 
-pant_Estado,
-
-prr.role_Id, 
-role_Nombre, 
-role_UsuCreacion, 
-role_FechaCreacion, 
-role_UsuModificacion, 
-role_FechaModificacion, 
-role_Habilitado, 
-role_Estado
-
-from acce.tbPantallasPorRoles prr inner join acce.tbPantallas pnt 
-on prr.pant_Id = pnt.pant_Id inner join acce.tbRoles rol 
-on rol.role_Id = prr.role_Id
 GO
-
---************** Index *****************--
-CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Index
-AS
-BEGIN
-SELECT * FROM acce.VW_tbPantallasPorRoles
-END
-
-GO
-
 CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Insert 
 	@role_Id int,
 	@pant_Id int,
@@ -3444,9 +3357,9 @@ CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Insert
 AS
 BEGIN
     BEGIN TRY
-		
         IF EXISTS (SELECT * FROM acce.tbPantallasPorRoles WHERE role_Id = @role_Id AND pant_Id = @pant_Id AND prol_Estado = 1)
         BEGIN
+
             SELECT -2 
 
         END
@@ -3494,7 +3407,7 @@ GO
 --*********************DELETE*********************--
 
 GO
-CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Delete 
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Delete
 (@role_Id INT)
 AS
 BEGIN
@@ -3509,22 +3422,12 @@ BEGIN
 	END CATCH
 END
 
-select * from acce.tbPantallasPorRoles where role_Id = 6
---************** FIND *****************--
-GO
-CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Find  
-(
-@role_Id	INT
-)
-AS 
-BEGIN
-	SELECT * FROM acce.VW_tbPantallasPorRoles
-	WHERE role_Id = @role_Id
-END
 
 
 
+-----------------------------------------------------------------------------------------------------------------------------
 --*********************SUCURSALES*********************--
+
 --************** VIEW *****************--
 GO
 CREATE OR ALTER VIEW flet.VW_tbSucursales
@@ -3698,7 +3601,6 @@ AS
 SELECT	tray_Id,
 		'Trayecto de ' + T4.muni_Nombre + ' a ' + T6.muni_Nombre AS tray_Descripcion,
 		muni_Inicio, 
-		tray_Precio,
 		T4.muni_Nombre AS muni_InicioNombre,
 		T5.depa_Id AS depa_Inicio,
 		T5.depa_Nombre AS depa_InicioNombre,
@@ -3731,20 +3633,6 @@ BEGIN
 	WHERE tray_Estado = 1
 END
 
---************** EXISTE *****************--
-GO
-CREATE OR ALTER PROCEDURE flet.UDP_tbTrayectos_Existe
-(
-	@muni_Inicio CHAR(4),
-	@muni_Final CHAR(4)
-)
-AS 
-BEGIN
-	IF EXISTS (SELECT tray_Id FROM flet.VW_tbTrayectos WHERE muni_Inicio = @muni_Inicio AND muni_Final = @muni_Final )
-	SELECT tray_Id FROM flet.VW_tbTrayectos WHERE muni_Inicio = @muni_Inicio AND muni_Final = @muni_Final
-	ELSE
-	SELECT 0 as tray_Id
-END
 
 --************** FIND *****************--
 GO
@@ -3763,24 +3651,23 @@ END
 GO
 CREATE OR ALTER PROCEDURE flet.UDP_tbTrayectos_Insert
 (
-@muni_Inicio		CHAR(4),
-@muni_Final			CHAR(4), 
-@tray_Precio		DECIMAL(18,2),
+@muni_Inicio		INT,
+@muni_Final			INT, 
 @tray_UsuCreacion	INT
 )
 AS
 BEGIN
 	BEGIN TRY
-        IF	EXISTS (SELECT * FROM flet.tbTrayectos WHERE muni_Inicio = @muni_Inicio AND muni_Final = @muni_Final)
+        IF	@muni_Inicio IN (SELECT muni_Inicio FROM flet.tbTrayectos) AND @muni_Final IN (SELECT muni_Final FROM flet.tbTrayectos)
 			BEGIN
 			SELECT - 2 codeStatus
 			END
 		ELSE
 			BEGIN
-			INSERT INTO flet.tbTrayectos (muni_Inicio, muni_Final, tray_UsuCreacion, tray_Precio)
-			VALUES	(@muni_Inicio, @muni_Final, @tray_UsuCreacion, @tray_Precio)
+			INSERT INTO flet.tbTrayectos (muni_Inicio, muni_Final, tray_UsuCreacion)
+			VALUES	(@muni_Inicio, @muni_Final, @tray_UsuCreacion)
 
-			SELECT SCOPE_IDENTITY()
+			SELECT 1 codeStatus
 			END
 	END TRY
 	BEGIN CATCH
@@ -3975,35 +3862,24 @@ END
 
 GO
 CREATE OR ALTER PROCEDURE acce.UDP_Login
-	@user_NombreUsuario NVARCHAR(100),
-	@user_Contrasena NVARCHAR(MAX)
+	@user_NombreUsuario Nvarchar(100),
+	@user_Contrasena Nvarchar(Max)
 AS
 BEGIN
-    DECLARE @Password NVARCHAR(MAX) = (HASHBYTES('SHA2_512', @user_Contrasena))
 
-    SELECT [user_Id], [user_NombreUsuario], [user_Contrasena], [user_EsAdmin], empe.empe_Id,
-           CONCAT(empe.[empe_Nombres], empe.[empe_Apellidos]) AS empe_NombreCompleto, [role_Id]
-    FROM acce.tbUsuarios usua
-    INNER JOIN [flet].[tbEmpleados] empe ON usua.empe_Id = empe.empe_Id
-    WHERE user_Contrasena = @Password
-        AND user_NombreUsuario = @user_NombreUsuario
-        AND [user_Estado] = 1
+        BEGIN TRY
+        Declare @Password Nvarchar(max) = (HASHBYTES('SHA2_512',@user_Contrasena))
+        SELECT *
+		FROM acce.VW_tbUsuarios
+		WHERE   user_Contrasena = @Password 
+        AND     user_NombreUsuario = @user_NombreUsuario
+
+        END TRY
+        BEGIN CATCH
+
+        SELECT 0 as Proceso
+        END CATCH
+
 END
 GO
 
-CREATE OR ALTER PROCEDURE acce.tbRolesPorPantallaMenu
-	@role_Id	INT,
-	@esAdmin	BIT
-AS
-BEGIN
-	IF @esAdmin = 1
-		BEGIN
-			SELECT DISTINCT pant_Id, pant_Nombre, pant_Url, pant_Menu, [pant_Icono], @role_Id AS role_Id, @esAdmin AS esAdmin
-			FROM [acce].[tbPantallas] 
-		END
-	ELSE
-		SELECT DISTINCT T1.pant_Id, pant_Nombre, pant_Url, pant_Menu,[pant_Icono], @role_Id AS role_Id, @esAdmin AS esAdmin
-		FROM [acce].[tbPantallas] T1
-		INNER JOIN [acce].[tbPantallasPorRoles] T2 ON T1.pant_Id = T2.pant_Id
-		WHERE T2.role_Id = @role_Id
-END

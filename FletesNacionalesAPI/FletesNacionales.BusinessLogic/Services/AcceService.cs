@@ -221,7 +221,22 @@ namespace FletesNacionales.BusinessLogic.Services
             {
                 return null;
             }
+
+
         }
+
+        public IEnumerable<VW_tbPantallasPorRoles> menu(int id, bool esadmin)
+        {
+            try
+            {
+                return _rolesRepository.Menu(id, esadmin);
+            }
+            catch (Exception e)
+            {
+                return Enumerable.Empty<VW_tbPantallasPorRoles>();
+            }
+        }
+        
         #endregion
 
         #region Usuarios
@@ -333,16 +348,19 @@ namespace FletesNacionales.BusinessLogic.Services
             }
         }
         
-        public VW_tbUsuarios LoginUsuario(tbUsuarios item)
+        public ServiceResult LoginUsuario(tbUsuarios item)
         {
+
+            var resultado = new ServiceResult();
+
             try
             {
-                var list = _usuariosRepository.Login(item);
-                return list;
+                var usuario = _usuariosRepository.Login(item);
+                return resultado.Ok(usuario);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return null;
+                return resultado.Error(ex.Message);
             }
         }
 

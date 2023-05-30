@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
 import { ArchwizardModule } from 'angular-archwizard';
 import { SharedModule } from '../../shared/shared.module';
 
+
 import { ItemListComponent } from './item/items-list/items-list.component';
 import { ClienteListComponent } from './clientes/clientes-list/clientes-list.component';
 import { FleteListPropioComponent } from './fletes/fletes-list-propio/fletes-list-propio.component';
@@ -30,6 +31,10 @@ import { AgGridModule } from 'ag-grid-angular';
 import { ClientesCreateComponent } from './clientes/clientes-create/clientes-create.component';
 
 
+
+import { ReporteComponent } from './reporte/reporte/reporte.component';
+
+
 @NgModule({
   declarations: [
     FleteListComponent,
@@ -46,6 +51,7 @@ import { ClientesCreateComponent } from './clientes/clientes-create/clientes-cre
     TrayectosIndexComponent,
     PedidosIndexComponent,
     ClientesCreateComponent,
+    ReporteComponent,
   ],
   imports: [
     CommonModule,

@@ -1,4 +1,4 @@
-export class Items{
+export class ItemsEdit{
 
 	item_Id !: number; 
 	item_Nombre !: String;

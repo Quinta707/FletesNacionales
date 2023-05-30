@@ -29,4 +29,5 @@ export class Empleados{
   user_Modificacion!: String;
   empe_FechaModificacion!: String;
   empe_Estado!: number;
+  name: string;
 }
