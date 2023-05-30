@@ -6,8 +6,6 @@ import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSor
 import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 
-import { IDropdownSettings } from 'ng-multiselect-dropdown';
-
 
 
 @Component({
@@ -57,6 +55,11 @@ export class RolesporPantallaListComponent implements OnInit {
     })
   }
  
+  ngOnInit(): void {
+      
+    this.index()
+  }
+  
   open(content: any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -88,167 +91,17 @@ export class RolesporPantallaListComponent implements OnInit {
       })
     })
   }
-
-  //-------------------------------------------------------ACTUALIZAR-------------------------------------------------------//
- 
-  
-  updateRol: RolesporPantalla = new RolesporPantalla();
-  
-  updatePantallaPorRol: RolesporPantalla = new RolesporPantalla();
-
-    Actualizar(id: any, mod: any) {
-    this.updateRol.role_Id = id
-    this.service.findRolesporPantalla(id)
-    .subscribe(data => {
-      
-      this.selectedItems = data
-      console.log(this.selectedItems)
-
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'pant_Id',
-      textField: 'pant_Nombre',
-      selectAllText: 'Seleccionar todo',
-      searchPlaceholderText: 'Buscar pantalla' ,
-      unSelectAllText: 'Deseleccionar',
-      itemsShowLimit: 3,
-      allowSearchFilter: true
-    };
-    
-      
-      this.service.findRol(id)
-      .subscribe(datos => {
-        this.updateRol = datos
-      })
-    })
-    this.open(mod)
+  Actualizar(id: any)
+  {
+    console.log(id)
+    localStorage.setItem("role_Id", id)
+    this.router.navigate(["/acce/Roles/Update"])
+  }
+  Insertar()
+  {
+    this.router.navigate(["/acce/Roles/Create"])
   }
 
-  actua: RolesporPantalla = new RolesporPantalla();
-  eliminar: RolesporPantalla = new RolesporPantalla();
-
-hola()
-{
-  console.log("hola")
-  if(this.updateRol.role_Nombre == "")
-    {
-      this.validate = true;
-      console.log('inserte un nombre')
-    }
-    if(this.selectedItems.length == 0)
-    {
-      console.log('selecciona pantallas')
-    }
-    else
-    {
-
-    }
-}
-  Update()
-  {   
-    console.log("HOLAAAAAAAAAAAAAAAAAAA")
-    if(this.updateRol.role_Nombre == "")
-    {
-      this.validate = true;
-      console.log('inserte un nombre')
-    }
-    if(this.selectedItems.length == 0)
-    {
-      console.log('selecciona pantallas')
-    }
-    if(this.updateRol.role_Nombre != "" && this.selectedItems.length != 0)
-    {  
-      this.eliminar.role_Id = this.updateRol.role_Id
-      this.service.deleteRolesporPantalla(this.eliminar).subscribe(data =>{
-      })    
-
-      console.log(this.updateRol.role_Nombre + ' aqui iria el orl')
-      this.service.updateRol(this.updateRol).subscribe((data:any) =>{
-      
-      this.selectedItems.forEach((element: any) => {
-        this.actua.pant_Id = element.pant_Id
-        this.actua.role_Id = this.updateRol.role_Id
-          
-          this.service.createRolesporPantalla(this.actua)
-          .subscribe((data:any)=>{
-          })
-        });
-      })
-    }
-    
-  
- }
- //-------------------------------------------------------FIN ACTUALIZAR-------------------------------------------------------//
-
-  //-------------------------------------------------------INSERTAR-------------------------------------------------------//
-
-  
-  createRol: RolesporPantalla = new RolesporPantalla();
-  createPantallaPorRol: RolesporPantalla = new RolesporPantalla();
-
-
-  
-  dropdownList = [];
-  selectedItems: any[] = [];
-  
-  dropdownSettings : IDropdownSettings;
-  ngOnInit() {
-    this.service.getPantallas()
-    .subscribe((data: any) =>{
-      this.dropdownList = data.data
-    })
-
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'pant_Id',
-      textField: 'pant_Nombre',
-      selectAllText: 'Seleccionar todo',
-      searchPlaceholderText: 'Buscar pantalla' ,
-      unSelectAllText: 'Deseleccionar',
-      itemsShowLimit: 3,
-      allowSearchFilter: true
-    };
-    
-    this.index()
-  }
-
-  onItemSelect(item: any) {
-    console.log(item);
-  }
-  onSelectAll(items: any) {
-    console.log(items);
-  }
-  Index() {
-    this.router.navigate(['/acce/Roles/List'])
-  }
-  enviar: RolesporPantalla = new RolesporPantalla();
-
-  public Create() {
-    this.validate = true;
-    if(this.createRol.role_Nombre == "" || this.createRol.role_Nombre == null)
-    {
-      this.validate = true;
-      console.log('inserte un nombre')
-    }
-    if(this.selectedItems.length == 0)
-    {
-      console.log('ta vacio las pantallas')
-    }
-    if(this.createRol.role_Nombre != "" && this.createRol.role_Nombre != null && this.selectedItems.length != 0)
-    {      
-      this.service.createRol(this.createRol).subscribe((data:any) =>{
-        this.selectedItems.forEach((element: any) => {
-        this.enviar.pant_Id = element.pant_Id
-        this.enviar.role_Id = data.message
-        this.service.createRolesporPantalla(this.enviar).subscribe((data:any)=>{
-          this.index()
-        })
-      });
-      })
-    }
-  }
-  
-  //-------------------------------------------------------FIN INSERTAR-------------------------------------------------------//
 
   public tableItem$: Observable<RolesporPantalla[]>;
   public searchText;
@@ -282,23 +135,8 @@ hola()
     })
   }
   selectedRowIndex: number = -1;
-  showInnerTable: boolean = false;
 
-  toggleTasks(index: any, id: any, action: String, implementar: any): void {
-    console.log(action)
-    if (action === 'Update' || action === 'Delete') {
-      if(action === 'Update')
-      {
-      this.Actualizar(id, implementar)
-      }
-      if(action === 'Delete')
-      {
-        this.Eliminar(id, implementar)
-      }
-      this.showInnerTable = false;
-      return;
-    }
-    this.showInnerTable = true;
+  toggleTasks(index: any, id: any): void {
     if (index === this.selectedRowIndex) {
       this.selectedRowIndex = -1;
       this.innerTableData = [];
@@ -313,6 +151,7 @@ hola()
   dataPantallas(id) {
     this.service.findRolesporPantalla(id)
     .subscribe((data: any)=>{
+      console.log(data)
       this.innerTableData = data
     })
   }

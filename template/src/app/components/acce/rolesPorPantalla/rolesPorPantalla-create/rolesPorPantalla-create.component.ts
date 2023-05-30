@@ -32,24 +32,17 @@ export class RolesporPantallaCreateComponent {
   }
   dropdownList = [];
   selectedItems: any[] = [];
-  dropdownSettings : IDropdownSettings;
   ngOnInit() {
     this.service.getPantallas()
     .subscribe((data: any) =>{
       this.dropdownList = data.data
       console.log(this.dropdownList)
     })
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'pant_Id',
-      textField: 'pant_Nombre',
-      selectAllText: 'Seleccionar todo',
-      searchPlaceholderText: 'Buscar pantalla' ,
-      unSelectAllText: 'Deseleccionar',
-      itemsShowLimit: 3,
-      allowSearchFilter: true
-    };
+    
   }
+  
+  format = { add: 'Añadir', remove: 'remover', all: 'Todo', none: 'Ninguno',
+  direction: 'left-to-right', draggable: true, locale: 'Indefinido' };
 
   onItemSelect(item: any) {
     console.log(item);

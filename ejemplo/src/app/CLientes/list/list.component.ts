@@ -1,32 +1,24 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { Cliente } from 'src/app/Model/Clientes';
-import { ServiceService } from 'src/app/Service/service.service';
-
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class ListComponent {  
-  dtOptions: any = {}; 
-  clientes!: Cliente[];
-  constructor(private service: ServiceService, private router: Router){}
+export class ListComponent {
 
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    this.service.getCliente()
-    .subscribe((data: any) => {
-      this.clientes = data.data
-    });
-  }
+  format = { add: 'Añadir', remove: 'remover', all: 'Todo', none: 'Ninguno',
+  direction: 'left-to-right', draggable: true, locale: 'Indefinido' };
+  confirmed = [];
+  source = [   { item_id: 1, item_text: 'Mumbai' },
+  { item_id: 2, item_text: 'Bangaluru' },
+  { item_id: 3, item_text: 'Pune' },
+  { item_id: 4, item_text: 'Navsari' },
+  { item_id: 5, item_text: 'New Delhi' }
+]
 
-  Editar(cli:Cliente):void {
-    localStorage.setItem('id', cli.carg_Id.toString());
-    alert(localStorage.getItem('id'));
-    this.router.navigate(['edit']);
-  }
+anadir(){
+  console.log(this.confirmed)
+}
 
 }

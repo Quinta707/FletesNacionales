@@ -55,6 +55,7 @@ export class LoginComponent implements OnInit {
       (response: any) => {
         console.log(response);
         if (response.data && response.data.user_NombreUsuario) {
+          localStorage.setItem('user', JSON.stringify(response.data));
           localStorage.setItem('IdUsuario', response.data.user_Id);
           localStorage.setItem('Usuario', response.data.user_NombreUsuario);
           localStorage.setItem('empe_Id', response.data.empe_Id);

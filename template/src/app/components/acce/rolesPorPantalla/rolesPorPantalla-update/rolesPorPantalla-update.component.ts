@@ -34,7 +34,6 @@ export class RolesporPantallaupdateComponent {
   }
   dropdownList = [];
   selectedItems: any[] = [];
-  dropdownSettings : IDropdownSettings;
   ngOnInit() {
     if(localStorage.getItem("role_Id") == 'null')
     {
@@ -54,18 +53,13 @@ export class RolesporPantallaupdateComponent {
       .subscribe((data: any) =>{
         this.dropdownList = data.data
       })
-      this.dropdownSettings = {
-        singleSelection: false,
-        idField: 'pant_Id',
-        textField: 'pant_Nombre',
-        selectAllText: 'Seleccionar todo',
-        searchPlaceholderText: 'Buscar pantalla' ,
-        unSelectAllText: 'Deseleccionar',
-        itemsShowLimit: 3,
-        allowSearchFilter: true
-      };
+      
     }
   }
+
+  
+  format = { add: 'Añadir', remove: 'remover', all: 'Todo', none: 'Ninguno',
+  direction: 'left-to-right', draggable: true, locale: 'Indefinido' };
 
   onItemSelect(item: any) {
   }

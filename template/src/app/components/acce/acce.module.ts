@@ -11,6 +11,7 @@ import { RolesporPantallaListComponent } from './rolesPorPantalla/rolesPorPantal
 import { RolesporPantallaupdateComponent } from './rolesPorPantalla/rolesPorPantalla-update/rolesPorPantalla-update.component';
 
 import { RolesporPantallaCreateComponent } from './rolesPorPantalla/rolesPorPantalla-create/rolesPorPantalla-create.component'
+import { AngularDualListBoxModule } from 'angular-dual-listbox';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { RolesporPantallaCreateComponent } from './rolesPorPantalla/rolesPorPant
     FormsModule,
     NgbModule,
     SharedModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    AngularDualListBoxModule
   ]
 })
 export class AcceModule { }

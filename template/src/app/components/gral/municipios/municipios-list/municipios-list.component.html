@@ -18,7 +18,7 @@
             </div>
            
             <div class="modal-body">
-              <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">    
+               <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">    
               <div class="row">
                 <div class="col-sm-6">
                 <ng-select [(ngModel)]="municipiosCreate.depa_Id" class="form-control" bindValue="value" [items]="departamentosDDL" placeholder="Departamento"></ng-select>
@@ -27,8 +27,8 @@
               <input [(ngModel)]="municipiosCreate.muni_Nombre" class="form-control" id="validationCustom01" type="text" required=""  />
             </div>
             </div>
-              
-            </form>
+            
+          </form>
               <div class="col-sm-6 ">
                 <div class="input-group">
                 <span class="input-group-text text-dark">{{ municipiosCreate.depa_Id ? municipiosCreate.depa_Id : '00' }}</span>  
