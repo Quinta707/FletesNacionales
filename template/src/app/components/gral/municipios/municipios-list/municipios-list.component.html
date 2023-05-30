@@ -20,23 +20,26 @@
             <div class="modal-body">
               <div class="row">
                 <div class="col-sm-6">
-                <ng-select [(ngModel)]="municipiosCreate.depa_Id" bindValue="value" [items]="departamentosDDL" placeholder="Departamento"></ng-select>
+                <ng-select [(ngModel)]="municipiosCreate.depa_Id" class="form-control" bindValue="value" [items]="departamentosDDL" placeholder="Departamento"></ng-select>
               </div>
                 <div class="col-sm-6">
               <input [(ngModel)]="municipiosCreate.muni_Nombre" class="form-control" id="validationCustom01" type="text" required=""  />
             </div>
             </div>
-              <div class="row">
-                <div class="col-sm-6">
-                <input [(ngModel)]="municipiosCreate.muni_Id" class="form-control" id="validationCustom01" type="text" required=""  />
+            
+              <div class="col-sm-6 ">
+                <div class="input-group">
+                <span class="input-group-text text-dark">{{ municipiosCreate.depa_Id ? municipiosCreate.depa_Id : '00' }}</span>  
+                <input type="text" [(ngModel)]="municipiosCreate.muni_Id" class="form-control" (keydown)="onKeyDown($event)" required="" (paste)="onPaste($event)" maxlength="2">
               </div>
-            </div>
+              </div>
             </div>
             <div class="modal-footer">
               <button class="btn btn-primary" type="button" (click)="Guardar()">Crear</button>
             </div>  
           </form>
           </ng-template>
+          
         </form>
           <ng-template #Update let-modal>
             <div class="modal-header">
@@ -47,7 +50,8 @@
               <label class="form-label" for="validationCustom01">Municipios</label>
               <div class="row">
                 <div class="col-sm-6">
-                <ng-select [(ngModel)]="municipiosEditar.depa_Id" bindValue="value" [items]="departamentosDDL" placeholder="Departamento"></ng-select>
+                  <input [disabled]="" [(ngModel)]="municipiosEditar.depa_Id" class="form-control" id="validationCustom01" type="text" required="" disabled />
+                
               </div>
                 <div class="col-sm-6">
               <input [(ngModel)]="municipiosEditar.muni_Nombre" class="form-control" id="validationCustom01" type="text" required=""  />
@@ -74,7 +78,6 @@
               <button class="btn btn-success" (click)="delete()">Eliminar</button>
             </div>
           </ng-template>
-          
           <button class="btn btn-lg btn-outline-primary" (click)="open(Create)">Crear Municipios</button><div class="container">   
           <hr>
         <div class="d-flex justify-content-between mb-2 mx-1">

@@ -13,7 +13,7 @@ VALUES
 --****************************************PANTALLAS****************************************--
 INSERT INTO acce.tbPantallas (pant_Nombre, pant_Url, pant_Menu, pant_Icono, pant_UsuCreacion)
 VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','flag-icon flag-icon-hn',1),
-	   ('Estado Civiles',		'/gral/Municipios/List',			'gral','fa fa-list',1),
+	   ('Estado Civiles',		'/gral/EstadosCiviles/List',		'gral','fa fa-list',1),
 	   ('Municipios',			'/gral/Municipios/List',			'gral','fa fa-tag',1),
 	   ('Tipo de Pagos',		'/gral/TiposDePago/List',			'gral','fa fa-credit-card-alt',1) ,
 	   ('Cargos',				'/gral/Cargos/List',				'gral','fa fa-user-plus',1) ,
@@ -35,7 +35,7 @@ VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','flag-icon flag-i
 	   ('Tipos de Vehiculos',	'/flet/TipodeVehiculo/List ',		'equi','fa fa-car',1),
 
 	   ('Usuarios',				'/acce/Usuarios/List',				'acce','fa fa-user',1),
-       ('Roles Por Pantalla',	'/acce/RolesPorPantalla/List ',		'acce','fa fa-credit-card-alt',1),
+       ('Roles Por Pantalla',	'/acce/Roles/List ',		'acce','fa fa-credit-card-alt',1),
 	   ('Pantallas',			'/acce/Pantallas/List',				'acce','fa fa-credit-card-alt',1),
 	   ('Grafica',				'/acce/Grafica/List',				'acce','icofont icofont-chart-bar-graph',1)
 GO

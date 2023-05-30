@@ -32,12 +32,36 @@ export class MunicipiosListComponent implements OnInit {
   }
   
   open(content: any) {
+    this.validate = false;
+    this.municipiosCreate = new Municipios()
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
+
+  selectedOption: string;
+  textInput: string;
+  
+  onKeyDown(event: any) {
+    const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Delete', 'Tab'];
+    if (event.key !== undefined && !allowedKeys.includes(event.key) && isNaN(Number(event.key))) {
+      event.preventDefault();
+    }
+  }
+  
+  onPaste(event: any) {
+    const pastedText = event.clipboardData.getData('text/plain');
+    const numericValue = pastedText.replace(/[^0-9]/g, '');
+    this.textInput = numericValue;
+    event.preventDefault();
+  }
+  mostrarDato(){
+    console.log(this.selectedOption + this.textInput )
+  }
+
+
   
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -58,24 +82,33 @@ export class MunicipiosListComponent implements OnInit {
   municipiosEliminar: Municipios = new Municipios();
 
   Guardar() {
-    this.validate = !this.validate;
-    if(this.municipiosCreate.muni_Nombre == null)
+    this.validate = false;
+    if(this.municipiosCreate.muni_Nombre == null || this.municipiosCreate.muni_Nombre == "")
     {
-
+      console.log('No entro por el MUNICIPIO NOMBRE')
+      console.log(this.municipiosCreate)
+      this.validate = true;
     }
-    else
+    if(this.municipiosCreate.muni_Id == null || this.municipiosCreate.muni_Id == "")
     {
-      this.municipiosCreate.depa_Id
+      console.log('No entro por el MUNICIPIO ID')
+      console.log(this.municipiosCreate)
+      this.validate = true;
+    }
+    else if(this.municipiosCreate.muni_Nombre != null && this.municipiosCreate.muni_Id != null)
+    {
+      this.validate = false;
+      this.municipiosCreate.muni_Id = this.municipiosCreate.depa_Id + "" + this.municipiosCreate.muni_Id
+      
+      console.log('ya entro y este es el id')
+      console.log(this.municipiosCreate.muni_Id)
       this.service.createMunicipios(this.municipiosCreate)
       .subscribe(() =>{     
         this.modalService.dismissAll()
-        this.municipiosCreate.muni_Nombre = ''
-        this.validate = false;
         this.index()
       })
     }
   }
-
   Actualizar(est: Municipios, content: any) {
     const id = est.muni_Id
 
