@@ -16,7 +16,6 @@ import { FletedetailsComponent } from './fletes/fletes-details/fletes-details.co
 import { ClientesCreateComponent } from './clientes/clientes-create/clientes-create.component';
 
 import { ReporteComponent } from './reporte/reporte/reporte.component';
-import { FleteDetailsPropioComponent } from "./fletes/fletes-details-propio/fletes-details-propio.component";
 const routes: Routes = [
   {
     path: "",
@@ -35,10 +34,6 @@ const routes: Routes = [
           {
             path: "PersonalList",
             component: FleteListPropioComponent,
-          },
-          {
-            path: "PersonalDetails",
-            component: FleteDetailsPropioComponent,
           },
           {
             path: "Details",

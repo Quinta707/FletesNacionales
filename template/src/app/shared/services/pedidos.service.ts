@@ -7,7 +7,7 @@ import  { Pedidos } from '../model/pedidos.model';
   providedIn: 'root'
 })
 
-export class ServiceService {
+export class PedidoService {
 
   constructor(private http:HttpClient) { }
 

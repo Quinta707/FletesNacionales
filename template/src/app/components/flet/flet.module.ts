@@ -11,7 +11,6 @@ import { SharedModule } from '../../shared/shared.module';
 import { ItemListComponent } from './item/items-list/items-list.component';
 import { ClienteListComponent } from './clientes/clientes-list/clientes-list.component';
 import { FleteListPropioComponent } from './fletes/fletes-list-propio/fletes-list-propio.component';
-import { FleteDetailsPropioComponent } from './fletes/fletes-details-propio/fletes-details-propio.component';
 import { FleteCreateComponent } from './fletes/fletes-create/fletes-create.component';
 import { FletedetailsComponent } from './fletes/fletes-details/fletes-details.component';
 
@@ -30,9 +29,6 @@ import { GoogleMapsModule } from "@angular/google-maps";
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { AgGridModule } from 'ag-grid-angular';
 import { ClientesCreateComponent } from './clientes/clientes-create/clientes-create.component';
-
-
-
 import { ReporteComponent } from './reporte/reporte/reporte.component';
 
 
@@ -41,7 +37,6 @@ import { ReporteComponent } from './reporte/reporte/reporte.component';
     FleteListComponent,
     FleteListPropioComponent,
     FletedetailsComponent,
-    FleteDetailsPropioComponent,
     ItemListComponent,
     ClienteListComponent,
     FleteCreateComponent,

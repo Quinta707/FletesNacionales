@@ -1,49 +1,44 @@
 <div class="container">
-  <app-breadcrumb [title]="'Listado de Pedidos'" [items]="['Fletes']" [active_item]="'Pedidos'"></app-breadcrumb>
-    <div class="row widget-grid">
-      <div class="col-sm-12">
-  
-        <div class="card card-border">
-          <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/Pedidos.png" alt="Card image cap">
-  
-        <div class="card-body">
-        <button (click)="Nuevo()" class="btn btn-primary">+ Nuevo</button>
-        <br><br>
-        <div class="table-responsive">
-            <table datatable class="table" style="color: darkslateblue;">
-                <thead>
-                    <tr>
-                      <th>Pedido Id</th>
-                      <th>Cliente</th>
-                      <th>Origen</th>
-                      <th>Destino</th>
-                      <th>Dirección de entrega</th>
-                      <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of pedidos">
-                    <td>{{item.pedi_Id}}</td>
-                    <td>{{item.clie_NombreCompleto}}</td>
-                    <td>{{item.pedi_OrigenNombre}}</td>
-                    <td>{{item.pedi_DestinoNombre}}</td>
-                    <td>{{item.pedi_DestinoFinal}}</td>
-                    <td>
-                      <li class="edit">
-                        <a href="#"><i class="icon-pencil-alt"></i></a>
-                      </li>
-                      <li class="delete">
-                        <a href="#"><i class="icon-trash"></i></a>
-                      </li>
-                    </td>
-                  </tr>
-      
-                </tbody>
-              </table>
+  <app-breadcrumb [title]="'Pedidos'" [items]="['Fletes']" [active_item]="'Pedidos'"></app-breadcrumb>
+  <div class="row widget-grid">
+    <div class="col-sm-12">
+      <div class="card">
+          <img class="card-img-top" src="../../../../../assets/images/equipo/headers/Pedidos.png" alt="Card image cap">
+      <div class="card-body">
+        <button class="btn btn-primary" style="margin-bottom: 5px;">+ Nuevo</button>
+        <div class="d-flex justify-content-between">
+          <table class="table-style" style="margin-bottom: 5px;">
+            <thead>
+              <tr>
+                <td>Mostrar:</td>
+                <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
+                    [(ngModel)]="paginationPageSize">
+                    <option [ngValue]="5">5</option>
+                    <option [ngValue]="10">10</option>
+                    <option [ngValue]="25">25</option>
+                    <option [ngValue]="50">50</option>
+                  </select>
+                </td>
+              </tr>
+            </thead>
+          </table>
+          
+          <div class="col-4">
+            <div class="input-group">
+              <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
+              <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
+                placeholder="Buscar..." />
             </div>
           </div>
         </div>
+
+        <ag-grid-angular class="ag-theme-alpine" [columnDefs]="columnDefs" [pagination]="true"
+          [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
+          [rowData]="listapedidos" [rowSelection]="'multiple'" [domLayout]="domLayout"
+          [animateRows]="true"></ag-grid-angular>
+        
       </div>
     </div>
   </div>
-
+  </div>
+</div>
