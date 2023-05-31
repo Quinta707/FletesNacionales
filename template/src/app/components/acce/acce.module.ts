@@ -12,6 +12,7 @@ import { RolesporPantallaupdateComponent } from './rolesPorPantalla/rolesPorPant
 
 import { RolesporPantallaCreateComponent } from './rolesPorPantalla/rolesPorPantalla-create/rolesPorPantalla-create.component';
 import { UsuariosComponent } from './usuarios/usuarios/usuarios.component'
+import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { UsuariosComponent } from './usuarios/usuarios/usuarios.component'
     NgSelectModule,
     AcceRoutingModule,
     FormsModule,
+    AgGridModule,
     NgbModule,
     SharedModule,
     NgMultiSelectDropDownModule.forRoot()

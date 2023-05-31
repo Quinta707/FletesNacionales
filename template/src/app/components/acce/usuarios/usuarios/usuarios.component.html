@@ -1,1 +1,43 @@
-
+<div class="container">
+    <app-breadcrumb [title]="'Listado de Usuarios'" [items]="['Usuarios']" [active_item]="'Usuarios'"></app-breadcrumb>
+      <div class="row widget-grid">
+        <div class="col-sm-12">    
+          <div class="card card-border">
+            <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/Usuarios.png" alt="Card image cap">
+          <div class="card-body">
+            <button class="btn btn-primary">+ Nuevo</button>
+            <br>
+            <div class="d-flex justify-content-between mb-2 mx-1 mt-4">
+                <table>
+                  <thead>
+                    <tr>
+                      <td>Elementos:</td>
+                      <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
+                          [(ngModel)]="paginationPageSize">
+                          <option [ngValue]="5">5</option>
+                          <option [ngValue]="10">10</option>
+                          <option [ngValue]="25">25</option>
+                          <option [ngValue]="50">50</option>
+                        </select>
+                      </td>
+                    </tr>
+                  </thead>
+                </table>
+                <div class="col-4">
+                  <div class="input-group">
+                    <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
+                    <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
+                      placeholder="Buscar..." />
+                  </div>
+                </div>
+              </div>
+              <ag-grid-angular class="ag-theme-alpine" [columnDefs]="columnDefs" [pagination]="true"
+                  [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
+                  [rowData]="Usuarios" [rowSelection]="'multiple'" [domLayout]="domLayout"
+                  [animateRows]="true"></ag-grid-angular>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    

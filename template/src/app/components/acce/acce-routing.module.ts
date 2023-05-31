@@ -27,6 +27,15 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: "Usuarios",
+        children: [
+          {
+            path: "List",
+            component: UsuariosComponent,
+          },
+        ],
+      },
     ],
   }
 ];

@@ -236,7 +236,7 @@ namespace FletesNacionales.BusinessLogic.Services
                 return Enumerable.Empty<VW_tbPantallasPorRoles>();
             }
         }
-        
+
         #endregion
 
         #region Usuarios
@@ -257,82 +257,48 @@ namespace FletesNacionales.BusinessLogic.Services
 
         public ServiceResult InsertarUsuarios(tbUsuarios item)
         {
-            var result = new ServiceResult();
+            var resultado = new ServiceResult();
+
             try
             {
-                var list = _usuariosRepository.Insert(item);
-                if (list.CodeStatus > 0)
-                {
-                    return result.SetMessage("Exitoso", ServiceResultType.Success);
-                }
-                else if (list.CodeStatus == -2)
-                {
-                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
-                }
-                else if (list.CodeStatus == 0)
-                {
-                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
-                }
-                else
-                {
-                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
-                }
+                var respuesta = _usuariosRepository.Insert(item);
+                return resultado.Ok(respuesta);
             }
-            catch (Exception x)
+            catch (Exception ex)
             {
 
-                return result.Error(x.Message);
+                return resultado.Error(ex.Message);
             }
         }
         public ServiceResult EditarUsuarios(tbUsuarios item)
         {
-            var result = new ServiceResult();
+
+            var resultado = new ServiceResult();
+
             try
             {
-                var list = _usuariosRepository.Update(item);
-                if (list.CodeStatus > 0)
-                {
-                    return result.SetMessage("Exitoso", ServiceResultType.Success);
-                }
-                else if (list.CodeStatus == -2)
-                {
-                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
-                }
-                else if (list.CodeStatus == 0)
-                {
-                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
-                }
-                else
-                {
-                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
-                }
+                var respuesta = _usuariosRepository.Update(item);
+                return resultado.Ok(respuesta);
             }
-            catch (Exception x)
+            catch (Exception ex)
             {
 
-                return result.Error(x.Message);
+                return resultado.Error(ex.Message);
             }
         }
         public ServiceResult EliminarUsuarios(tbUsuarios item)
         {
-            var result = new ServiceResult();
+            var resultado = new ServiceResult();
 
             try
             {
-                var insert = _usuariosRepository.Delete(item);
-
-                if (insert.CodeStatus == 1)
-                    return result.SetMessage("Eliminado", ServiceResultType.Success);
-                else if (insert.CodeStatus == -3)
-                    return result.SetMessage("EnUso", ServiceResultType.Success);
-                else if (insert.CodeStatus == 0)
-                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
-                else
-                    return result.SetMessage("Conexión perdida", ServiceResultType.Error);
+                var respuesta = _usuariosRepository.Delete(item);
+                return resultado.Ok(respuesta);
             }
             catch (Exception ex)
             {
-                return result.Error(ex.Message);
+
+                return resultado.Error(ex.Message);
             }
         }
         public VW_tbUsuarios BuscarUsuario(int? id)
@@ -347,7 +313,53 @@ namespace FletesNacionales.BusinessLogic.Services
                 return null;
             }
         }
-        
+
+        public ServiceResult ValidarUsernameExiste(string username)
+        {
+            var resultado = new ServiceResult();
+
+            try
+            {
+                var usuario = _usuariosRepository.ValidarUserNameExiste(username);
+                return resultado.Ok(usuario);
+            }
+            catch (Exception ex)
+            {
+                return resultado.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ValidarUsuariosPoseenRol(int role_Id)
+        {
+            var resultado = new ServiceResult();
+
+            try
+            {
+                var respuesta = _usuariosRepository.ValidarUsuariosPoseenRol(role_Id);
+                return resultado.Ok(respuesta);
+            }
+            catch (Exception ex)
+            {
+                return resultado.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult EmpleadosNoTienenUsuario()
+        {
+            var result = new ServiceResult();
+
+            try
+            {
+                var list = _usuariosRepository.EmpleadosNoTienenUsuario();
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
         public ServiceResult LoginUsuario(tbUsuarios item)
         {
 
