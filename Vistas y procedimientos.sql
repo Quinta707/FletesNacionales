@@ -3220,8 +3220,171 @@ END
 
 
 -- ************* TABLA USUARIOS *****************--
+GO
+
+CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_ValidarUsernameExiste
+	@user_NombreUsuario  NVARCHAR(255)
+AS
+BEGIN
+	DECLARE @user_Id INT
+
+	SELECT @user_Id = user_Id 
+	  FROM ACCE.tbUsuarios 
+	 WHERE user_NombreUsuario = @user_NombreUsuario
+	   AND user_Estado = 1
+
+	   IF @user_Id > 0
+	   BEGIN
+			SELECT @user_Id
+	   END
+	   ELSE
+	   BEGIN
+			SELECT 0
+	   END
+END
+GO
 
 
+CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_ValidarUsuariosPoseenRol
+	@role_Id	INT
+AS
+BEGIN
+	DECLARE @user_Id INT
+
+	SELECT TOP 1 @user_Id = user_Id 
+		  FROM ACCE.tbUsuarios 
+		 WHERE role_Id = @role_Id
+
+	IF @user_Id > 0
+	BEGIN	
+		SELECT 1
+	END
+	ELSE
+	BEGIN
+		SELECT 0
+	END
+END
+GO
+
+
+CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_InsertarNuevoUsuario
+	 @usua_NombreUsuario		NVARCHAR(255),
+	 @usua_Contraseña           NVARCHAR(255),
+	 @role_Id		         	INT,
+	 @empe_Id			        INT,
+	 @usua_EsAdmin              INT,
+	 @usua_IdCreacion           INT
+AS
+BEGIN
+	BEGIN TRY
+
+		 BEGIN TRAN 
+			 DECLARE @Pass AS NVARCHAR(MAX);
+			 SET @Pass = CONVERT(NVARCHAR(MAX), HASHBYTES('sha2_512', @usua_Contraseña));
+
+			
+			 IF @role_Id = 0
+			 BEGIN 
+				 INSERT INTO ACCE.tbUsuarios([user_NombreUsuario],[user_Contrasena],empe_Id,[user_EsAdmin],user_Url,user_Estado,user_UsuCreacion)
+				 VALUES (@usua_NombreUsuario, @Pass, @empe_Id, @usua_EsAdmin,NULL, 1, @usua_IdCreacion)
+			 END
+			 ELSE
+			 BEGIN
+				 INSERT INTO ACCE.tbUsuarios([user_NombreUsuario],[user_Contrasena],role_Id,empe_Id,[user_EsAdmin],user_Url,user_Estado,user_UsuCreacion)
+				 VALUES (@usua_NombreUsuario, @Pass, @role_Id, @empe_Id, @usua_EsAdmin,NULL, 1, @usua_IdCreacion)
+			 END
+			 
+		COMMIT
+		SELECT 1
+	END TRY
+	BEGIN CATCH 
+		ROLLBACK
+	    SELECT 0
+	END CATCH
+END
+GO
+
+CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_EmpleadosNoTienenUsuario
+AS
+BEGIN
+	SELECT [empe_Id],
+		   empe_Nombres,
+		   empe_Apellidos
+	  FROM flet.tbEmpleados
+	 WHERE empe_Estado = 1
+	   AND empe_Id NOT IN (SELECT empe_Id 
+							  FROM ACCE.tbUsuarios 
+							 WHERE user_Estado = 1)
+END
+GO
+
+
+CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_EditarUsuarios
+	@usua_Id				INT,
+	@usua_Nombre			NVARCHAR(250),
+	@usua_EsAdmin			BIT,
+	@role_Id				INT,
+	@empe_Id				INT,
+	@usua_IdModificacion	INT
+AS
+BEGIN
+	BEGIN TRY
+
+		BEGIN TRAN 
+
+			IF @role_Id = 0
+			BEGIN 
+				UPDATE ACCE.tbUsuarios
+				   SET usua_Nombre = @usua_Nombre,
+					   usua_EsAdmin = @usua_EsAdmin,
+					   usua_img = @usua_img,
+					   empe_Id = @empe_Id,
+					   usua_IdModificacion = @usua_IdModificacion,
+					   usua_FechaModificacion = GETDATE()
+				 WHERE usua_Id = @usua_Id
+			END
+			ELSE
+			BEGIN
+				UPDATE ACCE.tbUsuarios
+				   SET usua_Nombre = @usua_Nombre,
+					   usua_EsAdmin = @usua_EsAdmin,
+					   usua_img = @usua_img,
+					   role_Id = @role_Id,
+					   empe_Id = @empe_Id,
+					   usua_IdModificacion = @usua_IdModificacion,
+					   usua_FechaModificacion = GETDATE()
+				 WHERE usua_Id = @usua_Id
+			END
+		
+		COMMIT
+		SELECT 1
+	END TRY
+	BEGIN CATCH
+		ROLLBACK
+		SELECT 0
+	END CATCH 
+	END
+GO
+
+
+CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_EliminarUsuario
+	@usua_Id			INT
+AS
+BEGIN
+	BEGIN TRY
+		BEGIN TRAN
+			DELETE FROM	ACCE.tbUsuarios
+				  WHERE usua_Id = @usua_Id
+		
+		COMMIT
+		SELECT 1
+	END TRY
+	BEGIN CATCH
+		ROLLBACK
+		SELECT 0
+	END CATCH
+END
+GO
 --************  INSERT **************---
 GO
 CREATE OR ALTER PROCEDURE acce.UDP_tbUsuarios_Insert
