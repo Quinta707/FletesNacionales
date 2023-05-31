@@ -4,6 +4,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { RolesporPantallaListComponent } from './rolesPorPantalla/rolesPorPantalla-list/rolesPorPantalla-list.component';
 import { RolesporPantallaCreateComponent } from './rolesPorPantalla/rolesPorPantalla-create/rolesPorPantalla-create.component'
 import { RolesporPantallaupdateComponent } from './rolesPorPantalla/rolesPorPantalla-update/rolesPorPantalla-update.component'
+import { UsuariosComponent } from './usuarios/usuarios/usuarios.component'
 
 const routes: Routes = [
   {
