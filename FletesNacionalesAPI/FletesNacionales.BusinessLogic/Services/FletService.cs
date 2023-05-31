@@ -617,6 +617,20 @@ namespace FletesNacionales.BusinessLogic.Services
             }
         }
 
+        public VW_tbFletes GraficaFletes(tbFletes id)
+        {
+            try
+            {
+                var list = _fletesRepository.Grafica(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+
         public ServiceResult EmpezarFlete(tbFletes id)
         {
             var result = new ServiceResult();

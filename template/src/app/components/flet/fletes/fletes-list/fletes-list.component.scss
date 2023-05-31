@@ -21,5 +21,11 @@
   }
 
   .ag-root-wrapper{
-    border-radius: 100px !important
+    border-radius: 15px !important
   }
+
+  .ag-theme-alpine {
+
+    --ag-borders: solid 15px black;
+
+}

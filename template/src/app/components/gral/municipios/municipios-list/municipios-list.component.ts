@@ -1,9 +1,12 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Municipios } from '../../../../shared/model/municipios.model';
 import { TableService } from '../../../../shared/services/municipios.services';
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Idioma } from '../../../../../../config';
+import { CellClickedEvent, ColDef, DomLayoutType, GridReadyEvent } from 'ag-grid-community';
+import { AgGridAngular } from 'ag-grid-angular';
 
 
 @Component({
@@ -15,8 +18,12 @@ export class MunicipiosListComponent implements OnInit {
   public validate = false;
   public selected = [];
   
+  public domLayout: DomLayoutType = 'autoHeight';
+  idioma = Idioma
+
   municipios: Municipios[];
   closeResult: string;
+  paginationPageSize: number = 10;
   
   constructor(config: NgbModalConfig, private modalService: NgbModal, public service: TableService) {
     
@@ -32,8 +39,6 @@ export class MunicipiosListComponent implements OnInit {
   }
   
   open(content: any) {
-    this.validate = false;
-    this.municipiosCreate = new Municipios()
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -109,14 +114,13 @@ export class MunicipiosListComponent implements OnInit {
       })
     }
   }
-  Actualizar(est: Municipios, content: any) {
-    const id = est.muni_Id
+  Actualizar(est: any, content: any) {
+    const id = est.data.muni_Id
 
     this.service.findMunicipios(id)
     .subscribe((data : any) =>{
-      
       this.municipiosEditar = data;
-      console.log(this.municipiosEditar)
+      console.log(content)
     
       this.open(content)
     })
@@ -171,28 +175,81 @@ export class MunicipiosListComponent implements OnInit {
     this.index()
   }
 
-  public tableItem$: Observable<Municipios[]>;
+  @ViewChild('Update') modalUpdate: any;
+  
+  @ViewChild('Delete') modalDelete: any;
+  columnDefs: ColDef[] = [
+    { field: 'muni_Id', headerName: 'Codigo de muncipios', flex: 2 },
+    { field: 'muni_Nombre', headerName: 'Municipio', flex: 2 },
+    { field: 'depa_Id', headerName: 'Codigo de Departamento', flex: 2 },
+    { field: 'depa_Nombre', headerName: 'Departamento', flex: 2 },
+
+    { cellRenderer: (params) => this.actionButtonRenderer(params, this.modalService), headerName: 'Acciones', flex: 1 }
+
+  ];
+  public defaultColDef: ColDef = {
+    sortable: true,
+    filter: true,
+    autoHeight: true,
+  };
+  actionButtonRenderer(params: any, modalService: NgbModal) {
+    const Act = () => {
+          
+    this.Actualizar(params,this.modalUpdate)  
+    };
+    const Eli = () => {
+    
+      this.Eliminar(params,this.modalDelete)
+    }
+
+    const button = document.createElement('il');
+    button.classList.add('edit'); 
+
+    const iconElement = document.createElement('i');
+    iconElement.classList.add('icon-pencil-alt'); 
+    iconElement.classList.add('mx-2'); 
+
+    const textElement = document.createElement('span');
+    textElement.innerText = '';
+    textElement.appendChild(iconElement);
+
+
+    const button2 = document.createElement('il');
+    button2.classList.add('detail'); 
+  
+    const iconElement2 = document.createElement('i');
+    iconElement2.classList.add('fa'); 
+    iconElement2.classList.add('fa-file-text-o'); 
+
+    const textElement2 = document.createElement('span');
+    textElement2.innerText = '';
+    textElement2.appendChild(iconElement2);
+   
+    button.appendChild(textElement);
+    button2.appendChild(textElement2);
+  
+    button.addEventListener('click', Act);
+    button2.addEventListener('click', Eli);
+  
+    const container = document.createElement('div');
+    container.classList.add('action')
+    container.appendChild(button);
+    container.appendChild(button2);
+  
+    return container;
+  }
+
+  
+  @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
+
+  onSearchInputChange() {
+    this.agGrid.api.setQuickFilter(this.searchText);
+  }
   public searchText;
+
+  public tableItem$: Observable<Municipios[]>;
   total$: Observable<number>;
 
-  onSearchInputChange(searchTerm: string) {
-    this.service.searchTerm = searchTerm;
-  }
-  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
-  onSort({ column, direction }: SortEvent) {
-    // resetting other headers
-    this.headers.forEach((header) => {
-      if (header.sortable !== column) {
-        header.direction = '';
-      }
-    });
-    this.service.sortColumn = column;
-    this.service.sortDirection = direction;
-  }
-  deleteData(id: number){
-    this.tableItem$.subscribe((data: any)=> {      
-      data.map((elem: any,i: any)=>{elem.id == id && data.splice(i,1)})
-    })
-  }
+
  }
  

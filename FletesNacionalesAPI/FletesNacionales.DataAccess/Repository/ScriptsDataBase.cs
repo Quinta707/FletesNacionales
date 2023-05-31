@@ -132,7 +132,7 @@
         #endregion
 
         #region Fletes
-
+        public static string FletesGrafica = "flet.UDP_tbFletes_Grafica";
         public static string FletesFind = "flet.UDP_tbFletes_Find";
         public static string FletesIndex = "flet.UDP_tbFletes_Index";
         public static string FletesIndexPendientes = "flet.UDP_tbFletes_IndexPendientes";

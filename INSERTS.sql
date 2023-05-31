@@ -24,15 +24,13 @@ VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','flag-icon flag-i
 	   ('Pedidos',				'/flet/Pedidos/List',				'flet','fa fa-briefcase',1),
 	   ('Sucursales',			'/flet/Sucursales/List',			'flet','fa fa-building-o',1),
 	   ('Trayectos',			'/flet/Trayectos/List',				'flet','fa fa-map',1),
-	   ('Ubicacion por Flete',	'/flet/UbicacionPorFlete/List ',	'flet','fa fa-map-marker',1),
 	   ('Estados del Pedido',	'/flet/EstadosdelPedido/List',		'flet','fa fa-check-circle-o',1),
-	   ('Escala por Trayecto',	'/flet/EscalasPorTrayecto/List ',	'flet','fa fa-map-signs',1),
 	   ('Empleados',			'/flet/Empleados/List',				'flet','fa fa-address-card',1),
 
 	   ('Modelos',				'/equi/Modelos/List',				'equi','fa fa-car',1),
 	   ('Marcas',				'/equi/Marcas/List',				'equi','fa fa-truck',1),
-	   ('Vehiculos',			'/flet/Vehiculos/List',				'equi','fa fa-truck',1),
-	   ('Tipos de Vehiculos',	'/flet/TipodeVehiculo/List ',		'equi','fa fa-car',1),
+	   ('Vehiculos',			'/equi/Vehiculos/List',				'equi','fa fa-truck',1),
+	   ('Tipos de Vehiculos',	'/equi/TipodeVehiculo/List ',		'equi','fa fa-car',1),
 
 	   ('Usuarios',				'/acce/Usuarios/List',				'acce','fa fa-user',1),
        ('Roles Por Pantalla',	'/acce/Roles/List',					'acce','fa fa-credit-card-alt',1),

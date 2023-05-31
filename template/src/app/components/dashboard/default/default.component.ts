@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { NgbCalendar, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { TableService } from '../../../shared/services/municipios.services';
 import * as data from "../../../shared/data/dashboard/default";
 import * as chartData from '../../../shared/data/chart/google-chart';
 
@@ -9,9 +10,23 @@ import * as chartData from '../../../shared/data/chart/google-chart';
   styleUrls: ["./default.component.scss"],
 })
 export class DefaultComponent implements OnInit {
-  constructor(calendar: NgbCalendar) {}
+  public validate = false;
+  constructor(calendar: NgbCalendar, public service: TableService) {}
+  
+  public departamentosDDL: [];
+  ngOnInit() {
+    
+   this.service.getDepartamenos()
+   .subscribe((data: any) =>{
+     
+     this.departamentosDDL = data.data.map((item:any) =>( 
+       {
+       value: item.depa_Id,
+       label: item.depa_Nombre
+     })) 
 
-  ngOnInit() {}
+   })
+  }
 
   public purchase = data.purchase
   public salesReturn = data.salesReturn
@@ -56,7 +71,81 @@ export class DefaultComponent implements OnInit {
     }
   }
 
-  // // Pie Chart
-  // public pieChart2 = chartData.pieChart2;
+  primary_color = localStorage.getItem('primary_color') || '#66368e';
+  ChartOptions: ChartOptions = {
+    series: [
+      {
+          name: "Conteo",
+          data: [1,2,3,4,5,6,7,8,9,10]
+      }
+  ],
+  colors: [this.primary_color],
+  chart: {
+      type: "bar",
+      height: 350,
+      toolbar: {
+          show: false
+      }
+  },
+  plotOptions: {
+      bar: {
+          horizontal: true
+      }
+  },
+  dataLabels: {
+      enabled: false
+  },
+  xaxis: {
+      categories: [
+          "India",
+          "Canada",
+          "UK",
+          "Korea",
+          "Italy",
+          "France",
+          "Japan",
+          "US",
+          "China",
+          "Germany"
+      ]
+  }
+  }
+
+  graficaEnvio : Model = new Model()
+
+   enviar()
+   {
+
+   }
+
   
+}
+
+class Model {
+  flet_Inicio !: String;
+  flet_Fin !: String;
+  depa_Id !: number	;
+}
+
+
+type ChartOptions = {
+  series?: ApexAxisChartSeries;
+  chart?: ApexChart;
+  xaxis?: ApexXAxis;
+  stroke?: ApexStroke;
+  tooltip?: any;
+  dataLabels?: ApexDataLabels;
+  yaxis?: ApexYAxis;
+  legend?: ApexLegend;
+  labels?: string[];
+  plotOptions?: ApexPlotOptions;
+  fill?: ApexFill;
+  responsive?: ApexResponsive[];
+  pieseries?: ApexNonAxisChartSeries;
+  title?: ApexTitleSubtitle;
+  theme?: ApexTheme;
+  colors?: string[];
+  markers?: ApexMarkers;
+  annotations?: ApexAnnotations;
+  grid?: ApexGrid;
 }

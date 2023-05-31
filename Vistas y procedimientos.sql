@@ -868,16 +868,7 @@ GO
 CREATE OR ALTER PROCEDURE equi.UDP_tbTipoDeVehiculo_Index
 AS
 BEGIN
-	SELECT	tipv_Id, 
-			tipv_Descripcion, 
-			tipv_UsuCreacion, 
-			user_Creacion, 
-			tipv_FechaCreacion, 
-			tipv_UsuModificacion, 
-			user_Modificacion, 
-			tipv_FechaModificacion, 
-			tipv_Estado
-	FROM	equi.VW_tbTipoDeVehiculo
+	SELECT * FROM equi.VW_tbTipoDeVehiculo
 	WHERE	tipv_Estado = 1;
 END
 
@@ -889,16 +880,7 @@ CREATE OR ALTER PROCEDURE equi.UDP_tbTipoDeVehiculo_Find
 )
 AS
 BEGIN
-	SELECT	tipv_Id, 
-			tipv_Descripcion, 
-			tipv_UsuCreacion, 
-			user_Creacion, 
-			tipv_FechaCreacion, 
-			tipv_UsuModificacion, 
-			user_Modificacion, 
-			tipv_FechaModificacion, 
-			tipv_Estado
-	FROM	equi.VW_tbTipoDeVehiculo
+	SELECT * FROM equi.VW_tbTipoDeVehiculo
 	WHERE	tipv_Id = @tipv_Id;
 END
 
@@ -1019,15 +1001,7 @@ GO
 CREATE OR ALTER PROCEDURE equi.UDP_tbMarcas_Index
 AS
 BEGIN
-	SELECT	marc_Id, 
-			marc_Nombre, 
-			marc_UsuCreacion, 
-			user_Creacion, 
-			marc_FechaCreacion, 
-			marc_UsuModificacion, 
-			user_Modificacion, 
-			marc_FechaModificacion,
-			marc_Estado
+	SELECT	*
 	FROM	equi.VW_tbMarcas
 	WHERE	marc_Estado = 1;
 END
@@ -1040,15 +1014,7 @@ CREATE OR ALTER PROCEDURE equi.UDP_tbMarcas_Find
 )
 AS
 BEGIN
-	SELECT	marc_Id, 
-			marc_Nombre, 
-			marc_UsuCreacion, 
-			user_Creacion, 
-			marc_FechaCreacion, 
-			marc_UsuModificacion, 
-			user_Modificacion, 
-			marc_FechaModificacion,
-			marc_Estado
+	SELECT	*
 	FROM	equi.VW_tbMarcas
 	WHERE	marc_Id = @marc_Id;
 END
@@ -1180,19 +1146,7 @@ GO
 CREATE OR ALTER PROCEDURE equi.UDP_tbModelos_Index
 AS
 BEGIN
-	SELECT	mode_Id, 
-			mode_Nombre, 
-			marc_Id, 
-			marc_Nombre, 
-			tipv_Id, 
-			tipv_Descripcion, 
-			mode_UsuCreacion, 
-			mode_FechaCreacion, 
-			mode_UsuModificacion, 
-			mode_FechaModificacion, 
-			mode_Estado, 
-			user_Creacion, 
-			user_Modificacion 
+	SELECT	*
 	FROM	equi.VW_tbModelos
 	WHERE	mode_Estado = 1;
 END
@@ -1205,19 +1159,7 @@ CREATE OR ALTER PROCEDURE equi.UDP_tbModelos_Find
 )
 AS
 BEGIN
-	SELECT	mode_Id, 
-			mode_Nombre, 
-			marc_Id, 
-			marc_Nombre, 
-			tipv_Id, 
-			tipv_Descripcion, 
-			mode_UsuCreacion, 
-			mode_FechaCreacion, 
-			mode_UsuModificacion, 
-			mode_FechaModificacion, 
-			mode_Estado, 
-			user_Creacion, 
-			user_Modificacion 
+	SELECT	*
 	FROM	equi.VW_tbModelos
 	WHERE	mode_Id = @mode_Id;
 END
@@ -1334,7 +1276,7 @@ CREATE OR ALTER PROCEDURE equi.UDP_tbVehiculos_Delete
 AS
 BEGIN
 	BEGIN TRY
-		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('equi.tbVehiculos') AND EXISTS ( SELECT 1 FROM equi.tbVehiculos WHERE vehi_Id = @vehi_Id))
+		IF EXISTS (SELECT * FROM flet.tbFletes WHERE vehi_Id = @vehi_Id )
 			BEGIN
 				SELECT - 3
 			END
@@ -1369,21 +1311,7 @@ CREATE OR ALTER PROCEDURE equi.UDP_tbVehiculos_Find
 )
 AS
 BEGIN
-	SELECT	vehi_Id, 
-			mode_Id, 
-			mode_Nombre, 
-			tipv_Id, 
-			tipv_Descripcion,
-			marc_Id, 
-			marc_Nombre, 
-			vehi_Placa, 
-			vehi_UsuCreacion, 
-			vehi_FechaCreacion, 
-			vehi_UsuModificacion, 
-			vehi_FechaModificacion, 
-			vehi_Estado, 
-			user_Creacion, 
-			user_Modificacion
+	SELECT	*
 	FROM	equi.VW_tbVehiculos
 	WHERE	vehi_Id = @vehi_Id;
 END
@@ -2169,7 +2097,27 @@ BEGIN
 	SELECT * FROM flet.VW_tbFletes
 	WHERE flet_Estado = 1
 END
+--************** GRAFICA *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_Grafica   
+@flet_Inicio NVARCHAR(150),
+@flet_Fin NVARCHAR(150),
+@depa_Id	INT
+AS
+BEGIN
 
+SELECT 'Trayecto de ' + depa_InicioNombre + ' hasta '+ depa_FinalNombre as tray_DepaDescripcion,
+depa_FinalNombre,
+depa_InicioNombre,   
+flt.tray_Id , count(flt.tray_Id) tray_Conteo
+FROM flet.tbFletes flt 
+inner join flet.VW_tbTrayectos  tra 
+ON flt.tray_Id = tra.tray_Id   
+WHERE muni_Inicio in(SELECT muni_Id FROM gral.tbMunicipios where depa_Id = @depa_Id)
+and flet_FechaDeSalida BETWEEN @flet_Inicio AND @flet_Fin
+GROUP BY flt.tray_Id , depa_InicioNombre ,depa_FinalNombre
+
+END
 --************** INDEX PENDIENTES *****************--
 GO
 CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexPendientes
