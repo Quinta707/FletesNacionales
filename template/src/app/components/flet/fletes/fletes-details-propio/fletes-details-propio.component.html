@@ -99,7 +99,7 @@
                           <button class="btn btn-success" (click)="updateMarker(item.pedi_DestinoNombre)">Ver destino del pedido</button>
                         </div>
                         <div class="col d-flex justify-content-end ">
-                          <button type="button" class="btn btn-primary" (click)="openModalEstado(content1)">Actualizar estado del pedido</button>
+                          <button type="button" class="btn btn-primary"  [disabled]="item.estp_Id === 4" (click)="openModalEstado(content1, item)">Actualizar estado del pedido</button>
                         </div>
                       </div>
                     </ng-template>
@@ -113,7 +113,7 @@
                 <button class="btn btn-dark" type="button" (click)="redirectToList()">Regresar</button>
               </div>
               <div class="col d-flex justify-content-end ">
-                <button type="button" class="btn btn-primary">Terminar flete</button>
+                <button type="button" class="btn btn-primary" [disabled]=" nuevoFlete.flet_PedidosCompletados !== nuevoFlete.flet_PedidosTotales " (click)="terminar()">Terminar flete</button>
               </div>
             </div> 
             </div>
@@ -123,52 +123,52 @@
     </div>
   </div>
   
-  <ng-template #content2 let-c="close" let-d="dismiss" class="text-center">
-    <div class="modal-header d-flex justify-content-center">
+  <ng-template #content2 let-c="close" let-d="dismiss" >
+    <div class="modal-header ">
       <h4 class="modal-title" id="modal-basic-title">Ubicacion del flete</h4>
     </div>
       <form [formGroup]="ubicacionFormGroup">
-    <div class="modal-body text-center">
+    <div class="modal-body ">
         <div class="row mt-2">
           <div class="col">
             <div class="col-form-label">Ubicacion</div>
             <ng-select [items]="municipiosDdl" class="" formControlName="muni_Id"
             bindValue="value" groupBy="job" placeholder="Ubicacion"></ng-select>
             <!-- [(ngModel)]="datosTrayecto.muni_Id" -->
-            <ng-container class="invalid text-danger"
+            <ng-container class="invalid"
             *ngIf="ubicacionFormGroup.get('muni_Id').hasError('required') && ubicacionFormGroup.get('muni_Id').touched">
             <p class="text-danger">La ubicacion del flete es necesario</p></ng-container>
           </div>
         </div>
     </div>
-    <div class="modal-footer d-flex justify-content-center">
-      <button type="button" class="btn btn-dark" (click)="nopModal()">Cancelar</button>
-      <button type="button" class="btn btn-primary" [disabled]="!ubicacionFormGroup.valid" (click)="siModal2()"  >Guardar</button>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-dark" (click)="closeModal()">Cancelar</button>
+      <button type="button" class="btn btn-primary" [disabled]="!ubicacionFormGroup.valid" (click)="guardarUbicacion()"  >Guardar</button>
     </div>
   </form>
   </ng-template>
 
-  <ng-template #content1 let-c="close" let-d="dismiss" class="text-center">
-    <div class="modal-header d-flex justify-content-center">
+  <ng-template #content1 let-c="close" let-d="dismiss" >
+    <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Estado del pedido</h4>
     </div>
-      <form [formGroup]="ubicacionFormGroup">
-    <div class="modal-body text-center">
+      <form [formGroup]="EstadoFormGroup">
+    <div class="modal-body">
         <div class="row mt-2">
           <div class="col">
             <div class="col-form-label">Estado</div>
-            <ng-select [items]="estadosDdl" class="" formControlName="muni_Id"
-            bindValue="value" groupBy="job" placeholder="Estado"></ng-select>
-            <!-- [(ngModel)]="datosTrayecto.muni_Id" -->
+            <ng-select [items]="EstadosDdl" class="" formControlName="estp_Id"
+            bindValue="value" placeholder="Estado"></ng-select>
+            <!-- [(ngModel)]="datosTrayecto.muni_Id"  groupBy="job"-->
             <ng-container class="invalid text-danger"
-            *ngIf="ubicacionFormGroup.get('muni_Id').hasError('required') && ubicacionFormGroup.get('muni_Id').touched">
+            *ngIf="EstadoFormGroup.get('estp_Id').hasError('required') && EstadoFormGroup.get('estp_Id').touched">
             <p class="text-danger">El estado del pedido es necesario</p></ng-container>
           </div>
         </div>
     </div>
-    <div class="modal-footer d-flex justify-content-center">
-      <button type="button" class="btn btn-dark" (click)="nopModal()">Cancelar</button>
-      <button type="button" class="btn btn-primary" [disabled]="!ubicacionFormGroup.valid" (click)="siModal2()"  >Guardar</button>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-dark" (click)="closeModal()">Cancelar</button>
+      <button type="button" class="btn btn-primary" [disabled]="!EstadoFormGroup.valid" (click)="guardarEstado()"  >Guardar</button>
     </div>
   </form>
   </ng-template>

@@ -44,6 +44,7 @@ export class FleteDetailsPropioComponent implements OnInit {
   ubicacionFormGroup: FormGroup; 
   EstadoFormGroup: FormGroup;
   
+  private id  
   
   public municipiosDdl = [];
   public EstadosDdl = [];
@@ -140,14 +141,15 @@ export class FleteDetailsPropioComponent implements OnInit {
       iconSize: [40, 40],
       iconAnchor: [10, 41],
       popupAnchor: [2, -40],
-      iconUrl: "assets/images/map_icon_gps.png",
+      iconUrl: "assets/images/map_icon_gps_alternative.png",
       // iconUrl: "assets/images/map_icon_paquete_añternative.png",
     }),
   };
   // actualiza el mapa con nuevas coordenadas
   async updateMarker(municipio: string) {
     if(this.routingControl){
-      this.routingControl.remove();
+      
+      this.routingControl.getPlan().setWaypoints([]);
     }
     const popupText: string = "Este pedido llegara hasta " + municipio;
     const popupInfo = `<b style="color: black; background-color: white">${popupText}</b>`;
@@ -204,19 +206,40 @@ export class FleteDetailsPropioComponent implements OnInit {
     
     
     this.EstadoFormGroup = this._formBuilder.group({
+      pedi_Id: ['', Validators.required],
       estp_Id: ['', Validators.required],
     });
 
+    this.service.getDllMunicipios()
+    .subscribe((data: any) => {
+      this.municipiosDdl = data.data.map((item: any) => ({
+        value: item.muni_Id,
+        label: item.muni_Nombre,
+        job: item.depa_Nombre,
+      }));
+    })
+    
+    this.service.getDllEstados()
+    .subscribe((data: any) => {
+      console.log("Aca estan los estados",data)
+      this.EstadosDdl = data.data.map((item: any) => ({
+        value: item.estp_Id,
+        label: item.estp_Nombre,
+      }));
+    })
 
-    const id = this.route.snapshot.queryParams["id"];
 
-    if (id) {
+    this.id = this.route.snapshot.queryParams["id"];
+
+    if (this.id) {
       const datosdeFlete: any = await this.service
-        .getBuscarFlete(id)
+        .getBuscarFlete(this.id)
         .toPromise();
       this.nuevoFlete = datosdeFlete;
 
-      this.service.getBuscarDetalles(id).subscribe((data: any) => {
+      this.ubicacionFormGroup.get('muni_Id').setValue(this.nuevoFlete.flet_UbicadoId); 
+
+      this.service.getBuscarDetalles(this.id).subscribe((data: any) => {
         this.pedidosDelNuevoFlete$ = of(data.data);
 
         data.data.forEach((element) => {
@@ -324,7 +347,6 @@ export class FleteDetailsPropioComponent implements OnInit {
           //   .closePopup();
           
           
-          console.log("------Hizo la carga-------")
           this.routingControl = L.Routing.control({
             waypoints: this.waypoints,
             routeWhileDragging: false,
@@ -340,7 +362,6 @@ export class FleteDetailsPropioComponent implements OnInit {
             //   missingRouteTolerance: 100
             // }
           }).addTo(this.map4)
-          console.log("------Hizo la carga-------")
           
 
           if (this.nuevoFlete.flet_Ubicado) {
@@ -405,8 +426,9 @@ export class FleteDetailsPropioComponent implements OnInit {
         //   .bindPopup(popupFinal)
         //   .closePopup();
 
-        
+          console.log(this.waypoints)
           this.routingControl.getPlan().setWaypoints(this.waypoints);
+        
 
         if (this.nuevoFlete.flet_Ubicado) {
           L.marker(
@@ -427,11 +449,13 @@ export class FleteDetailsPropioComponent implements OnInit {
     this.router.navigate(["/flet/Fletes/List"]);
   }
   
-    openModalEstado(content1) {
-      this.modalRef = this.modalService.open(content1, {
-        centered: true,
-      });
-    }
+  openModalEstado(content1, item:any) {
+    this.modalRef = this.modalService.open(content1, {
+      centered: true,
+    });
+    this.EstadoFormGroup.get('estp_Id').setValue(item.estp_Id); 
+    this.EstadoFormGroup.get('pedi_Id').setValue(item.pedi_Id); 
+  }
 
   openModalUbicacion(content2) {
     this.modalRef = this.modalService.open(content2, {
@@ -439,6 +463,163 @@ export class FleteDetailsPropioComponent implements OnInit {
     });
   }
 
+  guardarEstado() {
+    let data = {
+      estp_Id: this.EstadoFormGroup.value['estp_Id'],
+      pedi_Id: this.EstadoFormGroup.value['pedi_Id']
+    }
+    this.service.putUpdateEstadoPedido(data)
+    .subscribe ((data:any) => {
+      console.log(data)
+      if(data.message === "Exitoso"){
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+          title: 'Genial, el pedido ha sido completado.',
+          icon: 'success'
+        })
+      }else if(data.message == "NoEsPosible"){
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+          title: '¿? No puedes modificar el estado de un pedido que ya se completo.',
+          icon: 'error'
+        })
+      }else{
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+          title: 'No se a podido realizar la operacion.',
+          icon: 'error'
+        })
+      }
+
+      this.service.getBuscarFlete(this.id)
+        .subscribe((data:any) =>{
+            this.nuevoFlete = data;
+          })
+
+      this.service.getBuscarDetalles(this.id).subscribe((data: any) => {
+        this.pedidosDelNuevoFlete$ = of(data.data);
+
+        this.itemsArray = [];
+
+        data.data.forEach((element) => {
+          if (element.items && typeof element.items === "string") {
+            const itemsJSON = JSON.parse(element.items); // Parsear el campo "items" a un objeto o arreglo
+            if (Array.isArray(itemsJSON)) {
+              // Recorrer el arreglo de objetos
+              for (const item of itemsJSON) {
+                this.itemsArray.push(item); // Agregar cada elemento al arreglo itemsArray
+              }
+
+              this.itemsArray$ = of(this.itemsArray);
+            }
+          }
+        });
+
+        
+        this.closeModal()
+
+      });
+
+
+
+    })
+  }
+
+  guardarUbicacion () {
+    let data = {
+      flet_Id: this.id,
+      muni_Id: this.ubicacionFormGroup.value['muni_Id']
+    }
+    this.service.postInsertarUbicacion(data)
+    .subscribe ((data:any) => {
+      console.log(data)
+      
+      this.service.getBuscarFlete(this.id)
+        .subscribe((data:any) =>{
+            this.nuevoFlete = data;
+            this.ubicacionFormGroup.get('muni_Id').setValue(this.nuevoFlete.flet_UbicadoId); 
+            this.service.obtenerCoordenadas(this.nuevoFlete.flet_Ubicado)
+            .subscribe((data:any)=>{
+              const result1 = data.results[0];
+              let cords = {
+                lat: result1.geometry.lat,
+                lon: result1.geometry.lng,
+              };
+              this.coordenadasUbicacion = cords;
+
+              this.recuperarMarker()
+            });
+          
+
+        });
+
+    })
+
+    this.closeModal()
+
+  }
+
+  terminar() {
+    let data = {
+      flet_Id: this.id
+    }
+    this.service.postTerminar(data)
+    .subscribe ((data:any) => {
+      console.log(data)
+      if(data.message === "Termino"){
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+          title: 'Gran trabajo, el flete ha sido terminado',
+          icon: 'success'
+        }).then(()=>{
+          this.router.navigate(['/flet/Fletes/PersonalList']);
+        })
+      }else if(data.message === "PedidosPendientes"){
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+          title: 'Hay pedidos sin completar, tienes que terminarlos.',
+          icon: 'warning'
+        })
+      }else{
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+          title: 'No se a podido realizar la operacion.',
+          icon: 'error'
+        })
+      }
+    })
+  }
+
+
+  closeModal() {
+    if (this.modalRef) {
+      this.modalRef.dismiss();
+    }
+  }
 
 }
 

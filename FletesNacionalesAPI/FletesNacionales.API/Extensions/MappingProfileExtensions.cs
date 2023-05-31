@@ -28,6 +28,7 @@ namespace FletesNacionales.API.Extensions
             CreateMap<MetodoDePagoViewModel, tbMetodosdePago>().ReverseMap();
             CreateMap<MunicipiosViewModel, tbMunicipios>().ReverseMap();
             CreateMap<SucursalesViewModel, tbSucursales>().ReverseMap();
+            CreateMap<UbicacionPorFleteViewModel, tbUbicacionPorFlete>().ReverseMap();
             #region equi
             CreateMap<MarcasViewModel, tbMarcas>().ReverseMap();
             CreateMap<ModelosViewModel, tbModelos>().ReverseMap();

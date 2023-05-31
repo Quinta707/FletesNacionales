@@ -2109,6 +2109,7 @@ SELECT	flet_Id,
 		(SELECT ISNULL(COUNT(*),0) FROM flet.VW_tbFleteDetalles as pt WHERE pt.flet_Id = T1.flet_Id) AS flet_PedidosTotales,
 		(SELECT ISNULL(COUNT(*),0) FROM flet.VW_tbFleteDetalles as pc WHERE pc.flet_Id = T1.flet_Id AND pc.estp_Id = 4 ) AS flet_PedidosCompletados,
 		(SELECT TOP(1) pc.muni_Nombre FROM flet.VW_tbUbicacionPorFlete as pc WHERE pc.flet_Id = T1.flet_Id ORDER BY pc.ubif_FechaCreacion desc ) AS flet_Ubicado,
+		(SELECT TOP(1) pc.muni_Id FROM flet.VW_tbUbicacionPorFlete as pc WHERE pc.flet_Id = T1.flet_Id ORDER BY pc.ubif_FechaCreacion desc ) AS flet_UbicadoId,
 		T12.marc_Id,
 		T13.marc_Nombre,
 		T1.empe_Id, 
@@ -2349,6 +2350,39 @@ BEGIN
 		SELECT 0  
 	END CATCH
 END
+GO
+
+--************** TERMINAR FLETE *****************--
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_Terminar --1
+(
+	@flet_Id INT
+)
+AS
+BEGIN
+BEGIN TRY
+
+	IF EXISTS ( SELECT * FROM flet.tbPedidos WHERE pedi_Id IN (SELECT pedi_Id FROM flet.tbFleteDetalles WHERE flet_Id = @flet_Id) AND estp_Id NOT IN (4,5))
+	BEGIN
+		SELECT -2
+	END
+	ELSE
+	BEGIN
+
+		UPDATE flet.tbFletes
+		SET estp_Id = 4
+		WHERE @flet_Id = flet_Id
+
+		select 1
+
+	END
+
+
+END TRY
+BEGIN CATCH
+		select 0
+END CATCH
+END 
+
 GO
 --************** EMPEZAR FLETE *****************--
 CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_Empezar
@@ -2861,6 +2895,36 @@ BEGIN
 		SELECT 0  
 	END CATCH
 END
+
+--************** UPDATE ESTADO *****************--
+Go
+CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_UpdateEstado
+(
+@pedi_Id				INT,
+@estp_Id				INT
+ )
+AS
+BEGIN
+	BEGIN TRY
+      
+	  IF EXISTS (SELECT * FROM flet.tbPedidos WHERE estp_Id = 4 AND pedi_Id = @pedi_Id)
+	  BEGIN
+		SELECT -2
+	  END
+	  ELSE
+	  BEGIN
+		UPDATE	flet.tbPedidos
+		SET		estp_Id = @estp_Id
+		WHERE	pedi_Id = @pedi_Id
+
+		SELECT 1 
+	  END
+	END TRY
+	BEGIN CATCH
+		SELECT 0  
+	END CATCH
+END
+
 
 
 --************** DELETE *****************--
@@ -3901,16 +3965,14 @@ GO
 CREATE OR ALTER PROCEDURE flet.UDP_tbUbicacionPorFlete_Insert
 (
 @flet_Id				INT, 
-@muni_Id				INT, 
-@ubif_UbicacionExacta	NVARCHAR(MAX), 
-@ubif_UsuCreacion		INT
+@muni_Id				CHAR(4)
 )
 AS
 BEGIN
 	BEGIN TRY
         
 		INSERT INTO flet.tbUbicacionPorFlete (flet_Id, muni_Id, ubif_UbicacionExacta, ubif_UsuCreacion)
-		VALUES	(@flet_Id, @muni_Id, @ubif_UbicacionExacta, @ubif_UsuCreacion)
+		VALUES	(@flet_Id, @muni_Id, '-0,-0', 1)
 
 		SELECT 1 
 	END TRY

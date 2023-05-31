@@ -121,6 +121,14 @@ namespace FletesNacionales.API.Controllers
             var response = _fletService.EmpezarFlete(item);
             return Ok(response);
         }
+        
+        [HttpPost("Terminar")]
+        public IActionResult Terminar(FletesViewModel flete)
+        {
+            var item = _mapper.Map<tbFletes>(flete);
+            var response = _fletService.TerminarFlete(item);
+            return Ok(response);
+        }
 
         [HttpGet("FleteDetalles")]
         public IActionResult FleteDetalles(int flet_Id)
@@ -143,6 +151,14 @@ namespace FletesNacionales.API.Controllers
 
                 return Ok(response);
 
+        }
+
+        [HttpPost("InsertarUbicacion")]
+        public IActionResult InsertUbicacion(UbicacionPorFleteViewModel flete)
+        {
+            var item = _mapper.Map<tbUbicacionPorFlete>(flete);
+            var response = _fletService.InsertarFletesUbicacion(item);
+            return Ok(response);
         }
 
     }

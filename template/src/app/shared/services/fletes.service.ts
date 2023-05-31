@@ -181,6 +181,11 @@ export class TableService {
     return this.http.get<Municipios[]>(Global+"Municipios/Listado")
   }
 
+
+  getDllEstados(){
+    return this.http.get<Municipios[]>(Global+"EstadosDelPedido/Listado")
+  }
+
   getDllEmpleados(){
     return this.http.get<Empleados[]>(Global+"Empleados/Listado")
   }
@@ -191,6 +196,10 @@ export class TableService {
   
   getPedidos(){
     return this.http.get<Pedidos[]>(Global+"Pedidos/Listado")
+  }
+
+  postTerminar(data: any){
+    return this.http.post<any>(Global+"Fletes/Terminar",data)
   }
   
   getPedidosPorMunicipio(id: string){
@@ -212,6 +221,14 @@ export class TableService {
  
   putUpdateFlete(data: any){
     return this.http.put<any>(Global+"Fletes/Editar",data)
+  }
+ 
+  putUpdateEstadoPedido(data: any){
+    return this.http.put<any>(Global+"Pedidos/EditarEstado",data)
+  }
+  
+  postInsertarUbicacion(data: any){
+    return this.http.post<any>(Global+"Fletes/InsertarUbicacion",data)
   }
   
   postInsertarFleteDetalles(data: any){

@@ -497,7 +497,37 @@ namespace FletesNacionales.BusinessLogic.Services
                 return result.Error(xe.Message);
             }
         }
-        
+
+        public ServiceResult InsertarFletesUbicacion(tbUbicacionPorFlete item)
+        {
+            ServiceResult result = new ServiceResult();
+            try
+            {
+                var list = _fletesRepository.InsertUbicacion(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.SetMessage(list.CodeStatus.ToString(), ServiceResultType.Success);
+                }
+                else if (list.CodeStatus == -4)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
+                }
+                else if (list.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                }
+                else
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
+                }
+            }
+            catch (Exception xe)
+            {
+
+                return result.Error(xe.Message);
+            }
+        }
+
         public ServiceResult VehiDisponible(int vehi_Id, string fechaSalida)
         {
             ServiceResult result = new ServiceResult();
@@ -631,6 +661,28 @@ namespace FletesNacionales.BusinessLogic.Services
                     return result.SetMessage("PedidosPendientes", ServiceResultType.Error);
                 else if (insert.CodeStatus == -6)
                     return result.SetMessage("PedidosSinTerminar", ServiceResultType.Error);
+                else if (insert.CodeStatus == 0)
+                    return result.SetMessage("Error Inesperado", ServiceResultType.Error);
+                else
+                    return result.SetMessage("Conexión perdida", ServiceResultType.Error);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+        public ServiceResult TerminarFlete(tbFletes id)
+        {
+            var result = new ServiceResult();
+
+            try
+            {
+                var insert = _fletesRepository.TerminarFlete(id);
+
+                if (insert.CodeStatus == 1)
+                    return result.SetMessage("Termino", ServiceResultType.Success);
+                else if (insert.CodeStatus == -2)
+                    return result.SetMessage("PedidosPendientes", ServiceResultType.Error);
                 else if (insert.CodeStatus == 0)
                     return result.SetMessage("Error Inesperado", ServiceResultType.Error);
                 else
@@ -967,6 +1019,26 @@ namespace FletesNacionales.BusinessLogic.Services
                     map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
                     return result.Error(map);
                 }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public ServiceResult EditarPedidosEstado(tbPedidos item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _pedidosRepository.UpdateEstado(item);
+                if (map.CodeStatus == 1)
+                    return result.SetMessage("Exitoso", ServiceResultType.Success);
+                else if (map.CodeStatus == -2)
+                    return result.SetMessage("NoEsPosible", ServiceResultType.Error);
+                else if (map.CodeStatus == 0)
+                    return result.SetMessage("Error Inesperado", ServiceResultType.Error);
+                else
+                    return result.SetMessage("Conexión perdida", ServiceResultType.Error);
             }
             catch (Exception)
             {

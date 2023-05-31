@@ -45,6 +45,14 @@ namespace FletesNacionales.API.Controllers
             var response = _fletService.EditarPedidos(item);
             return Ok(response);
         }
+        
+        [HttpPut("EditarEstado")]
+        public IActionResult UpdateEstado(PedidosViewModel Pedidos)
+        {
+            var item = _mapper.Map<tbPedidos>(Pedidos);
+            var response = _fletService.EditarPedidosEstado(item);
+            return Ok(response);
+        }
 
         [HttpPut("Eliminar")]
         public IActionResult Delete(PedidosViewModel Pedidos)

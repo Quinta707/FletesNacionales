@@ -74,5 +74,16 @@ namespace FletesNacionales.DataAccess.Repository
             var result = db.QueryFirst<RequestStatus>(ScriptsDataBase.PedidosUpdate, parametros, commandType: System.Data.CommandType.StoredProcedure);
             return result;
         }
+        public RequestStatus UpdateEstado(tbPedidos item)
+        {
+            RequestStatus resultado = new RequestStatus();
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+            var parametros = new DynamicParameters();
+            parametros.Add("@pedi_Id", item.pedi_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@estp_Id", item.estp_Id, DbType.Int32, ParameterDirection.Input);
+
+            resultado.CodeStatus  = db.QueryFirst<int>(ScriptsDataBase.PedidosUpdateEstado, parametros, commandType: System.Data.CommandType.StoredProcedure);
+            return resultado;
+        }
     }
 }

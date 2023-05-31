@@ -142,6 +142,7 @@
         public static string FletesUpdate = "flet.UDP_tbFletes_Update";
         public static string FletesDelete = "flet.UDP_tbFletes_Delete";
         public static string FletesEmpezar = "flet.UDP_tbFletes_Empezar";
+        public static string FletesTerminar = "flet.UDP_tbFletes_Terminar";
         public static string FletesPedidos = "flet.UDP_tbFletes_PedidosPorFlete";
         public static string FletesVehiDisponible = "flet.UDP_tbFletes_VehiculoAsignado";
         public static string FletesIndexEmpleado = "flet.UDP_tbFletes_IndexPorEmpleado";
@@ -157,6 +158,9 @@
         public static string FletesDetallesUpdate = "flet.UDP_tbFleteDetalles_Update";
         public static string FletesDetallesDelete = "flet.UDP_tbFleteDetalles_Delete";
 
+
+
+        public static string FleteUbicacionInsert = "flet.UDP_tbUbicacionPorFlete_Insert";
         #endregion
 
         #region Items
@@ -174,6 +178,7 @@
         public static string PedidosIndex = "flet.UDP_tbPedidos_Index";
         public static string PedidosInsert = "flet.UDP_tbPedidos_Insert";
         public static string PedidosUpdate = "flet.UDP_tbPedidos_Update";
+        public static string PedidosUpdateEstado = "flet.UDP_tbPedidos_UpdateEstado";
         public static string PedidosDelete = "flet.UDP_tbPedidos_Delete";
         public static string PedidosPorMunicipio = "flet.UDP_tbPedidos_PedidosPorMunicipio";
 

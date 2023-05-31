@@ -59,7 +59,21 @@ namespace FletesNacionales.DataAccess.Repository
 
             return result;
         }
-    public RequestStatus VehiDispo(int vehi_Id, string fechaSalida)
+
+        public RequestStatus InsertUbicacion(tbUbicacionPorFlete item)
+        {
+            RequestStatus result = new RequestStatus();
+
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+            var parametros = new DynamicParameters();
+            parametros.Add("@muni_Id", item.muni_Id, DbType.String, ParameterDirection.Input);
+            parametros.Add("@flet_Id", item.flet_Id, DbType.Int32, ParameterDirection.Input);
+            result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.FleteUbicacionInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
+
+            return result;
+        }
+
+        public RequestStatus VehiDispo(int vehi_Id, string fechaSalida)
         {
             RequestStatus result = new RequestStatus();
 
@@ -172,6 +186,18 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@flet_Id", item.flet_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@empe_Id", item.empe_Id, DbType.Int32, ParameterDirection.Input);
             result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.FletesEmpezar, parametros, commandType: System.Data.CommandType.StoredProcedure);
+
+            return result;
+        }
+        
+        public RequestStatus TerminarFlete(tbFletes item)
+        {
+            RequestStatus result = new RequestStatus();
+
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+            var parametros = new DynamicParameters();
+            parametros.Add("@flet_Id", item.flet_Id, DbType.Int32, ParameterDirection.Input);
+            result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.FletesTerminar, parametros, commandType: System.Data.CommandType.StoredProcedure);
 
             return result;
         }
