@@ -39,8 +39,17 @@ import { ActivatedRoute, Router } from "@angular/router";
   styleUrls: ["./fletes-details-propio.component.scss"],
 })
 export class FleteDetailsPropioComponent implements OnInit {
-  //mapa
 
+  //Formularios
+  ubicacionFormGroup: FormGroup; 
+  EstadoFormGroup: FormGroup;
+  
+  
+  public municipiosDdl = [];
+  public EstadosDdl = [];
+
+  //mapa
+  private routingControl: any;
   //Control de las capas visibles
   layersControl = {
     baseLayers: {
@@ -89,6 +98,9 @@ export class FleteDetailsPropioComponent implements OnInit {
     L.latLng(this.coordenadasFin.lat, this.coordenadasFin.lon), 
     L.latLng(this.coordenadasFin.lat, this.coordenadasFin.lon)
   ]
+  
+  waypointsPedidos = [
+  ]
   //Iconos
   private markerIcon = {
     icon: L.icon({
@@ -134,8 +146,11 @@ export class FleteDetailsPropioComponent implements OnInit {
   };
   // actualiza el mapa con nuevas coordenadas
   async updateMarker(municipio: string) {
+    if(this.routingControl){
+      this.routingControl.remove();
+    }
     const popupText: string = "Este pedido llegara hasta " + municipio;
-    const popupInfo = `<b style="color: red; background-color: white">${popupText}</b>`;
+    const popupInfo = `<b style="color: black; background-color: white">${popupText}</b>`;
     if (this.map4) {
       this.map4.eachLayer((layer) => {
         if (layer instanceof L.Marker) {
@@ -159,10 +174,6 @@ export class FleteDetailsPropioComponent implements OnInit {
     }
   }
 
-  redirectToList() {
-    this.router.navigate(["/flet/Fletes/List"]);
-  }
-
   //Configuracion
   options4 = {
     layers: [
@@ -171,7 +182,7 @@ export class FleteDetailsPropioComponent implements OnInit {
         attribution: "",
       }),
     ],
-    zoom: 4,
+    zoom: 7,
     center: L.latLng(14.772433199139046, -86.63434162882122),
   };
 
@@ -186,6 +197,17 @@ export class FleteDetailsPropioComponent implements OnInit {
   itemsArray: any[] = [];
 
   async ngOnInit() {
+
+    this.ubicacionFormGroup = this._formBuilder.group({
+      muni_Id: ['', Validators.required],
+    });
+    
+    
+    this.EstadoFormGroup = this._formBuilder.group({
+      estp_Id: ['', Validators.required],
+    });
+
+
     const id = this.route.snapshot.queryParams["id"];
 
     if (id) {
@@ -243,45 +265,33 @@ export class FleteDetailsPropioComponent implements OnInit {
         };
         this.coordenadasUbicacion = cords2;
       }
-
-      // this.pedidosDelNuevoFlete$.forEach((element:any) => {
-      //   console.log(element);
-      // });
+      
+      this.waypoints = [
+        L.latLng(this.coordenadasIncio.lat, this.coordenadasIncio.lon), 
+      ]
 
       const dataObservable: Observable<any[]> = this.pedidosDelNuevoFlete$; // Tu Observable con el array de datos
 
       await dataObservable.toPromise()
       .then(async data => {
         for (const element of data) {
-          console.log(element.pedi_DestinoNombre);
           const result = await this.service.obtenerCoordenadas(element.pedi_DestinoNombre).toPromise();
           const result2 = result.results[0];
-          console.log("coordenada", result2.geometry.lat)
-          let ll = [
-            result2.geometry.lat, result2.geometry.lng
-          ]
-          console.log(ll)
+          this.waypointsPedidos.push(L.latLng(result2.geometry.lat, result2.geometry.lng));
           this.waypoints.push(L.latLng(result2.geometry.lat, result2.geometry.lng));
         }
-        console.log(this.waypoints); // Imprimir el array acumulativo
       })
       .catch(error => {
         // Manejar el error
       });
-    
-
-      // this.waypoints = [
-      //   L.latLng(this.coordenadasIncio.lat, this.coordenadasIncio.lon), 
-      //   L.latLng(this.coordenadasFin.lat, this.coordenadasFin.lon), 
-      //   L.latLng(this.coordenadasFin.lat, this.coordenadasFin.lon)
-      // ]
-  // this.waypoints.push(L.latLng(parseFloat(result2.geometry.lat), parseFloat(result2.geometry.ing))); // Agregar el resultado al array acumulativo
-        
+      
+      
+      this.waypoints.push(L.latLng(this.coordenadasFin.lat, this.coordenadasFin.lon));
 
       const popupInicio = `<b style="color: red; background-color: white">Lugar de salida: ${this.nuevoFlete.muni_NombreInicio}</b>`;
       const popupFinal = `<b style="color: red; background-color: white">Lugar de destino: ${this.nuevoFlete.muni_NombreFinal}</b>`;
-      const popupLocal = `<b style="color: red; background-color: white">Flete local en: ${this.nuevoFlete.muni_NombreFinal}</b>`;
-      const popupUbicacion = `<b style="color: red; background-color: white">El flete se encuentra en: ${this.nuevoFlete.flet_Ubicado}</b>`;
+      const popupLocal = `<b style="color: black; background-color: white">Flete local en: ${this.nuevoFlete.muni_NombreFinal}</b>`;
+      const popupUbicacion = `<b style="color: black; background-color: white">El flete se encuentra en: ${this.nuevoFlete.flet_Ubicado}</b>`;
 
       if (this.map4) {
         this.map4.eachLayer((layer) => {
@@ -315,18 +325,21 @@ export class FleteDetailsPropioComponent implements OnInit {
           
           
           console.log("------Hizo la carga-------")
-          L.Routing.control({
+          this.routingControl = L.Routing.control({
             waypoints: this.waypoints,
-            routeWhileDragging: true,
-            showAlternatives: true,
-            altLineOptions: {
-              styles: [
-                { color: 'lightseagreen', opacity: 0.6, weight: 4 } // Configuración de estilo de la ruta alternativa
-              ],
-              extendToWaypoints: true,
-              missingRouteTolerance: 100
-            }
-          }).addTo(this.map4);
+            routeWhileDragging: false,
+            fitSelectedRoutes: true,
+            addWaypoints: false,
+            collapsible: true,
+            // collapseBtnClass: "btn "
+            // altLineOptions: {
+            //   styles: [
+            //     { color: 'lightseagreen', opacity: 0.6, weight: 4 } // Configuración de estilo de la ruta alternativa
+            //   ],
+            //   extendToWaypoints: true,
+            //   missingRouteTolerance: 100
+            // }
+          }).addTo(this.map4)
           console.log("------Hizo la carga-------")
           
 
@@ -349,14 +362,16 @@ export class FleteDetailsPropioComponent implements OnInit {
   constructor(
     public service: TableService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private modalService: NgbModal,
+    private _formBuilder: FormBuilder,
   ) {}
 
   async recuperarMarker() {
     const popupInicio = `<b style="color: red; background-color: white">Lugar de salida: ${this.nuevoFlete.muni_NombreInicio}</b>`;
     const popupFinal = `<b style="color: red; background-color: white">Lugar de destino: ${this.nuevoFlete.muni_NombreFinal}</b>`;
-    const popupLocal = `<b style="color: red; background-color: white">Flete local en: ${this.nuevoFlete.muni_NombreFinal}</b>`;
-    const popupUbicacion = `<b style="color: red; background-color: white">El flete se encuentra en: ${this.nuevoFlete.flet_Ubicado}</b>`;
+    const popupLocal = `<b style="color: black; background-color: white">Flete local en: ${this.nuevoFlete.muni_NombreFinal}</b>`;
+    const popupUbicacion = `<b style="color: black; background-color: white">El flete se encuentra en: ${this.nuevoFlete.flet_Ubicado}</b>`;
 
     if (this.map4) {
       this.map4.eachLayer((layer) => {
@@ -375,20 +390,24 @@ export class FleteDetailsPropioComponent implements OnInit {
           .bindPopup(popupLocal)
           .closePopup();
       } else {
-        L.marker(
-          [this.coordenadasIncio.lat, this.coordenadasIncio.lon],
-          this.IconInicio
-        )
-          .addTo(this.map4)
-          .bindPopup(popupInicio)
-          .closePopup();
-        L.marker(
-          [this.coordenadasFin.lat, this.coordenadasFin.lon],
-          this.IconDestino
-        )
-          .addTo(this.map4)
-          .bindPopup(popupFinal)
-          .closePopup();
+        // L.marker(
+        //   [this.coordenadasIncio.lat, this.coordenadasIncio.lon],
+        //   this.IconInicio
+        // )
+        //   .addTo(this.map4)
+        //   .bindPopup(popupInicio)
+        //   .closePopup();
+        // L.marker(
+        //   [this.coordenadasFin.lat, this.coordenadasFin.lon],
+        //   this.IconDestino
+        // )
+        //   .addTo(this.map4)
+        //   .bindPopup(popupFinal)
+        //   .closePopup();
+
+        
+          this.routingControl.getPlan().setWaypoints(this.waypoints);
+
         if (this.nuevoFlete.flet_Ubicado) {
           L.marker(
             [this.coordenadasUbicacion.lat, this.coordenadasUbicacion.lon],
@@ -401,4 +420,26 @@ export class FleteDetailsPropioComponent implements OnInit {
       }
     }
   }
+  
+  modalRef: NgbModalRef;
+
+  redirectToList() {
+    this.router.navigate(["/flet/Fletes/List"]);
+  }
+  
+    openModalEstado(content1) {
+      this.modalRef = this.modalService.open(content1, {
+        centered: true,
+      });
+    }
+
+  openModalUbicacion(content2) {
+    this.modalRef = this.modalService.open(content2, {
+      centered: true,
+    });
+  }
+
+
 }
+
+
