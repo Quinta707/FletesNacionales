@@ -9,11 +9,14 @@
 
         public static string UsuraiosFind = "acce.UDP_tbUsuarios_Find";
         public static string UsuraiosIndex = "acce.UDP_tbUsuarios_Index";
-        public static string UsuraiosInsert = "acce.UDP_tbUsuarios_Insert";
-        public static string UsuraiosUpdate = "acce.UDP_tbUsuarios_Update";
-        public static string UsuraiosDelete = "acce.UDP_tbUsuarios_Delete";
-
+        public static string UsuraiosInsert = "ACCE.UDP_tbUsuarios_InsertarNuevoUsuario";
+        public static string UsuraiosUpdate = "ACCE.UDP_tbUsuarios_EditarUsuarios";
+        public static string UsuraiosDelete = "ACCE.UDP_tbUsuarios_EliminarUsuario";
+        public static string ValidarUsuariosPoseenRol = "ACCE.UDP_tbUsuarios_ValidarUsuariosPoseenRol";
+        public static string ValidarUsernameExiste = "ACCE.UDP_tbUsuarios_ValidarUsernameExiste";
+        public static string EmpleadosNoTienenUsuario = "ACCE.UDP_tbUsuarios_EmpleadosNoTienenUsuario";
         public static string UsuraiosLogin = "acce.UDP_Login";
+
         #endregion
 
         #region Roles
