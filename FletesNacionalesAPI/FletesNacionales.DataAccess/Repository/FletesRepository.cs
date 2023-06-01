@@ -103,7 +103,7 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
 
             var parametros = new DynamicParameters();
-            parametros.Add("@flet_Id", id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@empe_Id", id, DbType.Int32, ParameterDirection.Input);
 
             return db.Query<VW_tbFletes>(ScriptsDataBase.FletesIndexEmpleado, parametros, commandType: System.Data.CommandType.StoredProcedure);
         }
@@ -112,7 +112,7 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
 
             var parametros = new DynamicParameters();
-            parametros.Add("@flet_Id", id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@empe_Id", id, DbType.Int32, ParameterDirection.Input);
 
             return db.Query<VW_tbFletes>(ScriptsDataBase.FletesIndexEmpleadoPendiente, parametros, commandType: System.Data.CommandType.StoredProcedure);
         }
@@ -121,7 +121,7 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
 
             var parametros = new DynamicParameters();
-            parametros.Add("@flet_Id", id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@empe_Id", id, DbType.Int32, ParameterDirection.Input);
 
             return db.Query<VW_tbFletes>(ScriptsDataBase.FletesIndexEmpleadoEnProceso, parametros, commandType: System.Data.CommandType.StoredProcedure);
         }
@@ -130,7 +130,7 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
 
             var parametros = new DynamicParameters();
-            parametros.Add("@flet_Id", id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@empe_Id", id, DbType.Int32, ParameterDirection.Input);
 
             return db.Query<VW_tbFletes>(ScriptsDataBase.FletesIndexEmpleadoTerminado, parametros, commandType: System.Data.CommandType.StoredProcedure);
         }

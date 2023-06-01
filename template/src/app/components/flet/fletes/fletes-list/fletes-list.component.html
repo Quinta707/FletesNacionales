@@ -3,12 +3,9 @@
   <br>
   <div class="row">
     <div class="col-12">
-      <div class="card">
-        <div class="card-header bg-primary">
-          <div class="text-center">
-            <h3>Listado de fletes</h3>
-          </div>
-        </div>
+      <div class="card card-border">
+        <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/Fletes.png" alt="Card image cap">
+
         <div class="card-body">
           <ul ngbNav #nav="ngbNav" [(activeId)]="active" (navChange)="onNavChange($event)" class="nav-tabs">
             <li [ngbNavItem]="1">
@@ -20,7 +17,7 @@
                   <table>
                     <thead>
                       <tr>
-                        <td>Elementos:</td>
+                        <td>Mostrar:</td>
                         <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
                             [(ngModel)]="paginationPageSize">
                             <option [ngValue]="5">5</option>
@@ -57,7 +54,7 @@
                   <table>
                     <thead>
                       <tr>
-                        <td>Elementos:</td>
+                        <td>Mostrar:</td>
                         <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
                             [(ngModel)]="paginationPageSize">
                             <option [ngValue]="5">5</option>
@@ -95,7 +92,7 @@
                   <table>
                     <thead>
                       <tr>
-                        <td>Elementos:</td>
+                        <td>Mostrar:</td>
                         <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
                             [(ngModel)]="paginationPageSize">
                             <option [ngValue]="5">5</option>
@@ -125,7 +122,7 @@
               </ng-template>
             </li>
             <li [ngbNavItem]="4" style="margin-left: auto;">
-              <button class="btn btn-success" style="width: 100%;" type="button" (click)="redirectToCreate()">Crear un
+              <button class="btn btn-primary" style="width: 100%;" type="button" (click)="redirectToCreate()">Crear un
                 flete</button>
               <ng-template ngbNavContent>
               </ng-template>

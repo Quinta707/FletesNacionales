@@ -8,24 +8,19 @@
     "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\LAB01\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\danie\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\LAB01\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
+      "projectUniqueName": "C:\\Users\\danie\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
       "projectName": "FletesNacionales.Entities",
-      "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
-      "packagesPath": "C:\\Users\\LAB01\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\LAB01\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\obj\\",
+      "projectPath": "C:\\Users\\danie\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
+      "packagesPath": "C:\\Users\\danie\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\danie\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\LAB01\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\danie\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

@@ -2035,6 +2035,10 @@ BEGIN
 		INSERT INTO flet.tbFleteDetalles (flet_Id, pedi_Id, fdet_UsuCreacion)
 		VALUES	(@flet_Id, @pedi_Id, @fdet_UsuCreacion)
 
+		update flet.tbPedidos
+		SET estp_Id = 2
+		WHERE pedi_Id = @pedi_Id
+
 		SELECT 1 
 	END TRY
 	BEGIN CATCH
@@ -2107,7 +2111,8 @@ SELECT	flet_Id,
 		T12.mode_Id,
 		T12.mode_Nombre,
 		(SELECT ISNULL(COUNT(*),0) FROM flet.VW_tbFleteDetalles as pt WHERE pt.flet_Id = T1.flet_Id) AS flet_PedidosTotales,
-		(SELECT ISNULL(COUNT(*),0) FROM flet.VW_tbFleteDetalles as pc WHERE pc.flet_Id = T1.flet_Id AND pc.estp_Id = 4 ) AS flet_PedidosCompletados,
+--		(SELECT ISNULL(COUNT(*),0) FROM flet.VW_tbFleteDetalles as pc WHERE pc.flet_Id = T1.flet_Id AND pc.estp_Id = 4 ) AS flet_PedidosCompletados,
+		(SELECT ISNULL(COUNT(*),0) FROM flet.VW_tbFleteDetalles as pc WHERE pc.flet_Id = T1.flet_Id AND pc.estp_Id IN (4,5) ) AS flet_PedidosCompletados,
 		(SELECT TOP(1) pc.muni_Nombre FROM flet.VW_tbUbicacionPorFlete as pc WHERE pc.flet_Id = T1.flet_Id ORDER BY pc.ubif_FechaCreacion desc ) AS flet_Ubicado,
 		(SELECT TOP(1) pc.muni_Id FROM flet.VW_tbUbicacionPorFlete as pc WHERE pc.flet_Id = T1.flet_Id ORDER BY pc.ubif_FechaCreacion desc ) AS flet_UbicadoId,
 		T12.marc_Id,
@@ -2394,11 +2399,11 @@ AS
 BEGIN
 	BEGIN TRY
 		
-		IF EXISTS (SELECT * FROM flet.tbFletes WHERE flet_FechaDeSalida <= (SELECT flet_FechaDeSalida FROM flet.tbFletes WHERE @flet_Id = flet_Id) AND empe_Id = @empe_Id AND flet_Id != @flet_Id)
+		IF EXISTS (SELECT * FROM flet.tbFletes WHERE flet_FechaDeSalida <= (SELECT flet_FechaDeSalida FROM flet.tbFletes WHERE @flet_Id = flet_Id) AND empe_Id = @empe_Id AND flet_Id != @flet_Id AND estp_Id NOT IN(1,4))
 		BEGIN
 			SELECT -5
 		END
-		ELSE IF EXISTS (SELECT * FROM flet.tbFletes WHERE empe_Id = @empe_Id AND estp_Id != 1 AND estp_Id != 4)
+		ELSE IF EXISTS (SELECT * FROM flet.tbFletes WHERE empe_Id = @empe_Id AND estp_Id NOT IN(1,4))
 		BEGIN
 			SELECT -6
 		END
@@ -2907,7 +2912,7 @@ AS
 BEGIN
 	BEGIN TRY
       
-	  IF EXISTS (SELECT * FROM flet.tbPedidos WHERE estp_Id = 4 AND pedi_Id = @pedi_Id)
+	  IF EXISTS (SELECT * FROM flet.tbPedidos WHERE estp_Id IN (4,5) AND pedi_Id = @pedi_Id)
 	  BEGIN
 		SELECT -2
 	  END

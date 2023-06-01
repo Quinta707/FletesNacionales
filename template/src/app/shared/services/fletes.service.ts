@@ -168,6 +168,18 @@ export class TableService {
     return this.http.get<Flete[]>(Global + "Fletes/ListadoTerminados");
   }
   
+  getFletesPendientesEmpleado(id:number){
+    return this.http.get<Flete[]>(Global + "Fletes/ListadoEmpleadoPendientes?id="+id.toString());
+  }
+
+  getFletesEnProcesoEmpleado(id:number){
+    return this.http.get<Flete[]>(Global + "Fletes/ListadoEmpleadoEnProceso?id="+id.toString());
+  }
+
+  getFletesTerminadosEmpleado(id:number){
+    return this.http.get<Flete[]>(Global + "Fletes/ListadoEmpleadoTerminado?id="+id.toString());
+  }
+  
   getBuscarFlete(id){
     return this.http.get<Flete>(Global + "Fletes/Buscar?id=" + id);
   }
@@ -196,6 +208,10 @@ export class TableService {
   
   getPedidos(){
     return this.http.get<Pedidos[]>(Global+"Pedidos/Listado")
+  }
+
+  postEmpezar(data: any){
+    return this.http.post<any>(Global+"Fletes/Empezar",data)
   }
 
   postTerminar(data: any){

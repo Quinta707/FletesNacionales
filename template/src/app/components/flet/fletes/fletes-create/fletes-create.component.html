@@ -3,10 +3,9 @@
   <br>
   <div class="row">
     <div class="col-12">
-        <div class="card">
-          <div class="card-header">
-            <h5>Flete</h5>
-          </div>
+      <div class="card card-border">
+        <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/Fletes.png" alt="Card image cap">
+        
           <div class="card-body">
             <aw-wizard navBarLayout="large-filled-symbols" [disableNavigationBar]='true'>
               <aw-wizard-step>
@@ -162,7 +161,7 @@
                   </div>
                  
                   
-                  <button class="btn btn-primary pull-right" (click)="guardar()" type="button" awNextStep
+                  <button class="btn btn-primary pull-right" (click)="guardar()" type="button"
                     [disabled]="!secondFormGroup.valid || pesoMax < pesoUso || voluMax < voluUso">Listo</button>
                   <button class="btn btn-secondary pull-right me-1" type="button" awPreviousStep>Anterior</button>
                 </form>
@@ -237,7 +236,7 @@
                   </div>
                   <div class="row d-flex justify-content-end">
                     <div class="col d-flex justify-content-end">
-                      <button class="btn btn-primary" (click)="recuperarMarker()">Ver municipios en el mapa</button>
+                      <button class="btn btn-primary" (click)="recuperarMarker()">Ver ruta</button>
                     </div>
                   </div>
                 </div>
@@ -292,7 +291,7 @@
                         </div>
                         <div class="row mt-3">
                           <div class="col">
-                            <button class="btn btn-success" (click)="updateMarker(item.pedi_DestinoNombre)">Ver destino del pedido en el mapa</button>
+                            <button class="btn btn-success" (click)="updateMarker(item.pedi_DestinoNombre)">Ver destino del pedido</button>
                           </div>
                         </div>
                       </ng-template>

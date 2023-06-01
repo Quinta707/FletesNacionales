@@ -36,18 +36,20 @@
                 </table>
               </div>
             </div>
-            <div class="row">
+            <div class="row mb-2">
               <div class="col">
                 <button type="button" class="btn btn-secondary" (click)="recuperarMarker()">Ver ruta</button>
-                <button type="button" class="btn btn-primary mx-2" (click)="openModalUbicacion(content2)">Actualizar ubicacion actual</button>
+                <ng-container *ngIf="![1, 4].includes(nuevoFlete.estp_Id)">
+                  <button type="button" class="btn btn-primary mx-2" (click)="openModalUbicacion(content2)">Actualizar ubicacion actual</button>
+                </ng-container>
+                </div>
               </div>
-            </div>
-            <hr>
-            <div class="row mt-4 mb-4">
-              <div class="col">
-                <h5 class="ms-2 mb-2">Pedidos</h5>
-                <ngb-accordion #acc="ngbAccordion">
-                  <ngb-panel *ngFor="let item of pedidosDelNuevoFlete$ | async">
+                <hr>
+                <div class="row mt-4 mb-4">
+                  <div class="col">
+                    <h5 class="ms-2 mb-2">Pedidos</h5>
+                    <ngb-accordion #acc="ngbAccordion">
+                      <ngb-panel *ngFor="let item of pedidosDelNuevoFlete$ | async">
                     <ng-template ngbPanelTitle>
                       <span (click)="handlePanelClick(item)" >
                         <h6>Pedido de {{item.clie_NombreCompleto}}</h6>
@@ -98,9 +100,12 @@
                         <div class="col">
                           <button class="btn btn-success" (click)="updateMarker(item.pedi_DestinoNombre)">Ver destino del pedido</button>
                         </div>
+                        
+                <ng-container *ngIf="![1, 4].includes(nuevoFlete.estp_Id)">
                         <div class="col d-flex justify-content-end ">
-                          <button type="button" class="btn btn-primary"  [disabled]="item.estp_Id === 4" (click)="openModalEstado(content1, item)">Actualizar estado del pedido</button>
+                          <button type="button" class="btn btn-primary"  [disabled]="item.estp_Id === 4 || item.estp_Id === 5" (click)="openModalEstado(content1, item)">Actualizar estado del pedido</button>
                         </div>
+                </ng-container>
                       </div>
                     </ng-template>
                   </ngb-panel>
@@ -112,9 +117,11 @@
               <div class="col">
                 <button class="btn btn-dark" type="button" (click)="redirectToList()">Regresar</button>
               </div>
-              <div class="col d-flex justify-content-end ">
-                <button type="button" class="btn btn-primary" [disabled]=" nuevoFlete.flet_PedidosCompletados !== nuevoFlete.flet_PedidosTotales " (click)="terminar()">Terminar flete</button>
-              </div>
+              <ng-container *ngIf="![1, 4].includes(nuevoFlete.estp_Id)">
+                <div class="col d-flex justify-content-end ">
+                  <button type="button" class="btn btn-primary" [disabled]=" nuevoFlete.flet_PedidosCompletados !== nuevoFlete.flet_PedidosTotales " (click)="terminar()">Terminar flete</button>
+                </div>
+              </ng-container>
             </div> 
             </div>
           </div>                

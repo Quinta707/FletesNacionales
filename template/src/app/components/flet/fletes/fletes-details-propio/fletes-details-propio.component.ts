@@ -446,7 +446,7 @@ export class FleteDetailsPropioComponent implements OnInit {
   modalRef: NgbModalRef;
 
   redirectToList() {
-    this.router.navigate(["/flet/Fletes/List"]);
+    this.router.navigate(["/flet/Fletes/PersonalList"]);
   }
   
   openModalEstado(content1, item:any) {
@@ -488,7 +488,7 @@ export class FleteDetailsPropioComponent implements OnInit {
           showConfirmButton: false,
           timer: 2500,
           timerProgressBar: true,
-          title: '¿? No puedes modificar el estado de un pedido que ya se completo.',
+          title: '¿? No puedes modificar el estado de este pedido.',
           icon: 'error'
         })
       }else{

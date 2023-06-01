@@ -20,6 +20,9 @@ import Swal from 'sweetalert2';
 })
 export class FleteListPropioComponent implements OnInit {
   @ViewChild('content') modalContent: any;
+  user:any = JSON.parse(localStorage.getItem("user"))
+  //user.empe_Id
+
   //tabs
   public selected = [];
   public active = 1;
@@ -129,30 +132,19 @@ export class FleteListPropioComponent implements OnInit {
     } },
     // { field: 'marc_Nombre', headerName: 'Vehiculo', flex: 1 },
     { field: 'vehi_Placa', headerName: 'Matricula', flex: 1 },
-    { cellRenderer: (params) => this.actionButtonRenderer2(params), headerName: 'Acciones', flex: 1 }
+    { cellRenderer: (params) => this.actionButtonRenderer3(params), headerName: 'Acciones', flex: 1 }
   ];
   
 
   actionButtonRenderer(params: any, modalService: NgbModal) {
     const onClickHandler = () => {
-       //console.log('Botón de acción clickeado', params);
-      this.flete.flet_Id = params.data.flet_Id;
-      this.flete.vehi_Id = params.data.vehi_Id;
-      this.flete.flet_FechaDeSalida = new Date(params.data.flet_FechaDeSalida);
-
-      this.flet_FechaDeSalida = {
-        year: this.flete.flet_FechaDeSalida.getFullYear(),
-        month: this.flete.flet_FechaDeSalida.getMonth() + 1,
-        day: this.flete.flet_FechaDeSalida.getDate(),
-      };
-
-      this.updateDate.get('flet_FechaDeSalida').setValue(this.flet_FechaDeSalida);
-      
-    this.modalRef = this.modalService.open(this.modalContent, { centered: true, size: 'lg' });
+      this.flete = params.data;
+      this.modalRef = this.modalService.open(this.modalContent, { centered: true, size: 'lg' });
+    
     };
   
     const redireccion = () => {
-      this.router.navigate(['/flet/Fletes/Details'], { queryParams: { id: params.data.flet_Id } });
+      this.router.navigate(['/flet/Fletes/PersonalDetails'], { queryParams: { id: params.data.flet_Id } });
     }
 
     const button = document.createElement('il');
@@ -199,7 +191,35 @@ export class FleteListPropioComponent implements OnInit {
   actionButtonRenderer2(params: any) {
     
     const redireccion = () => {
-      this.router.navigate(['/flet/Fletes/Details'], { queryParams: { id: params.data.flet_Id } });
+      this.router.navigate(['/flet/Fletes/PersonalDetails'], { queryParams: { id: params.data.flet_Id } });
+    }
+
+    const button2 = document.createElement('il');
+    button2.classList.add('detail'); 
+  
+    const iconElement2 = document.createElement('i');
+    iconElement2.classList.add('fa'); 
+    iconElement2.classList.add('fa-forward'); 
+
+    const textElement2 = document.createElement('span');
+    textElement2.innerText = '';
+    textElement2.appendChild(iconElement2);
+   
+    button2.appendChild(textElement2);
+  
+    button2.addEventListener('click', redireccion);
+  
+    const container = document.createElement('div');
+    container.classList.add('action')
+    container.appendChild(button2);
+  
+    return container;
+  }
+
+  actionButtonRenderer3(params: any) {
+    
+    const redireccion = () => {
+      this.router.navigate(['/flet/Fletes/PersonalDetails'], { queryParams: { id: params.data.flet_Id } });
     }
 
     const button2 = document.createElement('il');
@@ -252,83 +272,23 @@ export class FleteListPropioComponent implements OnInit {
       })
   }
 
-  printFechas() {
-    if (this.updateDate.valid) {
-      const fecha = this.updateDate.value["flet_FechaDeSalida"]
-      let fechaNormal = fecha.year.toString() + '-' + fecha.month.toString() + '-' + fecha.day.toString()
-      this.flete.flet_FechaDeSalida = new Date(fecha.year.toString() + '-' + fecha.month.toString() + '-' + fecha.day.toString());
-      this.flete.flet_UsuModificacion = 1;
-  
-      this.service.getVehiculoDisponible(parseInt(this.flete.vehi_Id.toString()) , fechaNormal.toString())
-        .subscribe((data: any) => {
-          if (parseInt(data.message) === 1) {
-             this.service.putUpdateFlete(this.flete)
-              .subscribe((data:any) =>{
-                if(data.message === "Exitoso"){
-                  this.service.getFletesPendientes()
-                    .subscribe((data: any) => {
-                      this.fletesPendiente = data.data;
-                    })
-                  this.modalRef.close();
-                  Swal.fire({
-                    showConfirmButton: false,
-                    timer: 1500,
-                    timerProgressBar: true,
-                    title: 'La fecha se edito correctamente',
-                    icon: 'success'
-                  })
-                }else{
-                  Swal.fire({
-                    showConfirmButton: false,
-                    timer: 1500,
-                    timerProgressBar: true,
-                    title: 'No se pudo editar esta fecha',
-                    icon: 'error'
-                  })
-                }
-              })
-          }else{
-            Swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 1500,
-              timerProgressBar: true,
-              title: 'Este vehiculo estara en uso en esa fecha',
-              icon: 'warning'
-            })
-          }
-        })
-    }else{
-      Swal.fire({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 1500,
-        timerProgressBar: true,
-        title: 'Sos el mero usuario va',
-        icon: 'info'
-      })
-    }
-  }
-  
   ngOnInit(): void {
 
     this.updateDate = this._formBuilder.group({
       flet_FechaDeSalida: ['', Validators.required],
     });
 
-    this.service.getFletesPendientes()
+    this.service.getFletesPendientesEmpleado(this.user.empe_Id)
       .subscribe((data: any) => {
         this.fletesPendiente = data.data;
       })
 
-    this.service.getFletesEnProceso()
+    this.service.getFletesEnProcesoEmpleado(this.user.empe_Id)
       .subscribe((data: any) => {
         this.fletesEnProceso = data.data;
       })
 
-    this.service.getFletesTerminados()
+    this.service.getFletesTerminadosEmpleado(this.user.empe_Id)
       .subscribe((data: any) => {
         this.fletesTerminado = data.data;
       })
@@ -362,6 +322,46 @@ export class FleteListPropioComponent implements OnInit {
 
   onSearchInputChange() {
     this.agGrid.api.setQuickFilter(this.searchText);
+  }
+
+  Empezar() {
+    console.log(this.flete)
+    this.service.postEmpezar(this.flete)
+    .subscribe((data:any)=> {
+      this.modalRef.dismiss()
+      if(data.message === "Empezo"){
+        Swal.fire({
+          icon: 'success',
+          title: 'El flete ha sido iniciado',
+          showConfirmButton: false,
+          timer: 3000
+        })
+      this.router.navigate(['/flet/Fletes/PersonalDetails'], { queryParams: { id: this.flete.flet_Id } });
+      }else if(data.message === "PedidosPendientes"){
+        Swal.fire({
+          icon: 'error',
+          title: 'Parece que aun tienes un flete en proceso',
+          showConfirmButton: false,
+          timer: 3000
+        })
+      }
+
+      this.service.getFletesPendientesEmpleado(this.user.empe_Id)
+      .subscribe((data: any) => {
+        this.fletesPendiente = data.data;
+      })
+
+    this.service.getFletesEnProcesoEmpleado(this.user.empe_Id)
+      .subscribe((data: any) => {
+        this.fletesEnProceso = data.data;
+      })
+
+    this.service.getFletesTerminadosEmpleado(this.user.empe_Id)
+      .subscribe((data: any) => {
+        this.fletesTerminado = data.data;
+      })
+
+    })
   }
 
 }

@@ -146,7 +146,7 @@
         public static string FletesPedidos = "flet.UDP_tbFletes_PedidosPorFlete";
         public static string FletesVehiDisponible = "flet.UDP_tbFletes_VehiculoAsignado";
         public static string FletesIndexEmpleado = "flet.UDP_tbFletes_IndexPorEmpleado";
-        public static string FletesIndexEmpleadoPendiente = "flet.UDP_tbFletes_IndexPorEmpleadoPendientes";
+        public static string FletesIndexEmpleadoPendiente = "flet.UDP_tbFletes_IndexPorEmpleadoPedientes";
         public static string FletesIndexEmpleadoEnProceso = "flet.UDP_tbFletes_IndexPorEmpleadoEnProceso";
         public static string FletesIndexEmpleadoTerminado = "flet.UDP_tbFletes_IndexPorEmpleadoTerminados";
 

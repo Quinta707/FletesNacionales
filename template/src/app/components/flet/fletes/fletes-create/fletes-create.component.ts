@@ -33,7 +33,7 @@ export class FleteCreateComponent implements OnInit {
   model: string;
 
   //mapa
-
+ 
   //Control de las capas visibles
   layersControl = {
     baseLayers: {
@@ -62,6 +62,15 @@ export class FleteCreateComponent implements OnInit {
     lat: 15.5062156,
     lon: -88.0248937
   };
+   waypoints = [
+    L.latLng(this.coordenadasIncio.lat, this.coordenadasIncio.lon), 
+    L.latLng(this.coordenadasFin.lat, this.coordenadasFin.lon)
+  ]
+  
+  waypointsPedidos = [
+  ]
+
+  private routingControl: any;
 
   //Iconos
   private markerIcon = {
@@ -104,28 +113,33 @@ export class FleteCreateComponent implements OnInit {
   }
   
   // actualiza el mapa con nuevas coordenadas
-  async updateMarker(municipio: string) {
-    const popupText: string = 'Este pedido llegara hasta ' + municipio
-    const popupInfo = `<b style="color: red; background-color: white">${popupText}</b>`;
+   async updateMarker(municipio: string) {
+    if(this.routingControl){
+      
+      this.routingControl.getPlan().setWaypoints([]);
+    }
+    const popupText: string = "Este pedido llegara hasta " + municipio;
+    const popupInfo = `<b style="color: black; background-color: white">${popupText}</b>`;
     if (this.map4) {
-      this.map4.eachLayer(layer => {
+      this.map4.eachLayer((layer) => {
         if (layer instanceof L.Marker) {
           this.map4.removeLayer(layer);
         }
       });
 
-      const coordenadasMuni: any = await this.service.obtenerCoordenadas(municipio).toPromise();
+      const coordenadasMuni: any = await this.service
+        .obtenerCoordenadas(municipio)
+        .toPromise();
       const result1 = coordenadasMuni.results[0];
       let cords1 = {
         lat: result1.geometry.lat,
-        lon: result1.geometry.lng
+        lon: result1.geometry.lng,
       };
 
       L.marker([cords1.lat, cords1.lon], this.IconPaquete)
         .addTo(this.map4)
         .bindPopup(popupInfo)
         .openPopup();
-
     }
   }
   
@@ -136,31 +150,47 @@ export class FleteCreateComponent implements OnInit {
   // actualiza el mapa con nuevas coordenadas
   async recuperarMarker() {
     const popupInicio = `<b style="color: red; background-color: white">Lugar de salida: ${this.nuevoFlete.muni_NombreInicio}</b>`;
-      const popupFinal = `<b style="color: red; background-color: white">Lugar de destino: ${this.nuevoFlete.muni_NombreFinal}</b>`;
-      const popupLocal = `<b style="color: red; background-color: white">Flete local en: ${this.nuevoFlete.muni_NombreFinal}</b>`;
+    const popupFinal = `<b style="color: red; background-color: white">Lugar de destino: ${this.nuevoFlete.muni_NombreFinal}</b>`;
+    const popupLocal = `<b style="color: black; background-color: white">Flete local en: ${this.nuevoFlete.muni_NombreFinal}</b>`;
+    const popupUbicacion = `<b style="color: black; background-color: white">El flete se encuentra en: ${this.nuevoFlete.flet_Ubicado}</b>`;
 
-      if (this.map4) {
-        this.map4.eachLayer(layer => {
-          if (layer instanceof L.Marker) {
-            this.map4.removeLayer(layer);
-          }
-        });
-        if (this.nuevoFlete.muni_NombreInicio === this.nuevoFlete.muni_NombreFinal) {
-          L.marker([this.coordenadasFin.lat, this.coordenadasFin.lon], this.IconDestino)
-            .addTo(this.map4)
-            .bindPopup(popupLocal)
-            .closePopup();
-        } else {
-          L.marker([this.coordenadasIncio.lat, this.coordenadasIncio.lon], this.IconInicio)
-            .addTo(this.map4)
-            .bindPopup(popupInicio)
-            .closePopup();
-          L.marker([this.coordenadasFin.lat, this.coordenadasFin.lon], this.IconDestino)
-            .addTo(this.map4)
-            .bindPopup(popupFinal)
-            .closePopup();
+    if (this.map4) {
+      this.map4.eachLayer((layer) => {
+        if (layer instanceof L.Marker) {
+          this.map4.removeLayer(layer);
         }
+      });
+      if (
+        this.nuevoFlete.muni_NombreInicio === this.nuevoFlete.muni_NombreFinal
+      ) {
+        L.marker(
+          [this.coordenadasFin.lat, this.coordenadasFin.lon],
+          this.IconDestino
+        )
+          .addTo(this.map4)
+          .bindPopup(popupLocal)
+          .closePopup();
+      } else {
+        // L.marker(
+        //   [this.coordenadasIncio.lat, this.coordenadasIncio.lon],
+        //   this.IconInicio
+        // )
+        //   .addTo(this.map4)
+        //   .bindPopup(popupInicio)
+        //   .closePopup();
+        // L.marker(
+        //   [this.coordenadasFin.lat, this.coordenadasFin.lon],
+        //   this.IconDestino
+        // )
+        //   .addTo(this.map4)
+        //   .bindPopup(popupFinal)
+        //   .closePopup();
+
+          console.log(this.waypoints)
+          this.routingControl.getPlan().setWaypoints(this.waypoints);
+        
       }
+    }
   }
   //Configuracion
   options4 = {
@@ -291,76 +321,90 @@ export class FleteCreateComponent implements OnInit {
   }
   //cargar datos del municipio inicio seleccionado 
   public seleccionarPedidos(content1) {
-    const vehiculo = this.firstFormGroup.value["vehi_Id"] // El pedi_Id que deseas buscar
-    this.pesoUso = 0;
-    this.voluUso = 0;
-    this.pedidosSelect.pedi_Array = []
-    this.secondFormGroup.get('pedidosArray').setValue('');
 
-
-
-    if (vehiculo) {
-      this.pesoMax = parseFloat(vehiculo.vehi_PesoMaximo.toString());
-      this.voluMax = parseFloat(vehiculo.vehi_VolumenMaximo.toString());
-    } else {
-      this.pesoMax = 0;
-      this.voluMax = 0;
+    if(this.firstFormGroup.valid){
+      const vehiculo = this.firstFormGroup.value["vehi_Id"] // El pedi_Id que deseas buscar
+      this.pesoUso = 0;
+      this.voluUso = 0;
+      this.pedidosSelect.pedi_Array = []
+      this.secondFormGroup.get('pedidosArray').setValue('');
+  
+  
+  
+      if (vehiculo) {
+        this.pesoMax = parseFloat(vehiculo.vehi_PesoMaximo.toString());
+        this.voluMax = parseFloat(vehiculo.vehi_VolumenMaximo.toString());
+      } else {
+        this.pesoMax = 0;
+        this.voluMax = 0;
+      }
+  
+      const fecha = this.firstFormGroup.value["flet_FechaDeSalida"]
+      const fechaSalidaCadena = (fecha.year.toString() + '-' + fecha.month.toString() + '-' + fecha.day.toString()).toString()
+      this.service.getVehiculoDisponible(this.firstFormGroup.value["vehi_Id"].value, fechaSalidaCadena)
+        .subscribe((data: any) => {
+  
+          console.log(data)
+          if (parseInt(data.message) === 1) {
+  
+            this.wizard.goToStep(1);
+            this.service.getTrayectoId(this.firstFormGroup.value["muni_Inicio"], this.firstFormGroup.value["muni_Final"])
+              .subscribe((data: any) => {
+                if (data.tray_Id == 0) {
+                  Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    title: 'Sin trayectoria',
+                    icon: 'warning'
+                  })
+                  this.openModal(content1);
+                } else {
+                  Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    title: 'Ingresa los mejores pedidos',
+                    icon: 'success'
+                  })
+                  this.datosFelte.tray_Id = data.tray_Id;
+                }
+              })
+          } else {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              title: 'Este vehiculo estara en uso en esa fecha',
+              icon: 'warning'
+            })
+            this.wizard.goToStep(0);
+          }
+        })
+  
+  
+      this.service.getPedidosPorMunicipio(this.firstFormGroup.value["muni_Inicio"])
+        .subscribe((data: any) => {
+          this.pedidos = data.data
+        })
+    }else{
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        title: 'Graciosito va ute',
+        icon: 'info'
+      })
     }
 
-    const fecha = this.firstFormGroup.value["flet_FechaDeSalida"]
-    const fechaSalidaCadena = (fecha.year.toString() + '-' + fecha.month.toString() + '-' + fecha.day.toString()).toString()
-    this.service.getVehiculoDisponible(this.firstFormGroup.value["vehi_Id"].value, fechaSalidaCadena)
-      .subscribe((data: any) => {
-
-        console.log(data)
-        if (parseInt(data.message) === 1) {
-
-          this.wizard.goToStep(1);
-          this.service.getTrayectoId(this.firstFormGroup.value["muni_Inicio"], this.firstFormGroup.value["muni_Final"])
-            .subscribe((data: any) => {
-              if (data.tray_Id == 0) {
-                Swal.fire({
-                  toast: true,
-                  position: 'top-end',
-                  showConfirmButton: false,
-                  timer: 1500,
-                  timerProgressBar: true,
-                  title: 'Sin trayectoria',
-                  icon: 'warning'
-                })
-                this.openModal(content1);
-              } else {
-                Swal.fire({
-                  toast: true,
-                  position: 'top-end',
-                  showConfirmButton: false,
-                  timer: 1500,
-                  timerProgressBar: true,
-                  title: 'Ingresa los mejores pedidos',
-                  icon: 'success'
-                })
-                this.datosFelte.tray_Id = data.tray_Id;
-              }
-            })
-        } else {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            title: 'Este vehiculo estara en uso en esa fecha',
-            icon: 'warning'
-          })
-          this.wizard.goToStep(0);
-        }
-      })
-
-
-    this.service.getPedidosPorMunicipio(this.firstFormGroup.value["muni_Inicio"])
-      .subscribe((data: any) => {
-        this.pedidos = data.data
-      })
   }
 
   openModal(content1) {
@@ -394,14 +438,13 @@ export class FleteCreateComponent implements OnInit {
               toast: true,
               position: 'top-end',
               showConfirmButton: false,
-              timer: 1500,
+              timer: 3000,
               timerProgressBar: true,
               title: '¡Registro Ingresado con éxito!',
               icon: 'success'
-            }).then(() => {
-              this.modalRef?.dismiss(); // Cerrar el modal
-              this.datosTrayecto.tray_Precio = null; // Restablecer el valor del campo
-            });
+            }).then(() => {});
+            this.modalRef?.dismiss(); // Cerrar el modal
+            this.datosTrayecto.tray_Precio = null; // Restablecer el valor del campo
           }
         })
     }
@@ -446,7 +489,8 @@ export class FleteCreateComponent implements OnInit {
   }
 
   async guardar() {
-    if (this.pedidosSelect.pedi_Array.length > 0) {
+    if (this.pedidosSelect.pedi_Array.length > 0 && this.pesoMax >= this.pesoUso && this.voluMax >= this.voluUso) {
+
       this.datosFelte.flet_UsuCreacion = 1;
       const vehiculo = this.firstFormGroup.value["vehi_Id"]
       const empleado = this.firstFormGroup.value["empe_Id"]
@@ -467,6 +511,8 @@ export class FleteCreateComponent implements OnInit {
       console.log(data2)
 
       if (data2.message === "1") {
+        
+        this.wizard.goToStep(2);
 
         Swal.fire({
           text: 'El flete se a creado exitosamente',
@@ -503,7 +549,7 @@ export class FleteCreateComponent implements OnInit {
                 }
               }
             });
-
+            
           })
       } else {
         Swal.fire({
@@ -519,9 +565,6 @@ export class FleteCreateComponent implements OnInit {
           this.pedidosSelect.pedi_Array = []
         });
       }
-
-
-
 
 
       const coordenadasMuniInicio: any = await this.service.obtenerCoordenadas(this.nuevoFlete.muni_NombreInicio).toPromise();
@@ -541,10 +584,30 @@ export class FleteCreateComponent implements OnInit {
       };
       this.coordenadasFin = cords1
 
+      this.waypoints = [
+        L.latLng(this.coordenadasIncio.lat, this.coordenadasIncio.lon), 
+      ]
+
+        const dataObservable: Observable<any[]> = this.pedidosDelNuevoFlete$; // Tu Observable con el array de datos
+
+      await dataObservable.toPromise()
+      .then(async data => {
+        for (const element of data) {
+          const result = await this.service.obtenerCoordenadas(element.pedi_DestinoNombre).toPromise();
+          const result2 = result.results[0];
+          this.waypointsPedidos.push(L.latLng(result2.geometry.lat, result2.geometry.lng));
+          this.waypoints.push(L.latLng(result2.geometry.lat, result2.geometry.lng));
+        }
+      })
+      .catch(error => {
+        // Manejar el error
+      });
+      
+      this.waypoints.push(L.latLng(this.coordenadasFin.lat, this.coordenadasFin.lon));
 
       const popupInicio = `<b style="color: red; background-color: white">Lugar de salida: ${this.nuevoFlete.muni_NombreInicio}</b>`;
       const popupFinal = `<b style="color: red; background-color: white">Lugar de destino: ${this.nuevoFlete.muni_NombreFinal}</b>`;
-      const popupLocal = `<b style="color: red; background-color: white">Flete local en: ${this.nuevoFlete.muni_NombreFinal}</b>`;
+      const popupLocal = `<b style="color: black; background-color: white">Flete local en: ${this.nuevoFlete.muni_NombreFinal}</b>`;
 
       if (this.map4) {
         this.map4.eachLayer(layer => {
@@ -552,39 +615,56 @@ export class FleteCreateComponent implements OnInit {
             this.map4.removeLayer(layer);
           }
         });
-        if (this.nuevoFlete.muni_NombreInicio === this.nuevoFlete.muni_NombreFinal) {
-          L.marker([this.coordenadasFin.lat, this.coordenadasFin.lon], this.IconDestino)
-            .addTo(this.map4)
-            .bindPopup(popupLocal)
-            .closePopup();
-        } else {
-          L.marker([this.coordenadasIncio.lat, this.coordenadasIncio.lon], this.IconInicio)
-            .addTo(this.map4)
-            .bindPopup(popupInicio)
-            .closePopup();
-          L.marker([this.coordenadasFin.lat, this.coordenadasFin.lon], this.IconDestino)
-            .addTo(this.map4)
-            .bindPopup(popupFinal)
-            .closePopup();
-        }
+         if (this.nuevoFlete.muni_NombreInicio === this.nuevoFlete.muni_NombreFinal) {
+           L.marker([this.coordenadasFin.lat, this.coordenadasFin.lon], this.IconDestino)
+             .addTo(this.map4)
+             .bindPopup(popupLocal)
+             .closePopup();
+         } else {
+          //  L.marker([this.coordenadasIncio.lat, this.coordenadasIncio.lon], this.IconInicio)
+          //    .addTo(this.map4)
+          //    .bindPopup(popupInicio)
+          //    .closePopup();
+          //  L.marker([this.coordenadasFin.lat, this.coordenadasFin.lon], this.IconDestino)
+          //    .addTo(this.map4)
+          //    .bindPopup(popupFinal)
+          //    .closePopup();
+
+           this.routingControl = L.Routing.control({
+            waypoints: this.waypoints,
+            routeWhileDragging: false,
+            fitSelectedRoutes: true,
+            addWaypoints: false,
+            collapsible: true,
+            // collapseBtnClass: "btn "
+            // altLineOptions: {
+            //   styles: [
+            //     { color: 'lightseagreen', opacity: 0.6, weight: 4 } // Configuración de estilo de la ruta alternativa
+            //   ],
+            //   extendToWaypoints: true,
+            //   missingRouteTolerance: 100
+            // }
+          }).addTo(this.map4)
+
+         }
 
       }
-
     } else {
       Swal.fire({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
-        timer: 1500,
+        timer: 3000,
         timerProgressBar: true,
-        title: 'Ha ocurrido un error',
+        title: 'No puedes continuar.',
         icon: 'error'
-      }).then(() => {
-        this.wizard.goToStep(0);
-        this.pesoUso = 0;
-        this.voluUso = 0;
-        this.pedidosSelect.pedi_Array = []
-      });
+      })
+      // .then(() => {
+      //   this.wizard.goToStep(0);
+      //   this.pesoUso = 0;
+      //   this.voluUso = 0;
+      //   this.pedidosSelect.pedi_Array = []
+      // });
     }
   }
 }
