@@ -2,6 +2,7 @@ import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/
 import { Usuarios } from '../../../../shared/model/usuarios.model';
 import { Empleados } from '../../../../shared/model/empleados.model';
 import { Roles } from '../../../../shared/model/rol.model';
+import { RolesporPantalla } from '../../../../shared/model/rolesPorPantalla.model';
 import { TableService } from '../../../../shared/services/usuarios.service';
 import { RolesService } from '../../../../shared/services/rol.service';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
@@ -20,6 +21,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./usuarios.component.scss']
 })
 export class UsuariosComponent {
+  @ViewChild('content2') modalEditar: any;
   @ViewChild('content') modalContent: any;
   public domLayout: DomLayoutType = 'autoHeight';
   Usuarios: Usuarios[];
@@ -46,20 +48,12 @@ export class UsuariosComponent {
   }
 
   constructor
-    (public service: TableService, private rolService: RolesService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private _formBuilder: FormBuilder, ) {
-
-    this.LoadEmpleadosNoTienenUsuario();
-    this.LoadRoles();
-
-    this.usuarioForm = this.formBuilder.group({
-      usua_Nombre: ['', [Validators.required]],
-      usua_EsAdmin: [false],
-      usua_Clave: [''],
-      role_Id: [''],
-      empe_Id: ['', [Validators.required]],
-    });
-
-  }
+    (public service: TableService,
+     private rolService: RolesService, 
+     private formBuilder: UntypedFormBuilder, 
+     private modalService: NgbModal, 
+     private router: Router
+    ) { }
 
   columnDefs: ColDef[] = [
     { field: 'user_Id', headerName: 'ID', flex: 1 },
@@ -86,13 +80,23 @@ export class UsuariosComponent {
     })
   }
   ngOnInit(): void {
+    
     this.service.getUsuarios()
       .subscribe((data: any) => {
         this.Usuarios = data.data;
       })
+
+      this.LoadEmpleadosNoTienenUsuario();
+      this.LoadRoles();
+  
+      this.usuarioForm = this.formBuilder.group({
+        usua_Nombre: ['', [Validators.required]],
+        usua_EsAdmin: [false],
+        usua_Clave: [''],
+        role_Id: [''],
+        empe_Id: ['', [Validators.required]],
+      });
   }
-
-
 
   public defaultColDef: ColDef = {
     sortable: true,
@@ -108,7 +112,7 @@ export class UsuariosComponent {
     const onClickHandler = () => {
        //console.log('Botón de acción clickeado', params);
      
-    this.modalRef = this.modalService.open(this.modalContent, { centered: true });
+    this.modalRef = this.modalService.open(this.modalEditar, { centered: true });
     };
   
     
@@ -135,7 +139,7 @@ export class UsuariosComponent {
     const textElement2 = document.createElement('span');
     textElement2.innerText = '';
     textElement2.appendChild(iconElement2);
-   
+       
     button.appendChild(textElement);
     button2.appendChild(textElement2);
   
@@ -150,11 +154,9 @@ export class UsuariosComponent {
   }
 
   open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      // Acción a realizar cuando se cierra el modal
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title',  centered: true }).result.then((result) => {
       console.log(result);
     }, (reason) => {
-      // Acción a realizar cuando se descarta el modal sin guardar cambios
       console.log(reason);
     });
   }

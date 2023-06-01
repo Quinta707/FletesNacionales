@@ -1,110 +1,175 @@
 <div class="container">
-    <app-breadcrumb [title]="'Listado de Usuarios'" [items]="['Usuarios']" [active_item]="'Usuarios'"></app-breadcrumb>
-      <div class="row widget-grid">
-        <div class="col-sm-12">    
-          <div class="card card-border">
-            <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/Usuarios.png" alt="Card image cap">
-          <div class="card-body">
-            <button class="btn btn-primary" (click)="open(content)">+ Nuevo</button>
-            <br>
-            <div class="d-flex justify-content-between mb-2 mx-1 mt-4">
-                <table>
-                  <thead>
-                    <tr>
-                      <td>Elementos:</td>
-                      <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
-                          [(ngModel)]="paginationPageSize">
-                          <option [ngValue]="5">5</option>
-                          <option [ngValue]="10">10</option>
-                          <option [ngValue]="25">25</option>
-                          <option [ngValue]="50">50</option>
-                        </select>
-                      </td>
-                    </tr>
-                  </thead>
-                </table>
-                <div class="col-4">
-                  <div class="input-group">
-                    <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
-                    <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
-                      placeholder="Buscar..." />
-                  </div>
-                </div>
+  <app-breadcrumb [title]="'Listado de Usuarios'" [items]="['Usuarios']" [active_item]="'Usuarios'"></app-breadcrumb>
+  <div class="row widget-grid">
+    <div class="col-sm-12">
+      <div class="card card-border">
+        <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;"
+          src="../../../../assets//images/equipo/headers/Usuarios.png" alt="Card image cap">
+        <div class="card-body">
+          <button class="btn btn-primary" (click)="open(content)">+ Nuevo</button>
+          <br>
+          <div class="d-flex justify-content-between mb-2 mx-1 mt-4">
+            <table>
+              <thead>
+                <tr>
+                  <td>Elementos:</td>
+                  <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
+                      [(ngModel)]="paginationPageSize">
+                      <option [ngValue]="5">5</option>
+                      <option [ngValue]="10">10</option>
+                      <option [ngValue]="25">25</option>
+                      <option [ngValue]="50">50</option>
+                    </select>
+                  </td>
+                </tr>
+              </thead>
+            </table>
+            <div class="col-4">
+              <div class="input-group">
+                <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
+                <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
+                  placeholder="Buscar..." />
               </div>
-              <ag-grid-angular class="ag-theme-alpine" [columnDefs]="columnDefs" [pagination]="true"
-                  [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
-                  [rowData]="Usuarios" [rowSelection]="'multiple'" [domLayout]="domLayout"
-                  [animateRows]="true"></ag-grid-angular>
             </div>
+          </div>
+          <ag-grid-angular class="ag-theme-alpine" [columnDefs]="columnDefs" [pagination]="true"
+            [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
+            [rowData]="Usuarios" [rowSelection]="'multiple'" [domLayout]="domLayout"
+            [animateRows]="true"></ag-grid-angular>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #content2 let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Editar Usuarios</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="usua_Nombre" class="form-label">Nombre de usuario</label>
+          <input type="text" id="usua_Nombre" class="form-control" placeholder="Ingrese nombre de usuario" />
+          <div class="invalid-feedback">Por favor ingrese un nombre de usuario.</div>
+        </div>
+        <div class="col-sm-6">
+          <label for="empe_Id" class="form-label">Empleado</label>
+          <ng-select name="empe_Id" id="empe_Id" formControlName="empe_Id" placeholder="Seleccione un Empleado">
+            <ng-option *ngFor="let item of empleadosNoTienenUsuario" [ngValue]="item.empe_Id">
+              {{item.empe_Nombres}} {{item.empe_Apellidos}}
+            </ng-option>
+          </ng-select>
+          <div class="invalid-feedback">Por favor seleccione un empleado.</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <label class="form-label" for="usua_Clave">Contraseña</label>
+          <div class="position-relative auth-pass-inputgroup mb-3">
+            <input [type]="fieldTextType ? 'text' : 'password'" class="form-control pe-5"
+              placeholder="Ingrese una contraseña" id="usua_Clave" name="usua_Clave" formControlName="usua_Clave">
+  
+            <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button"
+              id="password-addon">
+              <i class="mdi align-middle"
+                [ngClass]="{'mdi-eye-off-outline': !fieldTextType, 'mdi-eye-outline': fieldTextType}"
+                (click)="toggleFieldTextType()"></i>
+            </button>
+            <div class="invalid-feedback">Por favor ingrese una contraseña.</div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label for="role_Id" class="form-label">Rol</label>
+          <ng-select name="role_Id" id="role_Id" formControlName="role_Id" placeholder="Seleccione un Rol">
+            <ng-option *ngFor="let item of listadoRoles" [ngValue]="item.role_Id">
+              {{item.role_Nombre}}
+            </ng-option>
+          </ng-select>
+          <div class="invalid-feedback">Por favor seleccione un rol.</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <label for="usua_EsAdmin" class="form-label">¿Es admin?</label>
+          <div class="form-control" style="display: flex; justify-content: center; height: 38px;">
+            <input class="form-check-input" type="checkbox" id="usua_EsAdmin" name="usua_EsAdmin"
+              formControlName="usua_EsAdmin">
           </div>
         </div>
       </div>
-      <ng-template #content let-modal>
-        <div class="modal-header">
-          <h4 class="modal-title" id="modal-basic-title">Agregar Tipo de Vehiculos</h4>
-          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label for="usua_Nombre" class="form-label">Nombre de usuario</label>
-            <input type="text" id="usua_Nombre" class="form-control" placeholder="Ingrese nombre de usuario"
-                formControlName="usua_Nombre"
-                [ngClass]="{ 'is-invalid': submitted && form['usua_Nombre'].errors }" 
-                />
-            <div class="invalid-feedback">Por favor ingrese un nombre de usuario.</div>
-        </div>
-
-        <div class="mb-3">
-            <label for="empe_Id" class="form-label">Empleado</label>
-            <select class="form-select" name="empe_Id" id="empe_Id" formControlName="empe_Id"
-                [ngClass]="{ 'is-invalid': submitted && form['empe_Id'].errors }"
-                >
-                <option [ngValue]="empe_IdEditar" selected hidden>{{isEdit ? usua_NombreEdit : 'Seleccione un empleado'}}</option>
-                <option *ngFor="let item of empleadosNoTienenUsuario" [ngValue]="item.empe_Id">
-                    {{item.empe_Nombres}} {{item.empe_Apellidos}}
-                </option>
-            </select>
-            <div class="invalid-feedback">Por favor seleccione un empleado.</div>
-        </div>
-
-        <div class="mb-3" [ngStyle]="{'display': isEdit ? 'none' : ''}">
-            <label class="form-label" for="usua_Clave">Contraseña</label>
-            <div class="position-relative auth-pass-inputgroup mb-3">
-                <input [type]="fieldTextType ? 'text' : 'password'" class="form-control pe-5" placeholder="Ingrese una contraseña" id="usua_Clave" name="usua_Clave" formControlName="usua_Clave"
-                [ngClass]="{ 'is-invalid': submitted && form['usua_Clave'].errors }">
-                
-                <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon">
-                    <i class="mdi align-middle" [ngClass]="{'mdi-eye-off-outline': !fieldTextType, 'mdi-eye-outline': fieldTextType}" 
-                    (click)="toggleFieldTextType()"></i>
-                </button>
-                <div class="invalid-feedback">Por favor ingrese una contraseña.</div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="usua_EsAdmin" class="form-label">¿Es admin?</label>
-                <div class="form-control" style="display: flex; justify-content: center; height: 38px;">
-                    <input class="form-check-input" type="checkbox" id="usua_EsAdmin" name="usua_EsAdmin" formControlName="usua_EsAdmin">
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <label for="role_Id" class="form-label">Rol</label>
-                <select class="form-select" name="role_Id" id="role_Id" formControlName="role_Id"
-                    [ngClass]="{ 'is-invalid': submitted && form['role_Id'].errors}">
-                   <option value="" selected hidden>Seleccione un rol</option>
-                   <option *ngFor="let item of listadoRoles" [ngValue]="item.role_Id">
-                    {{item.role_Nombre}}
-                   </option>
-                </select>
-                <div class="invalid-feedback">Por favor seleccione un rol.</div>
-            </div>
-        </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="cancelar(); modal.close('by: close button')">Cancelar</button>
-          <button class="btn btn-primary" (click)="Guardar($event)">Guardar</button>
-        </div>
-      </ng-template>
     </div>
-    
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary">Cancelar</button>
+      <button class="btn btn-primary">Guardar</button>
+    </div>
+  </ng-template>
+
+
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Agregar Usuarios</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="usua_Nombre" class="form-label">Nombre de usuario</label>
+          <input type="text" id="usua_Nombre" class="form-control" placeholder="Ingrese nombre de usuario" />
+          <div class="invalid-feedback">Por favor ingrese un nombre de usuario.</div>
+        </div>
+        <div class="col-sm-6">
+          <label for="empe_Id" class="form-label">Empleado</label>
+          <ng-select name="empe_Id" id="empe_Id" formControlName="empe_Id" placeholder="Seleccione un Empleado">
+            <ng-option *ngFor="let item of empleadosNoTienenUsuario" [ngValue]="item.empe_Id">
+              {{item.empe_Nombres}} {{item.empe_Apellidos}}
+            </ng-option>
+          </ng-select>
+          <div class="invalid-feedback">Por favor seleccione un empleado.</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <label class="form-label" for="usua_Clave">Contraseña</label>
+          <div class="position-relative auth-pass-inputgroup mb-3">
+            <input [type]="fieldTextType ? 'text' : 'password'" class="form-control pe-5"
+              placeholder="Ingrese una contraseña" id="usua_Clave" name="usua_Clave" formControlName="usua_Clave">
+  
+            <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button"
+              id="password-addon">
+              <i class="mdi align-middle"
+                [ngClass]="{'mdi-eye-off-outline': !fieldTextType, 'mdi-eye-outline': fieldTextType}"
+                (click)="toggleFieldTextType()"></i>
+            </button>
+            <div class="invalid-feedback">Por favor ingrese una contraseña.</div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label for="role_Id" class="form-label">Rol</label>
+          <ng-select name="role_Id" id="role_Id" formControlName="role_Id" placeholder="Seleccione un Rol">
+            <ng-option *ngFor="let item of listadoRoles" [ngValue]="item.role_Id">
+              {{item.role_Nombre}}
+            </ng-option>
+          </ng-select>
+          <div class="invalid-feedback">Por favor seleccione un rol.</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <label for="usua_EsAdmin" class="form-label">¿Es admin?</label>
+          <div class="form-control" style="display: flex; justify-content: center; height: 38px;">
+            <input class="form-check-input" type="checkbox" id="usua_EsAdmin" name="usua_EsAdmin"
+              formControlName="usua_EsAdmin">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary">Cancelar</button>
+      <button class="btn btn-primary">Guardar</button>
+    </div>
+  </ng-template>
+</div>

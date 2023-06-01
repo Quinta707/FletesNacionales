@@ -118,6 +118,26 @@ namespace FletesNacionales.DataAccess.Repository
             return db.Query<VW_tbPantallasPorRoles>(ScriptsDataBase.PantallaXRolesFind, parametros, commandType: System.Data.CommandType.StoredProcedure);
         }
 
+        public RequestStatus ValidarRolTienePantalla(tbPantallasPorRoles item)
+        {
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+
+            parametros.Add("@role_Id", item.role_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@pant_Nombre", item.pant_Nombre, DbType.String, ParameterDirection.Input);
+
+            var resultado = db.QueryFirst<int>(ScriptsDataBase.ValidarRolTienePantalla, parametros, commandType: CommandType.StoredProcedure);
+
+            RequestStatus request = new()
+            {
+                CodeStatus = resultado,
+                MessageStatus = "Id Rol por pantalla"
+            };
+
+            return request;
+        }
+
 
     }
 }

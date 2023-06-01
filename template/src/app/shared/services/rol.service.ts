@@ -17,5 +17,8 @@ export class RolesService {
         return this.http.get<Roles[]>(Global + 'Roles/Listado');
     }
 
+    validarRolTienePantalla(RolesporPantalla: RolesporPantalla){
+        return this.http.post(Global + 'Roles/ValidarRolTienePantalla', RolesporPantalla);
+    }
 }
 

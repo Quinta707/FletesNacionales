@@ -90,5 +90,15 @@ namespace FletesNacionales.API.Controllers
             return Ok(list);
         }
 
+        [HttpPost("ValidarRolTienePantalla")]
+        public IActionResult ValidarRolTienePantalla(PantallasPorRolesViewModel item)
+        {
+            var resultMapeado = _mapper.Map<tbPantallasPorRoles>(item);
+
+            var respuesta = _acceService.ValidarRolTienePantalla(resultMapeado);
+
+            return Ok(respuesta);
+        }
+
     }
 }

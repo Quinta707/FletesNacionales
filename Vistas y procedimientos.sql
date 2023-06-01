@@ -3566,6 +3566,7 @@ GO
 CREATE OR ALTER VIEW acce.VW_tbPantallasPorRoles
 AS
 SELECT 
+prr.prol_Id,
 prr.pant_Id, 
 
 pant_Nombre, 
@@ -3669,7 +3670,6 @@ BEGIN
 	END CATCH
 END
 
-select * from acce.tbPantallasPorRoles where role_Id = 6
 --************** FIND *****************--
 GO
 CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Find  
@@ -3681,6 +3681,38 @@ BEGIN
 	SELECT * FROM acce.VW_tbPantallasPorRoles
 	WHERE role_Id = @role_Id
 END
+
+
+--*************Segusridad***************---
+GO
+CREATE OR ALTER PROCEDURE ACCE.UDP_tbRolesPorPantalla_ValidarRolTienePantalla
+	@role_Id		INT,
+	@pant_Nombre	NVARCHAR(150)
+AS
+BEGIN
+	DECLARE @pant_Id INT, @prol_Id INT
+
+	SELECT @pant_Id = pant_Id
+	  FROM acce.tbPantallas
+	 WHERE pant_Nombre = pant_Nombre
+	   AND pant_Estado = 1
+
+	SELECT @prol_Id = prol_Id
+	  FROM [acce].[tbPantallasPorRoles]
+	 WHERE role_Id = @role_Id
+	   AND pant_Id = @pant_Id
+	   AND [prol_Estado] = 1
+
+	IF @prol_Id > 0
+	BEGIN
+		SELECT @prol_Id
+	END
+	ELSE
+	BEGIN
+		SELECT 0
+	END
+END
+GO
 
 
 

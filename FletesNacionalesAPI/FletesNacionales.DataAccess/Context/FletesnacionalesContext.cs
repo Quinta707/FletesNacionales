@@ -1141,8 +1141,6 @@ namespace FletesNacionales.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(200);
 
-                entity.Property(e => e.user_Contrasena).IsRequired();
-
                 entity.Property(e => e.user_FechaCreacion).HasColumnType("datetime");
 
                 entity.Property(e => e.user_FechaModificacion).HasColumnType("datetime");
@@ -2044,7 +2042,7 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToTable("tbRoles", "acce");
 
-                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E0BA3FB24")
+                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E9C19D8FA")
                     .IsUnique();
 
                 entity.Property(e => e.role_Estado)
@@ -2273,11 +2271,6 @@ namespace FletesNacionales.DataAccess.Context
                 entity.Property(e => e.user_NombreUsuario)
                     .IsRequired()
                     .HasMaxLength(100);
-
-                entity.HasOne(d => d.empe)
-                    .WithMany(p => p.tbUsuarios)
-                    .HasForeignKey(d => d.empe_Id)
-                    .HasConstraintName("FK_acce_tbUsuarios_flet_tbEmpleados_empe_Id");
 
                 entity.HasOne(d => d.role)
                     .WithMany(p => p.tbUsuarios)

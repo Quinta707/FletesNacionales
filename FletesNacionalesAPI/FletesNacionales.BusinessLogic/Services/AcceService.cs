@@ -225,6 +225,21 @@ namespace FletesNacionales.BusinessLogic.Services
 
         }
 
+        public ServiceResult ValidarRolTienePantalla(tbPantallasPorRoles item)
+        {
+            var resultado = new ServiceResult();
+
+            try
+            {
+                var rol = _rolesRepository.ValidarRolTienePantalla(item);
+                return resultado.Ok(rol);
+            }
+            catch (Exception ex)
+            {
+                return resultado.Error(ex.Message);
+            }
+        }
+
         public IEnumerable<VW_tbPantallasPorRoles> menu(int id, bool esadmin)
         {
             try
@@ -236,6 +251,8 @@ namespace FletesNacionales.BusinessLogic.Services
                 return Enumerable.Empty<VW_tbPantallasPorRoles>();
             }
         }
+
+
 
         #endregion
 

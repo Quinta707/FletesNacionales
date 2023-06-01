@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit {
             showConfirmButton: false,
             timer: 6000,
             timerProgressBar: true,
-            title: '¡Inicio de sesión exitoso!\nBienvenido(a) ' + response.data.empe_NombreCompleto,
+            title: '¡Inicio de sesión exitoso!\nBienvenido(a) ' + JSON.parse(localStorage.getItem("user")).user_NombreUsuario,
             icon: 'success'
           });
         } else {

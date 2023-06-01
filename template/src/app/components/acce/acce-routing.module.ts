@@ -5,6 +5,7 @@ import { RolesporPantallaListComponent } from './rolesPorPantalla/rolesPorPantal
 import { RolesporPantallaCreateComponent } from './rolesPorPantalla/rolesPorPantalla-create/rolesPorPantalla-create.component'
 import { RolesporPantallaupdateComponent } from './rolesPorPantalla/rolesPorPantalla-update/rolesPorPantalla-update.component'
 import { UsuariosComponent } from './usuarios/usuarios/usuarios.component'
+import { AccesoGuard } from "src/app/shared/guard/acceso.guard";
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
     children: [
       {
         path: "Roles",
+        canActivate: [AccesoGuard],
+        data: {
+          parametro: "Roles" // Aquí puedes definir el valor del parámetro que quieres enviar
+        },
         children: [
           {
             path: "List",
@@ -29,6 +34,10 @@ const routes: Routes = [
       },
       {
         path: "Usuarios",
+        canActivate: [AccesoGuard],
+        data: {
+          parametro: "Usuarios" // Aquí puedes definir el valor del parámetro que quieres enviar
+        },
         children: [
           {
             path: "List",

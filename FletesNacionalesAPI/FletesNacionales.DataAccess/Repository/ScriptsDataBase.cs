@@ -43,6 +43,7 @@
         public static string PantallaXRolesFind = "acce.UDP_tbPantallasPorRoles_Find";
         public static string PantallaXRolesIndex = "acce.UDP_tbPantallasPorRoles_Index";
         public static string PantallasXRolesMenu = "acce.tbRolesPorPantallaMenu";
+        public static string ValidarRolTienePantalla = "ACCE.UDP_tbRolesPorPantalla_ValidarRolTienePantalla";
         #endregion
 
         #endregion
