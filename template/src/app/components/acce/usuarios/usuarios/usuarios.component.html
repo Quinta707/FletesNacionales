@@ -5,7 +5,7 @@
           <div class="card card-border">
             <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/Usuarios.png" alt="Card image cap">
           <div class="card-body">
-            <button class="btn btn-primary">+ Nuevo</button>
+            <button class="btn btn-primary" (click)="open(content)">+ Nuevo</button>
             <br>
             <div class="d-flex justify-content-between mb-2 mx-1 mt-4">
                 <table>
@@ -39,5 +39,28 @@
           </div>
         </div>
       </div>
+      <ng-template #content let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Agregar Tipo de Vehiculos</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="dateOfBirth">Tipo de Vehiculos</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="exampleInputEmail1" required placeholder="Tipo de Vehiculos"
+                [(ngModel)]="tipodeVehiculoValue" name="tipodeVehiculoValue" #tipodeVehiculoInput="ngModel"
+                [ngClass]="{ 'is-invalid': submitted && tipodeVehiculoInput.invalid }">
+              <div class="invalid-feedback" *ngIf="tipodeVehiculoInput?.errors?.required && submitted">Tipo de Vehiculo es requerido</div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="cancelar(); modal.close('by: close button')">Cancelar</button>
+          <button class="btn btn-primary" (click)="Guardar($event)">Guardar</button>
+        </div>
+      </ng-template>
     </div>
     

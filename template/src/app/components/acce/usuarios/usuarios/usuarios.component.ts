@@ -4,7 +4,6 @@ import { Empleados } from '../../../../shared/model/empleados.model';
 import { Roles } from '../../../../shared/model/rol.model';
 import { TableService } from '../../../../shared/services/usuarios.service';
 import { RolesService } from '../../../../shared/services/rol.service';
-
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 import { NgbCalendar, NgbDateStruct, NgbModal, NgbModalRef, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
@@ -115,7 +114,7 @@ export class UsuariosComponent {
     
 
     const button = document.createElement('il');
-    button.classList.add('create'); 
+    button.classList.add('edit'); 
 
     const iconElement = document.createElement('i');
     iconElement.classList.add('icon-pencil-alt'); 
