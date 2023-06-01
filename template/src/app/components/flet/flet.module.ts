@@ -24,12 +24,19 @@ import { FleteListComponent } from './fletes/fletes-list/fletes-list.component';
 import { FletRoutingModule } from './flet-routing.module';
 import { TrayectosIndexComponent } from './trayectos/trayectos-index/trayectos-index.component';
 import { PedidosIndexComponent } from './pedidos/pedidos-index/pedidos-index.component';
+import { PedidosCreateComponent } from './pedidos/pedidos-create/pedidos-create.component';
 
 import { GoogleMapsModule } from "@angular/google-maps";
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { AgGridModule } from 'ag-grid-angular';
 import { ClientesCreateComponent } from './clientes/clientes-create/clientes-create.component';
 import { ReporteComponent } from './reporte/reporte/reporte.component';
+
+import { ClientesEditComponent } from './clientes/clientes-edit/clientes-edit.component';
+import { EmpleadosCreateComponent } from './empleados/empleados-create/empleados-create.component';
+import { EmpleadosEditComponent } from './empleados/empleados-edit/empleados-edit.component';
+import { EmpleadosDetailsComponent } from './empleados/empleados-details/empleados-details.component';
+import { ClientesDetailsComponent } from './clientes/clientes-details/clientes-details.component';
 
 
 @NgModule({
@@ -49,6 +56,12 @@ import { ReporteComponent } from './reporte/reporte/reporte.component';
     PedidosIndexComponent,
     ClientesCreateComponent,
     ReporteComponent,
+    PedidosCreateComponent,
+    ClientesEditComponent,
+    EmpleadosCreateComponent,
+    EmpleadosEditComponent,
+    EmpleadosDetailsComponent,
+    ClientesDetailsComponent,
   ],
   imports: [
     CommonModule,

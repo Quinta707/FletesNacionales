@@ -9,11 +9,13 @@ import { MarcasIndexComponent } from '././marcas/marcas-index.component';
 import { ModelosIndexComponent } from './modelos/modelos-index/modelos-index.component';
 
 import { EquiRoutingModule } from './equi-routing.module';
+import { MarcasDetailsComponent } from './marcas/marcas-details/marcas-details.component';
 
 @NgModule({
   declarations: [
     MarcasIndexComponent,
     ModelosIndexComponent,
+    MarcasDetailsComponent,
   ],
   imports: [
     CommonModule,

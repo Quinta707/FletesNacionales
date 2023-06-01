@@ -1,10 +1,10 @@
 <div class="container">
-    <app-breadcrumb [title]="'Ingresar un nuevo Cliente'" [items]="['Fletes']" [active_item]="'Clientes'"></app-breadcrumb>
+    <app-breadcrumb [title]="'Editar un Cliente'" [items]="['Fletes']" [active_item]="'Clientes'"></app-breadcrumb>
       <div class="row widget-grid">
         <div class="col-sm-12">
     
           <div class="card card-border">
-            <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../../assets/images/equipo/headers/agregar-headers/IngresarCliente.png" alt="Card image cap">
+            <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../../assets/images/equipo/headers/editar-headers/EditarClientes.png" alt="Card image cap">
     
           <div class="card-body">
             
@@ -89,9 +89,10 @@
             <div class="text-center">
                 <div class="aling-content-center">
                     <button class="btn btn-success" (click)="Guardar()">Guardar</button>
-                    <button class="btn btn-secondary"  style="margin-left: 15px;">Cancelar</button>
+                    <button class="btn btn-secondary" (click)="Regresar()" style="margin-left: 15px;">Cancelar</button>
                 </div>
             </div>
+            
 
           </div>
         </div>

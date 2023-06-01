@@ -1,9 +1,9 @@
-import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Marcas } from '../../../shared/model/Marcas.model';
 import { MarcasService } from '../../../shared/services/marcas.service';
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
-import { NgbModal, NgbModalRef, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -19,143 +19,57 @@ import { AgGridAngular } from 'ag-grid-angular';
   styleUrls: ['./marcas-index.component.scss']
 })
 export class MarcasIndexComponent implements OnInit{
-  marcas: Marcas[];
-  @ViewChild('content') modalContent: any;
-  //tabs
-  public selected = [];
-  public active = 1;
-  public domLayout: DomLayoutType = 'autoHeight';
-  
-  idioma = Idioma
-
-  onNavChange(changeEvent: NgbNavChangeEvent) {
-    if (changeEvent.nextId === 4) {
-      changeEvent.preventDefault();
-    }
-  }
-
-  updateDate: FormGroup; // primer formulario
-
-  //Datos de las tablas
-  Marcas:Marcas = new Marcas();
-  listaMarcas: Marcas[];
-
-
-  //Columnas de las tablas
-  columnDefs: ColDef[] = [
-    { field: 'clie_Id', headerName: 'ID', flex: 1 },
-    { field: 'clie_NombreCompleto', headerName: 'Nombre', flex: 1 },
-    { field: 'clie_FechaNacimiento', headerName: 'Fecha de Nacimiento', flex: 1 },
-    { field: 'clie_Telefono', headerName: 'Telefono', flex: 1 },
-    { cellRenderer: (params) => this.actionButtonRenderer(params, this.modalService), headerName: 'Acciones', flex: 1 }
-
-  ];
-  
-
-  actionButtonRenderer(params: any, modalService: NgbModal) {
-    const onClickHandler = () => {
-      this.Marcas.marc_Id = params.data.marc_Id;
-      this.Marcas.marc_Nombre = params.data.marc_Nombre;
-
-      
-    this.modalRef = this.modalService.open(this.modalContent, { centered: true });
-    };
-  
-    const redireccion = () => {
-      this.router.navigate(['/flet/Fletes/Details'], { queryParams: { id: params.data.flet_Id } });
-    }
-
-    const button = document.createElement('il');
-    button.classList.add('edit'); 
-
-    const iconElement = document.createElement('i');
-    iconElement.classList.add('icon-pencil-alt'); 
-    iconElement.classList.add('mx-2'); 
-
-    const textElement = document.createElement('span');
-    textElement.innerText = '';
-    textElement.appendChild(iconElement);
-
-
-    const button2 = document.createElement('il');
-    button2.classList.add('detail'); 
-  
-    const iconElement2 = document.createElement('i');
-    iconElement2.classList.add('fa'); 
-    iconElement2.classList.add('fa-file-text-o'); 
-
-    const textElement2 = document.createElement('span');
-    textElement2.innerText = '';
-    textElement2.appendChild(iconElement2);
-   
-    button.appendChild(textElement);
-    button2.appendChild(textElement2);
-  
-    button.addEventListener('click', onClickHandler);
-    button2.addEventListener('click', redireccion);
-  
-    const container = document.createElement('div');
-    container.classList.add('action')
-    container.appendChild(button);
-    container.appendChild(button2);
-  
-    return container;
-  }
-
-  //Cpnonfiguracion
-  public defaultColDef: ColDef = {
-    sortable: true,
-    filter: true,
-    autoHeight: true,
-  };
-
-  @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
-
-  redireccionarConID(id: number) {
-    this.router.navigate(['/otra-pagina'], { queryParams: { id: id } });
-  }
-  
-
-  onCellClicked(e: CellClickedEvent): void {
-    console.log('cellClicked', e);
-  }
-
   paginationPageSize: number = 10;
-
-  clearSelection(): void {
-    this.agGrid.api.deselectAll();
-    this.service.getMarcas()
-    .subscribe((data: any)=>{
-      this.listaMarcas= data.data;
-    })
-  }
-
-  
-  ngOnInit(): void {
-
-    this.service.getMarcas()
-    .subscribe((data: any)=>{
-      this.listaMarcas= data.data;
-    })
-
-  }
-  public searchText;
-
+     public selected = [];
+    marcas!: Marcas[];
+ 
+   
+    ngOnInit(): void {
+     this.service.getMarcas()
+     .subscribe((data: any)=>{
+       this.marcas= data.data;
+       this.service.setUserData(data.data)
+     })
+    }
     MarcaValue: string = '';
     submitted: boolean = false;
     basicModalCloseResult: string = '';
     modalRef: NgbModalRef | undefined;
 
+    public tableMarca$: Observable<Marcas[]>;
+    public searchText;
+    total$: Observable<number>;
     
-    constructor(
-      public service:MarcasService,  
-      private modalService: NgbModal,
-      private router:Router, 
-      private http: HttpClient){}
+    constructor(public service:MarcasService,  private modalService: NgbModal, private router:Router, private http: HttpClient){
+      this.tableMarca$ = service.tableMarca$;
+      this.total$ = service.total$;
+      this.service.setUserData(this.marcas)
+    }
 
-      onSearchInputChange() {
-        this.agGrid.api.setQuickFilter(this.searchText);
+    onSearchInputChange(searchTerm: string) {
+      this.service.searchTerm = searchTerm;
+    }
+      @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+
+      onSort({ column, direction }: SortEvent) {
+        this.headers.forEach((header) => {
+          if (header.sortable !== column) {
+            header.direction = '';
+          }
+        });
+
+        this.service.sortColumn = column;
+        this.service.sortDirection = direction;
       }
+
+      deleteData(id: number){
+        this.tableMarca$.subscribe((data: any)=> {      
+          data.map((elem: any,i: any)=>{elem.id == id && data.splice(i,1)})
+          
+        })
+      }
+
+
     open(content: any) {
       this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
         // Acción a realizar cuando se cierra el modal
