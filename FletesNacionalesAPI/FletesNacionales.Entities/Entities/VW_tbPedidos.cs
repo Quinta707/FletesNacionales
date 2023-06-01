@@ -28,6 +28,8 @@ namespace FletesNacionales.Entities.Entities
         public string pedi_DepaDestinoId { get; set; }
         public string pedi_DepaDestino { get; set; }
         public string pedi_DestinoFinal { get; set; }
+        public int meto_Id { get; set; }
+        public string meto_Descripcion { get; set; }
         public int estp_Id { get; set; }
         public string estp_Nombre { get; set; }
         public int pedi_UsuCreacion { get; set; }
@@ -37,6 +39,5 @@ namespace FletesNacionales.Entities.Entities
         public bool? pedi_Estado { get; set; }
         public string user_Creacion { get; set; }
         public string user_Modificacion { get; set; }
-        public string Items { get; set; }
     }
 }

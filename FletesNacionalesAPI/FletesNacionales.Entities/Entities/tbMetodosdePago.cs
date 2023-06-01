@@ -8,6 +8,11 @@ namespace FletesNacionales.Entities.Entities
 {
     public partial class tbMetodosdePago
     {
+        public tbMetodosdePago()
+        {
+            tbPedidos = new HashSet<tbPedidos>();
+        }
+
         public int meto_Id { get; set; }
         public string meto_Descripcion { get; set; }
         public int meto_UsuCreacion { get; set; }
@@ -19,5 +24,6 @@ namespace FletesNacionales.Entities.Entities
 
         public virtual tbUsuarios meto_UsuCreacionNavigation { get; set; }
         public virtual tbUsuarios meto_UsuModificacionNavigation { get; set; }
+        public virtual ICollection<tbPedidos> tbPedidos { get; set; }
     }
 }

@@ -71,7 +71,7 @@ namespace FletesNacionales.DataAccess.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "Modern_Spanish_CI_AS");
+            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
             modelBuilder.Entity<VW_tbCargos>(entity =>
             {
@@ -863,6 +863,8 @@ namespace FletesNacionales.DataAccess.Context
                     .HasMaxLength(20);
 
                 entity.Property(e => e.estp_Nombre).HasMaxLength(150);
+
+                entity.Property(e => e.meto_Descripcion).HasMaxLength(100);
 
                 entity.Property(e => e.muni_Destino)
                     .IsRequired()
@@ -2013,6 +2015,12 @@ namespace FletesNacionales.DataAccess.Context
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_flet_tbPedidos_flet_tbEstadosDelPedido_estp_Id");
 
+                entity.HasOne(d => d.meto)
+                    .WithMany(p => p.tbPedidos)
+                    .HasForeignKey(d => d.meto_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_flet_tbPedidos_gral_tbMetodosDePago_meto_Id");
+
                 entity.HasOne(d => d.muni_DestinoNavigation)
                     .WithMany(p => p.tbPedidosmuni_DestinoNavigation)
                     .HasForeignKey(d => d.muni_Destino)
@@ -2044,7 +2052,7 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToTable("tbRoles", "acce");
 
-                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E0BA3FB24")
+                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E9D45B2E7")
                     .IsUnique();
 
                 entity.Property(e => e.role_Estado)
@@ -2273,11 +2281,6 @@ namespace FletesNacionales.DataAccess.Context
                 entity.Property(e => e.user_NombreUsuario)
                     .IsRequired()
                     .HasMaxLength(100);
-
-                entity.HasOne(d => d.empe)
-                    .WithMany(p => p.tbUsuarios)
-                    .HasForeignKey(d => d.empe_Id)
-                    .HasConstraintName("FK_acce_tbUsuarios_flet_tbEmpleados_empe_Id");
 
                 entity.HasOne(d => d.role)
                     .WithMany(p => p.tbUsuarios)
