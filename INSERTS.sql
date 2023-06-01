@@ -66,8 +66,6 @@ VALUES	--Admin
 		--acceso
 		(20,1 ,1),
 		(21,1 ,1),
-		(22,1 ,1),
-		(23,1 ,1),
 	
 		--Digitador
 		--generales
