@@ -8,6 +8,15 @@ import { Clientes } from 'src/app/shared/model/clientes.model';
 import Swal from 'sweetalert2';
 import { WizardComponent } from 'angular-archwizard';
 
+
+interface Card {
+  item_Id: number;
+  item_Nombre: string;
+  item_Descripcion: string;
+  item_Peso: string;
+  item_Volumen: string;
+}
+
 @Component({
   selector: 'app-pedidos-create',
   templateUrl: './pedidos-create.component.html',
@@ -38,11 +47,16 @@ export class PedidosCreateComponent implements OnInit{
   public municipiosDdl1 = [];
   public municipiosDdl2 = [];
   public clienteDdl = [];
+  public Items = [];
   MuniOrigen: Pedidos = new Pedidos();
   MuniDestino: Pedidos = new Pedidos();
   SelectCliente: Clientes = new Clientes();
 
   ngOnInit(): void {
+    this.service.getItems()
+      .subscribe((data: any) => {
+        this.Items = data.data;
+      })
     this.service.getDllMunicipios()
       .subscribe((data: any) => {
         this.municipiosDdl1 = data.data.map((item: any) => ({
@@ -114,5 +128,48 @@ export class PedidosCreateComponent implements OnInit{
   Regresar1(){
     this.wizard.goToStep(0);
   }
+
+  filteredCards: Card[] = [...this.Items];
+
+  onSearch(searchTerm: string) {
+    this.Items = this.filteredCards.filter(card =>
+      card.item_Nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      card.item_Descripcion.toLowerCase().includes(searchTerm.toLowerCase())||
+      card.item_Peso.toLowerCase().includes(searchTerm.toLowerCase())||
+      card.item_Volumen.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
+currentPage: number = 1;
+itemsPerPage: number = 4;
+
+getCurrentPageItems(): Card[] {
+  const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+  const endIndex = startIndex + this.itemsPerPage;
+  return this.Items.slice(startIndex, endIndex);
+}
+
+goToPreviousPage() {
+  if (this.currentPage > 1) {
+    this.currentPage--;
+  }
+}
+
+goToNextPage() {
+  const totalPages = Math.ceil(this.Items.length / this.itemsPerPage);
+  if (this.currentPage < totalPages) {
+    this.currentPage++;
+  }
+}
+
+showPreviousButton(): boolean {
+  return this.currentPage > 1;
+}
+
+showNextButton(): boolean {
+  const totalPages = Math.ceil(this.Items.length / this.itemsPerPage);
+  return this.currentPage < totalPages;
+}
+
+
 
 }

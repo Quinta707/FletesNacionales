@@ -1,0 +1,43 @@
+<div class="row">
+                      <div class="col-8">
+                        <ng-container *ngIf="secondFormGroup.get('pedidosArray').hasError('required') || pesoMax < pesoUso || voluMax < voluUso">
+                          <ng-container *ngIf="secondFormGroup.get('pedidosArray').hasError('required')">
+                            <ngb-alert [type]="'danger'" [dismissible]="false">
+                              Seleccione al menos un pedido
+                            </ngb-alert>
+                          </ng-container>
+                          <ng-container *ngIf="pesoMax < pesoUso && voluMax < voluUso">
+                            <ngb-alert [type]="'danger'" [dismissible]="false">
+                              El peso y el volumen superan la cantidad maxima
+                            </ngb-alert>
+                          </ng-container>
+                          <ng-container *ngIf="pesoMax < pesoUso && voluMax > voluUso">
+                            <ngb-alert [type]="'danger'" [dismissible]="false">
+                              El peso supera la cantidad maxima
+                            </ngb-alert>
+                          </ng-container>
+                          <ng-container *ngIf="pesoMax > pesoUso && voluMax < voluUso">
+                            <ngb-alert [type]="'danger'" [dismissible]="false">
+                              El volumen supera la cantidad maxima
+                            </ngb-alert>
+                          </ng-container>
+                          
+                          
+                          
+                        </ng-container>
+                      </div>
+                      <div class="col d-flex justify-content-end">
+                        <table> 
+                          <tbody>
+                            <tr [class.text-danger]="pesoMax < pesoUso">
+                              <td><h6>Peso: {{pesoUso}}/{{pesoMax}}</h6></td>
+                            </tr>
+                            <tr [class.text-danger]="voluMax < voluUso">
+                              <td><h6>Volumen: {{voluUso}}/{{voluMax}}</h6> </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        
+                        
+                      </div>
+                    </div>

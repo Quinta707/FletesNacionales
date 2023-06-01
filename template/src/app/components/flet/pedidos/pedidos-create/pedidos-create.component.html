@@ -54,9 +54,53 @@
                   <div id={currentStep}>
                     <aw-wizard-step stepTitle="Items">
                       <form [formGroup]="secondFormGroup">
-                        <div class="mb-3 m-t-15">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <h2 style="color: #6a368a;">Seleccione productos</h2> 
 
+                            </div>
+
+                            
+                        <div class="col-4">
+                            <div class="input-group">
+                              <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
+                              <input class="form-control" type="text" (search)="onSearch($event)"
+                                placeholder="Buscar..." />
+                            </div>
+                          </div>
                         </div>
+                        <hr>
+                        
+                        <div class="row">
+                            <div class="col-sm-9"></div>
+                            <div class="col-sm-3">
+                                <button class="btn btn-square btn-primary btn-sm" (click)="goToPreviousPage()" [disabled]="!showPreviousButton()"><<</button>
+                                <button class="btn btn-square btn-secondary btn-sm" (click)="goToNextPage()" [disabled]="!showNextButton()">>></button>
+                            </div>
+                        </div>
+                            
+                        <div class="mega-inline row mt-3">
+                            <div class="col-6" *ngFor="let item of getCurrentPageItems()">
+                              <div class="card">
+                                <div class="media p-20">
+                                  <div class="form-check checkbox checkbox-primary me-3">
+                                    <input class="form-check-input" [id]="item.item_Id" type="checkbox" (change)="toggleSelection(item)"/>
+                                    <label class="form-check-label" [for]="item.item_Id"></label>
+                                  </div>
+                                  <div class="media-body">
+                                    <h6 class="mt-0 mega-title-badge h5-primary">{{ item.item_Nombre }}<span class="badge badge-primary pull-right digits">{{ item.pedi_Id }}</span></h6>
+                                    <p>
+                                    <br>{{item.item_Descripcion}}
+                                    <br><span>Peso de: </span>{{item.item_Peso}} Kg
+                                    <br><span>Volumen de: </span>{{item.item_Volumen}} mtª
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>  
+                        </div>
+                        <br>
+
                         <button class="btn btn-primary pull-right" type="button" awNextStep
                           [disabled]="!secondFormGroup.valid">Siguiente</button>
                         <button class="btn btn-secondary pull-right me-1" type="button" awPreviousStep >Regresar</button>

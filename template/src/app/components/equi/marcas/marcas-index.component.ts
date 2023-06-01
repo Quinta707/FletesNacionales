@@ -12,7 +12,6 @@ import { CellClickedEvent, ColDef, DomLayoutType } from 'ag-grid-community';
 import { FormGroup } from '@angular/forms';
 import { AgGridAngular } from 'ag-grid-angular';
 
-
 @Component({
   selector: 'app-marcas-index',
   templateUrl: './marcas-index.component.html',

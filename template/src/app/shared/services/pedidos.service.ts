@@ -4,6 +4,7 @@ import { Global } from '../../../../config';
 import  { Pedidos } from '../model/pedidos.model';
 import { Municipios } from '../model/municipios.model';
 import { Clientes } from '../model/clientes.model';
+import { Items } from '../model/items.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,4 +25,8 @@ export class PedidoService {
   getDllClientes(){
     return this.http.get<Clientes[]>(Global+"Clientes/Listado")
   }
+  getItems(){
+    return this.http.get<Items[]>(Global+"Items/Listado")
+  }
+  
 }
