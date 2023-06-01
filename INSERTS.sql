@@ -806,17 +806,17 @@ VALUES
 		('Cancelado',1)
 
 --****************************************PEDIDO****************************************--
-INSERT INTO [flet].[tbPedidos](clie_Id, muni_Origen, muni_Destino, pedi_DestinoFinal,estp_Id, pedi_UsuCreacion)
-VALUES	(1,'0501','0801','Dirección: Avenida Principal 123, Colonia Bella Vista, Tegucigalpa. Referencias: Cerca del parque central, al lado del supermercado "El Sol", frente a la escuela "San José".',1,1),
-		(2,'0401','0501','Dirección: Calle Principal 456, Barrio San Miguel, San Pedro Sula. Referencias: A una cuadra del parque central, cerca de la iglesia "San Juan", frente al centro comercial "La Plaza".',1,1),
-		(3,'1804','0318','Dirección: Avenida Central 789, Colonia El Bosque, Siguatepeque.	Referencias: Cerca del parque central, al lado del restaurante "El Rincón del Sabor", frente a la escuela "Miguel Paz Barahona".',1,1),
-		(4,'0101','1804','Dirección: Calle Principal 123, Barrio El Centro, El Progreso. Referencias: Junto al parque central, cerca de la iglesia "San Pedro", frente al mercado municipal.',1,1),
-		(5,'0401','0103','Dirección: Avenida Costera 456, Colonia Playa Azul, Tela. Referencias: Cerca de la playa principal, al lado del hotel "Mar Azul", frente al restaurante "La Brisa".',1,1),
-		(6,'1601','0318','Dirección: Calle Flores 789, Barrio San Francisco, Siguatepeque. Referencias: Cerca del parque central, al lado de la tienda "El Encanto", frente a la escuela "San José".',1,1),
-		(7,'0103','0101','Dirección: Avenida Principal 123, Colonia Los Pinos, La Ceiba. Referencias: Cerca del malecón, al lado del supermercado "El Mar", frente al parque "La Libertad".',1,1),
-		(8,'0501','1601','Dirección: Calle Principal 456, Barrio El Centro, Santa Bárbara. Referencias: Cerca del parque central, al lado del centro de salud, frente a la iglesia "San Juan".',1,1),
-		(9,'0506','0501','Dirección: Avenida Roosevelt 789, Colonia El Bosque, San Pedro Sula. Referencias: Cerca del parque central, al lado del centro comercial "Mega Plaza", frente al hospital "San Pedro".',1,1),
-		(10, '0501','0501','Dirección: Calle Principal 123, Colonia El Carmen, San Pedro Sula. Referencias: Cerca del parque central, al lado del supermercado "El Sol", frente a la escuela "San José".',1,1)	
+INSERT INTO [flet].[tbPedidos](clie_Id, muni_Origen, muni_Destino, pedi_DestinoFinal, meto_Id, estp_Id, pedi_UsuCreacion)
+VALUES	(1,'0501','0801','Dirección: Avenida Principal 123, Colonia Bella Vista, Tegucigalpa. Referencias: Cerca del parque central, al lado del supermercado "El Sol", frente a la escuela "San José".', 1, 1,1),
+		(2,'0401','0501','Dirección: Calle Principal 456, Barrio San Miguel, San Pedro Sula. Referencias: A una cuadra del parque central, cerca de la iglesia "San Juan", frente al centro comercial "La Plaza".', 2, 1,1),
+		(3,'1804','0318','Dirección: Avenida Central 789, Colonia El Bosque, Siguatepeque.	Referencias: Cerca del parque central, al lado del restaurante "El Rincón del Sabor", frente a la escuela "Miguel Paz Barahona".', 1, 1,1),
+		(4,'0101','1804','Dirección: Calle Principal 123, Barrio El Centro, El Progreso. Referencias: Junto al parque central, cerca de la iglesia "San Pedro", frente al mercado municipal.', 3, 1,1),
+		(5,'0401','0103','Dirección: Avenida Costera 456, Colonia Playa Azul, Tela. Referencias: Cerca de la playa principal, al lado del hotel "Mar Azul", frente al restaurante "La Brisa".', 2, 1,1),
+		(6,'1601','0318','Dirección: Calle Flores 789, Barrio San Francisco, Siguatepeque. Referencias: Cerca del parque central, al lado de la tienda "El Encanto", frente a la escuela "San José".', 2, 1,1),
+		(7,'0103','0101','Dirección: Avenida Principal 123, Colonia Los Pinos, La Ceiba. Referencias: Cerca del malecón, al lado del supermercado "El Mar", frente al parque "La Libertad".', 1, 1,1),
+		(8,'0501','1601','Dirección: Calle Principal 456, Barrio El Centro, Santa Bárbara. Referencias: Cerca del parque central, al lado del centro de salud, frente a la iglesia "San Juan".', 4, 1,1),
+		(9,'0506','0501','Dirección: Avenida Roosevelt 789, Colonia El Bosque, San Pedro Sula. Referencias: Cerca del parque central, al lado del centro comercial "Mega Plaza", frente al hospital "San Pedro".', 3, 1,1),
+		(10, '0501','0501','Dirección: Calle Principal 123, Colonia El Carmen, San Pedro Sula. Referencias: Cerca del parque central, al lado del supermercado "El Sol", frente a la escuela "San José".', 1, 1,1)	
 GO
 --****************************************PEDIDO DETALLES****************************************--
 INSERT INTO [flet].[tbPedidoDetalles](pedi_Id, item_Id, pdet_Cantidad, pdet_UsuCreacion)

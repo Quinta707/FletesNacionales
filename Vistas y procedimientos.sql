@@ -2747,6 +2747,8 @@ SELECT	T1.pedi_Id,
 		T8.depa_Id AS pedi_DepaDestinoId,
 		T8.depa_Nombre   AS pedi_DepaDestino,
 		pedi_DestinoFinal, 
+		T1.meto_Id,
+		T10.meto_Descripcion,
 		T1.estp_Id,
 		T9.estp_Nombre,
 		pedi_UsuCreacion, 
@@ -2764,7 +2766,8 @@ SELECT	T1.pedi_Id,
   ON T5.depa_Id = T6.depa_Id INNER JOIN gral.tbMunicipios T7
   ON T1.muni_Destino = T7.muni_Id  INNER JOIN gral.tbDepartamentos T8
   ON T7.depa_Id = T8.depa_Id INNER JOIN flet.tbEstadosDelPedido T9
-  ON T1.estp_Id = T9.estp_Id
+  ON T1.estp_Id = T9.estp_Id INNER JOIN gral.tbMetodosdePago T10
+  ON T1.meto_Id = T10.meto_Id
 
 
 --************** INDEX *****************--
