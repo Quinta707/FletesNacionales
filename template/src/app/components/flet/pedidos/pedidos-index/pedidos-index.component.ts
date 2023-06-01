@@ -160,5 +160,8 @@ export class PedidosIndexComponent implements OnInit {
     this.agGrid.api.setQuickFilter(this.searchText);
   }
 
+  NuevoPedido(){
+    this.router.navigate(['flet/Pedidos/Create'])
+  }
 
 }

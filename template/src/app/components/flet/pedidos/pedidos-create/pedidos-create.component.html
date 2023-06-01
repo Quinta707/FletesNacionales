@@ -1,1 +1,83 @@
-<p>pedidos-create works!</p>
+<div class="container">
+    <app-breadcrumb [title]="'Pedidos'" [items]="['Fletes']" [active_item]="'Pedidos'"></app-breadcrumb>
+    <div class="row widget-grid">
+      <div class="col-sm-12">
+        <div class="card">
+            <img class="card-img-top" src="../../../../../assets/images/equipo/headers/agregar-headers/IngresarPedido.png" alt="Card image cap">
+        <div class="card-body">
+            <div class="wizard-4" id="wizard">
+                <aw-wizard navBarLocation='left'>
+                  <div id="step-1">
+                    <aw-wizard-step stepTitle="Nuevo Pedido">
+                      <form [formGroup]="firstFormGroup">
+                        <div class="mb-3">
+                          <label for="name">Cliente</label>
+                            <ng-select  placeholder="Seleccione un cliente" [items]="clienteDdl" required
+                            class="js-example-placeholder-multiple" formControlName="clie_Id" [(ngModel)]="SelectCliente.clie_NombreCompleto" bindValue="value" name="ClientValue" [ngClass]="{ 'is-invalid': submitted && !ClientValue }" ></ng-select>
+                          <ng-container class="invalid text-danger"
+                            *ngIf="firstFormGroup.get('clie_Id').hasError('required') && (firstFormGroup.get('clie_Id').touched || submitted)">
+                            <label style="color:red">Este campo es requerido</label></ng-container>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="form-label">Origen del pedido</label>
+                                <ng-select formControlName="muni_Origen"  placeholder="Seleccione un Departamento"  [items]="municipiosDdl1" required
+                                class="js-example-placeholder-multiple" [(ngModel)]="MuniOrigen.muni_Origen" bindValue="value" groupBy="job" name="OrigenValue" [ngClass]="{ 'is-invalid': submitted && !OrigenValue }"></ng-select>
+                                <ng-container class="invalid"
+                                *ngIf="firstFormGroup.get('muni_Origen').hasError('required') && (firstFormGroup.get('muni_Origen').touched || submitted)">
+                                <label style="color:red">Este campo es requerido</label></ng-container>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Destino del pedido</label>
+                                <ng-select formControlName="muni_Destino"  placeholder="Seleccione un Municipio" [items]="municipiosDdl2" required
+                                class="js-example-placeholder-multiple" [(ngModel)]="MuniDestino.muni_Destino" bindValue="value" groupBy="job" name="DestinoValue" [ngClass]="{ 'is-invalid': submitted && !DestinoValue }"></ng-select>
+                                <ng-container class="invalid"
+                                *ngIf="firstFormGroup.get('muni_Destino').hasError('required') && (firstFormGroup.get('muni_Destino').touched || submitted)">
+                                <label style="color:red">Este campo es requerido</label></ng-container>
+                            </div>
+                        </div><br>
+                        
+                        <div>
+                            <label class="form-label">Dirección exacta del destino del pedido</label>
+                            <textarea formControlName="DireccionPedido" class="form-control" id="direcInput" name="DirecValue" required rows="3" [(ngModel)]="DirecValue" name="DirecValue"
+                            [ngClass]="{ 'is-invalid': submitted && !DirecValue }"></textarea>
+                            <ng-container class="invalid"
+                                *ngIf="firstFormGroup.get('DireccionPedido').hasError('required') && (firstFormGroup.get('DireccionPedido').touched || submitted)">
+                                <label style="color:red">Este campo es requerido</label></ng-container>
+                        </div>
+                        <br>
+
+                        <button class="btn btn-primary pull-right" type="submit" (click)="ValidarPedido()" >Siguiente</button>
+                      </form>
+                    </aw-wizard-step>
+                  </div>
+                  <div id={currentStep}>
+                    <aw-wizard-step stepTitle="Items">
+                      <form [formGroup]="secondFormGroup">
+                        <div class="mb-3 m-t-15">
+
+                        </div>
+                        <button class="btn btn-primary pull-right" type="button" awNextStep
+                          [disabled]="!secondFormGroup.valid">Siguiente</button>
+                        <button class="btn btn-secondary pull-right me-1" type="button" awPreviousStep >Regresar</button>
+                      </form>
+                    </aw-wizard-step>
+                  </div>
+                  <div id="step-3">
+                    <aw-wizard-step stepTitle="Pago">
+                      <form [formGroup]="thirdFormGroup">
+
+                        <button class="btn btn-primary pull-right" type="button" awNextStep>Finalizar compra</button>
+                        <button class="btn btn-secondary pull-right me-1" type="button" awPreviousStep>Regresar</button>
+                      </form>
+                    </aw-wizard-step>
+                  </div>
+                  
+                </aw-wizard>
+              </div>
+          
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
