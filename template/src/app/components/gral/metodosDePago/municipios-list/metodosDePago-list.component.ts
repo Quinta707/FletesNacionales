@@ -1,8 +1,15 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MetodosDePago } from '../../../../shared/model/metodosDePago.model';
 import { TableService } from '../../../../shared/services/metodoDePago.service';
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
+import { Idioma } from '../../../../../../config';
+import { AgGridAngular } from 'ag-grid-angular';
+import { Router } from '@angular/router';
+import { CellClickedEvent, ColDef, DomLayoutType, GridReadyEvent } from 'ag-grid-community';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { NgbCalendar, NgbDateStruct, NgbModal, NgbModalRef, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -11,56 +18,187 @@ import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSor
   styleUrls: ['./metodosDePago-list.component.scss']
 })
 export class MetodosDePagoListComponent implements OnInit {
-  public selected = [];
-
-  
+  //recolectores de datos
   metodosDePago: MetodosDePago[];
+
+  metoPago:MetodosDePago= new MetodosDePago();
+
+  public selected = [];
+  
+  @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
  
   ngOnInit(): void {
-   this.service.getMetodosDePago()
+   
+    this.service.getMetodosDePago()
    .subscribe((data: any)=>{
       this.metodosDePago= data.data;
-      this.service.setUserData(data.data)
    })
+
+   this.CreateGroup = this._formBuilder.group({
+    meto_Descripcion: ['', Validators.required],
+  });
+   
+  this.EditGroup = this._formBuilder.group({
+    meto_Descripcion: ['', Validators.required],
+  });
+  
   }
 
-  public tableItem$: Observable<MetodosDePago[]>;
-  public searchText;
-  total$: Observable<number>;
+  public domLayout: DomLayoutType = 'autoHeight';
+  idioma = Idioma
+  paginationPageSize: number = 10;
+  public searchText:string;
 
-  constructor(public service: TableService) {
+  public defaultColDef: ColDef = {
+    sortable: true,
+    filter: true,
+    autoHeight: true,
+  };
 
-    this.tableItem$ = service.tableItem$;
-    this.total$ = service.total$;
-    this.service.setUserData(this.metodosDePago)
+  columnDefs: ColDef[] = [
+    { field: 'meto_Id', headerName: 'ID', flex: 1 },
+    { field: 'meto_Descripcion', headerName: 'Descripcion', flex: 2 },
+    { cellRenderer: (params) => this.actionButtonRenderer(params, this.modalService), headerName: 'Acciones', flex: 1 }
+
+  ];
+
+  actionButtonRenderer(params: any, modalService: NgbModal) {
+    const openModelEdit = () => {
+      //console.log(params.data)
+      this.sumit = false;
+      this.EditGroup.get('meto_Descripcion').setValue(params.data.meto_Descripcion);
+      this.metoPago = params.data;
+      this.modalRef = this.modalService.open(this.modalEdit, { centered: true });
+   };
+  
+    const openModalDelete = () => {
+      this.metoPago = params.data;
+      this.modalRef = this.modalService.open(this.modalDelete, { centered: true });
+      // this.router.navigate(['/flet/Fletes/PersonalDetails'], { queryParams: { id: params.data.flet_Id } });
+    }
+
+    const button = document.createElement('il');
+    button.classList.add('edit'); 
+
+    const iconElement = document.createElement('i');
+    iconElement.classList.add('icon-pencil-alt'); 
+    iconElement.classList.add('mx-2'); 
+
+    const textElement = document.createElement('span');
+    textElement.innerText = '';
+    textElement.appendChild(iconElement);
+
+
+    const button2 = document.createElement('il');
+    button2.classList.add('delete'); 
+  
+    const iconElement2 = document.createElement('i');
+    iconElement2.classList.add('fa'); 
+    iconElement2.classList.add('fa-trash-o'); 
+
+    const textElement2 = document.createElement('span');
+    textElement2.innerText = '';
+    textElement2.appendChild(iconElement2);
+   
+    button.appendChild(textElement);
+    button2.appendChild(textElement2);
+  
+    button.addEventListener('click', openModelEdit);
+    button2.addEventListener('click', openModalDelete);
+  
+    const container = document.createElement('div');
+    container.classList.add('action')
+    container.appendChild(button);
+    container.appendChild(button2);
+  
+    return container;
+  }
+ 
+ 
+
+  constructor(public service: TableService,
+              private modalService: NgbModal,
+              private _formBuilder: FormBuilder,
+              private router: Router) {
 
   }
 
-  onSearchInputChange(searchTerm: string) {
-    this.service.searchTerm = searchTerm;
+  onSearchInputChange() {
+    this.agGrid.api.setQuickFilter(this.searchText);
   }
 
-  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+  //fomularios
+  CreateGroup: FormGroup;
+  EditGroup: FormGroup;  
 
-  onSort({ column, direction }: SortEvent) {
-    // resetting other headers
-    this.headers.forEach((header) => {
-      if (header.sortable !== column) {
-        header.direction = '';
-      }
+  sumit:boolean = false;
+
+  //Elementos del Modal
+  @ViewChild('delete') modalDelete: any;
+  @ViewChild('edit') modalEdit: any;
+  @ViewChild('create') modalCreate: any;
+
+  modalRef: NgbModalRef;
+
+  closeModal() {
+    if (this.modalRef) {
+      this.sumit = false;
+      this.modalRef.dismiss();
+    }
+  }
+ 
+ 
+  OpenModalCreate() {
+    this.sumit = false;
+    const formGroup = this.CreateGroup;
+
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      control.markAsUntouched();
     });
 
-    this.service.sortColumn = column;
-    this.service.sortDirection = direction;
-
+    const Drenadora: MetodosDePago = new MetodosDePago();
+    this.metoPago = Drenadora;
+    this.modalRef = this.modalService.open(this.modalCreate, { centered: true });
   }
 
-  deleteData(id: number){
-    this.tableItem$.subscribe((data: any)=> {      
-      data.map((elem: any,i: any)=>{elem.id == id && data.splice(i,1)})
+  CrearMetodo() {
+    console.log(this.CreateGroup.value["meto_Depcripcion"])
+    let datasinespace = this.CreateGroup.value["meto_Depcripcion"].trim()
+    this.CreateGroup.get("meto_Descripcion").setValue(datasinespace)
+    this.metoPago.meto_Descripcion = this.metoPago.meto_Descripcion.trim();
+    if(this.CreateGroup.valid){
+
+    }else{
+      this.sumit = true;
+      this.alertaCamposVacios();
+    }
+  }
+ 
+  EditarMetodo() {
+    if(this.EditGroup.valid){
       
-    })
+    }else{
+      this.sumit = true;
+      this.alertaCamposVacios();
+    }
   }
+
+  alertaCamposVacios() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'Completa todos los campos',
+        icon: 'warning'
+      })
+  }
+
+
+  
+
 
  }
  

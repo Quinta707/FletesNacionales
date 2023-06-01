@@ -64,6 +64,7 @@
     "jquery": "^3.7.0",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.29",
+    "leaflet": "^1.9.4",
     "leaflet-routing-machine": "^3.2.12",
     "mousetrap": "^1.6.5",
     "ng-apexcharts": "^1.7.4",
