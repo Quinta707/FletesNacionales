@@ -45,17 +45,61 @@
           <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
         </div>
         <div class="modal-body">
-          <form>
-            <div class="form-group">
-              <label for="dateOfBirth">Tipo de Vehiculos</label>
-              <div class="input-group">
-                <input type="text" class="form-control" id="exampleInputEmail1" required placeholder="Tipo de Vehiculos"
-                [(ngModel)]="tipodeVehiculoValue" name="tipodeVehiculoValue" #tipodeVehiculoInput="ngModel"
-                [ngClass]="{ 'is-invalid': submitted && tipodeVehiculoInput.invalid }">
-              <div class="invalid-feedback" *ngIf="tipodeVehiculoInput?.errors?.required && submitted">Tipo de Vehiculo es requerido</div>
-              </div>
+          <div class="mb-3">
+            <label for="usua_Nombre" class="form-label">Nombre de usuario</label>
+            <input type="text" id="usua_Nombre" class="form-control" placeholder="Ingrese nombre de usuario"
+                formControlName="usua_Nombre"
+                [ngClass]="{ 'is-invalid': submitted && form['usua_Nombre'].errors }" 
+                />
+            <div class="invalid-feedback">Por favor ingrese un nombre de usuario.</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="empe_Id" class="form-label">Empleado</label>
+            <select class="form-select" name="empe_Id" id="empe_Id" formControlName="empe_Id"
+                [ngClass]="{ 'is-invalid': submitted && form['empe_Id'].errors }"
+                >
+                <option [ngValue]="empe_IdEditar" selected hidden>{{isEdit ? usua_NombreEdit : 'Seleccione un empleado'}}</option>
+                <option *ngFor="let item of empleadosNoTienenUsuario" [ngValue]="item.empe_Id">
+                    {{item.empe_Nombres}} {{item.empe_Apellidos}}
+                </option>
+            </select>
+            <div class="invalid-feedback">Por favor seleccione un empleado.</div>
+        </div>
+
+        <div class="mb-3" [ngStyle]="{'display': isEdit ? 'none' : ''}">
+            <label class="form-label" for="usua_Clave">Contraseña</label>
+            <div class="position-relative auth-pass-inputgroup mb-3">
+                <input [type]="fieldTextType ? 'text' : 'password'" class="form-control pe-5" placeholder="Ingrese una contraseña" id="usua_Clave" name="usua_Clave" formControlName="usua_Clave"
+                [ngClass]="{ 'is-invalid': submitted && form['usua_Clave'].errors }">
+                
+                <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon">
+                    <i class="mdi align-middle" [ngClass]="{'mdi-eye-off-outline': !fieldTextType, 'mdi-eye-outline': fieldTextType}" 
+                    (click)="toggleFieldTextType()"></i>
+                </button>
+                <div class="invalid-feedback">Por favor ingrese una contraseña.</div>
             </div>
-          </form>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="usua_EsAdmin" class="form-label">¿Es admin?</label>
+                <div class="form-control" style="display: flex; justify-content: center; height: 38px;">
+                    <input class="form-check-input" type="checkbox" id="usua_EsAdmin" name="usua_EsAdmin" formControlName="usua_EsAdmin">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="role_Id" class="form-label">Rol</label>
+                <select class="form-select" name="role_Id" id="role_Id" formControlName="role_Id"
+                    [ngClass]="{ 'is-invalid': submitted && form['role_Id'].errors}">
+                   <option value="" selected hidden>Seleccione un rol</option>
+                   <option *ngFor="let item of listadoRoles" [ngValue]="item.role_Id">
+                    {{item.role_Nombre}}
+                   </option>
+                </select>
+                <div class="invalid-feedback">Por favor seleccione un rol.</div>
+            </div>
+        </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="cancelar(); modal.close('by: close button')">Cancelar</button>
