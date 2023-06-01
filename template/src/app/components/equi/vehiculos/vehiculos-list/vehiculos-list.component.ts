@@ -4,6 +4,7 @@ import { TableService } from '../../../../shared/services/vehiculo.service';
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -41,12 +42,19 @@ export class VehiculosListComponent implements OnInit {
   selectedOption: string;
   textInput: string;
   
-  onKeyDown(event: any) {
+  onKeyDown(event: any, eve: KeyboardEvent) {
     const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Delete', 'Tab'];
-    if (event.key !== undefined && !allowedKeys.includes(event.key) && isNaN(Number(event.key))) {
+    if (event.key !== undefined  && !allowedKeys.includes(event.key) && isNaN(Number(event.key))) {
+      event.preventDefault();
+    }
+    if (event.KeyboardEvent === 32) {
+      event.preventDefault();
+    }
+    if (event.key === ' ') {
       event.preventDefault();
     }
   }
+  
   
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -68,9 +76,18 @@ export class VehiculosListComponent implements OnInit {
 
   Guardar() {
     this.validate = false;
+    this.vehiculosCreate.vehi_Placa = this.vehiculosCreate.vehi_Placa.trim()
     if(this.vehiculosCreate.mode_Id == null || this.vehiculosCreate.mode_Id == 0)
     {
-      this.validate = true;
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'Selecciona el tipo del vehiculo',
+        icon: 'error'
+      })
     }
     if(this.vehiculosCreate.vehi_PesoMaximo == null || this.vehiculosCreate.vehi_PesoMaximo == 0)
     {
@@ -84,15 +101,54 @@ export class VehiculosListComponent implements OnInit {
     {
       this.validate = true;
     }
-    else if(this.vehiculosCreate.mode_Id != null || this.vehiculosCreate.mode_Id != 0 && this.vehiculosCreate.vehi_PesoMaximo != null || this.vehiculosCreate.vehi_PesoMaximo != 0
-       && this.vehiculosCreate.vehi_VolumenMaximo != null || this.vehiculosCreate.vehi_VolumenMaximo != 0 && this.vehiculosCreate.vehi_Placa != null || this.vehiculosCreate.vehi_Placa != "")
+    else if(this.vehiculosCreate.mode_Id != null && this.vehiculosCreate.mode_Id != 0 && this.vehiculosCreate.vehi_PesoMaximo != null && this.vehiculosCreate.vehi_PesoMaximo != 0
+       && this.vehiculosCreate.vehi_VolumenMaximo != null && this.vehiculosCreate.vehi_VolumenMaximo != 0 && this.vehiculosCreate.vehi_Placa != null && this.vehiculosCreate.vehi_Placa != "")
     {
       this.validate = false;     
       
       this.service.createVehiculos(this.vehiculosCreate)
-      .subscribe(() =>{     
-        this.modalService.dismissAll()
-        this.index()
+      .subscribe((data: any) =>{     
+        console.log(data)
+        if(data.message == "YaExiste")
+        {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            title: 'Este Vehiculo ya existe',
+            icon: 'error'
+          })
+        }
+        if(data.message == "Error Inesperado")
+        {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            title: 'Ocurrio un error',
+            icon: 'error'
+          })
+        }
+        if(parseInt(data.message) > 0){
+
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            title: 'Registro agregado con exito',
+            icon: 'success'
+          })
+          this.modalService.dismissAll()
+
+
+          this.index()
+        }  
       })
     }
   }
@@ -115,7 +171,15 @@ export class VehiculosListComponent implements OnInit {
   update(){
     if(this.vehiculosEditar.mode_Id == null || this.vehiculosEditar.mode_Id == 0)
     {
-      this.validate = true;
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'Selecciona el tipo del vehiculo',
+        icon: 'error'
+      })
     }
     if(this.vehiculosEditar.vehi_PesoMaximo == null || this.vehiculosEditar.vehi_PesoMaximo == 0)
     {
@@ -129,14 +193,52 @@ export class VehiculosListComponent implements OnInit {
     {
       this.validate = true;
     }
-    else if(this.vehiculosEditar.mode_Id != null || this.vehiculosEditar.mode_Id != 0 && this.vehiculosEditar.vehi_PesoMaximo != null || this.vehiculosEditar.vehi_PesoMaximo != 0
-       && this.vehiculosEditar.vehi_VolumenMaximo != null || this.vehiculosEditar.vehi_VolumenMaximo != 0 && this.vehiculosEditar.vehi_Placa != null || this.vehiculosEditar.vehi_Placa != "")
+    else if(this.vehiculosEditar.mode_Id != null && this.vehiculosEditar.mode_Id != 0 && this.vehiculosEditar.vehi_PesoMaximo != null && this.vehiculosEditar.vehi_PesoMaximo != 0
+       && this.vehiculosEditar.vehi_VolumenMaximo != null && this.vehiculosEditar.vehi_VolumenMaximo != 0 && this.vehiculosEditar.vehi_Placa != null && this.vehiculosEditar.vehi_Placa != "")
     {
     this.service.updateVehiculos(this.vehiculosEditar)
-    .subscribe(() =>{     
-      this.modalService.dismissAll()
-      
-      this.index()
+    .subscribe((data: any) =>{     
+      console.log(data)
+      if(data.message == "YaExiste")
+      {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          title: 'Este Vehiculo ya existe',
+          icon: 'error'
+        })
+      }
+      if(data.message == "Error Inesperado")
+      {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          title: 'Ocurrio un error',
+          icon: 'error'
+        })
+      }
+      if(parseInt(data.message) > 0){
+
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          title: 'Registro actualizado con exito',
+          icon: 'success'
+        })
+        this.modalService.dismissAll()
+
+
+        this.index()
+      }  
     })
   }
   }
@@ -150,10 +252,64 @@ export class VehiculosListComponent implements OnInit {
   delete() {
     console.log(this.vehiculosEliminar.vehi_Id)
     this.service.deleteVehiculos(this.vehiculosEliminar)
-    .subscribe(() => {      
-      this.modalService.dismissAll()
-      this.index()
-    })
+    .subscribe((data: any) => {      
+      if(data.message == "Registro eliminado")
+        {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            title: 'Registro eliminado con existo',
+            icon: 'success'
+          })
+            this.modalService.dismissAll()
+            this.index()
+        }   
+        if(data.message == "EnUso")
+        {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2500,
+            timerProgressBar: true,
+            title: 'Este Vehiculo no se puede eliminar porque esta en uso',
+            icon: 'error'
+          })
+          this.modalService.dismissAll()
+  
+        }
+        if(data.message == "Error Inesperado")
+        {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            title: 'Ha ocurrido un error',
+            icon: 'error'
+          })
+          this.modalService.dismissAll()
+  
+        }
+        if(data.message == "Conexión perdida")
+        {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            title: 'Ha ocurrido un error',
+            icon: 'error'
+          })
+          this.modalService.dismissAll()
+  
+        }
+      })
   }
 
   index(){

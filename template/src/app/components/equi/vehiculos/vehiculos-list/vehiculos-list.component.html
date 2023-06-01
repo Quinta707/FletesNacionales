@@ -39,8 +39,7 @@
             <div class="col-sm-6  mt-3">
               <div class="form-group">
                 <label>Placa</label>
-              <input type="text" [(ngModel)]="vehiculosCreate.vehi_Placa" class="form-control" (keydown)="onKeyDown($event)"
-               required="" >
+              <input type="text" [(ngModel)]="vehiculosCreate.vehi_Placa" class="form-control" required="" >
               </div>
             </div>     
           </div>
@@ -70,18 +69,18 @@
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label>Peso Maximo</label>
-                <input [(ngModel)]="vehiculosEditar.vehi_PesoMaximo" class="form-control" name="vehi_PesoMaximo" id="vehi_PesoMaximo" type="text" required=""/>
+                <input [(ngModel)]="vehiculosEditar.vehi_PesoMaximo" class="form-control" name="vehi_PesoMaximo"(keydown)="onKeyDown($event)"  id="vehi_PesoMaximo" type="text" required=""/>
               </div></div>
               <div class="col-sm-6 mt-3">
                 <div class="form-group">
                   <label>Volumen Maximo</label> 
-                <input [(ngModel)]="vehiculosEditar.vehi_VolumenMaximo" class="form-control" name="vehi_VolumenMaximo" id="vehi_VolumenMaximo" type="text"required=""/>
+                <input [(ngModel)]="vehiculosEditar.vehi_VolumenMaximo" class="form-control" name="vehi_VolumenMaximo" (keydown)="onKeyDown($event)"  id="vehi_VolumenMaximo" type="text"required=""/>
               </div>
             </div>
               <div class="col-sm-6  mt-3">
                 <div class="form-group">
                   <label>Placa</label>
-                <input type="text" [(ngModel)]="vehiculosEditar.vehi_Placa" class="form-control"  name="vehi_Placa" id="vehi_Placa"   required="" >
+                <input type="text" [(ngModel)]="vehiculosEditar.vehi_Placa" class="form-control"  name="vehi_Placa" id="vehi_Placa" required="" >
                 </div>
               </div>     
             </div>
@@ -89,7 +88,6 @@
             </form>
             </div>
             <div class="modal-footer">
-              <button class="btn btn-success" (click)="cosas()">Actualizar</button>
               <button class="btn btn-success" (click)="update()">Actualizar</button>
             </div>
           </ng-template>

@@ -367,6 +367,8 @@ namespace FletesNacionales.BusinessLogic.Services
 
                 if (insert.CodeStatus == 1)
                     return result.SetMessage("Registro eliminado", ServiceResultType.Success);
+                else if (insert.CodeStatus == -3)
+                    return result.SetMessage("EnUso", ServiceResultType.Error);
                 else if (insert.CodeStatus == 0)
                     return result.SetMessage("Error Inesperado", ServiceResultType.Error);
                 else

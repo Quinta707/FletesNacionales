@@ -41,7 +41,7 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@vehi_PesoMaximo", item.vehi_PesoMaximo, DbType.String, ParameterDirection.Input);
             parametros.Add("@vehi_VolumenMaximo", item.vehi_VolumenMaximo, DbType.String, ParameterDirection.Input);
             parametros.Add("@vehi_Placa", item.vehi_Placa, DbType.String, ParameterDirection.Input);
-            parametros.Add("@vehi_UsuCreacion", item.vehi_UsuCreacion, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@vehi_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
 
             var result = db.QueryFirst<RequestStatus>(ScriptsDataBase.VehiculosInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
             return result;

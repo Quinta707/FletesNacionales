@@ -355,14 +355,14 @@ namespace FletesNacionales.BusinessLogic.Services
             {
                 var map = _vehiculosRepository.Delete(item);
                 if (map.CodeStatus > 0)
-                {
-                    return result.Ok(map);
-                }
+                    return result.SetMessage("Registro eliminado", ServiceResultType.Success);
+                else if (map.CodeStatus == -3)
+                    return result.SetMessage("EnUso", ServiceResultType.Error);
+                else if (map.CodeStatus == 0)
+                    return result.SetMessage("Error Inesperado", ServiceResultType.Error);
                 else
-                {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
-                }
+                    return result.SetMessage("Conexión perdida", ServiceResultType.Error);
+
             }
             catch (Exception)
             {
@@ -378,12 +378,19 @@ namespace FletesNacionales.BusinessLogic.Services
                 var map = _vehiculosRepository.Insert(item);
                 if (map.CodeStatus > 0)
                 {
-                    return result.Ok(map);
+                    return result.SetMessage(map.CodeStatus.ToString(), ServiceResultType.Error);
+                }
+                else if (map.CodeStatus == -2)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Error);
+                }
+                else if (map.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
                 else
                 {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
             }
             catch (Exception)
@@ -399,12 +406,19 @@ namespace FletesNacionales.BusinessLogic.Services
                 var map = _vehiculosRepository.Update(item);
                 if (map.CodeStatus > 0)
                 {
-                    return result.Ok(map);
+                    return result.SetMessage(map.CodeStatus.ToString(), ServiceResultType.Error);
+                }
+                else if (map.CodeStatus == -2)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Error);
+                }
+                else if (map.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
                 else
                 {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
             }
             catch (Exception)

@@ -30,6 +30,8 @@ import { GoogleMapsModule } from "@angular/google-maps";
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { AgGridModule } from 'ag-grid-angular';
 import { ClientesCreateComponent } from './clientes/clientes-create/clientes-create.component';
+import { graficaLstComponent } from './grafica/grafica-lst/grafica-lst.component';
+import { NgApexchartsModule } from "ng-apexcharts";
 
 
 
@@ -54,6 +56,7 @@ import { ReporteComponent } from './reporte/reporte/reporte.component';
     PedidosIndexComponent,
     ClientesCreateComponent,
     ReporteComponent,
+    graficaLstComponent
   ],
   imports: [
     CommonModule,
@@ -71,7 +74,8 @@ import { ReporteComponent } from './reporte/reporte/reporte.component';
     NgSelectModule,
     FormsModule,
     NgbModule,
-    SharedModule
+    SharedModule,
+    NgApexchartsModule
   ]
 })
 export class FletModule { }

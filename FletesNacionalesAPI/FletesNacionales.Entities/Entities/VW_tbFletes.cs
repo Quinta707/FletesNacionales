@@ -36,6 +36,7 @@ namespace FletesNacionales.Entities.Entities
         public string carg_Descripcion { get; set; }
         public int tray_Id { get; set; }
         public string tray_Descripcion { get; set; }
+        public string tray_DepaDescripcion { get; set; }
         public string muni_Inicio { get; set; }
         public string muni_Final { get; set; }
         public string muni_NombreInicio { get; set; }

@@ -60,36 +60,61 @@
   <div class="card">
     
     <div class="card-header">
-      <h5>Bar chart</h5>
+      <h5>Grafica filtrada de trayectos </h5>
     </div>
     <div class="card-body">
       
 <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">    
   <div class="row">
     
-
-<div class="col-sm-6 mt-3">
-  <div class="form-group">
-    <label>Fecha Inicio</label>
-  <input [(ngModel)]="graficaEnvio.flet_Inicio" class="form-control"  type="text" required=""/>
-</div></div>
-<div class="col-sm-6  mt-3">
-  <div class="form-group">
-    <label>Fecha Fin</label>
-  <input type="text" [(ngModel)]="graficaEnvio.flet_Fin" class="form-control"
-   required="" >
+  <form [formGroup]="firstFormGroup">     
+    <div class="col-6">
+<div class="custom-datepicker custom-datepicker-dropdown">
+    
+    <div class="col-form-label">Fecha Inicio</div>
+    <input  class="datepicker-here form-control digits text-dark"
+            formControlName="flet_Inicio"
+            [(ngModel)]="graficaEnvio.flet_Inicio"
+            placeholder="yyyy-mm-dd"
+            name="dp"
+            ngbDatepicker
+            #d="ngbDatepicker"  
+            (click)="d.toggle()"
+            [minDate]="getToday()">
   </div>
-</div>    
-
+  <ng-container class="invalid text-danger"
+  *ngIf="firstFormGroup.get('flet_Inicio').hasError('required') && firstFormGroup.get('flet_Inicio').touched">
+  <p class="text-danger">La fecha de salida es necesaria</p></ng-container>
+</div>
+<div class="col-6" >
+<div class="custom-datepicker custom-datepicker-dropdown">
+  
+    <div class="col-form-label">Fecha Fin</div>
+    <input  class="datepicker-here form-control digits text-dark"
+            formControlName="flet_Fin"
+            [(ngModel)]="graficaEnvio.flet_Fin"
+            placeholder="yyyy-mm-dd"
+            name="dp"
+            ngbDatepicker
+            #d="ngbDatepicker"
+            (click)="d.toggle()"
+            [minDate]="getToday()">
+  </div>
+  
+  <ng-container class="invalid text-danger"
+  *ngIf="firstFormGroup.get('flet_Fin').hasError('required') && firstFormGroup.get('flet_Fin').touched">
+  <p class="text-danger">La fecha de salida es necesaria</p></ng-container>
+</div>
+</form> 
 <div class="col-sm-6">
   <div class="form-group">
     <label>Departamento Id </label>
-<ng-select [(ngModel)]="graficaEnvio.depa_Id" indValue="value" [items]="departamentosDDL" placeholder="Departamento"></ng-select>
+<ng-select [(ngModel)]="graficaEnvio.depa_Id" bindValue="value" [items]="departamentosDDL" placeholder="Departamento" required=""></ng-select>
 </div>
 </div> 
 <div class="col-sm-6 mt-4">
   <div class="form-group">
-    <button class="btn btn-primary">Filtrar</button>
+    <button class="btn btn-primary" (click)="Filtrar()">Filtrar</button>
   </div>
 </div>
 </div>

@@ -17,6 +17,7 @@ import { ClientesCreateComponent } from './clientes/clientes-create/clientes-cre
 
 import { ReporteComponent } from './reporte/reporte/reporte.component';
 import { FleteDetailsPropioComponent } from "./fletes/fletes-details-propio/fletes-details-propio.component";
+import { graficaLstComponent } from './grafica/grafica-lst/grafica-lst.component';
 const routes: Routes = [
   {
     path: "",
@@ -52,6 +53,16 @@ const routes: Routes = [
           {
             path: "List",
             component: ItemListComponent,
+          },
+          
+        ],
+      },
+      {
+        path: "Grafica",
+        children: [
+          {
+            path: "List",
+            component: graficaLstComponent,
           },
           
         ],

@@ -87,6 +87,7 @@ export class MunicipiosListComponent implements OnInit {
   municipiosEliminar: Municipios = new Municipios();
 
   Guardar() {
+    console.log(this.municipiosCreate.depa_Id)
     this.validate = false;
     if(this.municipiosCreate.muni_Nombre == null || this.municipiosCreate.muni_Nombre == "")
     {
@@ -105,8 +106,6 @@ export class MunicipiosListComponent implements OnInit {
       this.validate = false;
       this.municipiosCreate.muni_Id = this.municipiosCreate.depa_Id + "" + this.municipiosCreate.muni_Id
       
-      console.log('ya entro y este es el id')
-      console.log(this.municipiosCreate.muni_Id)
       this.service.createMunicipios(this.municipiosCreate)
       .subscribe(() =>{     
         this.modalService.dismissAll()

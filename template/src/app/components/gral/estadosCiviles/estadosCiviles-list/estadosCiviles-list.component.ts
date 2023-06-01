@@ -4,6 +4,7 @@ import { TableService } from '../../../../shared/services/estadosCiviles.service
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -33,6 +34,10 @@ export class EstadosCivilesComponent implements OnInit {
   }
   
   open(content: any) {
+    
+    this.estadosCreate.eciv_Descripcion = null
+    this.validate = false;
+
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -59,6 +64,7 @@ export class EstadosCivilesComponent implements OnInit {
 
   Guardar() {
     this.validate = !this.validate;
+    this.estadosCreate.eciv_Descripcion = this.estadosCreate.eciv_Descripcion.trim()
     if(this.estadosCreate.eciv_Descripcion == null)
     {
 
@@ -66,24 +72,59 @@ export class EstadosCivilesComponent implements OnInit {
     else
     {
       this.service.createEstadosCiviles(this.estadosCreate)
-      .subscribe(() =>{     
-        this.modalService.dismissAll()
-        this.estadosCreate.eciv_Descripcion = null
-        this.validate = false;
-        this.index()
+      .subscribe((data: any) =>{   
+        if(data.message == "YaExiste")
+        {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            title: 'Este Estado Civil ya existe',
+            icon: 'error'
+          })
+        }
+        if(data.message == "ErrorInesperado")
+        {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            title: 'Ocurrio un error',
+            icon: 'error'
+          })
+        }
+        if(parseInt(data.data.codeStatus) > 0){
+
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            title: 'Registro agregado con exito',
+            icon: 'success'
+          })
+          this.modalService.dismissAll()
+
+
+          this.index()
+        }  
       })
     }
   }
 
   Actualizar(est: EstadosCiviles, content: any) {
-    console.log(est.eciv_Descripcion)
+    this.estadosCreate.eciv_Descripcion = this.estadosCreate.eciv_Descripcion.trim()
     const id = est.eciv_Id
 
     this.service.findEstadosCiviles(id ?? 0)
     .subscribe((data : any) =>{
       
       this.estadosEditar = data;
-      console.log(this.estadosEditar)
     
       this.open(content)
     })
@@ -91,10 +132,50 @@ export class EstadosCivilesComponent implements OnInit {
 
   update(){
     this.service.updateEstadosCiviles(this.estadosEditar)
-    .subscribe(() =>{     
-      this.modalService.dismissAll()
+    .subscribe((data:any) =>{     
       
-      this.index()
+      if(data.message == "YaExiste")
+      {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          title: 'Este Estado Civil ya existe',
+          icon: 'error'
+        })
+      }
+      if(data.message == "ErrorInesperado")
+      {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          title: 'Ocurrio un error',
+          icon: 'error'
+        })
+      }
+      if(parseInt(data.data.codeStatus) > 0){
+
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          title: 'Registro actualizado con exito',
+          icon: 'success'
+        })
+        this.modalService.dismissAll()
+
+        this.estadosCreate.eciv_Descripcion = null
+        this.validate = false;
+
+        this.index()
+      }  
     })
   }
 
@@ -105,18 +186,70 @@ export class EstadosCivilesComponent implements OnInit {
   }
 
   delete() {
-    console.log(this.estadosEliminar.eciv_Id)
     this.service.deleteEstadosCiviles(this.estadosEliminar)
-    .subscribe(() => {      
-      this.modalService.dismissAll()
-      this.index()
+    .subscribe((data: any) => {      
+    if(data.message == "Registro eliminado")
+      {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          title: 'Registro eliminado con existo',
+          icon: 'success'
+        })
+          this.modalService.dismissAll()
+          this.index()
+      }   
+      if(data.message == "EnUso")
+      {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+          title: 'Este Estado Civil no se puede eliminar porque esta en uso',
+          icon: 'error'
+        })
+        this.modalService.dismissAll()
+
+      }
+      if(data.message == "Error Inesperado")
+      {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          title: 'Ha ocurrido un error',
+          icon: 'error'
+        })
+        this.modalService.dismissAll()
+
+      }
+      if(data.message == "Conexión perdida")
+      {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          title: 'Ha ocurrido un error',
+          icon: 'error'
+        })
+        this.modalService.dismissAll()
+
+      }
     })
   }
 
   index(){
     this.service.getEstadosCiviles()
     .subscribe((data: any)=>{
-      console.log(data.data)
        this.estadosCiviles= data.data;
        this.service.setUserData(data.data)
     })

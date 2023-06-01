@@ -1,8 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { NgbCalendar, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { NgbCalendar, NgbDate, NgbDateParserFormatter, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { TableService } from '../../../shared/services/municipios.services';
+import { Grafica } from '../../../shared/model/grafica.model';
 import * as data from "../../../shared/data/dashboard/default";
 import * as chartData from '../../../shared/data/chart/google-chart';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-default",
@@ -11,8 +13,18 @@ import * as chartData from '../../../shared/data/chart/google-chart';
 })
 export class DefaultComponent implements OnInit {
   public validate = false;
-  constructor(calendar: NgbCalendar, public service: TableService) {}
+
+  constructor(public calendar: NgbCalendar,private _formBuilder: FormBuilder, public service: TableService) {}
   
+  getToday(): NgbDateStruct {
+    const today = this.calendar.getToday();
+    return { year: today.year, month: today.month, day: today.day };
+  }
+  
+  categorias : any[] = []
+  conteo : any[] = []
+  graficaEnvio : Grafica = new Grafica()
+
   public departamentosDDL: [];
   ngOnInit() {
     
@@ -26,8 +38,13 @@ export class DefaultComponent implements OnInit {
      })) 
 
    })
-  }
+    
+    this.firstFormGroup = this._formBuilder.group({
+      flet_Inicio: ['', Validators.required],
+      flet_Fin: ['', Validators.required]
+    });
 
+  }
   public purchase = data.purchase
   public salesReturn = data.salesReturn
   public sales = data.sales
@@ -42,6 +59,8 @@ export class DefaultComponent implements OnInit {
     { id: 6, img: "assets/images/slider/ultimoultimo.jpg" }
   ];
 
+  firstFormGroup: FormGroup; // primer formulario
+  
   owlcarousel13Options = {
     items: 3,
     loop: true,
@@ -76,7 +95,7 @@ export class DefaultComponent implements OnInit {
     series: [
       {
           name: "Conteo",
-          data: [1,2,3,4,5,6,7,8,9,10]
+          data: this.conteo
       }
   ],
   colors: [this.primary_color],
@@ -96,36 +115,55 @@ export class DefaultComponent implements OnInit {
       enabled: false
   },
   xaxis: {
-      categories: [
-          "India",
-          "Canada",
-          "UK",
-          "Korea",
-          "Italy",
-          "France",
-          "Japan",
-          "US",
-          "China",
-          "Germany"
-      ]
+      categories: this.categorias
   }
   }
-
-  graficaEnvio : Model = new Model()
-
-   enviar()
-   {
-
-   }
+  Filtrar()
+  {      
+      this.categorias = []
+      this.conteo = []
+      this.service.getGrafica(this.graficaEnvio)
+      .subscribe((data: any) => {
+        console.log(data)
+        data.forEach(element => {
+          console.log("hola")
+          console.log(element.tray_DepaDescripcion)
+          this.categorias.push(element.tray_DepaDescripcion)
+          this.conteo.push(element.tray_Conteo)
+        });
+        this.ChartOptions = {
+          series: [
+            {
+                name: "Conteo",
+                data: this.conteo
+            }
+        ],
+        colors: [this.primary_color],
+        chart: {
+            type: "bar",
+            height: 350,
+            toolbar: {
+                show: false
+            }
+        },
+        plotOptions: {
+            bar: {
+                horizontal: true
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        xaxis: {
+            categories: this.categorias
+        }
+        }
+      })
+    }
+  }
 
   
-}
 
-class Model {
-  flet_Inicio !: String;
-  flet_Fin !: String;
-  depa_Id !: number	;
-}
 
 
 type ChartOptions = {

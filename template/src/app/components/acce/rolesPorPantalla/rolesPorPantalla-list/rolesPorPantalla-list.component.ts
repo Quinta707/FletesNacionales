@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 
 
@@ -48,7 +49,6 @@ export class RolesporPantallaListComponent implements OnInit {
   index(){
     this.service.getRolesporPantalla()
     .subscribe((data: any)=>{      
-      console.log(data.data)
        this.rolesPorPantalla= data.data;
        this.outerTableData = data.data
        this.service.setUserData(data.data)
@@ -71,29 +71,80 @@ export class RolesporPantallaListComponent implements OnInit {
 
   rolesPorPantallaEliminar: RolesporPantalla = new RolesporPantalla()
   Eliminar(est: RolesporPantalla, content) {
-    console.log('a')
     this.rolesPorPantallaEliminar.role_Id = est.role_Id
    
-    console.log('b')
     this.open(content)
   }
 
   delete() {
     
-    console.log('c')
-    console.log(this.rolesPorPantallaEliminar.role_Id)
     this.service.deleteRol(this.rolesPorPantallaEliminar)
-    .subscribe(() => {      
-      this.service.deleteRolesporPantalla(this.rolesPorPantallaEliminar)
-      .subscribe(()=>{  
+    .subscribe((data: any) => {   
+      if(data.message == "Eliminado")
+      {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          title: 'Registro eliminado con existo',
+          icon: 'success'
+        })
+
+        this.service.deleteRolesporPantalla(this.rolesPorPantallaEliminar)
+        .subscribe(()=>{  
+         
+          this.modalService.dismissAll()
+          this.index()
+        })
+      }   
+      if(data.message == "EnUso")
+      {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+          title: 'Este rol no se puede eliminar porque esta en uso',
+          icon: 'error'
+        })
         this.modalService.dismissAll()
-        this.index()
-      })
+
+      }
+      if(data.message == "ErrorInesperado")
+      {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          title: 'Ha ocurrido un error',
+          icon: 'error'
+        })
+        this.modalService.dismissAll()
+
+      }
+      if(data.message == "Conexión perdida")
+      {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          title: 'Ha ocurrido un error',
+          icon: 'error'
+        })
+        this.modalService.dismissAll()
+
+      }
     })
   }
   Actualizar(id: any)
   {
-    console.log(id)
     localStorage.setItem("role_Id", id)
     this.router.navigate(["/acce/Roles/Update"])
   }
@@ -151,7 +202,6 @@ export class RolesporPantallaListComponent implements OnInit {
   dataPantallas(id) {
     this.service.findRolesporPantalla(id)
     .subscribe((data: any)=>{
-      console.log(data)
       this.innerTableData = data
     })
   }

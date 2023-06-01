@@ -517,14 +517,14 @@ END
 
 --**************  UPDATE ******************--
 GO
-CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_Update
+CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_Update 
 (@eciv_Id INT,
  @eciv_Descripcion NVARCHAR(100),
  @eciv_UsuModificacion INT)
 AS
 BEGIN
 	BEGIN TRY
-	    IF EXISTS (SELECT * FROM gral.tbEstadosCiviles WHERE (eciv_Descripcion = @eciv_Descripcion AND eciv_Id = @eciv_Id))
+	    IF NOT EXISTS (SELECT * FROM gral.tbEstadosCiviles WHERE (eciv_Descripcion = @eciv_Descripcion AND eciv_Id = @eciv_Id))
 			BEGIN
 				SELECT -2 
 			END
@@ -2099,23 +2099,39 @@ BEGIN
 END
 --************** GRAFICA *****************--
 GO
-CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_Grafica   
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_Grafica 
 @flet_Inicio NVARCHAR(150),
 @flet_Fin NVARCHAR(150),
-@depa_Id	INT
+@depa_Id CHAR(2)
 AS
 BEGIN
+IF @depa_Id IS NULL
+BEGIN
+	SELECT depa_InicioNombre + ' hasta '+ depa_FinalNombre as tray_DepaDescripcion,
+	depa_FinalNombre,
+	depa_InicioNombre,   
+	flt.tray_Id , count(flt.tray_Id) tray_Conteo
+	FROM flet.tbFletes flt 
+	inner join flet.VW_tbTrayectos  tra 
+	ON flt.tray_Id = tra.tray_Id   
+	WHERE 
+	flet_FechaDeSalida BETWEEN @flet_Inicio AND @flet_Fin
+	GROUP BY flt.tray_Id , depa_InicioNombre ,depa_FinalNombre
+END
+ELSE
+BEGIN
 
-SELECT 'Trayecto de ' + depa_InicioNombre + ' hasta '+ depa_FinalNombre as tray_DepaDescripcion,
-depa_FinalNombre,
-depa_InicioNombre,   
-flt.tray_Id , count(flt.tray_Id) tray_Conteo
-FROM flet.tbFletes flt 
-inner join flet.VW_tbTrayectos  tra 
-ON flt.tray_Id = tra.tray_Id   
-WHERE muni_Inicio in(SELECT muni_Id FROM gral.tbMunicipios where depa_Id = @depa_Id)
-and flet_FechaDeSalida BETWEEN @flet_Inicio AND @flet_Fin
-GROUP BY flt.tray_Id , depa_InicioNombre ,depa_FinalNombre
+	SELECT depa_InicioNombre + ' hasta '+ depa_FinalNombre as tray_DepaDescripcion,
+	depa_FinalNombre,
+	depa_InicioNombre,   
+	flt.tray_Id , count(flt.tray_Id) tray_Conteo
+	FROM flet.tbFletes flt 
+	inner join flet.VW_tbTrayectos  tra 
+	ON flt.tray_Id = tra.tray_Id   
+	WHERE muni_Inicio in(SELECT muni_Id FROM gral.tbMunicipios where depa_Id = @depa_Id) and 
+	flet_FechaDeSalida BETWEEN @flet_Inicio AND @flet_Fin
+	GROUP BY flt.tray_Id , depa_InicioNombre ,depa_FinalNombre
+END
 
 END
 --************** INDEX PENDIENTES *****************--
@@ -3119,6 +3135,7 @@ BEGIN
 			END
         ELSE
 			BEGIN
+			
 
 				UPDATE acce.tbRoles
 					SET  role_Estado = 1

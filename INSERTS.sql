@@ -26,6 +26,7 @@ VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','flag-icon flag-i
 	   ('Trayectos',			'/flet/Trayectos/List',				'flet','fa fa-map',1),
 	   ('Estados del Pedido',	'/flet/EstadosdelPedido/List',		'flet','fa fa-check-circle-o',1),
 	   ('Empleados',			'/flet/Empleados/List',				'flet','fa fa-address-card',1),
+	   ('Grafica',				'/flet/Grafica/List',				'acce','icofont icofont-chart-bar-graph',1),
 
 	   ('Modelos',				'/equi/Modelos/List',				'equi','fa fa-car',1),
 	   ('Marcas',				'/equi/Marcas/List',				'equi','fa fa-truck',1),
@@ -34,8 +35,7 @@ VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','flag-icon flag-i
 
 	   ('Usuarios',				'/acce/Usuarios/List',				'acce','fa fa-user',1),
        ('Roles Por Pantalla',	'/acce/Roles/List',					'acce','fa fa-credit-card-alt',1),
-	   ('Pantallas',			'/acce/Pantallas/List',				'acce','fa fa-credit-card-alt',1),
-	   ('Grafica',				'/acce/Grafica/List',				'acce','icofont icofont-chart-bar-graph',1)
+	   ('Pantallas',			'/acce/Pantallas/List',				'acce','fa fa-credit-card-alt',1)
 GO
 	    
 --****************************************ROLES POR PANTALLAS****************************************--

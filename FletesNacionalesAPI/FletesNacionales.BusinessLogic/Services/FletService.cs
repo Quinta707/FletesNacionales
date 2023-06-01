@@ -2,6 +2,7 @@
 using FletesNacionales.DataAccess.Repository;
 using FletesNacionales.Entities.Entities;
 using System;
+using System.Collections.Generic;
 
 namespace FletesNacionales.BusinessLogic.Services
 {
@@ -617,14 +618,14 @@ namespace FletesNacionales.BusinessLogic.Services
             }
         }
 
-        public VW_tbFletes GraficaFletes(tbFletes id)
+        public IEnumerable<VW_tbTrayectos> GraficaFletes(VW_Grafica id)
         {
             try
             {
                 var list = _fletesRepository.Grafica(id);
                 return list;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return null;
             }

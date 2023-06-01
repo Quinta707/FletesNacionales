@@ -9,7 +9,9 @@ namespace FletesNacionales.Entities.Entities
     public partial class VW_tbTrayectos
     {
         public int tray_Id { get; set; }
+        public int tray_Conteo { get; set; }
         public string tray_Descripcion { get; set; }
+        public string tray_DepaDescripcion { get; set; }
         public string muni_Inicio { get; set; }
         public decimal? tray_Precio { get; set; }
         public string muni_InicioNombre { get; set; }

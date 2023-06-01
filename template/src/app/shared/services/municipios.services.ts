@@ -6,7 +6,9 @@ import { DecimalPipe, SlicePipe } from '@angular/common';
 import { debounceTime, delay, map, switchMap, tap } from 'rxjs/operators';
 import { SortColumn, SortDirection } from '../directives/NgbdSortableHeader';
 import { Municipios } from '../model/municipios.model';
+import { Grafica } from '../model/grafica.model';
 import { Departamentos } from '../model/departamentos.model';
+import { Flete } from '../model/fletes.model';
 import { Global } from '../../../../config';
 import { HttpClient } from '@angular/common/http';
 
@@ -176,6 +178,13 @@ export class TableService {
 
   getDepartamenos(){
     return this.http.get<Departamentos[]>(this.DepartamentosListado);
+  }
+
+  GraficaGet = Global + "Fletes/Grafica"
+
+  getGrafica(Grafica: Grafica)
+  {
+    return this.http.put<Flete[]>(this.GraficaGet, Grafica)
   }
 
 }
