@@ -1,8 +1,6 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MetodosDePago } from '../../../../shared/model/metodosDePago.model';
 import { TableService } from '../../../../shared/services/metodoDePago.service';
-import { Observable } from 'rxjs';
-import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 import { Idioma } from '../../../../../../config';
 import { AgGridAngular } from 'ag-grid-angular';
 import { Router } from '@angular/router';
@@ -23,8 +21,6 @@ export class MetodosDePagoListComponent implements OnInit {
   metodosDePago: MetodosDePago[];
 
   metoPago:MetodosDePago= new MetodosDePago();
-
-  public selected = [];
   
   @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
  
@@ -162,6 +158,7 @@ export class MetodosDePagoListComponent implements OnInit {
   }
 
   CrearMetodo() {
+    this.sumit = true;
 
     let datoTrim = (this.CreateGroup.value['meto_Descripcion'].trim());
     this.CreateGroup.get("meto_Descripcion").setValue(datoTrim)
@@ -189,12 +186,13 @@ export class MetodosDePagoListComponent implements OnInit {
       })
 
     }else{
-      this.sumit = true;
       this.alertaCamposVacios();
     }
   }
  
   EditarMetodo() {
+    this.sumit = true;
+
     let datoTrim = (this.EditGroup.value['meto_Descripcion'].trim());
     this.EditGroup.get("meto_Descripcion").setValue(datoTrim)
     this.metoPago.meto_Descripcion = datoTrim;
@@ -221,7 +219,6 @@ export class MetodosDePagoListComponent implements OnInit {
       })
 
     }else{
-      this.sumit = true;
       this.alertaCamposVacios();
     }
   }

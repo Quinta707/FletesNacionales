@@ -7,83 +7,44 @@
           <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/Sucursales.png" alt="Card image cap">
   
         <div class="card-body">
-          <button class="btn btn-primary" >+ Nuevo</button>
-        <br><br>
-            <div class="d-flex justify-content-between mb-2 mx-1">
-              <div class="d-flex aling-content-center">
-                <label>Elementos a mostrar:</label>
-              <select class="form-select" style="color: #3c334d; width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-                <option [ngValue]="5">5</option>
-                <option [ngValue]="10">10</option>
-                <option [ngValue]="25">25</option>
-                <option [ngValue]="50">50</option>
-              </select>
-              </div>
-              <div class="col-4">
-                <div class="input-group">
-                  <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
-                  <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange(searchText)" placeholder="Buscar..." />
-                </div>
+          <div class="row d-flex justify-content-center">
+            <div class="col-4">
+              <button (click)="OpenModalCreate()" class="btn btn-block btn-primary">
+                + Nuevo
+              </button>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between mb-2 mt-4">
+            <table>
+              <thead>
+                <tr>
+                  <td>Mostrar:</td>
+                  <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
+                      [(ngModel)]="paginationPageSize">
+                      <option [ngValue]="5">5</option>
+                      <option [ngValue]="10">10</option>
+                      <option [ngValue]="25">25</option>
+                      <option [ngValue]="50">50</option>
+                    </select>
+                  </td>
+                </tr>
+              </thead>
+            </table>
+            <div class="col-4">
+              <div class="input-group">
+                <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
+                <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
+                  placeholder="Buscar..." />
               </div>
             </div>
-              
+          </div>
+
             <div class="row mt-3">
               <div class="col-12">
-                <div class="custom-datatable noscroll">
-                  <div class="custom-datatable table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th scope="col" sortable="sucu_Id" (sort)="onSort($event)">Id</th>
-                          <th scope="col" sortable="sucu_Nombre" (sort)="onSort($event)">Nombre Sucursales</th>
-                          <th scope="col" sortable="muni_Nombre" (sort)="onSort($event)">Municipio</th>
-                          <th scope="col" sortable="depa_Nombre" (sort)="onSort($event)">Departamento</th>
-                          <th scope="col" sortable="sucu_Direccion" (sort)="onSort($event)">Direccion</th>
-                          <th scope="col">Acciones</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let item of tableItem$ | async">
-                          <td scope="row">
-                            <ngb-highlight [result]="item.sucu_Id" [term]="service.searchTerm"></ngb-highlight>
-                          </td>
-                          <td>
-                            <ngb-highlight [result]="item.sucu_Nombre" [term]="service.searchTerm"></ngb-highlight>
-                          </td>
-                          <td>
-                            <ngb-highlight [result]="item.muni_Nombre" [term]="service.searchTerm"></ngb-highlight>
-                          </td>
-                          <td>
-                            <ngb-highlight [result]="item.depa_Nombre" [term]="service.searchTerm"></ngb-highlight> 
-                          </td>
-                          <td>
-                            <ngb-highlight [result]="item.sucu_Direccion" [term]="service.searchTerm"></ngb-highlight>
-                          </td>
-                          <td>
-                            <div class="action">
-                              <li class="edit">
-                                <a href="#"><i class="icon-pencil-alt"></i></a>
-                              </li>
-                              <li class="delete">
-                                <a href="#"><i class="icon-trash"></i></a>
-                              </li>
-                            </div>
-                          <td>            
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <div class="d-flex justify-content-between mt-3 mb-2 mx-1">
-                      <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-                        <option [ngValue]="5">5</option>
-                        <option [ngValue]="10">10</option>
-                        <option [ngValue]="25">25</option>
-                        <option [ngValue]="50">50</option>
-                      </select>
-                      <ngb-pagination class="ms-3" [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize"> </ngb-pagination>
-                    </div>
-                  </div>
-                </div>
+                <ag-grid-angular class="ag-theme-alpine" [columnDefs]="columnDefs" [pagination]="true"
+                [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
+                [rowData]="sucursalesList" [rowSelection]="'multiple'" [domLayout]="domLayout"
+                [animateRows]="true"></ag-grid-angular>
               </div>
             </div>
     
@@ -93,3 +54,112 @@
       </div>
   </div>
   
+
+  <ng-template #delete let-c="close" let-d="dismiss" class="text-center">
+    <div class="modal-header d-flex justify-content-center">
+      <h4 class="modal-title" id="modal-basic-title">Eliminar</h4>
+    </div>
+    <div class="modal-body text-center">
+      <h6>Parece que deseas eliminar un registro</h6> <br>
+      <h6>¿Estas seguro de esta accion?</h6>
+    </div>
+    <div class="modal-footer d-flex justify-content-center">
+      <button type="button" class="btn btn-dark" (click)="closeModal()">No</button>
+      <button type="button" class="btn btn-danger" (click)="Eliminarsucursal()" >Si</button>
+    </div>
+  </ng-template>
+  
+  
+  <form [formGroup]="EditGroup">
+    <ng-template #edit let-c="close" let-d="dismiss" class="">
+      <div class="modal-header d-flex justify-content-center">
+        <h4 class="modal-title" id="modal-basic-title">Editar</h4>
+      </div>
+      <div class="modal-body ">
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="">Nombre del sucursal</label>
+              <input type="text" placeholder="sucursal" [(ngModel)]="sucursal.sucu_Nombre" name="sucu_Nombre" id="sucu_Nombre" formControlName="sucu_Nombre" class="form-control">
+              <ng-container class="invalid text-danger"
+              *ngIf="EditGroup.get('sucu_Nombre').hasError('required') && (EditGroup.get('sucu_Nombre').touched || sumit)">
+              <p class="text-danger">El campo es necesario</p></ng-container>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="">Municipio de la sucursal</label>
+              <ng-select [items]="municipiosDDL" class="" formControlName="muni_Id"
+                        [(ngModel)]="sucursal.muni_Id" bindLabel="muni_Nombre" groupBy="depa_Nombre" bindValue="muni_Id" placeholder="Marca del sucursal"></ng-select>
+              <ng-container class="invalid text-danger"
+              *ngIf="EditGroup.get('muni_Id').hasError('required') && (EditGroup.get('muni_Id').touched || sumit)">
+              <p class="text-danger">El campo es necesario</p></ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="">Direccion exacta</label>
+              <textarea [(ngModel)]="sucursal.sucu_Direccion" name="sucu_Direccion" id="sucu_Direccion"  rows="3"  formControlName="sucu_Direccion" class="form-control"></textarea>
+              <!-- <input type="text" [(ngModel)]="sucursal.sucu_Direccion" name="sucu_Direccion" id="sucu_Direccion" formControlName="sucu_Direccion" class="form-control"> -->
+              <ng-container class="invalid text-danger"
+              *ngIf="EditGroup.get('sucu_Direccion').hasError('required') && (EditGroup.get('sucu_Direccion').touched || sumit)">
+              <p class="text-danger">El campo es necesario</p></ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-dark" (click)="closeModal()">Cancelar</button>
+      <button type="button" class="btn btn-primary" (click)="EditarSucursal()" >Guardar</button>
+    </div>
+  </ng-template>
+  </form>
+  
+  <form [formGroup]="CreateGroup">
+    <ng-template #create let-c="close" let-d="dismiss" class="">
+      <div class="modal-header d-flex justify-content-center">
+        <h4 class="modal-title" id="modal-basic-title">Crear</h4>
+      </div>
+      <div class="modal-body ">
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="">Nombre del sucursal</label>
+              <input type="text" placeholder="sucursal" [(ngModel)]="sucursal.sucu_Nombre" name="sucu_Nombre" id="sucu_Nombre" formControlName="sucu_Nombre" class="form-control">
+              <ng-container class="invalid text-danger"
+              *ngIf="CreateGroup.get('sucu_Nombre').hasError('required') && (CreateGroup.get('sucu_Nombre').touched || sumit)">
+              <p class="text-danger">El campo es necesario</p></ng-container>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="">Municipio de la sucursal</label>
+              <ng-select [items]="municipiosDDL" class="" formControlName="muni_Id"
+                        [(ngModel)]="sucursal.muni_Id" bindLabel="muni_Nombre" groupBy="depa_Nombre" bindValue="muni_Id" placeholder="Marca del sucursal"></ng-select>
+              <ng-container class="invalid text-danger"
+              *ngIf="CreateGroup.get('muni_Id').hasError('required') && (CreateGroup.get('muni_Id').touched || sumit)">
+              <p class="text-danger">El campo es necesario</p></ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="">Direccion exacta</label>
+              <textarea [(ngModel)]="sucursal.sucu_Direccion" name="sucu_Direccion" id="sucu_Direccion"  rows="3"  formControlName="sucu_Direccion" class="form-control"></textarea>
+              <!-- <input type="text" [(ngModel)]="sucursal.sucu_Direccion" name="sucu_Direccion" id="sucu_Direccion" formControlName="sucu_Direccion" class="form-control"> -->
+              <ng-container class="invalid text-danger"
+              *ngIf="CreateGroup.get('sucu_Direccion').hasError('required') && (CreateGroup.get('sucu_Direccion').touched || sumit)">
+              <p class="text-danger">El campo es necesario</p></ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" (click)="closeModal()">Cancelar</button>
+      <button type="button" class="btn btn-primary" (click)="CrearSucursal()" >Guardar</button>
+    </div>
+  </ng-template>
+  </form>

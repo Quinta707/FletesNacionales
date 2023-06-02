@@ -9,9 +9,9 @@ namespace FletesNacionales.API.Models
     {
         public int sucu_Id { get; set; }
         public string sucu_Nombre { get; set; }
-        public int muni_Id { get; set; }
+        public string muni_Id { get; set; }
         public string muni_Nombre { get; set; }
-        public int depa_Id { get; set; }
+        public string depa_Id { get; set; }
         public string depa_Nombre { get; set; }
         public string sucu_Direccion { get; set; }
         public int sucu_UsuCreacion { get; set; }

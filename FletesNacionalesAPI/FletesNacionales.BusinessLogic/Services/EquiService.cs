@@ -171,7 +171,11 @@ namespace FletesNacionales.BusinessLogic.Services
                 {
                     return result.Ok(map);
                 }
-                else
+                else if (map.CodeStatus == -2) 
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Error);
+                }
+                else 
                 {
                     map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
                     return result.Error(map);
@@ -191,6 +195,10 @@ namespace FletesNacionales.BusinessLogic.Services
                 if (map.CodeStatus > 0)
                 {
                     return result.Ok(map);
+                }
+                else if (map.CodeStatus == -2)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Error);
                 }
                 else
                 {

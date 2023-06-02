@@ -34,6 +34,8 @@ namespace FletesNacionales.DataAccess.Repository
 
         public RequestStatus Insert(tbModelos item)
         {
+            RequestStatus result = new RequestStatus();
+
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@mode_Nombre", item.mode_Nombre, DbType.String, ParameterDirection.Input);
@@ -41,7 +43,7 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@tipv_Id", item.tipv_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@mode_UsuCreacion", item.mode_UsuCreacion, DbType.Int32, ParameterDirection.Input);
 
-            var result = db.QueryFirst<RequestStatus>(ScriptsDataBase.ModelosInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
+            result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.ModelosInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
             return result;
         }
 
@@ -53,6 +55,7 @@ namespace FletesNacionales.DataAccess.Repository
 
         public RequestStatus Update(tbModelos item)
         {
+            RequestStatus result = new RequestStatus();
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@mode_Id", item.mode_Id, DbType.Int32, ParameterDirection.Input);
@@ -61,7 +64,7 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@tipv_Id", item.tipv_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@mode_UsuModificacion", item.mode_UsuModificacion, DbType.Int32, ParameterDirection.Input);
 
-            var result = db.QueryFirst<RequestStatus>(ScriptsDataBase.ModelosUpdate, parametros, commandType: System.Data.CommandType.StoredProcedure);
+            result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.ModelosUpdate, parametros, commandType: System.Data.CommandType.StoredProcedure);
             return result;
         }
     }

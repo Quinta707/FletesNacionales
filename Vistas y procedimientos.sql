@@ -1094,7 +1094,7 @@ CREATE OR ALTER PROCEDURE equi.UDP_tbModelos_Insert
 AS
 BEGIN
 	BEGIN TRY
-		IF @mode_Nombre IN (SELECT mode_Nombre FROM equi.tbModelos) AND @marc_Id IN (SELECT marc_Id FROM equi.tbModelos) AND @tipv_Id IN (SELECT tipv_Id FROM equi.tbModelos) 
+		IF EXISTS (SELECT mode_Nombre FROM equi.tbModelos WHERE mode_Nombre = @mode_Nombre AND marc_Id = @marc_Id AND mode_Estado = 1)-- AND @marc_Id IN (SELECT marc_Id FROM equi.tbModelos) --AND @tipv_Id IN (SELECT tipv_Id FROM equi.tbModelos) 
 			BEGIN
 				SELECT - 2 codeStatus
 			END
@@ -1123,7 +1123,7 @@ CREATE OR ALTER PROCEDURE equi.UDP_tbModelos_Update
 AS
 BEGIN
 	BEGIN TRY	
-		IF @mode_Nombre IN (SELECT mode_Nombre FROM equi.tbModelos WHERE mode_Id != @mode_Id) AND @marc_Id IN (SELECT marc_Id FROM equi.tbModelos)
+		IF EXISTS (SELECT mode_Nombre FROM equi.tbModelos WHERE mode_Estado = 1 AND mode_Nombre = @mode_Nombre AND marc_Id = @marc_Id AND mode_Id != @mode_Id)--@mode_Nombre IN (SELECT mode_Nombre FROM equi.tbModelos WHERE mode_Id != @mode_Id) AND @marc_Id IN (SELECT marc_Id FROM equi.tbModelos)
 			BEGIN
 				SELECT - 2 codeStatus
 			END
@@ -1154,11 +1154,11 @@ CREATE OR ALTER PROCEDURE equi.UDP_tbModelos_Delete
 AS
 BEGIN
 	BEGIN TRY
-		IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('equi.tbModelos') AND EXISTS ( SELECT 1 FROM equi.tbModelos WHERE mode_Id = @mode_Id))
-			BEGIN
-				SELECT - 3
-			END
-		ELSE
+		--IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('equi.tbModelos') AND EXISTS ( SELECT 1 FROM equi.tbModelos WHERE mode_Id = @mode_Id))
+		--	BEGIN
+		--		SELECT - 3
+		--	END
+		--ELSE
 			BEGIN
 				UPDATE	equi.tbModelos
 				SET		mode_Estado = 0
@@ -3648,7 +3648,7 @@ GO
 CREATE OR ALTER PROCEDURE flet.UDP_tbSucursales_Insert
 (
 @sucu_Nombre		NVARCHAR(200),
-@muni_Id			INT,
+@muni_Id			CHAR(4),
 @sucu_Direccion		NVARCHAR(200), 
 @sucu_UsuCreacion	INT
 )

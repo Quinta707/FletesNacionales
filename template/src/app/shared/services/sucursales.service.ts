@@ -133,10 +133,17 @@ export class TableService {
         return of({ tableItem, total });
       }
     
-  VehiculoListado = Global + "Sucursales/Listado";
 
-  getVehiculos(){
-    return this.http.get<Sucursales[]>(this.VehiculoListado);
+  getSucursales(){
+    return this.http.get<Sucursales[]>(Global + "Sucursales/Listado");
+  }
+
+  getMunicipios(){
+    return this.http.get<any[]>(Global + "Municipios/Listado");
+  }
+
+  postMunicipiosCreate(data:any){
+    return this.http.post<any[]>(Global + "Sucursales/Insertar",data);
   }
 
 

@@ -31,7 +31,7 @@ export class FleteCreateComponent implements OnInit {
 
   //date picker
   model: string;
-
+  sumit:boolean = false;
   //mapa
  
   //Control de las capas visibles
@@ -321,7 +321,7 @@ export class FleteCreateComponent implements OnInit {
   }
   //cargar datos del municipio inicio seleccionado 
   public seleccionarPedidos(content1) {
-
+    this.sumit = true;
     if(this.firstFormGroup.valid){
       const vehiculo = this.firstFormGroup.value["vehi_Id"] // El pedi_Id que deseas buscar
       this.pesoUso = 0;
@@ -400,8 +400,8 @@ export class FleteCreateComponent implements OnInit {
         showConfirmButton: false,
         timer: 3000,
         timerProgressBar: true,
-        title: 'Graciosito va ute',
-        icon: 'info'
+        title: 'Completa todos los campos para continuar',
+        icon: 'warning'
       })
     }
 

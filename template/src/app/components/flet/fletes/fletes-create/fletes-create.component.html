@@ -22,7 +22,7 @@
                     <ng-select [items]="vehiculosDdl" class="" formControlName="vehi_Id"
                     [(ngModel)]="datosFelte.vehi_Id" groupBy="job" placeholder="Vehiculo" ></ng-select>
                     <ng-container class="invalid text-danger"
-                      *ngIf="firstFormGroup.get('vehi_Id').hasError('required') && firstFormGroup.get('vehi_Id').touched">
+                      *ngIf="firstFormGroup.get('vehi_Id').hasError('required') && (firstFormGroup.get('vehi_Id').touched || sumit)">
                       <p class="text-danger">El vehiculo es necesario</p></ng-container>
                     </div>
                     <div class="col">
@@ -30,7 +30,7 @@
                     <ng-select [items]="empleadosDdl" class="" formControlName="empe_Id"
                     [(ngModel)]="datosFelte.empe_Id" groupBy="job" placeholder="Empleado"></ng-select>
                     <ng-container class="invalid text-danger"
-                      *ngIf="firstFormGroup.get('empe_Id').hasError('required') && firstFormGroup.get('empe_Id').touched">
+                      *ngIf="firstFormGroup.get('empe_Id').hasError('required') && (firstFormGroup.get('empe_Id').touched || sumit)">
                       <p class="text-danger">El empleado es necesario</p></ng-container>
                     </div>
                   </div>
@@ -40,7 +40,7 @@
                       <ng-select [items]="municipiosDdl" class="" formControlName="muni_Inicio"
                       [(ngModel)]="datosTrayecto.muni_Inicio" bindValue="value" groupBy="job" placeholder="Municipio de salida"></ng-select>
                       <ng-container class="invalid text-danger"
-                      *ngIf="firstFormGroup.get('muni_Inicio').hasError('required') && firstFormGroup.get('muni_Inicio').touched">
+                      *ngIf="firstFormGroup.get('muni_Inicio').hasError('required') && (firstFormGroup.get('muni_Inicio').touched || sumit )">
                       <p class="text-danger">El municipio de salida es necesario</p></ng-container>
                     </div>
                     <div class="col">
@@ -48,7 +48,7 @@
                       <ng-select [items]="municipiosDdl" class="" formControlName="muni_Final"
                       [(ngModel)]="datosTrayecto.muni_Final" bindValue="value" groupBy="job" placeholder="Municipio de destino"></ng-select>
                       <ng-container class="invalid text-danger"
-                      *ngIf="firstFormGroup.get('muni_Final').hasError('required') && firstFormGroup.get('muni_Final').touched">
+                      *ngIf="firstFormGroup.get('muni_Final').hasError('required') && (firstFormGroup.get('muni_Final').touched || sumit)">
                       <p class="text-danger">El municipio de destino es necesario</p></ng-container>
                     </div>
                   </div>
@@ -66,12 +66,12 @@
                               [minDate]="getToday()">
 
                       <ng-container class="invalid text-danger"
-                      *ngIf="firstFormGroup.get('flet_FechaDeSalida').hasError('required') && firstFormGroup.get('flet_FechaDeSalida').touched">
+                      *ngIf="firstFormGroup.get('flet_FechaDeSalida').hasError('required') && (firstFormGroup.get('flet_FechaDeSalida').touched || sumit)">
                       <p class="text-danger">La fecha de salida es necesaria</p></ng-container>
                     </div>
                   </div>
                   <button class="btn btn-primary pull-right mt-3" type="submit" (click)="seleccionarPedidos(content1)"
-                    [disabled]="!firstFormGroup.valid">Siguiente</button>
+                    >Siguiente</button>
                   <button class="btn btn-dark pull-right mt-3 mx-2" type="button" (click)="redirectToList()">Cancelar</button>
                 </form> 
               </aw-wizard-step>
@@ -93,6 +93,9 @@
 
 
                   <div *ngIf="pedidos.length > 0" class="card-body megaoptions-border-space-sm">
+                    <div class="row">
+                      <h5>Selecciona los pedidos que llevara el flete</h5>
+                    </div>
                     <div class="row">
                       <div class="col-8">
                         <ng-container *ngIf="secondFormGroup.get('pedidosArray').hasError('required') || pesoMax < pesoUso || voluMax < voluUso">
@@ -116,8 +119,6 @@
                               El volumen supera la cantidad maxima
                             </ngb-alert>
                           </ng-container>
-                          
-                          
                           
                         </ng-container>
                       </div>
@@ -160,9 +161,9 @@
                   </div>
                   </div>
                  
-                  
+                  <!-- //[disabled]="!secondFormGroup.valid || pesoMax < pesoUso || voluMax < voluUso" -->
                   <button class="btn btn-primary pull-right" (click)="guardar()" type="button"
-                    [disabled]="!secondFormGroup.valid || pesoMax < pesoUso || voluMax < voluUso">Listo</button>
+                  >Listo</button>
                   <button class="btn btn-secondary pull-right me-1" type="button" awPreviousStep>Anterior</button>
                 </form>
               </aw-wizard-step>
