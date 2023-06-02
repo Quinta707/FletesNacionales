@@ -42,7 +42,7 @@ export class TableService {
     }
      
     insertarNuevoUsuario(Usuarios: Usuarios){
-        return this.http.post<Usuarios>(Global + 'Usuarios/Insertar', Usuarios);
+        return this.http.post<Usuarios>(Global + `Usuarios/Insertar`, Usuarios);
     }
 
 
