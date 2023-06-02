@@ -41,8 +41,7 @@ namespace FletesNacionales.DataAccess.Repository
 
         public RequestStatus Insert(tbUsuarios item)
         {
-            RequestStatus result = new RequestStatus();
-
+          
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@user_NombreUsuario", item.user_NombreUsuario, DbType.String, ParameterDirection.Input);
