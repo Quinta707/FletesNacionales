@@ -33,6 +33,8 @@ export class UsuariosComponent {
   public searchText;
   empleadosNoTienenUsuario!: Empleados[];
   listadoRoles!: Roles[];
+  submitted = false;
+  fieldTextType!: boolean;
   usuarioForm!: UntypedFormGroup;
   usuarios:Usuarios = new Usuarios();
   roles:Roles = new Roles();
@@ -90,12 +92,60 @@ export class UsuariosComponent {
       this.LoadRoles();
   
       this.usuarioForm = this.formBuilder.group({
-        usua_Nombre: ['', [Validators.required]],
-        usua_EsAdmin: [false],
-        usua_Clave: [''],
+        user_NombreUsuario: ['', [Validators.required]],
+        user_EsAdmin: [false],
+        user_Contrasena: [''],
         role_Id: [''],
         empe_Id: ['', [Validators.required]],
       });
+  }
+  get form() {
+    return this.usuarioForm.controls;
+  }
+  guardarUsuario() {
+    this.submitted = true;
+      if (this.usuarioForm.get('user_Contrasena')?.value === '' || this.usuarioForm.get('user_Contrasena')?.value === null) {
+        this.form['user_Contrasena'].setErrors([Validators.required]);
+      }
+    
+    if (!this.usuarioForm.get('user_EsAdmin')?.value) {
+      if (this.usuarioForm.get('role_Id')?.value === '' || this.usuarioForm.get('role_Id')?.value === null) {
+        this.form['role_Id'].setErrors([Validators.required]);
+      }
+    } else {
+      this.form['role_Id'].reset();
+    }
+
+    if (this.usuarioForm.valid) {
+        this.service.validarUsernameExiste(this.usuarioForm.get('user_NombreUsuario')?.value).subscribe((data: any) => {
+          if (data.code === 200) {
+            const idUsername = data.data.codeStatus;
+            if (idUsername > 0) {
+              this.mensajeWarning('El nombre de usuario ya existe');
+            } else {
+              const usuarioInsert = new Usuarios();
+              usuarioInsert.user_NombreUsuario = this.usuarioForm.get('user_NombreUsuario')?.value;
+              usuarioInsert.user_Contrasena = this.usuarioForm.get('user_Contrasena')?.value;
+              usuarioInsert.user_EsAdmin = this.usuarioForm.get('user_EsAdmin')?.value;
+              usuarioInsert.role_Id = this.usuarioForm.get('role_Id')?.value ?? 0;
+              usuarioInsert.empe_Id = this.usuarioForm.get('empe_Id')?.value;
+              usuarioInsert.user_UsuCreacion = JSON.parse(localStorage.getItem("user") || '').user_Id;
+              this.service.insertarNuevoUsuario(usuarioInsert).subscribe((data: any) => {
+                if (data.code === 200) {
+                  if (data.data.codeStatus === 1) {
+                    this.mensajeSuccess('Usuario agregado con exito');
+                  } else {
+                    this.mensajeError('Ocurrio un error al intentar agregar el usuario');
+                  }
+                } else {
+                  this.mensajeError('Error relacionado con el servidor');
+                }
+              });
+            }
+          }
+        });
+  
+    }
   }
 
   public defaultColDef: ColDef = {
@@ -191,5 +241,9 @@ export class UsuariosComponent {
       showConfirmButton: false,
       timer: 2000,
     });
+  }
+
+  toggleFieldTextType() {
+    this.fieldTextType = !this.fieldTextType;
   }
 }
