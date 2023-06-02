@@ -34,7 +34,6 @@ export class graficaLstComponent {
         value: item.depa_Id,
         label: item.depa_Nombre
       })) 
- 
     })
      
      this.firstFormGroup = this._formBuilder.group({

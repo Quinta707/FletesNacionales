@@ -176,7 +176,7 @@ namespace FletesNacionales.BusinessLogic.Services
                 var map = _departamentosRepository.Insert(item);
                 if (map.CodeStatus > 0)
                 {
-                    return result.Ok(map);
+                    return result.SetMessage(map.CodeStatus.ToString(), ServiceResultType.Conflict);
                 }
                 else if (map.CodeStatus == -2)
                 {
@@ -204,7 +204,7 @@ namespace FletesNacionales.BusinessLogic.Services
                 var map = _departamentosRepository.Update(item);
                 if (map.CodeStatus > 0)
                 {
-                    return result.Ok(map);
+                    return result.SetMessage(map.CodeStatus.ToString(), ServiceResultType.Conflict);
                 }
                 else if (map.CodeStatus == -2)
                 {

@@ -633,7 +633,8 @@ VALUES	('Lavadora Samsung','Modelo X$/AE LGBT',700,20.8, 1),
 
 --****************************************SUCURSALES****************************************--
 INSERT INTO flet.tbSucursales (sucu_Nombre, muni_Id, sucu_Direccion, sucu_UsuCreacion)
-VALUES	('Fletes Horizon San Pedro Sula','0501','123 Calle Ficticia, Barrio Imaginario, San Pedro Sula, Honduras',1),
+VALUES	
+('Fletes Horizon San Pedro Sula','0501','123 Calle Ficticia, Barrio Imaginario, San Pedro Sula, Honduras',1),
 ('Fletes Horizon Tegucigalpa','0801','Avenida Ejemplo 123, Colonia Imaginaria, Tegucigalpa, Honduras',1),
 ('Fletes Horizon Santa Rosa De Copan', '0401','Calle Ficticia 456, Barrio Imaginario, Santa Rosa de Copán, Honduras',1),
 ('Fletes Horizon Puerto Cortes','0506','Avenida Imaginaria 789, Colonia Ficticia, Puerto Cortés, Honduras',1),

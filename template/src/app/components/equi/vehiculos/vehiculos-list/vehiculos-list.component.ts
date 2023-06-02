@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -13,6 +14,41 @@ import Swal from 'sweetalert2';
   styleUrls: ['./vehiculos-list.component.scss']
 })
 export class VehiculosListComponent implements OnInit {
+
+  
+  createFormGroup: FormGroup;
+  updateFormGroup: FormGroup;
+
+  ngOnInit(): void {
+    
+    this.service.getModelos()
+    .subscribe((data: any) =>{
+      
+      this.modelosDDL = data.data.map((item:any) =>( 
+        {
+        value: item.mode_Id,
+        label: item.mode_Nombre
+      })) 
+    })
+ 
+    this.createFormGroup = this._formBuilder.group({
+     mode_Id: ['', Validators.required],
+     vehi_PesoMaximo: ['', Validators.required],
+     vehi_VolumenMaximo: ['', Validators.required],
+     vehi_Placa: ['', Validators.required]
+   });
+
+   this.updateFormGroup = this._formBuilder.group({
+    mode_Id: ['', Validators.required],
+    vehi_PesoMaximo: ['', Validators.required],
+    vehi_VolumenMaximo: ['', Validators.required],
+    vehi_Placa: ['', Validators.required]
+  });
+    
+     this.index()
+   }
+ 
+
   public validate = false;
   public selected = [];
   
@@ -20,7 +56,7 @@ export class VehiculosListComponent implements OnInit {
   closeResult: string;
   submitted: boolean = false;
   
-  constructor(config: NgbModalConfig, private modalService: NgbModal, public service: TableService) {
+  constructor(config: NgbModalConfig, private modalService: NgbModal, public service: TableService,private _formBuilder: FormBuilder) {
     
     this.tableItem$ = service.tableItem$;
     this.total$ = service.total$;
@@ -30,7 +66,10 @@ export class VehiculosListComponent implements OnInit {
   }
   
   open(content: any) {
+    
+    this.sumbit = false
     this.validate = false;
+    this.submitted =  false;
     this.vehiculosCreate = new Vehiculos()
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -73,80 +112,65 @@ export class VehiculosListComponent implements OnInit {
   vehiculosEditar: Vehiculos = new Vehiculos();
 
   vehiculosEliminar: Vehiculos = new Vehiculos();
-
+  sumbit: boolean = true
   Guardar() {
-    this.validate = false;
-    this.vehiculosCreate.vehi_Placa = this.vehiculosCreate.vehi_Placa.trim()
+    this.validate = true; 
+    this.sumbit = true;
+    try
+    {
+      let datoTrim = (this.createFormGroup.value['vehi_Placa'].trim());
+      this.createFormGroup.get("vehi_Placa").setValue(datoTrim)
+      this.vehiculosCreate.vehi_Placa = datoTrim;
+    }
+    catch(e)
+    {
+      console.log(e)
+    }
+
+    this.validate = true;
     if(this.vehiculosCreate.mode_Id == null || this.vehiculosCreate.mode_Id == 0)
     {
-      Swal.fire({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2500,
-        timerProgressBar: true,
-        title: 'Selecciona el tipo del vehiculo',
-        icon: 'error'
-      })
+      this.toastSeleccionaTipoVehiculo()
+      this.sumbit = true
+      this.validate = true;
     }
     if(this.vehiculosCreate.vehi_PesoMaximo == null || this.vehiculosCreate.vehi_PesoMaximo == 0)
     {
-      this.validate = true;
+      this.validate = true; 
+      this.sumbit = true
     } 
     if(this.vehiculosCreate.vehi_VolumenMaximo == null || this.vehiculosCreate.vehi_VolumenMaximo == 0)
     {
       this.validate = true;
+      this.sumbit = true
     }
     if(this.vehiculosCreate.vehi_Placa == null || this.vehiculosCreate.vehi_Placa == "")
     {
       this.validate = true;
+      this.sumbit = true
     }
     else if(this.vehiculosCreate.mode_Id != null && this.vehiculosCreate.mode_Id != 0 && this.vehiculosCreate.vehi_PesoMaximo != null && this.vehiculosCreate.vehi_PesoMaximo != 0
        && this.vehiculosCreate.vehi_VolumenMaximo != null && this.vehiculosCreate.vehi_VolumenMaximo != 0 && this.vehiculosCreate.vehi_Placa != null && this.vehiculosCreate.vehi_Placa != "")
     {
-      this.validate = false;     
+      this.sumbit = false
+      this.validate = false;  
       
       this.service.createVehiculos(this.vehiculosCreate)
       .subscribe((data: any) =>{     
         console.log(data)
         if(data.message == "YaExiste")
         {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            title: 'Este Vehiculo ya existe',
-            icon: 'error'
-          })
+          this.toastVehiculoExiste()
         }
         if(data.message == "Error Inesperado")
         {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            title: 'Ocurrio un error',
-            icon: 'error'
-          })
+          this.toastVehiculoError()
         }
         if(parseInt(data.message) > 0){
 
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            title: 'Registro agregado con exito',
-            icon: 'success'
-          })
+          this.toastVehizuloAgregado()
           this.modalService.dismissAll()
-
-
+          
           this.index()
         }  
       })
@@ -169,28 +193,37 @@ export class VehiculosListComponent implements OnInit {
   }
 
   update(){
+    this.validate = true; 
+    this.sumbit = false
+    try
+    {
+      let datoTrim = (this.createFormGroup.value['vehi_Placa'].trim());
+      this.createFormGroup.get("vehi_Placa").setValue(datoTrim)
+      this.vehiculosEditar.vehi_Placa = datoTrim;
+    }
+    catch(e)
+    {
+      console.log(e)
+    }
     if(this.vehiculosEditar.mode_Id == null || this.vehiculosEditar.mode_Id == 0)
     {
-      Swal.fire({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2500,
-        timerProgressBar: true,
-        title: 'Selecciona el tipo del vehiculo',
-        icon: 'error'
-      })
+      this.sumbit = true
+      this.validate = true;
+      this.toastSeleccionaTipoVehiculo()
     }
     if(this.vehiculosEditar.vehi_PesoMaximo == null || this.vehiculosEditar.vehi_PesoMaximo == 0)
     {
+      this.sumbit = true
       this.validate = true;
     } 
     if(this.vehiculosEditar.vehi_VolumenMaximo == null || this.vehiculosEditar.vehi_VolumenMaximo == 0)
     {
+      this.sumbit = true
       this.validate = true;
     }
     if(this.vehiculosEditar.vehi_Placa == null || this.vehiculosEditar.vehi_Placa == "")
     {
+      this.sumbit = true
       this.validate = true;
     }
     else if(this.vehiculosEditar.mode_Id != null && this.vehiculosEditar.mode_Id != 0 && this.vehiculosEditar.vehi_PesoMaximo != null && this.vehiculosEditar.vehi_PesoMaximo != 0
@@ -201,42 +234,19 @@ export class VehiculosListComponent implements OnInit {
       console.log(data)
       if(data.message == "YaExiste")
       {
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
-          title: 'Este Vehiculo ya existe',
-          icon: 'error'
-        })
+        this.toastVehiculoExiste()
       }
       if(data.message == "Error Inesperado")
       {
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
-          title: 'Ocurrio un error',
-          icon: 'error'
-        })
+        this.toastVehiculoError()
+        this.modalService.dismissAll()
+
       }
       if(parseInt(data.message) > 0){
 
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
-          title: 'Registro actualizado con exito',
-          icon: 'success'
-        })
         this.modalService.dismissAll()
 
-
+        this.toastVehiculoActualizado()
         this.index()
       }  
     })
@@ -255,57 +265,25 @@ export class VehiculosListComponent implements OnInit {
     .subscribe((data: any) => {      
       if(data.message == "Registro eliminado")
         {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            title: 'Registro eliminado con existo',
-            icon: 'success'
-          })
+            this.toastVehiculoEliminado()
             this.modalService.dismissAll()
             this.index()
         }   
         if(data.message == "EnUso")
         {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 2500,
-            timerProgressBar: true,
-            title: 'Este Vehiculo no se puede eliminar porque esta en uso',
-            icon: 'error'
-          })
+          this.toastVehiculoenUso()
           this.modalService.dismissAll()
   
         }
         if(data.message == "Error Inesperado")
         {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            title: 'Ha ocurrido un error',
-            icon: 'error'
-          })
+          this.toastVehiculoError()
           this.modalService.dismissAll()
   
         }
         if(data.message == "Conexión perdida")
         {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            title: 'Ha ocurrido un error',
-            icon: 'error'
-          })
+          this.toastVehiculoError()
           this.modalService.dismissAll()
   
         }
@@ -319,21 +297,6 @@ export class VehiculosListComponent implements OnInit {
        this.vehiculos= data.data;
        this.service.setUserData(data.data)
     })
-  }
- 
-  ngOnInit(): void {
-    
-   this.service.getModelos()
-   .subscribe((data: any) =>{
-     
-     this.modelosDDL = data.data.map((item:any) =>( 
-       {
-       value: item.mode_Id,
-       label: item.mode_Nombre
-     })) 
-   })
-   
-    this.index()
   }
 
   public tableItem$: Observable<Vehiculos[]>;
@@ -357,6 +320,94 @@ export class VehiculosListComponent implements OnInit {
   deleteData(id: number){
     this.tableItem$.subscribe((data: any)=> {      
       data.map((elem: any,i: any)=>{elem.id == id && data.splice(i,1)})
+    })
+  }
+
+
+  toastVehiculoExiste()
+  {
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+      title: 'Este Vehiculo ya existe',
+      icon: 'error'
+    })
+  }
+
+  toastVehiculoError()
+  {
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+      title: 'Ocurrio un error',
+      icon: 'error'
+    })
+  }
+
+  toastVehizuloAgregado()
+  {
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+      title: 'Registro agregado con exito',
+      icon: 'success'
+    })
+  }
+  toastVehiculoActualizado()
+  {
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+      title: 'Registro actualizado con exito',
+      icon: 'success'
+    })
+  }
+  toastSeleccionaTipoVehiculo()
+  {
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2500,
+      timerProgressBar: true,
+      title: 'Selecciona el tipo del vehiculo',
+      icon: 'error'
+    })       
+  }
+  toastVehiculoenUso()
+  {
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2500,
+      timerProgressBar: true,
+      title: 'Este Vehiculo no se puede eliminar porque esta en uso',
+      icon: 'error'
+    })
+  }
+  toastVehiculoEliminado()
+  {
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+      title: 'Registro eliminado con existo',
+      icon: 'success'
     })
   }
  }

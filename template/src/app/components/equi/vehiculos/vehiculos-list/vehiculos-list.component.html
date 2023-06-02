@@ -17,31 +17,43 @@
             </div>
            
             <div class="modal-body">
-            <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">    
+            <form [formGroup]="createFormGroup" class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">    
               <div class="row">
-                
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Modelo</label>
-                <ng-select [(ngModel)]="vehiculosCreate.mode_Id" bindValue="value" [items]="modelosDDL" placeholder="Vehiculo"></ng-select>
+                <ng-select [(ngModel)]="vehiculosCreate.mode_Id"  formControlName="mode_Id"  bindValue="value" [items]="modelosDDL" placeholder="Vehiculo" required=""></ng-select>
+                <ng-container class="invalid text-danger"
+                *ngIf="createFormGroup.get('mode_Id').hasError('required') && (createFormGroup.get('mode_Id').touched || sumbit)">
+                <p class="text-danger">El modelo del vehiculo es necesario</p></ng-container>
               </div>
               </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Peso Maximo</label>
-              <input [(ngModel)]="vehiculosCreate.vehi_PesoMaximo" class="form-control"  type="text" (keydown)="onKeyDown($event)" required=""/>
-            </div></div>
+              <input [(ngModel)]="vehiculosCreate.vehi_PesoMaximo" class="form-control"  formControlName="vehi_PesoMaximo"  type="text" (keydown)="onKeyDown($event)" required=""/>
+              <ng-container class="invalid text-danger"
+              *ngIf="createFormGroup.get('vehi_PesoMaximo').hasError('required') && (createFormGroup.get('vehi_PesoMaximo').touched || sumbit)" >
+              <p class="text-danger">El peso del vehiculo es necesario</p></ng-container>
+            </div>
+                  </div>
             <div class="col-sm-6 mt-3">
               <div class="form-group">
                 <label>Volumen Maximo</label>
-              <input [(ngModel)]="vehiculosCreate.vehi_VolumenMaximo" class="form-control"  type="text" (keydown)="onKeyDown($event)" required=""/>
+              <input [(ngModel)]="vehiculosCreate.vehi_VolumenMaximo" class="form-control"  formControlName="vehi_VolumenMaximo" type="text" (keydown)="onKeyDown($event)" required=""/>
+              <ng-container class="invalid text-danger"
+              *ngIf="createFormGroup.get('vehi_VolumenMaximo').hasError('required') && (createFormGroup.get('vehi_VolumenMaximo').touched || sumbit)">
+              <p class="text-danger">El volumen del vehiculo es necesario</p></ng-container>
             </div></div>
             <div class="col-sm-6  mt-3">
               <div class="form-group">
                 <label>Placa</label>
-              <input type="text" [(ngModel)]="vehiculosCreate.vehi_Placa" class="form-control" required="" >
+              <input type="text" [(ngModel)]="vehiculosCreate.vehi_Placa" formControlName="vehi_Placa"  class="form-control" required="" >
+              <ng-container class="invalid text-danger"
+                *ngIf="createFormGroup.get('vehi_Placa').hasError('required') && (createFormGroup.get('vehi_Placa').touched || sumbit)">
+                <p class="text-danger">La placa del vehiculo es necesario</p></ng-container>
               </div>
-            </div>     
+            </div>   
           </div>
                    
           </form>
@@ -57,30 +69,43 @@
               <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
             </div>
             <div class="modal-body">
-              <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">    
+              <form [formGroup]="updateFormGroup" class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">    
                 <div class="row">
                   
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label>Modelo</label>
-                  <ng-select [(ngModel)]="vehiculosEditar.mode_Id" bindValue="value" [items]="modelosDDL" placeholder="Vehiculo"></ng-select>
+                  <ng-select [(ngModel)]="vehiculosEditar.mode_Id" formControlName="mode_Id" bindValue="value" [items]="modelosDDL" placeholder="Vehiculo"></ng-select>            
+                <ng-container class="invalid text-danger"
+                *ngIf="updateFormGroup.get('mode_Id').hasError('required') && (updateFormGroup.get('mode_Id').touched || sumbit)">
+                <p class="text-danger">El modelo del vehiculo es necesario</p></ng-container>
                 </div>
                 </div>
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label>Peso Maximo</label>
-                <input [(ngModel)]="vehiculosEditar.vehi_PesoMaximo" class="form-control" name="vehi_PesoMaximo"(keydown)="onKeyDown($event)"  id="vehi_PesoMaximo" type="text" required=""/>
+                <input [(ngModel)]="vehiculosEditar.vehi_PesoMaximo" formControlName="vehi_PesoMaximo" class="form-control" name="vehi_PesoMaximo"(keydown)="onKeyDown($event)"  id="vehi_PesoMaximo" type="text" required=""/>
+                <ng-container class="invalid text-danger"
+                *ngIf="updateFormGroup.get('vehi_PesoMaximo').hasError('required') && (updateFormGroup.get('vehi_PesoMaximo').touched || sumbit)">
+                <p class="text-danger">El peso del vehiculo es necesario</p></ng-container>
+                
               </div></div>
               <div class="col-sm-6 mt-3">
                 <div class="form-group">
                   <label>Volumen Maximo</label> 
-                <input [(ngModel)]="vehiculosEditar.vehi_VolumenMaximo" class="form-control" name="vehi_VolumenMaximo" (keydown)="onKeyDown($event)"  id="vehi_VolumenMaximo" type="text"required=""/>
+                <input [(ngModel)]="vehiculosEditar.vehi_VolumenMaximo" formControlName="vehi_PesoMaximo"  class="form-control" name="vehi_VolumenMaximo" (keydown)="onKeyDown($event)"  id="vehi_VolumenMaximo" type="text"required=""/>
+                <ng-container class="invalid text-danger"
+                *ngIf="updateFormGroup.get('vehi_VolumenMaximo').hasError('required') && (updateFormGroup.get('vehi_VolumenMaximo').touched || sumbit)">
+                <p class="text-danger">El volumen del vehiculo es necesario</p></ng-container>
               </div>
             </div>
               <div class="col-sm-6  mt-3">
                 <div class="form-group">
                   <label>Placa</label>
-                <input type="text" [(ngModel)]="vehiculosEditar.vehi_Placa" class="form-control"  name="vehi_Placa" id="vehi_Placa" required="" >
+                <input type="text" [(ngModel)]="vehiculosEditar.vehi_Placa" formControlName="vehi_Placa"  class="form-control"  name="vehi_Placa" id="vehi_Placa" required="" >
+                <ng-container class="invalid text-danger"
+                *ngIf="updateFormGroup.get('vehi_Placa').hasError('required') && (updateFormGroup.get('vehi_Placa').touched || sumbit)">
+                <p class="text-danger">La placa del vehiculo es necesario</p></ng-container>
                 </div>
               </div>     
             </div>
