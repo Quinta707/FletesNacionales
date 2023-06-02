@@ -79,16 +79,6 @@
                             </div>
                         </div>
 
-                        <div *ngIf="getCurrentPageItems().length > 0" class="card-body megaoptions-border-space-sm">
-                          <div class="row">
-                            <div class="col-8">
-                              <ng-container *ngIf="secondFormGroup.get('itemsArray').hasError('required')">
-                                <ng-container *ngIf="secondFormGroup.get('itemsArray').hasError('required')">
-                                  <ngb-alert [type]="'danger'" [dismissible]="false">
-                                    Seleccione al menos un item
-                                  </ngb-alert>
-                                </ng-container>
-                            
                         <div class="mega-inline row mt-3">
                             <div class="col-6" *ngFor="let item of getCurrentPageItems()">
                               <div class="card">
@@ -110,10 +100,6 @@
                             </div>  
                         </div>
                         <br>
-                      </ng-container>
-                      </div>
-                      </div>
-                      </div>
 
                         <button class="btn btn-primary pull-right" type="button" awNextStep
                           [disabled]="!secondFormGroup.valid">Siguiente</button>
