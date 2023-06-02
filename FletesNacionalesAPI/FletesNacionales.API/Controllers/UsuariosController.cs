@@ -73,7 +73,7 @@ namespace FletesNacionales.API.Controllers
         public IActionResult ListarEmpleados()
         {
             var list = _acceService.EmpleadosNoTienenUsuario();
-            list.Data = _mapper.Map<IEnumerable<EmpleadoViewModel>>(list.Data);
+            //list.Data = _mapper.Map<IEnumerable<EmpleadoViewModel>>(list.Data);
             return Ok(list);
         }
 

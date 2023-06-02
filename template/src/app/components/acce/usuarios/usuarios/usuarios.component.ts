@@ -23,6 +23,7 @@ import Swal from 'sweetalert2';
 export class UsuariosComponent {
   @ViewChild('content2') modalEditar: any;
   @ViewChild('content') modalContent: any;
+  user:any = JSON.parse(localStorage.getItem("user"));
   public domLayout: DomLayoutType = 'autoHeight';
   Usuarios: Usuarios[];
   idioma = Idioma
@@ -33,6 +34,7 @@ export class UsuariosComponent {
   public searchText;
   empleadosNoTienenUsuario!: Empleados[];
   listadoRoles!: Roles[];
+  emppleadosDDL : any[]
   submitted = false;
   fieldTextType!: boolean;
   usuarioForm!: UntypedFormGroup;
@@ -48,15 +50,16 @@ export class UsuariosComponent {
       changeEvent.preventDefault();
     }
   }
-
+  sumit:boolean = false;
   constructor
     (public service: TableService,
      private rolService: RolesService, 
      private formBuilder: UntypedFormBuilder, 
      private modalService: NgbModal, 
+     private _formBuilder: FormBuilder,
      private router: Router
     ) { }
-
+  
   columnDefs: ColDef[] = [
     { field: 'user_Id', headerName: 'ID', flex: 1 },
     { field: 'user_NombreUsuario', headerName: 'Nombre Usuario', flex: 2 },
@@ -88,34 +91,45 @@ export class UsuariosComponent {
         this.Usuarios = data.data;
       })
 
+      this.service.getUsuarios()
+      .subscribe((data: any)=>{
+        this.emppleadosDDL= data.data;
+      })
+
       this.LoadEmpleadosNoTienenUsuario();
       this.LoadRoles();
   
+      this.EditGroup = this._formBuilder.group({
+        user_NombreUsuario: ['', [Validators.required]],
+        user_EsAdmin: [false],
+        user_Contrasena: ['', [Validators.required]],
+        role_Id: [null, [Validators.required]],
+        empe_Id: [null, [Validators.required]],
+      });
+
       this.usuarioForm = this.formBuilder.group({
         user_NombreUsuario: ['', [Validators.required]],
         user_EsAdmin: [false],
-        user_Contrasena: [''],
-        role_Id: [''],
-        empe_Id: ['', [Validators.required]],
+        user_Contrasena: ['', [Validators.required]],
+        role_Id: [null, [Validators.required]],
+        empe_Id: [null, [Validators.required]],
       });
   }
   get form() {
     return this.usuarioForm.controls;
   }
+
+  cancelar(){
+    this.usuarioForm = this.formBuilder.group({
+      user_NombreUsuario: '',
+      user_Contrasena: '' ,
+      role_Id: null ,
+      empe_Id: null,
+    });
+  }
+
   guardarUsuario() {
     this.submitted = true;
-      if (this.usuarioForm.get('user_Contrasena')?.value === '' || this.usuarioForm.get('user_Contrasena')?.value === null) {
-        this.form['user_Contrasena'].setErrors([Validators.required]);
-      }
-    
-    if (!this.usuarioForm.get('user_EsAdmin')?.value) {
-      if (this.usuarioForm.get('role_Id')?.value === '' || this.usuarioForm.get('role_Id')?.value === null) {
-        this.form['role_Id'].setErrors([Validators.required]);
-      }
-    } else {
-      this.form['role_Id'].reset();
-    }
-
     if (this.usuarioForm.valid) {
         this.service.validarUsernameExiste(this.usuarioForm.get('user_NombreUsuario')?.value).subscribe((data: any) => {
           if (data.code === 200) {
@@ -123,6 +137,8 @@ export class UsuariosComponent {
             if (idUsername > 0) {
               this.mensajeWarning('El nombre de usuario ya existe');
             } else {
+              console.log(this.form);
+
               const usuarioInsert = new Usuarios();
               usuarioInsert.user_NombreUsuario = this.usuarioForm.get('user_NombreUsuario')?.value;
               usuarioInsert.user_Contrasena = this.usuarioForm.get('user_Contrasena')?.value;
@@ -130,6 +146,9 @@ export class UsuariosComponent {
               usuarioInsert.role_Id = this.usuarioForm.get('role_Id')?.value ?? 0;
               usuarioInsert.empe_Id = this.usuarioForm.get('empe_Id')?.value;
               usuarioInsert.user_UsuCreacion = JSON.parse(localStorage.getItem("user") || '').user_Id;
+
+              console.log("datos",usuarioInsert)
+
               this.service.insertarNuevoUsuario(usuarioInsert).subscribe((data: any) => {
                 if (data.code === 200) {
                   if (data.data.codeStatus === 1) {
@@ -148,6 +167,7 @@ export class UsuariosComponent {
     }
   }
 
+  
   public defaultColDef: ColDef = {
     sortable: true,
     filter: true,
@@ -156,17 +176,19 @@ export class UsuariosComponent {
 
   openModal() {
     this.modalRef = this.modalService.open(this.modalContent, { centered: true });
+  
   }
 
+  EditGroup: FormGroup;  
   actionButtonRenderer(params: any, modalService: NgbModal) {
-    const onClickHandler = () => {
-       //console.log('Botón de acción clickeado', params);
-     
-    this.modalRef = this.modalService.open(this.modalEditar, { centered: true });
-    };
+    const openModelEdit = () => {
+      console.log(params.data)
+      this.submitted = false;
+      this.EditGroup.get('user_NombreUsuario').setValue(params.data.user_NombreUsuario);
+      this.Usuarios = params.data;
+      this.modalRef = this.modalService.open(this.modalEditar, { centered: true });
+   };
   
-    
-
     const button = document.createElement('il');
     button.classList.add('edit'); 
 
@@ -180,11 +202,11 @@ export class UsuariosComponent {
 
 
     const button2 = document.createElement('il');
-    button2.classList.add('detail'); 
+    button2.classList.add('delete'); 
   
     const iconElement2 = document.createElement('i');
     iconElement2.classList.add('fa'); 
-    iconElement2.classList.add('fa-file-text-o'); 
+    iconElement2.classList.add('fa-trash-o'); 
 
     const textElement2 = document.createElement('span');
     textElement2.innerText = '';
@@ -193,7 +215,7 @@ export class UsuariosComponent {
     button.appendChild(textElement);
     button2.appendChild(textElement2);
   
-    button.addEventListener('click', onClickHandler);
+    button.addEventListener('click', openModelEdit);
   
     const container = document.createElement('div');
     container.classList.add('action')
@@ -202,8 +224,6 @@ export class UsuariosComponent {
   
     return container;
   }
-
-  
   
   open(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title',  centered: true }).result.then((result) => {
@@ -215,31 +235,44 @@ export class UsuariosComponent {
 
   mensajeSuccess(messageBody: string) {
     Swal.fire({
-      position: 'center',
-      icon: 'success',
-      title: messageBody,
+      toast: true,
+      position: 'top-end',
       showConfirmButton: false,
-      timer: 2000,
-    });
+      timer: 3000,
+      timerProgressBar: true,
+      title: messageBody,
+      icon: 'success',
+    }).then(() => {
+      this.modalRef?.close(); // Cerrar el modal
+      this.submitted = false; // Reiniciar el estado del formulario
+      this.service.getUsuarios()
+        .subscribe((data: any) => {
+        });
+      this.modalService.dismissAll();
+    });;
   }
 
   mensajeWarning(messageBody: string) {
     Swal.fire({
-      position: 'center',
-      icon: 'warning',
-      title: messageBody,
+      toast: true,
+      position: 'top-end',
       showConfirmButton: false,
-      timer: 2000,
+      timer: 3000,
+      timerProgressBar: true,
+      title: messageBody,
+      icon: 'warning',
     });
   }
 
   mensajeError(messageBody: string) {
     Swal.fire({
-      position: 'center',
-      icon: 'error',
-      title: messageBody,
+      toast: true,
+      position: 'top-end',
       showConfirmButton: false,
-      timer: 2000,
+      timer: 3000,
+      timerProgressBar: true,
+      title: messageBody,
+      icon: 'error',
     });
   }
 

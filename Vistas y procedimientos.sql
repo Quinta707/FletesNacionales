@@ -3266,7 +3266,6 @@ BEGIN
 END
 GO
 
-
 CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_InsertarNuevoUsuario
 	 @usua_NombreUsuario		NVARCHAR(255),
 	 @usua_Contraseña           NVARCHAR(255),
@@ -3307,10 +3306,7 @@ GO
 CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_EmpleadosNoTienenUsuario
 AS
 BEGIN
-	SELECT [empe_Id],
-		   empe_Nombres,
-		   empe_Apellidos
-	  FROM flet.tbEmpleados
+	SELECT * FROM flet.VW_tbEmpleados
 	 WHERE empe_Estado = 1
 	   AND empe_Id NOT IN (SELECT empe_Id 
 							  FROM ACCE.tbUsuarios 
