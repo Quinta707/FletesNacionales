@@ -645,7 +645,8 @@ BEGIN
 			meto_UsuCreacion =  @meto_UsuCreacion,
 			meto_FechaCreacion = GETDATE()
 			WHERE meto_Descripcion = @meto_Descripcion
-			select meto_Descripcion  From gral.tbMetodosdePago   WHERE meto_Descripcion = @meto_Descripcion 
+
+			select 1
 
 		END
 	END TRY

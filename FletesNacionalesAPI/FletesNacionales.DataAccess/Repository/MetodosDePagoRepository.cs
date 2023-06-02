@@ -21,11 +21,11 @@ namespace FletesNacionales.DataAccess.Repository
 
             parametros.Add("@meto_Id", item.meto_Id, DbType.String, ParameterDirection.Input);
 
-            var resultado = db.QueryFirst<string>(ScriptsDataBase.MetodosdePagoUpdate, parametros, commandType: CommandType.StoredProcedure);
+            var resultado = db.QueryFirst<int>(ScriptsDataBase.MetodosdePagoDelete, parametros, commandType: CommandType.StoredProcedure);
 
             RequestStatus request = new()
             {
-                MessageStatus = resultado
+                CodeStatus = resultado
             };
 
             return request;
@@ -52,13 +52,13 @@ namespace FletesNacionales.DataAccess.Repository
             var parametros = new DynamicParameters();
 
             parametros.Add("@meto_Descripcion", item.meto_Descripcion, DbType.String, ParameterDirection.Input);
-            parametros.Add("@meto_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@meto_UsuCreacion", item.meto_UsuCreacion, DbType.Int32, ParameterDirection.Input);
 
-            var resultado = db.QueryFirst<string>(ScriptsDataBase.MetodosdePagoInsert, parametros, commandType: CommandType.StoredProcedure);
+            var resultado = db.QueryFirst<int>(ScriptsDataBase.MetodosdePagoInsert, parametros, commandType: CommandType.StoredProcedure);
 
             RequestStatus request = new()
             {
-                MessageStatus = resultado
+                CodeStatus = resultado
             };
 
             return request;
@@ -76,15 +76,15 @@ namespace FletesNacionales.DataAccess.Repository
 
             var parametros = new DynamicParameters();
 
-            parametros.Add("@meto_Id", item.meto_Id, DbType.String, ParameterDirection.Input);
+            parametros.Add("@meto_Id", item.meto_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@meto_Descripcion", item.meto_Descripcion, DbType.String, ParameterDirection.Input);
-            parametros.Add("@meto_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@meto_UsuModificacion", item.meto_UsuModificacion, DbType.Int32, ParameterDirection.Input);
 
-            var resultado = db.QueryFirst<string>(ScriptsDataBase.MetodosdePagoUpdate, parametros, commandType: CommandType.StoredProcedure);
+            var resultado = db.QueryFirst<int>(ScriptsDataBase.MetodosdePagoUpdate, parametros, commandType: CommandType.StoredProcedure);
 
             RequestStatus request = new()
             {
-                MessageStatus = resultado
+                CodeStatus = resultado
             };
 
             return request;

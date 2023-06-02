@@ -64,7 +64,7 @@
   </div>
   <div class="modal-footer d-flex justify-content-center">
     <button type="button" class="btn btn-dark" (click)="closeModal()">No</button>
-    <button type="button" class="btn btn-danger" (click)="openModal2(content2)" >Si</button>
+    <button type="button" class="btn btn-danger" (click)="EliminarMetodo()" >Si</button>
   </div>
 </ng-template>
 
@@ -85,7 +85,7 @@
     </div>
     <div class="modal-footer d-flex justify-content-center">
       <button type="button" class="btn btn-dark" (click)="closeModal()">Cancelar</button>
-    <button type="button" class="btn btn-danger" (click)="EditarMetodo()" >Guardar</button>
+    <button type="button" class="btn btn-primary" (click)="EditarMetodo()" >Guardar</button>
   </div>
 </ng-template>
 </form>
@@ -106,7 +106,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-dark" (click)="closeModal()">Cancelar</button>
-    <button type="button" class="btn btn-danger" (click)="CrearMetodo()" >Guardar</button>
+    <button type="button" class="btn btn-primary" (click)="CrearMetodo()" >Guardar</button>
   </div>
 </ng-template>
 </form>

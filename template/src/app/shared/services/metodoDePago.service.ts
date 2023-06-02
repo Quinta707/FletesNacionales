@@ -152,6 +152,18 @@ export class TableService {
     return this.http.get<MetodosDePago[]>(this.MetodosDePagoListado);
   }
 
+  postMetodoPagoCreate(data: MetodosDePago){
+    return this.http.post<any>(Global+"MetodosPago/Insertar",data)
+  }
+  
+  putMetodoPagoUpdate(data: MetodosDePago){
+    return this.http.put<any>(Global+"MetodosPago/Editar",data)
+  }
+ 
+  putMetodoPagoDelete(data: MetodosDePago){
+    return this.http.put<any>(Global+"MetodosPago/Eliminar",data)
+  }
+
 
 }
 

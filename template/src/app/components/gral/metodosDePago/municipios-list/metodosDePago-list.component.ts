@@ -18,6 +18,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./metodosDePago-list.component.scss']
 })
 export class MetodosDePagoListComponent implements OnInit {
+  user:any = JSON.parse(localStorage.getItem("user"))
   //recolectores de datos
   metodosDePago: MetodosDePago[];
 
@@ -64,7 +65,6 @@ export class MetodosDePagoListComponent implements OnInit {
 
   actionButtonRenderer(params: any, modalService: NgbModal) {
     const openModelEdit = () => {
-      //console.log(params.data)
       this.sumit = false;
       this.EditGroup.get('meto_Descripcion').setValue(params.data.meto_Descripcion);
       this.metoPago = params.data;
@@ -120,7 +120,6 @@ export class MetodosDePagoListComponent implements OnInit {
               private modalService: NgbModal,
               private _formBuilder: FormBuilder,
               private router: Router) {
-
   }
 
   onSearchInputChange() {
@@ -163,11 +162,31 @@ export class MetodosDePagoListComponent implements OnInit {
   }
 
   CrearMetodo() {
-    console.log(this.CreateGroup.value["meto_Depcripcion"])
-    let datasinespace = this.CreateGroup.value["meto_Depcripcion"].trim()
-    this.CreateGroup.get("meto_Descripcion").setValue(datasinespace)
-    this.metoPago.meto_Descripcion = this.metoPago.meto_Descripcion.trim();
+
+    let datoTrim = (this.CreateGroup.value['meto_Descripcion'].trim());
+    this.CreateGroup.get("meto_Descripcion").setValue(datoTrim)
+    this.metoPago.meto_Descripcion = datoTrim;
+    this.metoPago.meto_UsuCreacion = this.user.user_Id;
+
     if(this.CreateGroup.valid){
+
+      this.service.postMetodoPagoCreate(this.metoPago)
+      .subscribe((data:any) => {
+        if(data.message === "Operación completada exitosamente."){
+          this.alertaLogrado();
+          this.modalRef.close();
+        }else if(data.message === "YaExiste"){
+          this.alertaValorRepetido();
+        }else{
+          this.alertaErrorInespero();
+          this.modalRef.close();
+        }
+        
+        this.service.getMetodosDePago()
+        .subscribe((data: any)=>{
+            this.metodosDePago= data.data;
+        })
+      })
 
     }else{
       this.sumit = true;
@@ -176,14 +195,59 @@ export class MetodosDePagoListComponent implements OnInit {
   }
  
   EditarMetodo() {
+    let datoTrim = (this.EditGroup.value['meto_Descripcion'].trim());
+    this.EditGroup.get("meto_Descripcion").setValue(datoTrim)
+    this.metoPago.meto_Descripcion = datoTrim;
+    this.metoPago.meto_UsuModificacion = this.user.user_Id;
+
     if(this.EditGroup.valid){
-      
+
+      this.service.putMetodoPagoUpdate(this.metoPago)
+      .subscribe((data:any) => {
+        if(data.message === "Operación completada exitosamente."){
+          this.alertaLogrado();
+          this.modalRef.close();
+        }else if(data.message === "YaExiste"){
+          this.alertaValorRepetido();
+        }else{
+          this.alertaErrorInespero();
+          this.modalRef.close();
+        }
+        
+        this.service.getMetodosDePago()
+        .subscribe((data: any)=>{
+            this.metodosDePago= data.data;
+        })
+      })
+
     }else{
       this.sumit = true;
       this.alertaCamposVacios();
     }
   }
 
+  EliminarMetodo(){
+    this.service.putMetodoPagoDelete(this.metoPago)
+    .subscribe((data:any) => {
+      console.log(data);
+      if(data.message === "Registro eliminado"){
+        this.alertaEliminado()
+      }else if (data.message === "EnUso"){
+        this.alertaEliminadoFallido()
+      }else{
+        this.alertaErrorInespero()
+      }
+
+      this.modalRef.close();
+      this.service.getMetodosDePago()
+      .subscribe((data: any)=>{
+          this.metodosDePago= data.data;
+      })
+
+    })
+  }
+
+  //Alertas
   alertaCamposVacios() {
     Swal.fire({
         showConfirmButton: false,
@@ -193,6 +257,63 @@ export class MetodosDePagoListComponent implements OnInit {
         timerProgressBar: true,
         title: 'Completa todos los campos',
         icon: 'warning'
+      })
+  }
+  alertaLogrado() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'Listo, el registro se guardo exitosamente',
+        icon: 'success'
+      })
+  }
+  alertaValorRepetido() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'Ya existe otro registro con el mismo nombre',
+        icon: 'warning'
+      })
+  }
+  alertaErrorInespero() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'Ha ocurrido un error inesperado',
+        icon: 'error'
+      })
+  }
+  
+  alertaEliminado() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'El registro a sido eliminado',
+        icon: 'success'
+      })
+  }
+  
+  alertaEliminadoFallido() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'No se pudo eliminar este registro porque esta en uso',
+        icon: 'error'
       })
   }
 
