@@ -426,7 +426,6 @@ export class FleteDetailsPropioComponent implements OnInit {
         //   .bindPopup(popupFinal)
         //   .closePopup();
 
-          console.log(this.waypoints)
           this.routingControl.getPlan().setWaypoints(this.waypoints);
         
 
