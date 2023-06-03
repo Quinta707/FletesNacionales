@@ -78,15 +78,9 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@role_Id", item.role_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@empe_Id", item.empe_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@user_UsuModificacion", item.user_UsuModificacion, DbType.Int32, ParameterDirection.Input);
-            var resultado = db.QueryFirst<int>(ScriptsDataBase.UsuraiosUpdate, parametros, commandType: System.Data.CommandType.StoredProcedure);
+            result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.UsuraiosUpdate, parametros, commandType: System.Data.CommandType.StoredProcedure);
 
-            RequestStatus request = new()
-            {
-                CodeStatus = resultado,
-                MessageStatus = "Estado update"
-            };
-
-            return request;
+            return result;
         }
         public RequestStatus ValidarUsuariosPoseenRol(int role_Id)
         {

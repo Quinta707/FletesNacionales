@@ -3,7 +3,8 @@ import { Usuarios } from '../../../../shared/model/usuarios.model';
 import { Empleados } from '../../../../shared/model/empleados.model';
 import { Roles } from '../../../../shared/model/rol.model';
 import { RolesporPantalla } from '../../../../shared/model/rolesPorPantalla.model';
-import { TableService } from '../../../../shared/services/usuarios.service';
+import { UsuariosService } from '../../../../shared/services/usuarios.service';
+import { TableService } from '../../../../shared/services/empleados.service';
 import { RolesService } from '../../../../shared/services/rol.service';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 import { NgbCalendar, NgbDateStruct, NgbModal, NgbModalRef, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
@@ -23,6 +24,7 @@ import Swal from 'sweetalert2';
 export class UsuariosComponent {
   @ViewChild('content2') modalEditar: any;
   @ViewChild('content') modalContent: any;
+  @ViewChild('delete') modalDelete: any;
   user:any = JSON.parse(localStorage.getItem("user"));
   public domLayout: DomLayoutType = 'autoHeight';
   Usuarios: Usuarios[];
@@ -52,7 +54,8 @@ export class UsuariosComponent {
   }
   sumit:boolean = false;
   constructor
-    (public service: TableService,
+    (public service: UsuariosService,
+    public service2: TableService,
      private rolService: RolesService, 
      private formBuilder: UntypedFormBuilder, 
      private modalService: NgbModal, 
@@ -64,7 +67,6 @@ export class UsuariosComponent {
     { field: 'user_Id', headerName: 'ID', flex: 1 },
     { field: 'user_NombreUsuario', headerName: 'Nombre Usuario', flex: 2 },
     { field: 'empe_NombreCompleto', headerName: 'Nombre Empleado', flex: 2 },
-    { field: 'user_EsAdmin', headerName: 'Es Admin', flex: 2 },
     { cellRenderer: (params) => this.actionButtonRenderer(params, this.modalService), headerName: 'Acciones', flex: 1 }
 
   ];
@@ -91,7 +93,7 @@ export class UsuariosComponent {
         this.Usuarios = data.data;
       })
 
-      this.service.getUsuarios()
+      this.service2.getEmpleados()
       .subscribe((data: any)=>{
         this.emppleadosDDL= data.data;
       })
@@ -184,11 +186,21 @@ export class UsuariosComponent {
     const openModelEdit = () => {
       console.log(params.data)
       this.submitted = false;
+      this.usuarios.user_Id = params.data.user_Id;
       this.EditGroup.get('user_NombreUsuario').setValue(params.data.user_NombreUsuario);
+      this.EditGroup.get('user_Contrasena').disable();
       this.Usuarios = params.data;
+    
       this.modalRef = this.modalService.open(this.modalEditar, { centered: true });
    };
   
+   const openModalDelete = () => {
+    this.Usuarios = params.data;
+    this.usuarios.user_Id = params.data.user_Id;
+    this.modalRef = this.modalService.open(this.modalDelete, { centered: true });
+    // this.router.navigate(['/flet/Fletes/PersonalDetails'], { queryParams: { id: params.data.flet_Id } });
+  }
+
     const button = document.createElement('il');
     button.classList.add('edit'); 
 
@@ -216,7 +228,8 @@ export class UsuariosComponent {
     button2.appendChild(textElement2);
   
     button.addEventListener('click', openModelEdit);
-  
+    button2.addEventListener('click', openModalDelete);
+
     const container = document.createElement('div');
     container.classList.add('action')
     container.appendChild(button);
@@ -224,6 +237,63 @@ export class UsuariosComponent {
   
     return container;
   }
+
+  closeModal() {
+    if (this.modalRef) {
+      this.sumit = false;
+      this.modalRef.dismiss();
+    }
+  }
+
+  EliminarModelo(){
+    this.service.getUsuariosDelete(this.usuarios)
+    .subscribe((data:any) => {
+      console.log(data);
+      if(data.success){
+        this.alertaEliminado()
+      }else{
+        this.alertaErrorInespero()
+      }
+
+      this.modalRef.close();
+      this.service.getUsuarios()
+      .subscribe((data: any)=>{
+          this.usuarios= data.data;
+      })
+
+    })
+ }
+
+  EditarModelo() {
+    this.sumit = true;
+    if (this.EditGroup.valid) {
+      let datoTrim = this.EditGroup.value['user_NombreUsuario'].trim();
+      this.EditGroup.get("user_NombreUsuario").setValue(datoTrim);
+      this.usuarios.user_NombreUsuario = datoTrim;
+      this.usuarios.user_UsuModificacion = this.user.user_Id;
+      this.usuarios.role_Id = this.EditGroup.value['role_Id'];
+      this.usuarios.user_EsAdmin = this.EditGroup.value['user_EsAdmin'] ? true : false; 
+      this.usuarios.empe_Id = this.EditGroup.value['empe_Id'];
+  
+      this.service.getUsuariosEditar(this.usuarios).subscribe((data: any) => {
+        if (data.success) {
+          this.alertaLogrado();
+          this.modalRef.close();
+        } else {
+          this.alertaErrorInespero();
+          this.modalRef.close();
+        }
+  
+        this.service.getUsuarios().subscribe((data: any) => {
+          this.Usuarios = data.data;
+        });
+      });
+    } else {
+      this.alertaCamposVacios();
+    }
+  }
+  
+  
   
   open(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title',  centered: true }).result.then((result) => {
@@ -274,6 +344,66 @@ export class UsuariosComponent {
       title: messageBody,
       icon: 'error',
     });
+  }
+
+  alertaCamposVacios() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'Completa todos los campos',
+        icon: 'warning'
+      })
+  }
+
+  alertaLogrado() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'Listo, el registro se guardo exitosamente',
+        icon: 'success'
+      })
+  }
+
+  alertaErrorInespero() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'Ha ocurrido un error inesperado',
+        icon: 'error'
+      })
+  }
+  
+  alertaEliminado() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'El registro a sido eliminado',
+        icon: 'success'
+      })
+  }
+  
+  alertaEliminadoFallido() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'No se pudo eliminar este registro porque esta en uso',
+        icon: 'error'
+      })
   }
 
   toggleFieldTextType() {

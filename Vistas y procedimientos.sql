@@ -3306,59 +3306,63 @@ GO
 CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_EmpleadosNoTienenUsuario
 AS
 BEGIN
-	SELECT * FROM flet.VW_tbEmpleados
-	 WHERE empe_Estado = 1
-	   AND empe_Id NOT IN (SELECT empe_Id 
-							  FROM ACCE.tbUsuarios 
-							 WHERE user_Estado = 1)
+	SELECT *
+	FROM flet.VW_tbEmpleados
+	WHERE empe_Estado = 1
+	  AND empe_Id NOT IN (
+        SELECT empe_Id
+        FROM ACCE.tbUsuarios
+        WHERE empe_Id IS NOT NULL -- Asegurarse de que empe_Id no sea nulo en la tabla de usuarios
+          AND user_Estado = 1
+      )
 END
 GO
 
 
-CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_EditarUsuarios
-	@user_Id				INT,
-	@user_NombreUsuario		NVARCHAR(250),
-	@user_EsAdmin			BIT,
-	@role_Id				INT,
-	@empe_Id				INT,
-	@user_UsuModificacion	INT
-AS
-BEGIN
-	BEGIN TRY
+--CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_EditarUsuarios
+--	@user_Id				INT,
+--	@user_NombreUsuario		NVARCHAR(250),
+--	@user_EsAdmin			BIT,
+--	@role_Id				INT,
+--	@empe_Id				INT,
+--	@user_UsuModificacion	INT
+--AS
+--BEGIN
+--	BEGIN TRY
 
-		BEGIN TRAN 
+--		BEGIN TRAN 
 
-			IF @role_Id = 0
-			BEGIN 
-				UPDATE ACCE.tbUsuarios
-				   SET user_NombreUsuario = @user_NombreUsuario,
-					   user_EsAdmin = @user_EsAdmin,
-					   empe_Id = @empe_Id,
-					   user_UsuModificacion = @user_UsuModificacion,
-					   user_FechaModificacion = GETDATE()
-				 WHERE user_Id = @user_Id
-			END
-			ELSE
-			BEGIN
-				UPDATE ACCE.tbUsuarios
-				   SET user_NombreUsuario = @user_NombreUsuario,
-					   user_EsAdmin = @user_EsAdmin,
-					   role_Id = @role_Id,
-					   empe_Id = @empe_Id,
-                       user_UsuModificacion = @user_UsuModificacion,
-					   user_FechaModificacion = GETDATE()
-				 WHERE user_Id = @user_Id
-			END
+--			IF @role_Id = 0
+--			BEGIN 
+--				UPDATE ACCE.tbUsuarios
+--				   SET user_NombreUsuario = @user_NombreUsuario,
+--					   user_EsAdmin = @user_EsAdmin,
+--					   empe_Id = @empe_Id,
+--					   user_UsuModificacion = @user_UsuModificacion,
+--					   user_FechaModificacion = GETDATE()
+--				 WHERE user_Id = @user_Id
+--			END
+--			ELSE
+--			BEGIN
+--				UPDATE ACCE.tbUsuarios
+--				   SET user_NombreUsuario = @user_NombreUsuario,
+--					   user_EsAdmin = @user_EsAdmin,
+--					   role_Id = @role_Id,
+--					   empe_Id = @empe_Id,
+--                       user_UsuModificacion = @user_UsuModificacion,
+--					   user_FechaModificacion = GETDATE()
+--				 WHERE user_Id = @user_Id
+--			END
 		
-		COMMIT
-		SELECT 1
-	END TRY
-	BEGIN CATCH
-		ROLLBACK
-		SELECT 0
-	END CATCH 
-	END
-GO
+--		COMMIT
+--		SELECT 1
+--	END TRY
+--	BEGIN CATCH
+--		ROLLBACK
+--		SELECT 0
+--	END CATCH 
+--	END
+--GO
 
 
 CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_EliminarUsuario
@@ -3427,55 +3431,53 @@ GO
 --END
 
 ----*********** UPDATE  ****************--
---GO
---CREATE OR ALTER PROCEDURE acce.UDP_tbusuarios_Update
---(@user_Id INT,
--- @user_EsAdmin INT,
--- @user_Url NVARCHAR(MAX),
--- @role_Id INT,
--- @empe_Id INT,
--- @user_UsuModificacion INT)
---AS
---BEGIN
---	BEGIN TRY
---		UPDATE [acce].[tbUsuarios]
---		SET [user_EsAdmin] = @user_EsAdmin,
---			[role_Id] = @role_Id,
---			[empe_Id] = @empe_Id,
---			[user_Url] = @user_Url,
---			[user_UsuModificacion] = @user_UsuModificacion,
---			[user_FechaModificacion] = GETDATE()
---		WHERE [user_Id] = @user_Id;
---		SELECT 1Proceso;
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbusuarios_Update
+(@user_Id INT,
+ @user_EsAdmin INT,
+ @role_Id INT,
+ @empe_Id INT,
+ @user_UsuModificacion INT)
+AS
+BEGIN
+	BEGIN TRY
+		UPDATE [acce].[tbUsuarios]
+		SET [user_EsAdmin] = @user_EsAdmin,
+			[role_Id] = @role_Id,
+			[empe_Id] = @empe_Id,
+			[user_UsuModificacion] = @user_UsuModificacion,
+			[user_FechaModificacion] = GETDATE()
+		WHERE [user_Id] = @user_Id;
+		SELECT 1Proceso;
 
---	END TRY
---	BEGIN CATCH
---		SELECT 0Proceso;
+	END TRY
+	BEGIN CATCH
+		SELECT 0Proceso;
 
---	END CATCH
---END
+	END CATCH
+END
 
 
 ----********** DELETE ***********--
---GO
---CREATE OR ALTER PROCEDURE acce.UDP_tbusuarios_Delete
---(@user_Id INT)
---AS
---BEGIN
---	BEGIN TRY
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbusuarios_Delete
+(@user_Id INT)
+AS
+BEGIN
+	BEGIN TRY
 
 		
---			UPDATE [acce].[tbUsuarios]
---			SET [user_Estado]  = 0,
---				[user_FechaModificacion] = GETDATE()
---			WHERE [user_Id] = @user_Id
---			SELECT 1 
+			UPDATE [acce].[tbUsuarios]
+			SET [user_Estado]  = 0,
+				[user_FechaModificacion] = GETDATE()
+			WHERE [user_Id] = @user_Id
+			SELECT 1 
 
---	END TRY
---	BEGIN CATCH
---		SELECT 0Proceso
---	END CATCH
---END
+	END TRY
+	BEGIN CATCH
+		SELECT 0Proceso
+	END CATCH
+END
 
 
 --*********** VIEW ********************---

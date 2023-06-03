@@ -1,8 +1,5 @@
 import { Injectable, PipeTransform } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { DecimalPipe, SlicePipe } from '@angular/common';
-import { debounceTime, delay, map, switchMap, tap } from 'rxjs/operators';
-import { SortColumn, SortDirection } from '../directives/NgbdSortableHeader';
 import { Usuarios } from '../model/usuarios.model';
 import { Empleados } from '../model/empleados.model';
 import { Global } from '../../../../config';
@@ -10,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({ providedIn: 'root' })
-export class TableService {
+export class UsuariosService {
   
     constructor(private http: HttpClient) {
        
@@ -25,7 +22,7 @@ export class TableService {
         return this.http.get<Empleados[]>(Global + "Usuarios/ListarEmpleadosNoTienenUsuario");
     }
 
-    getUsuarioEditar(id: number) {
+    getUsuarioEditarFind(id: number) {
         return this.http.get<Usuarios>(Global + `Usuarios/Buscar/${id}`);
     }
     
@@ -37,9 +34,9 @@ export class TableService {
         return this.http.post<Usuarios[]>(Global + "Usuarios/Eliminar", Usuarios);
     }
 
-    getUsuariosEditar(Usuarios: Usuarios) {
-        return this.http.post<Usuarios[]>( Global + "Usuarios/Editar", Usuarios);
-    }
+    getUsuariosEditar(usuarios: Usuarios): Observable<any> {
+        return this.http.post<any>(Global + "Usuarios/Editar", usuarios);
+      }
      
     insertarNuevoUsuario(Usuarios: Usuarios){
         return this.http.post<Usuarios>(Global + `Usuarios/Insertar`, Usuarios);

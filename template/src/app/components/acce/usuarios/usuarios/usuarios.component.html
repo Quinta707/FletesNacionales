@@ -41,6 +41,20 @@
     </div>
   </div>
 
+  <ng-template #delete let-c="close" let-d="dismiss" class="text-center">
+    <div class="modal-header d-flex justify-content-center">
+      <h4 class="modal-title" id="modal-basic-title">Eliminar</h4>
+    </div>
+    <div class="modal-body text-center">
+      <h6>Parece que deseas eliminar un registro</h6> <br>
+      <h6>¿Estas seguro de esta accion?</h6>
+    </div>
+    <div class="modal-footer d-flex justify-content-center">
+      <button type="button" class="btn btn-dark" (click)="closeModal()">No</button>
+      <button type="button" class="btn btn-danger" (click)="EliminarModelo()" >Si</button>
+    </div>
+  </ng-template>
+  
 
   <form [formGroup]="EditGroup">
     <ng-template #content2 let-modal>
@@ -52,8 +66,8 @@
         <div class="row">
           <div class="col-sm-6">
             <label for="">Nombre del Usuario</label>
-            <input type="text" [(ngModel)]="Usuarios.user_NombreUsuario" name="user_NombreUsuario"
-              id="user_NombreUsuario" formControlName="user_NombreUsuario" class="form-control" disabled>
+            <input type="text"  [(ngModel)]="Usuarios.user_NombreUsuario" name="user_NombreUsuario"
+              id="user_NombreUsuario" formControlName="user_NombreUsuario" class="form-control">
           </div>          
           <div class="col-sm-6">
             <label for="">Empleado</label>
@@ -68,12 +82,8 @@
         <div class="row">
           <div class="col-sm-6">
             <label for="">Contraseña</label>
-            <input type="password" [(ngModel)]="Usuarios.user_Contrasena" name="user_Contrasena" id="user_Contrasena"
+            <input type="password" disabled [(ngModel)]="Usuarios.user_Contrasena" name="user_Contrasena" id="user_Contrasena"
               formControlName="user_Contrasena" class="form-control">
-            <ng-container class="invalid text-danger"
-              *ngIf="EditGroup.get('user_Contrasena').hasError('required') && (EditGroup.get('user_Contrasena').touched || sumit)">
-              <p class="text-danger">El campo es necesario</p>
-            </ng-container>
           </div>
           <div class="col-sm-6">   
             <label for="">Rol</label>
@@ -96,11 +106,12 @@
           </div>
       </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary">Cancelar</button>
-  <button class="btn btn-primary">Guardar</button>
+  <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+  <button class="btn btn-primary" (click)="EditarModelo()">Guardar</button>
 </div>
 </ng-template>
 </form>
+  
 
 
 <ng-template #content let-modal>

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from "@angular/router";
 import { Observable } from "rxjs";
-import { TableService } from '../../shared/services/usuarios.service';
+import { UsuariosService } from '../../shared/services/usuarios.service';
 import { RolesService } from '../../shared/services/rol.service';
 import { RolesporPantalla } from "../model/rolesPorPantalla.model";
 
@@ -20,7 +20,7 @@ interface ValidarRolResponse {
 export class AccesoGuard implements CanActivate {
   constructor(
     public router: Router,
-    public service: TableService,
+    public service: UsuariosService,
     private rolService: RolesService,
   ) {}
 
