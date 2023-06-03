@@ -14,6 +14,7 @@ import { TrayectosIndexComponent } from "./trayectos/trayectos-index/trayectos-i
 import { PedidosIndexComponent } from './pedidos/pedidos-index/pedidos-index.component';
 import { FletedetailsComponent } from './fletes/fletes-details/fletes-details.component';
 import { ClientesCreateComponent } from './clientes/clientes-create/clientes-create.component';
+import { CalenderComponent } from './calendario/calender.component';
 
 import { ReporteComponent } from './reporte/reporte/reporte.component';
 import { FleteDetailsPropioComponent } from "./fletes/fletes-details-propio/fletes-details-propio.component";
@@ -27,6 +28,10 @@ const routes: Routes = [
           {
             path: "List",
             component: FleteListComponent,
+          },
+          {
+            path: "Calender",
+            component: CalenderComponent,
           },
           {
             path: "Create",

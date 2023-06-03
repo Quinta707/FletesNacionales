@@ -30,8 +30,12 @@ import { GoogleMapsModule } from "@angular/google-maps";
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { AgGridModule } from 'ag-grid-angular';
 import { ClientesCreateComponent } from './clientes/clientes-create/clientes-create.component';
+import { CalenderComponent } from './calendario/calender.component';
 
 
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 import { ReporteComponent } from './reporte/reporte/reporte.component';
 
@@ -54,6 +58,7 @@ import { ReporteComponent } from './reporte/reporte/reporte.component';
     PedidosIndexComponent,
     ClientesCreateComponent,
     ReporteComponent,
+    CalenderComponent,
   ],
   imports: [
     CommonModule,
@@ -71,7 +76,12 @@ import { ReporteComponent } from './reporte/reporte/reporte.component';
     NgSelectModule,
     FormsModule,
     NgbModule,
-    SharedModule
+    SharedModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    }),
+    FlatpickrModule.forRoot()
   ]
 })
 export class FletModule { }

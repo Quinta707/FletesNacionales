@@ -62,9 +62,9 @@ namespace FletesNacionales.DataAccess.Repository
             var parametros = new DynamicParameters();
             parametros.Add("@sucu_Id", item.sucu_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@sucu_Nombre", item.sucu_Nombre, DbType.String, ParameterDirection.Input);
-            parametros.Add("@muni_Id", item.muni_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@muni_Id", item.muni_Id, DbType.String, ParameterDirection.Input);
             parametros.Add("@sucu_Direccion", item.sucu_Direccion, DbType.String, ParameterDirection.Input);
-            parametros.Add("@sucu_UsuCreacion", item.sucu_UsuCreacion, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@sucu_UsuModificacion", item.sucu_UsuModificacion, DbType.Int32, ParameterDirection.Input);
             result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.SucursalesUpdate, parametros, commandType: System.Data.CommandType.StoredProcedure);
 
             return result;

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -12,6 +12,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { AgGridModule } from 'ag-grid-angular';
 
+
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
 // // for HttpClient import:
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 // // for Router import:
@@ -25,6 +28,8 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 
+
+registerLocaleData(localeEs);
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
 }
@@ -63,7 +68,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 //     // for Core use:
     LoadingBarModule
   ],
-  providers: [ AdminGuard, CookieService],
+  providers: [ AdminGuard, CookieService,{ provide: LOCALE_ID, useValue: 'es' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

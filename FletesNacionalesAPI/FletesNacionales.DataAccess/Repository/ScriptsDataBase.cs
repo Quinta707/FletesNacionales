@@ -114,6 +114,7 @@
 
         public static string EmpleadosFind = "flet.UDP_tbEmpleados_Find";
         public static string EmpleadosIndex = "flet.UDP_tbEmpleados_Index";
+        public static string EmpleadosIndexConductores = "flet.UDP_tbEmpleados_IndexConductores";
         public static string EmpleadosInsert = "flet.UDP_tbEmpleados_Insert";
         public static string EmpleadosUpdate = "flet.UDP_tbEmpleados_Update";
         public static string EmpleadosDelete = "flet.UDP_tbEmpleados_Delete";

@@ -77,7 +77,7 @@ export class SucursalesListComponent {
   actionButtonRenderer(params: any, modalService: NgbModal) {
     const openModelEdit = () => {
       this.sumit = false;
-      // this.EditGroup.get('sucu_Nombre').setValue(params.data.sucu_Nombre);
+      this.EditGroup.get('sucu_Nombre').setValue(params.data.sucu_Nombre);
       this.sucursal = params.data;
       this.modalRef = this.modalService.open(this.modalEdit, { centered: true });
    };
@@ -184,7 +184,7 @@ export class SucursalesListComponent {
 
     if(this.CreateGroup.valid){
 
-      this.service.postMunicipiosCreate(this.sucursal)
+      this.service.postSucursalesCreate(this.sucursal)
       .subscribe((data:any) => {
         if(data.message === "Exitoso"){
           this.alertaLogrado();
@@ -208,57 +208,60 @@ export class SucursalesListComponent {
   }
  
   EditarSucursal() {
-    // this.sumit = true;
+    this.sumit = true;
 
-    // let datoTrim = (this.EditGroup.value['meto_Descripcion'].trim());
-    // this.EditGroup.get("meto_Descripcion").setValue(datoTrim)
-    // this.metoPago.meto_Descripcion = datoTrim;
-    // this.metoPago.meto_UsuModificacion = this.user.user_Id;
+    let datoNombreTrim = (this.EditGroup.value['sucu_Nombre'].trim());
+    // let datoDireccionTrim = (this.CreateGroup.value['meto_Direccion'].trim());
+    this.EditGroup.get("sucu_Nombre").setValue(datoNombreTrim)
+    this.sucursal.sucu_Nombre = datoNombreTrim;
+    // this.CreateGroup.get("meto_Direccion").setValue(datoDireccionTrim)
+    // this.sucursal.sucu_Direccion = datoDireccionTrim;
+    this.sucursal.sucu_UsuCreacion = this.user.user_Id;
 
-    // if(this.EditGroup.valid){
+    if(this.EditGroup.valid){
 
-    //   this.service.putMetodoPagoUpdate(this.metoPago)
-    //   .subscribe((data:any) => {
-    //     if(data.message === "Operación completada exitosamente."){
-    //       this.alertaLogrado();
-    //       this.modalRef.close();
-    //     }else if(data.message === "YaExiste"){
-    //       this.alertaValorRepetido();
-    //     }else{
-    //       this.alertaErrorInespero();
-    //       this.modalRef.close();
-    //     }
+      this.service.putSucursalesUpdate(this.sucursal)
+      .subscribe((data:any) => {
+        if(data.message === "Exitoso"){
+          this.alertaLogrado();
+          this.modalRef.close();
+        }else if(data.message === "YaExiste"){
+          this.alertaValorRepetido();
+        }else{
+          this.alertaErrorInespero();
+          this.modalRef.close();
+        }
         
-    //     this.service.getMetodosDePago()
-    //     .subscribe((data: any)=>{
-    //         this.metodosDePago= data.data;
-    //     })
-    //   })
+        this.service.getSucursales()
+        .subscribe((data: any)=>{
+            this.sucursalesList= data.data;
+        })
+      })
 
-    // }else{
-    //   this.alertaCamposVacios();
-    // }
+    }else{
+      this.alertaCamposVacios();
+    }
   }
 
-  EliminarMetodo(){
-    // this.service.putMetodoPagoDelete(this.metoPago)
-    // .subscribe((data:any) => {
-    //   console.log(data);
-    //   if(data.message === "Registro eliminado"){
-    //     this.alertaEliminado()
-    //   }else if (data.message === "EnUso"){
-    //     this.alertaEliminadoFallido()
-    //   }else{
-    //     this.alertaErrorInespero()
-    //   }
+  EliminarSucursal(){
+     this.service.putSucursalesDelete(this.sucursal)
+     .subscribe((data:any) => {
+       console.log(data);
+       if(data.message === "Eliminado"){
+         this.alertaEliminado()
+       }else if (data.message === "EnUso"){
+         this.alertaEliminadoFallido()
+       }else{
+         this.alertaErrorInespero()
+       }
 
-    //   this.modalRef.close();
-    //   this.service.getMetodosDePago()
-    //   .subscribe((data: any)=>{
-    //       this.metodosDePago= data.data;
-    //   })
+       this.modalRef.close();
+       this.service.getSucursales()
+       .subscribe((data: any)=>{
+           this.sucursalesList= data.data;
+       })
 
-    // })
+     })
   }
 
   //Alertas

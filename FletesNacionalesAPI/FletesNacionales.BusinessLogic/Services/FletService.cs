@@ -165,6 +165,19 @@ namespace FletesNacionales.BusinessLogic.Services
                 return result.Error(e.Message);
             }
         }
+        public ServiceResult ListadoEmpleadosConductores()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _empleadosRepository.ListConductores();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
         public ServiceResult EliminarEmpleados(tbEmpleados item)
         {
             var result = new ServiceResult();

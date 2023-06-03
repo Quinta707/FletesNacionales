@@ -1,0 +1,66 @@
+<app-breadcrumb [items]="['Apps', 'flet']" [active_item]="'Calendario'"></app-breadcrumb>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h5>Fletes salientes</h5>
+        </div>
+        <div class="card-body">
+          <div class="row text-center">
+            <div class="col-md-4">
+              <div class="btn-showcase">
+                <button type="button" class="fc-prev-button fc-button fc-state-default btn btn-light fc-corner-left"
+                  mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+                  (viewDateChange)="activeDayIsOpen = false">
+                  <i class="fa fa-angle-left"></i></button>
+                <button type="button" class="fc-next-button fc-button fc-state-default btn btn-light fc-corner-right"
+                  mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="activeDayIsOpen = false">
+                  <i class="fa fa-angle-right"></i></button>
+                <div class="btn btn-light" mwlCalendarToday [(viewDate)]="viewDate">
+                  Hoy
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+            </div>
+            <div class="fc-right col">
+              <div class="fc-button-group">
+                <button class="fc-month-button fc-button fc-state-default btn btn-light fc-corner-left fc-state-active"
+                  (click)="view = CalendarView.Month" [class.active]="view === CalendarView.Month">
+                  Mes
+                </button>
+                <button class="fc-month-button fc-button fc-state-default btn btn-light fc-corner-left"
+                  (click)="view = CalendarView.Week" [class.active]="view === CalendarView.Week">
+                  Semana
+                </button>
+                <button class="fc-month-button fc-button fc-state-default btn btn-light fc-corner-left"
+                  (click)="view = CalendarView.Day" [class.active]="view === CalendarView.Day">
+                  Dia
+                </button>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div [ngSwitch]="view">
+            <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+              [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
+              (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+            </mwl-calendar-month-view>
+            <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events"
+              [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+              (eventTimesChanged)="eventTimesChanged($event)">
+            </mwl-calendar-week-view>
+            <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events"
+              [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+              (eventTimesChanged)="eventTimesChanged($event)">
+            </mwl-calendar-day-view>
+          </div>
+        </div>
+      </div>
+      <div class="card" id="mapita">
+        <div class="card-body">
+            <div class="map-height" leaflet [leafletOptions]="options4" (leafletMapReady)="onMapReady4($event)"></div>
+        </div>
+      </div>

@@ -30,6 +30,13 @@ namespace FletesNacionales.API.Controllers
             return Ok(list);
         }
 
+        [HttpGet("ListadoConductores")]
+        public IActionResult ListConductores()
+        {
+            var list = _fletService.ListadoEmpleadosConductores();
+            return Ok(list);
+        }
+
         [HttpPost("Insertar")]
         public IActionResult Insert(EmpleadoViewModel Pedidos)
         {

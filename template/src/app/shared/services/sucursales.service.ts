@@ -142,8 +142,16 @@ export class TableService {
     return this.http.get<any[]>(Global + "Municipios/Listado");
   }
 
-  postMunicipiosCreate(data:any){
+  postSucursalesCreate(data:any){
     return this.http.post<any[]>(Global + "Sucursales/Insertar",data);
+  }
+ 
+  putSucursalesUpdate(data:any){
+    return this.http.put<any[]>(Global + "Sucursales/Editar",data);
+  }
+ 
+  putSucursalesDelete(data:any){
+    return this.http.put<any[]>(Global + "Sucursales/Eliminar",data);
   }
 
 

@@ -1622,6 +1622,16 @@ BEGIN
 	WHERE empe_Estado = 1
 END
 
+--************** INDEX SOLO CONDUCTORES *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_IndexConductores
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbEmpleados
+	WHERE empe_Estado = 1 AND carg_Id = 3
+END
+
+
 
 --************** FIND *****************--
 GO
@@ -3695,7 +3705,7 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbSucursales_Update
 (
 @sucu_Id				INT,
 @sucu_Nombre			NVARCHAR(200),
-@muni_Id				INT,
+@muni_Id				CHAR(4),
 @sucu_Direccion			NVARCHAR(200), 
 @sucu_UsuModificacion	INT
  )
@@ -3739,7 +3749,7 @@ AS
 BEGIN
 	BEGIN TRY
 		
-			IF EXISTS (SELECT OBJECT_NAME(f.parent_object_id) AS TablaReferenciadora, COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnaReferenciadora FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE f.referenced_object_id = OBJECT_ID('flet.tbSucursales') AND EXISTS ( SELECT 1 FROM flet.tbSucursales WHERE sucu_Id = 11))
+			IF EXISTS (SELECT * FROM flet.tbEmpleados WHERE sucu_Id = @sucu_Id)
 		BEGIN
 			SELECT - 3
 		END
