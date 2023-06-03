@@ -2,10 +2,9 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-12">
-      <div class="card">
-        <div class="card-header">
-          <h5>Fletes salientes</h5>
-        </div>
+      <div class="card card-border">
+        <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/Calendario.png" alt="Card image cap">
+        
         <div class="card-body">
           <div class="row text-center">
             <div class="col-md-4">
@@ -59,7 +58,7 @@
           </div>
         </div>
       </div>
-      <div class="card" id="mapita">
+      <div class="card card-border" id="mapita">
         <div class="card-body">
             <div class="map-height" leaflet [leafletOptions]="options4" (leafletMapReady)="onMapReady4($event)"></div>
         </div>

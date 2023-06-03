@@ -30,26 +30,31 @@ const routes: Routes = [
             component: FleteListComponent,
           },
           {
-            path: "Calender",
-            component: CalenderComponent,
-          },
-          {
             path: "Create",
             component: FleteCreateComponent,
-          },
-          {
-            path: "PersonalList",
-            component: FleteListPropioComponent,
-          },
-          {
-            path: "PersonalDetails",
-            component: FleteDetailsPropioComponent,
           },
           {
             path: "Details",
             component: FletedetailsComponent,
           },
         ],
+      },
+      {
+        path: "Mis-Fletes",
+        children:[
+          {
+            path:"List",
+            component: FleteListPropioComponent,
+          },
+          {
+            path: "Details",
+            component: FleteDetailsPropioComponent,
+          },
+        ]
+      },
+      {
+        path: "Calendario",
+        component: CalenderComponent,
       },
       {
         path: "Items",
