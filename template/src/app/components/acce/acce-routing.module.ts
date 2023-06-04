@@ -33,17 +33,17 @@ const routes: Routes = [
         ],
       },
       {
-        path: "Usuarios",
+        path: 'Usuarios',
         canActivate: [AccesoGuard],
         data: {
-          parametro: "Usuarios" // Aquí puedes definir el valor del parámetro que quieres enviar
+          parametro: 'Usuarios'
         },
         children: [
           {
-            path: "List",
-            component: UsuariosComponent,
-          },
-        ],
+            path: 'List',
+            component: UsuariosComponent
+          }
+        ]
       },
     ],
   }

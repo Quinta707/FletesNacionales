@@ -32,7 +32,13 @@ export class AccesoGuard implements CanActivate {
     let user = JSON.parse(localStorage.getItem("user"));
     let parametro = next.params["parametro"];
 
-    if (!user || !user.user_EsAdmin) {
+    if (!user) {
+      // Si no hay un usuario válido, redirigir al dashboard
+      this.router.navigate(["/dashboard/default"]);
+      return false;
+    }
+
+    if (!user.user_EsAdmin) {
       const ropaAcceso = new RolesporPantalla();
       ropaAcceso.role_Id = user.role_Id;
       ropaAcceso.pant_Nombre = parametro;
@@ -43,15 +49,18 @@ export class AccesoGuard implements CanActivate {
 
         if (response.code === 200) {
           if (response.data.codeStatus === 0) {
-            // Permitir el acceso solo si el usuario es administrador
+            // Si el usuario tiene permisos para acceder a la pantalla, permitir el acceso
+            return true;
+          } else {
+            // Si el usuario no tiene permisos para acceder a la pantalla, redirigir al dashboard
             this.router.navigate(["/dashboard/default"]);
             return false;
           }
+        } else {
+          // Si hay un error en la respuesta, redirigir al dashboard
+          this.router.navigate(["/dashboard/default"]);
+          return false;
         }
-
-        // Si el usuario no tiene permisos o no es administrador, redirigir al dashboard
-        this.router.navigate(["/dashboard/default"]);
-        return false;
       } catch (error) {
         console.error("Error al validar el acceso:", error);
         // En caso de error, redirigir al dashboard
