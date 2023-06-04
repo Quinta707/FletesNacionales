@@ -43,7 +43,7 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@tipv_Descripcion", item.tipv_Descripcion, DbType.String, ParameterDirection.Input);
-           // parametros.Add("@tipv_UsuCreacion", item.tipv_UsuCreacion, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@tipv_UsuCreacion", item.tipv_UsuCreacion, DbType.Int32, ParameterDirection.Input);
 
             var result = db.QueryFirst<int>(ScriptsDataBase.TipoDeVehiculoInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
 
@@ -68,8 +68,8 @@ namespace FletesNacionales.DataAccess.Repository
             var parametros = new DynamicParameters();
             parametros.Add("@tipv_Id", item.tipv_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@tipv_Descripcion", item.tipv_Descripcion, DbType.String, ParameterDirection.Input);
-            //parametros.Add("@tipv_UsuModificacion", item.tipv_UsuModificacion, DbType.Int32, ParameterDirection.Input);
-         
+            parametros.Add("@tipv_UsuModificacion", item.tipv_UsuModificacion, DbType.Int32, ParameterDirection.Input);
+
             var result = db.QueryFirst<int>(ScriptsDataBase.TipoDeVehiculoUpdate, parametros, commandType: System.Data.CommandType.StoredProcedure);
             RequestStatus request = new()
             {

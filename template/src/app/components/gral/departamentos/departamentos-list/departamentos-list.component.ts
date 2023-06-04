@@ -1,367 +1,312 @@
-import { Component, OnInit, QueryList, TemplateRef, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Departamentos } from '../../../../shared/model/Departamentos.model';
-import { DepartamentosEdit } from '../../../../shared/model/Departamentosedit.model';
-import { TableService } from '../../../../shared/services/Departamentos.service';
-import { Observable } from 'rxjs';
-import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
-import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { DepaService } from '../../../../shared/services/Departamentos.service';
+import { AgGridAngular } from 'ag-grid-angular';
 import { Router } from '@angular/router';
+import { Idioma } from '../../../../../../config';
+import { CellClickedEvent, ColDef, DomLayoutType, GridReadyEvent } from 'ag-grid-community';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { NgbCalendar, NgbDateStruct, NgbModal, NgbModalRef, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
-import { HttpClient } from '@angular/common/http';
-
 @Component({
   selector: 'app-departamentos-list',
   templateUrl: './departamentos-list.component.html',
   styleUrls: ['./departamentos-list.component.scss']
 })
 export class DepartamentosListComponent implements OnInit {
-  public selected = [];
-  Departamentos:Departamentos = new Departamentos();
-  DepartamentosEdit:DepartamentosEdit = new DepartamentosEdit();
-  codigoValue: string = '';
-  departamentoValue: string = '';
-  submitted: boolean = false;
-  basicModalCloseResult: string = '';
-  modalRef: NgbModalRef | undefined;
-  items: Departamentos[];
- 
-  ngOnInit(): void {
-   this.service.getDepartamentos()
-   .subscribe((data: any)=>{
-      this.items= data.data;
-      this.service.setUserData(data.data)
-   })
-  }
-
-  public tableItem$: Observable<Departamentos[]>;
-  public searchText;
-  total$: Observable<number>;
-
-  constructor(public service: TableService,
-    private modalService: NgbModal,
-    private router:Router,
-    private http: HttpClient
-    ) {
-
-    this.tableItem$ = service.tableItem$;
-    this.total$ = service.total$;
-    this.service.setUserData(this.items)
-
-  }
-
-  onSearchInputChange(searchTerm: string) {
-    this.service.searchTerm = searchTerm;
-  }
-
-  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
-
-  onSort({ column, direction }: SortEvent) {
-    // resetting other headers
-    this.headers.forEach((header) => {
-      if (header.sortable !== column) {
-        header.direction = '';
-      }
-    });
-
-    this.service.sortColumn = column;
-    this.service.sortDirection = direction;
-
-  }
-
-  Guardar(e: Event) {
-    e.preventDefault();
-    if (!this.departamentoValue || !this.codigoValue) {
-      this.submitted = true;
-      if (!this.departamentoValue && !this.codigoValue) {
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 6000,
-          timerProgressBar: true,
-          title: '¡ERROR!, Los campos de Departamento y Codigo no pueden estar vacíos',
-          icon: 'error'
-        });
-      } else {
-        if (!this.departamentoValue) {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 6000,
-            timerProgressBar: true,
-            title: '¡ERROR!, El campo de Departamento no puede estar vacío',
-            icon: 'error'
-          });
-        }
-        if (!this.codigoValue) {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 6000,
-            timerProgressBar: true,
-            title: '¡ERROR!, El campo de Codigo no puede estar vacío',
-            icon: 'error'
-          });
-        }
-      }
-      return;
-    }
-    const apiUrl = 'https://localhost:44339/api/Departamentos/Insertar';
-    const requestBody = {
-      depa_Id : this.codigoValue,
-      depa_Nombre: this.departamentoValue
-    };
   
-    this.http.post(apiUrl, requestBody).subscribe(
-      (response: any) => {
-        console.log(response);
-        if (response !== undefined) {
-          if (response.success) {
-            Swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 1500,
-              timerProgressBar: true,
-              title: '¡Registro Ingresado con éxito!',
-              icon: 'success'
-            }).then(() => {
-              this.modalRef?.close(); // Cerrar el modal
-              this.departamentoValue = ''; // Restablecer el valor del campo
-              this.submitted = false; // Reiniciar el estado del formulario
-              this.service.getDepartamentos()
-                .subscribe((data: any) => {
-                  this.items = data.data;
-                  this.service.setUserData(data.data);
-                });
-              this.modalService.dismissAll();
-            });
-          } else if (response.message === "YaExiste") {
-            Swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 6000,
-              timerProgressBar: true,
-              title: '¡Ya existe el Departamento!',
-              icon: 'warning'
-            });
-          } else {
-            Swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 1500,
-              timerProgressBar: true,
-              title: '¡Hubo un error al insertar el registro!',
-              icon: 'error'
-            });
-          }
-        } else {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-            title: '¡Hubo un error en la respuesta del API!',
-            icon: 'error'
-          });
-          console.error('Respuesta del API inválida:', response);
-        }
-      },
-      (error: any) => {
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 2000,
-          timerProgressBar: true,
-          title: '¡Hubo un error al realizar la solicitud!',
-          icon: 'error'
-        });
-        console.error(error);
+  user:any = JSON.parse(localStorage.getItem("user"))
+
+  departamentos:Departamentos= new Departamentos();
+  departamentoslist!: Departamentos[];
+  
+  @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
+
+  public domLayout: DomLayoutType = 'autoHeight';
+  idioma = Idioma
+  paginationPageSize: number = 10;
+  public searchText:string;
+
+  public defaultColDef: ColDef = {
+    sortable: true,
+    filter: true,
+    autoHeight: true,
+  };
+
+  columnDefs: ColDef[] = [
+    { field: 'depa_Id', headerName: 'ID', flex: 1 },
+    { field: 'depa_Nombre', headerName: 'Departamento', flex: 2 },
+    { cellRenderer: (params) => this.actionButtonRenderer(params, this.modalService), headerName: 'Acciones', flex: 1 }
+
+  ];
+
+  actionButtonRenderer(params: any, modalService: NgbModal) {
+    const openModelEdit = () => {
+      console.log(params.data)
+      this.sumit = false;
+      this.departamentos.depa_Id = params.data.depa_Id;
+      this.EditGroup.get('depa_Nombre').setValue(params.data.depa_Nombre);
+      this.EditGroup.get('depa_Id').disable();
+      this.departamentos = params.data;
+      this.modalRef = this.modalService.open(this.modalEdit, { centered: true });
+   };
+  
+    const openModalDelete = () => {
+      this.departamentos = params.data;
+      this.departamentos.depa_Id = params.data.depa_Id;
+      this.modalRef = this.modalService.open(this.modalDelete, { centered: true });
+      // this.router.navigate(['/flet/Fletes/PersonalDetails'], { queryParams: { id: params.data.flet_Id } });
+    }
+
+    const button = document.createElement('il');
+    button.classList.add('edit'); 
+
+    const iconElement = document.createElement('i');
+    iconElement.classList.add('icon-pencil-alt'); 
+    iconElement.classList.add('mx-2'); 
+
+    const textElement = document.createElement('span');
+    textElement.innerText = '';
+    textElement.appendChild(iconElement);
+
+
+    const button2 = document.createElement('il');
+    button2.classList.add('delete'); 
+  
+    const iconElement2 = document.createElement('i');
+    iconElement2.classList.add('fa'); 
+    iconElement2.classList.add('fa-trash-o'); 
+
+    const textElement2 = document.createElement('span');
+    textElement2.innerText = '';
+    textElement2.appendChild(iconElement2);
+   
+    button.appendChild(textElement);
+    button2.appendChild(textElement2);
+  
+    button.addEventListener('click', openModelEdit);
+    button2.addEventListener('click', openModalDelete);
+  
+    const container = document.createElement('div');
+    container.classList.add('action')
+    container.appendChild(button);
+    container.appendChild(button2);
+  
+    return container;
+  }
+ 
+  constructor(private service:DepaService,
+              private modalService: NgbModal,
+              private _formBuilder: FormBuilder,
+              private router: Router){}
+   
+    ngOnInit(): void {
+
+      this.service.getDepartamentos()
+      .subscribe((data: any)=>{
+        this.departamentoslist= data.data;
+      })
+    
+      this.CreateGroup = this._formBuilder.group({
+        depa_Nombre: ['', Validators.required],
+        depa_Id: ['', Validators.required],
+      });
+       
+      this.EditGroup = this._formBuilder.group({
+        depa_Nombre: ['', Validators.required],
+        depa_Id: ['', Validators.required],
+      });
+
+    }
+
+    
+  CreateGroup: FormGroup;
+  EditGroup: FormGroup;  
+  
+  sumit:boolean = false;
+
+  @ViewChild('delete') modalDelete: any;
+  @ViewChild('edit') modalEdit: any;
+  @ViewChild('create') modalCreate: any;
+  
+  modalRef: NgbModalRef;
+
+
+    onSearchInputChange() {
+      this.agGrid.api.setQuickFilter(this.searchText);
+    }
+  
+    closeModal() {
+      if (this.modalRef) {
+        this.sumit = false;
+        this.modalRef.dismiss();
       }
-    );
+    }
+
+    OpenModalCreate() {
+      this.sumit = false;
+      const formGroup = this.CreateGroup;
+  
+      Object.keys(formGroup.controls).forEach(key => {
+        const control = formGroup.get(key);
+        control.markAsUntouched();
+      });
+  
+      const Drenadora: Departamentos = new Departamentos();
+      this.departamentos = Drenadora;
+      this.modalRef = this.modalService.open(this.modalCreate, { centered: true });
+    }
+  
+    
+  CrearModelo() {
+       this.sumit = true;
+     let datoTrim = (this.CreateGroup.value['depa_Nombre'].trim());
+     this.CreateGroup.get("depa_Nombre").setValue(datoTrim)
+     this.departamentos.depa_Nombre = datoTrim;
+     this.departamentos.depa_UsuCreacion = this.user.user_Id;
+     if(this.CreateGroup.valid){
+       this.service.InsertDepartamento(this.departamentos)
+       .subscribe((data:any) => {
+         if(data.message === "Operación completada exitosamente."){
+         this.alertaLogrado();
+           this.modalRef.close();
+         }else if(data.message === "YaExiste"){
+           this.alertaValorRepetido();
+         }else{
+           this.alertaErrorInespero();
+           this.modalRef.close();
+         }
+      
+         this.service.getDepartamentos()
+         .subscribe((data: any)=>{
+             this.departamentoslist= data.data;
+         })
+       })
+
+     }else{
+       this.alertaCamposVacios();
+     }
+  }
+ 
+  EditarModelo() {
+    this.sumit = true;
+     let datoTrim = (this.EditGroup.value['depa_Nombre'].trim());
+     this.EditGroup.get("depa_Nombre").setValue(datoTrim)
+     this.departamentos.depa_Nombre = datoTrim;
+     this.departamentos.depa_UsuModificacion = this.user.user_Id;
+
+     if(this.EditGroup.valid){
+       this.service.EditarDepartamento(this.departamentos)
+       .subscribe((data:any) => {
+         if(data.message === "Operación completada exitosamente."){
+         this.alertaLogrado();
+           this.modalRef.close();
+         }else if(data.message === "YaExiste"){
+           this.alertaValorRepetido();
+         }else{
+           this.alertaErrorInespero();
+           this.modalRef.close();
+         }
+         this.service.getDepartamentos()
+         .subscribe((data: any)=>{
+             this.departamentoslist= data.data;
+         })
+       })
+
+     }else{
+       this.alertaCamposVacios();
+     }
   }
 
-  Editar() {
-    if (!this.DepartamentosEdit.depa_Nombre) {
-      this.submitted = true;
-      Swal.mixin({
+  EliminarModelo(){
+     this.service.DeleteDepartamento(this.departamentos)
+     .subscribe((data:any) => {
+       console.log(data);
+       if(data.success){
+         this.alertaEliminado()
+       }else{
+         this.alertaEliminado()
+       }
+
+       this.modalRef.close();
+       this.service.getDepartamentos()
+       .subscribe((data: any)=>{
+           this.departamentoslist= data.data;
+       })
+
+     })
+  }
+
+  alertaCamposVacios() {
+    Swal.fire({
+        showConfirmButton: false,
         toast: true,
         position: 'top-end',
-        showConfirmButton: false,
-        timer: 6000,
+        timer: 2500,
         timerProgressBar: true,
-      }).fire({
-        title: '¡ERROR!, El campo de Departamento no puede estar vacio',
+        title: 'Completa todos los campos',
+        icon: 'warning'
+      })
+  }
+  alertaLogrado() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'Listo, el registro se guardo exitosamente',
+        icon: 'success'
+      })
+  }
+  alertaValorRepetido() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'Ya existe este Departamento',
+        icon: 'warning'
+      })
+  }
+  alertaErrorInespero() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'Ha ocurrido un error inesperado',
         icon: 'error'
-      });
-      return;
-    }
-  
-    this.service.EditarDepartamento(this.DepartamentosEdit).subscribe(
-      (response: any) => {
-        console.log(response);
-        if (response.success == 1) {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            title: '¡Registro Actualizado con éxito!',
-            icon: 'success'
-          });
-          this.modalService.dismissAll();
-          this.service.getDepartamentos().subscribe(data => {
-            this.items = data;  
-          });
-        } else if (response.message == "YaExiste") {
-          // El registro ya existe
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 6000,
-            timerProgressBar: true,
-            title: 'Ya existe este Departamento',
-            icon: 'warning'
-          });
-        } else {
-          // Error desconocido u otro código de estado
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            title: 'Ha ocurrido un error',
-            icon: 'error'
-          });
-        }
-      },
-      (error) => {
-        // Error en la comunicación con el servidor
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
-          title: 'Error de comunicación con el servidor',
-          icon: 'error'
-        });
-        console.error(error);
-      }
-    );
+      })
   }
   
-  Delete() {
-    const depa_Id: string | undefined = isNaN(parseInt(localStorage.getItem("depa_Id") ?? '', 0)) ? undefined : parseInt(localStorage.getItem("depa_Id") ?? '', 0).toString();
-    if (depa_Id !== undefined) {
-      this.Departamentos.depa_Id = depa_Id.toString();
-    }
-  
-    this.service.DeleteDepartamento(this.Departamentos).subscribe(
-      (response: any) => {
-        console.log(this.Departamentos);
-        console.log(response);
-        if (response.success == 1) {
-          this.handleDeleteSuccess(); // Mostrar el Toast de éxito solo cuando response.success sea igual a 1
-        } else {
-          this.handleDeleteError(); // Mostrar el Toast de error en otros casos
-        }
-      },
-      (error: any) => {
-        this.handleDeleteError(); // Mostrar el Toast de error en caso de error en la solicitud
-        console.error(error);
-      }
-    );
-  }
-  
-  handleDeleteSuccess() {
+  alertaEliminado() {
     Swal.fire({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 1500,
-      timerProgressBar: true,
-      title: '¡Registro eliminado con éxito!',
-      icon: 'success'
-    }).then(() => {
-      this.modalService.dismissAll();
-      this.service.getDepartamentos().subscribe((data: any) => {
-        this.items = data;
-      });
-    });
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'El registro a sido eliminado',
+        icon: 'success'
+      })
   }
   
-  handleDeleteError() {
+  alertaEliminadoFallido() {
     Swal.fire({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 1500,
-      timerProgressBar: true,
-      title: '¡Registro eliminado con éxito!',
-      icon: 'success'
-    }).then(() => {
-      this.modalService.dismissAll();
-      this.service.getDepartamentos().subscribe((data: any) => {
-        this.items = data;
-      });
-    });
-  }
-  openBasicModal1(content: TemplateRef<any>, id:number) {
-    this.modalRef = this.modalService.open(content, {});
-    this.modalRef.result.then((result) => {
-      this.basicModalCloseResult = "Modal closed" + result;
-    }).catch((res) => {});
-    localStorage.setItem("depa_Id",id.toString())
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'No se pudo eliminar este registro porque esta en uso',
+        icon: 'error'
+      })
   }
 
-  openBasicModal2(content: TemplateRef<any>, id:number) {
-    this.modalRef = this.modalService.open(content, {});
-    this.modalRef.result.then((result) => {
-      this.basicModalCloseResult = "Modal closed" + result;
-    }).catch((res) => {});
-    localStorage.setItem("depa_Id",id.toString())
-  }
-
-  openBasicModal3(content: TemplateRef<any>, DepartamentosEdit: DepartamentosEdit) {
-    this.DepartamentosEdit = { ...DepartamentosEdit };
-    console.log(this.DepartamentosEdit);
-    this.modalRef = this.modalService.open(content, {});
-    this.modalRef.result.then((result) => {
-      this.basicModalCloseResult = "Modal closed" + result;
-    }).catch((res) => {});
-  }
-
-  open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      // Acción a realizar cuando se cierra el modal
-      console.log(result);
-    }, (reason) => {
-      // Acción a realizar cuando se descarta el modal sin guardar cambios
-      console.log(reason);
-    });
-  }
-  deleteData(id: number){
-    this.tableItem$.subscribe((data: any)=> {      
-      data.map((elem: any,i: any)=>{elem.id == id && data.splice(i,1)})
-      
-    })
-  }
-
-  cancelar() {
-    this.departamentoValue = ''; // Restablecer el valor del campo
-    this.codigoValue = '';
-    this.submitted = false; // Reiniciar el estado del formulario
-  }
+ 
 
  }
  

@@ -13,7 +13,7 @@ VALUES
 --****************************************PANTALLAS****************************************--
 INSERT INTO acce.tbPantallas (pant_Nombre, pant_Url, pant_Menu, pant_Icono, pant_UsuCreacion)
 VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','flag-icon flag-icon-hn',1),
-	   ('Estado Civiles',		'/gral/Municipios/List',			'gral','fa fa-list',1),
+	   ('Estado Civiles',		'/gral/EstadosCiviles/List',			'gral','fa fa-list',1),
 	   ('Municipios',			'/gral/Municipios/List',			'gral','fa fa-tag',1),
 	   ('Tipo de Pagos',		'/gral/TiposDePago/List',			'gral','fa fa-credit-card-alt',1) ,
 	   ('Cargos',				'/gral/Cargos/List',				'gral','fa fa-user-plus',1) ,
@@ -24,15 +24,13 @@ VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','flag-icon flag-i
 	   ('Pedidos',				'/flet/Pedidos/List',				'flet','fa fa-briefcase',1),
 	   ('Sucursales',			'/flet/Sucursales/List',			'flet','fa fa-building-o',1),
 	   ('Trayectos',			'/flet/Trayectos/List',				'flet','fa fa-map',1),
-	   ('Ubicacion por Flete',	'/flet/UbicacionPorFlete/List ',	'flet','fa fa-map-marker',1),
 	   ('Estados del Pedido',	'/flet/EstadosdelPedido/List',		'flet','fa fa-check-circle-o',1),
-	   ('Escala por Trayecto',	'/flet/EscalasPorTrayecto/List ',	'flet','fa fa-map-signs',1),
 	   ('Empleados',			'/flet/Empleados/List',				'flet','fa fa-address-card',1),
 
 	   ('Modelos',				'/equi/Modelos/List',				'equi','fa fa-car',1),
 	   ('Marcas',				'/equi/Marcas/List',				'equi','fa fa-truck',1),
 	   ('Vehiculos',			'/flet/Vehiculos/List',				'equi','fa fa-truck',1),
-	   ('Tipos de Vehiculos',	'/flet/TipodeVehiculo/List ',		'equi','fa fa-car',1),
+	   ('Tipos de Vehiculos',	'/flet/TipodeVehiculo/List',		'equi','fa fa-car',1),
 
 	   ('Usuarios',				'/acce/Usuarios/List',				'acce','fa fa-user',1),
        ('Roles Por Pantalla',	'/acce/RolesPorPantalla/List ',		'acce','fa fa-credit-card-alt',1),
@@ -58,18 +56,16 @@ VALUES	--Admin
 		(11,1 ,1),
 		(12,1 ,1),
 		(13,1 ,1),
+		--equipo
 		(14,1 ,1),
 		(15,1 ,1),
-		--equipo
 		(16,1 ,1),
 		(17,1 ,1),
+		--acceso
 		(18,1 ,1),
 		(19,1 ,1),
-		--acceso
 		(20,1 ,1),
 		(21,1 ,1),
-		(22,1 ,1),
-		(23,1 ,1),
 	
 		--Digitador
 		--generales
@@ -87,13 +83,11 @@ VALUES	--Admin
 		(11,2,1),
 		(12,2,1),
 		(13,2,1),
+		--eq3po
 		(14,2,1),
 		(15,2,1),
-		--eq3po
 		(16,2,1),
 		(17,2,1),
-		(18,2,1),
-		(19,2,1),
 
 		--Empleado
 		--generales
@@ -103,10 +97,10 @@ VALUES	--Admin
 		(4 ,3 ,1),
 		(5 ,3 ,1),
 		--eq4ipo
+		(14,3 ,1),
+		(15,3 ,1),
 		(16,3 ,1),
-		(17,3 ,1),
-		(18,3 ,1),
-		(19,3 ,1)
+		(17,3 ,1)
 GO
 
 

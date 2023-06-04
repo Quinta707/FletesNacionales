@@ -67,7 +67,6 @@
         public static string DepartamentosInsert = "gral.UDP_tbDepartamentos_Insert";
         public static string DepartamentosUpdate = "gral.UDP_tbDepartamentos_Update";
         public static string DepartamentosDelete = "gral.UDP_tbDepartamentos_Delete";
-
         #endregion
 
         #region Municipios

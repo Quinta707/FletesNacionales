@@ -174,7 +174,8 @@ GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbDepartamentos_Insert
 (
     @depa_Nombre        NVARCHAR(100),
-    @depa_Id            CHAR(2)
+    @depa_Id            CHAR(2),
+	@depa_UsuCreacion   INT
 )
 AS
 BEGIN
@@ -200,7 +201,7 @@ BEGIN
         ELSE 
         BEGIN
             INSERT INTO [gral].[tbDepartamentos] (depa_Nombre, depa_Id, depa_UsuCreacion, depa_UsuModificacion, depa_FechaModificacion)
-            VALUES (@depa_Nombre, @depa_Id, 1, NULL, NULL);
+            VALUES (@depa_Nombre, @depa_Id,@depa_UsuCreacion, NULL, NULL);
 
             SELECT 1 
         END
@@ -214,7 +215,8 @@ END
 GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbDepartamentos_Update
 (@depa_Id INT,
- @depa_Nombre NVARCHAR(100))
+ @depa_Nombre NVARCHAR(100),
+ @depa_UsuModificacion   INT)
 AS
 BEGIN
 	BEGIN TRY
@@ -226,7 +228,7 @@ BEGIN
 			BEGIN
 				UPDATE gral.tbDepartamentos
 				SET   depa_Nombre = @depa_Nombre,  
-					  depa_UsuModificacion = 1, 
+					  depa_UsuModificacion = @depa_UsuModificacion, 
 					  depa_FechaModificacion = GETDATE()
 				WHERE depa_Id = @depa_Id		
 
@@ -274,8 +276,6 @@ BEGIN
 	SELECT * FROM gral.VW_tbDepartamentos
 	WHERE depa_Id = @depa_Id
 END
-
-
 
 -----------------------------------------------------------------------------------------------------------------------------
 --******************MUNICIPIOS********************--
@@ -764,7 +764,8 @@ ON T1.tipv_UsuCreacion = T3.[user_Id]
 GO
 CREATE OR ALTER PROCEDURE equi.UDP_tbTipoDeVehiculo_Insert
 (
-  @tipv_Descripcion NVARCHAR(100)
+  @tipv_Descripcion NVARCHAR(100),
+  @tipv_UsuCreacion     INT
 )
 AS
 BEGIN
@@ -798,7 +799,7 @@ BEGIN
       VALUES 
       (
         @tipv_Descripcion, 
-        1,
+        @tipv_UsuCreacion,
         GETDATE(),
         NULL, 
         NULL
@@ -816,7 +817,8 @@ GO
 CREATE OR ALTER PROCEDURE equi.UDP_tbTipoDeVehiculo_Update 
 (
   @tipv_Id				INT,
-  @tipv_Descripcion		NVARCHAR(100)
+  @tipv_Descripcion		NVARCHAR(100),
+  @tipv_UsuModificacion INT
 )
 AS
 BEGIN
@@ -897,7 +899,6 @@ BEGIN
 	FROM	equi.VW_tbTipoDeVehiculo
 	WHERE	tipv_Id = @tipv_Id;
 END
-
 
 -----------------------------------------------------------------------------------------------------------------------------
 --***********************MARCAS***********************--
@@ -2492,7 +2493,8 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbItems_Insert
    @item_Nombre		   NVARCHAR(100), 
    @item_Descripcion	NVARCHAR(100),
    @item_Peso			DECIMAL(18,2), 
-   @item_Volumen		DECIMAL(18,2)
+   @item_Volumen		DECIMAL(18,2),
+   @item_UsuCreacion    INT
 )
 AS
 BEGIN
@@ -2520,7 +2522,7 @@ BEGIN
         ELSE 
         BEGIN
             INSERT INTO flet.tbItems (item_Nombre, item_Descripcion, item_Peso, item_Volumen, item_UsuCreacion)
-		    VALUES	(@item_Nombre, @item_Descripcion, @item_Peso, @item_Volumen, 1)
+		    VALUES	(@item_Nombre, @item_Descripcion, @item_Peso, @item_Volumen, @item_UsuCreacion)
 
 		SELECT 1 
         END
@@ -2537,8 +2539,8 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbItems_Update
 @item_Nombre			NVARCHAR(100), 
 @item_Descripcion		NVARCHAR(100),
 @item_Peso				DECIMAL(18,2), 
-@item_Volumen			DECIMAL(18,2) 
---@item_UsuModificacion	INT 
+@item_Volumen			DECIMAL(18,2), 
+@item_UsuModificacion	INT 
  )
 AS
 BEGIN
@@ -2555,7 +2557,7 @@ BEGIN
 				item_Descripcion = @item_Descripcion,
 				item_Peso = @item_Peso,
 				item_Volumen = @item_Volumen,
-				item_UsuModificacion = 1,
+				item_UsuModificacion = @item_UsuModificacion,
 				item_FechaModificacion  = GETDATE()
 		WHERE	item_Id = @item_Id
 
@@ -2940,7 +2942,8 @@ GO
 
 CREATE OR ALTER PROCEDURE flet.UDP_tbEstadosDelPedido_Insert
 (
-@estp_Nombre nvarchar(150)
+@estp_Nombre nvarchar(150),
+@estp_UsuCreacion INT
 )
 AS
 BEGIN
@@ -2971,7 +2974,7 @@ BEGIN
 					   ,[estp_FechaModificacion])
 				 VALUES
 					   (@estp_Nombre
-					   ,1
+					   ,@estp_UsuCreacion
 					   ,GETDATE()
 					   ,NULL
 					   ,NULL)

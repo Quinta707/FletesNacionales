@@ -62,4 +62,3 @@ namespace FletesNacionales.API.Controllers
         }
     }
 }
-

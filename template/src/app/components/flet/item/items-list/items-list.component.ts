@@ -1,419 +1,312 @@
-import { Component, OnInit, QueryList, TemplateRef, ViewChildren } from '@angular/core';
-import { Items } from '../../../../shared/model/items.model';
-import { ItemsEdit } from '../../../../shared/model/itemsedit.model';
-import { TableService } from '../../../../shared/services/items.service';
-import { Observable } from 'rxjs';
-import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
-import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
+import { Component, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { AgGridAngular } from 'ag-grid-angular';
+import { ColDef, DomLayoutType } from 'ag-grid-community';
+import { Idioma } from 'config';
 import Swal from 'sweetalert2';
-import { HttpClient } from '@angular/common/http';
-
+import { Items } from '../../../../shared/model/items.model';
+import { ItemsService } from '../../../../shared/services/items.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-items-list',
   templateUrl: './items-list.component.html',
   styleUrls: ['./items-list.component.scss']
 })
 export class ItemListComponent implements OnInit {
-  public selected = [];
-  Items:Items = new Items();
-  ItemsEdit:ItemsEdit = new ItemsEdit();
-  itemValue: string = '';
-  descripcionValue: string = '';
-  pesoValue: number | null = null;
-  volumenValue: number | null = null;
-  submitted: boolean = false;
-  basicModalCloseResult: string = '';
-  modalRef: NgbModalRef | undefined;
-  items: Items[];
+  user:any = JSON.parse(localStorage.getItem("user"))
+  items:Items= new Items();
+  itemList!: Items[];
+
+  @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
+
+  public domLayout: DomLayoutType = 'autoHeight';
+  idioma = Idioma
+  paginationPageSize: number = 10;
+  public searchText:string;
+
+  public defaultColDef: ColDef = {
+    sortable: true,
+    filter: true,
+    autoHeight: true,
+  };
+
+  columnDefs: ColDef[] = [
+    { field: 'item_Id', headerName: 'ID', flex: 1 },
+    { field: 'item_Nombre', headerName: 'Item', flex: 1 },
+    { field: 'item_Descripcion', headerName: 'Descripción', flex: 1 },
+    { field: 'item_Peso', headerName: 'Peso', flex: 1 },
+    { field: 'item_Volumen', headerName: 'Volumen', flex: 1 },
+    { cellRenderer: (params) => this.actionButtonRenderer(params, this.modalService), headerName: 'Acciones', flex: 1 }
+
+  ];
+
+  actionButtonRenderer(params: any, modalService: NgbModal) {
+    const openModelEdit = () => {
+      console.log(params.data)
+      this.sumit = false;
+      this.EditGroup.get('item_Nombre').setValue(params.data.item_Nombre);
+      this.items.item_Id = params.data.item_Id;
+      this.items = params.data;
+      this.modalRef = this.modalService.open(this.modalEdit, { centered: true });
+   };
+  
+    const openModalDelete = () => {
+      this.items = params.data;
+      this.items.item_Id = params.data.item_Id;
+      this.modalRef = this.modalService.open(this.modalDelete, { centered: true });
+      // this.router.navigate(['/flet/Fletes/PersonalDetails'], { queryParams: { id: params.data.flet_Id } });
+    }
+
+    const button = document.createElement('il');
+    button.classList.add('edit'); 
+
+    const iconElement = document.createElement('i');
+    iconElement.classList.add('icon-pencil-alt'); 
+    iconElement.classList.add('mx-2'); 
+
+    const textElement = document.createElement('span');
+    textElement.innerText = '';
+    textElement.appendChild(iconElement);
+
+
+    const button2 = document.createElement('il');
+    button2.classList.add('delete'); 
+  
+    const iconElement2 = document.createElement('i');
+    iconElement2.classList.add('fa'); 
+    iconElement2.classList.add('fa-trash-o'); 
+
+    const textElement2 = document.createElement('span');
+    textElement2.innerText = '';
+    textElement2.appendChild(iconElement2);
+   
+    button.appendChild(textElement);
+    button2.appendChild(textElement2);
+  
+    button.addEventListener('click', openModelEdit);
+    button2.addEventListener('click', openModalDelete);
+  
+    const container = document.createElement('div');
+    container.classList.add('action')
+    container.appendChild(button);
+    container.appendChild(button2);
+  
+    return container;
+  }
  
-  ngOnInit(): void {
-   this.service.getItems()
-   .subscribe((data: any)=>{
-      this.items= data.data;
-      this.service.setUserData(data.data)
-   })
-  }
+  constructor(private service:ItemsService,
+              private modalService: NgbModal,
+              private _formBuilder: FormBuilder,
+              private router: Router){}
+   
+    ngOnInit(): void {
 
-  public tableItem$: Observable<Items[]>;
-  public searchText;
-  total$: Observable<number>;
-
-  constructor(public service: TableService,
-    private modalService: NgbModal,
-    private router:Router,
-    private http: HttpClient) {
-
-    this.tableItem$ = service.tableItem$;
-    this.total$ = service.total$;
-    this.service.setUserData(this.items)
-
-  }
-
-  onSearchInputChange(searchTerm: string) {
-    this.service.searchTerm = searchTerm;
-  }
-
-  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
-
-  onSort({ column, direction }: SortEvent) {
-    // resetting other headers
-    this.headers.forEach((header) => {
-      if (header.sortable !== column) {
-        header.direction = '';
-      }
-    });
-
-    this.service.sortColumn = column;
-    this.service.sortDirection = direction;
-
-  }
-
-  Guardar(e: Event) {
-    e.preventDefault();
+      this.service.getItems()
+      .subscribe((data: any)=>{
+        this.itemList= data.data;
+      })
   
-    if (!this.itemValue && !this.descripcionValue && !this.pesoValue && !this.volumenValue) {
-      // Validación de todos los campos vacíos
-      Swal.fire({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 6000,
-        timerProgressBar: true,
-        title: '¡ERROR!, Todos los campos están vacíos',
-        icon: 'error'
+      this.CreateGroup = this._formBuilder.group({
+        item_Nombre: ['', Validators.required],
+        item_Descripcion: ['', Validators.required],
+        item_Peso: ['', Validators.required],
+        item_Volumen: ['', Validators.required],
       });
-      return;
+       
+      this.EditGroup = this._formBuilder.group({
+        item_Nombre: ['', Validators.required],
+        item_Descripcion: ['', Validators.required],
+        item_Peso: ['', Validators.required],
+        item_Volumen: ['', Validators.required],
+      });
+
+    }
+
+    
+  CreateGroup: FormGroup;
+  EditGroup: FormGroup;  
+  
+  sumit:boolean = false;
+
+  @ViewChild('delete') modalDelete: any;
+  @ViewChild('edit') modalEdit: any;
+  @ViewChild('create') modalCreate: any;
+  
+  modalRef: NgbModalRef;
+
+    onSearchInputChange() {
+      this.agGrid.api.setQuickFilter(this.searchText);
     }
   
-    if (this.pesoValue < 100) {
-      Swal.fire({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 6000,
-        timerProgressBar: true,
-        title: '¡ERROR!, El peso no puede ser menor a 100',
-        icon: 'error'
-      });
-      return;
-    }
-  
-    if (!this.itemValue || !this.descripcionValue || !this.pesoValue || !this.volumenValue) {
-      this.submitted = true;
-  
-      let errorMessage = '';
-      if (!this.itemValue && !this.descripcionValue && !this.pesoValue) {
-        errorMessage = '¡ERROR!, El campo Item, el campo Descripción y el campo Peso son obligatorios';
-      } else if (!this.itemValue && !this.descripcionValue && !this.volumenValue) {
-        errorMessage = '¡ERROR!, El campo Item, el campo Descripción y el campo Volumen son obligatorios';
-      } else if (!this.itemValue && !this.pesoValue && !this.volumenValue) {
-        errorMessage = '¡ERROR!, El campo Item, el campo Peso y el campo Volumen son obligatorios';
-      } else if (!this.descripcionValue && !this.pesoValue && !this.volumenValue) {
-        errorMessage = '¡ERROR!, El campo Descripción, el campo Peso y el campo Volumen son obligatorios';
-      } else if (!this.itemValue && !this.descripcionValue) {
-        errorMessage = '¡ERROR!, El campo Item y el campo Descripción son obligatorios';
-      } else if (!this.itemValue && !this.pesoValue) {
-        errorMessage = '¡ERROR!, El campo Item y el campo Peso son obligatorios';
-      } else if (!this.itemValue && !this.volumenValue) {
-        errorMessage = '¡ERROR!, El campo Item y el campo Volumen son obligatorios';
-      } else if (!this.descripcionValue && !this.pesoValue) {
-        errorMessage = '¡ERROR!, El campo Descripción y el campo Peso son obligatorios';
-      } else if (!this.descripcionValue && !this.volumenValue) {
-        errorMessage = '¡ERROR!, El campo Descripción y el campo Volumen son obligatorios';
-      } else if (!this.pesoValue && !this.volumenValue) {
-        errorMessage = '¡ERROR!, El campo Peso y el campo Volumen son obligatorios';
-      } else if (!this.itemValue) {
-        errorMessage = '¡ERROR!, El campo Item es obligatorio';
-      } else if (!this.descripcionValue) {
-        errorMessage = '¡ERROR!, El campo Descripción es obligatorio';
-      } else if (!this.pesoValue) {
-        errorMessage = '¡ERROR!, El campo Peso es obligatorio';
-      } else if (!this.volumenValue) {
-        errorMessage = '¡ERROR!, El campo Volumen es obligatorio';
+    closeModal() {
+      if (this.modalRef) {
+        this.sumit = false;
+        this.modalRef.dismiss();
       }
+    }
+
+    OpenModalCreate() {
+      this.sumit = false;
+      const formGroup = this.CreateGroup;
   
-      Swal.fire({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 6000,
-        timerProgressBar: true,
-        title: errorMessage,
-        icon: 'error'
+      Object.keys(formGroup.controls).forEach(key => {
+        const control = formGroup.get(key);
+        control.markAsUntouched();
       });
   
-      return;
+      const Drenadora: Items = new Items();
+      this.items = Drenadora;
+      this.modalRef = this.modalService.open(this.modalCreate, { centered: true });
     }
   
-    const apiUrl = 'https://localhost:44339/api/Items/Insertar';
-    const requestBody = {
-      item_Nombre : this.itemValue,
-      item_Descripcion: this.descripcionValue,
-      item_Peso : this.pesoValue,
-      item_Volumen: this.volumenValue
-    };
-  
-    this.http.post(apiUrl, requestBody).subscribe(
-      (response: any) => {
-        console.log(response);
-        if (response !== undefined) {
-          if (response.success) {
-            Swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 1500,
-              timerProgressBar: true,
-              title: '¡Registro Ingresado con éxito!',
-              icon: 'success'
-            }).then(() => {
-              this.modalRef?.close(); // Cerrar el modal
-              this.itemValue = ''; // Restablecer el valor del campo
-              this.descripcionValue = '';
-              this.pesoValue = null;
-              this.volumenValue = null;
-              this.submitted = false; // Reiniciar el estado del formulario
-              this.service.getItems()
-                .subscribe((data: any) => {
-                  this.items = data.data;
-                  this.service.setUserData(data.data);
-                });
-              this.modalService.dismissAll();
-            });
-          } else if (response.message === "YaExiste") {
-            Swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 6000,
-              timerProgressBar: true,
-              title: '¡Ya existe este Item!',
-              icon: 'warning'
-            });
-          } else {
-            Swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 1500,
-              timerProgressBar: true,
-              title: '¡Hubo un error al insertar el registro!',
-              icon: 'error'
-            });
-          }
-        } else {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-            title: '¡Hubo un error en la respuesta del API!',
-            icon: 'error'
-          });
-          console.error('Respuesta del API inválida:', response);
-        }
-      },
-      (error: any) => {
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 2000,
-          timerProgressBar: true,
-          title: '¡Hubo un error al realizar la solicitud!',
-          icon: 'error'
-        });
-        console.error(error);
-      }
-    );
-  }
+    
+  CrearModelo() {
+    this.sumit = true;
+     let datoTrim = (this.CreateGroup.value['item_Nombre'].trim());
+     this.CreateGroup.get("item_Nombre").setValue(datoTrim)
+     this.items.item_Nombre = datoTrim;
+     this.items.item_UsuCreacion = this.user.user_Id;
 
-  Editar() {
-    if (!this.ItemsEdit.item_Descripcion || !this.ItemsEdit.item_Peso || !this.ItemsEdit.item_Volumen || !this.ItemsEdit.item_Nombre) {
-      this.submitted = true;
-      Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 6000,
-        timerProgressBar: true,
-      }).fire({
-        title: '¡ERROR!, Todos los campos deben ser completados',
-        icon: 'warning'
-      });
-      return;
-    }
+     if(this.CreateGroup.valid){
 
-    this.service.EditarItems(this.ItemsEdit).subscribe(
-      (response: any) => {
-        console.log(response);
-        if (response.success == 1) {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3500,
-            timerProgressBar: true,
-            title: '¡Registro Actualizado con éxito!',
-            icon: 'success'
-          });
-          this.modalService.dismissAll();
-          this.service.getItems().subscribe(data => {
-            this.items = data;
-          });
-        } else if (response.message == "YaExiste") {
-          // El registro ya existe
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            title: 'Ya existe este registro',
-            icon: 'warning'
-          });
-        } else {
-          // Error desconocido u otro código de estado
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            title: 'Ha ocurrido un error',
-            icon: 'error'
-          });
-        }
-      },
-      (error) => {
-        // Error en la comunicación con el servidor
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
-          title: 'Error de comunicación con el servidor',
-          icon: 'error'
-        });
-        console.error(error);
-      }
-    );
-  }
-
-  Delete() {
-    const item_Id: number | undefined = isNaN(parseInt(localStorage.getItem("item_Id") ?? '', 0)) ? undefined : parseInt(localStorage.getItem("item_Id") ?? '', 0);
-    if (item_Id !== undefined) {
-      this.Items.item_Id = item_Id;
-    }
-  
-    this.service.DeleteItems(this.Items).subscribe(
-      (response: any) => {
-        console.log(this.Items);
-        console.log(response);
-        if (response.message == "Eliminado") {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            title: '¡Registro eliminado con éxito!',
-            icon: 'success'
-          }).then(() => {
-            this.modalService.dismissAll();
-            this.service.getItems().subscribe((data: any) => {
-              this.items = data;
-            });
-          });
-        } else if (response.message == "EnUso"){
-            Swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 3000,
-              timerProgressBar: true,
-              title: 'Este Item no se puede Eliminar porque esta siendo usado',
-              icon: 'warning'
-            });
-        } else {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            title: '¡ERROR!, ¡Oh no!, hubo un error al eliminar el registro',
-            icon: 'error'
-          });
-        }
-      },
-      (error: any) => {
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
-          title: '¡Hubo un error al realizar la solicitud!',
-          icon: 'error'
-        });
-        console.error(error);
-      }
-    );
-  }
-
-  open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      // Acción a realizar cuando se cierra el modal
-      console.log(result);
-    }, (reason) => {
-      // Acción a realizar cuando se descarta el modal sin guardar cambios
-      console.log(reason);
-    });
-  }
-
-  openBasicModal1(content: TemplateRef<any>, id:number) {
-    this.modalRef = this.modalService.open(content, {});
-    this.modalRef.result.then((result) => {
-      this.basicModalCloseResult = "Modal closed" + result;
-    }).catch((res) => {});
-    localStorage.setItem("item_Id",id.toString())
-  }
-
-  openBasicModal2(content: TemplateRef<any>, id:number) {
-    this.modalRef = this.modalService.open(content, {});
-    this.modalRef.result.then((result) => {
-      this.basicModalCloseResult = "Modal closed" + result;
-    }).catch((res) => {});
-    localStorage.setItem("item_Id",id.toString())
-  }
-
-  openBasicModal3(content: TemplateRef<any>, ItemsEdit: ItemsEdit) {
-    this.ItemsEdit = { ...ItemsEdit };
-    console.log(this.ItemsEdit);
-    this.modalRef = this.modalService.open(content, {});
-    this.modalRef.result.then((result) => {
-      this.basicModalCloseResult = "Modal closed" + result;
-    }).catch((res) => {});
-  }
-  
-  cancelar() {
-    this.itemValue = ''; 
-    this.descripcionValue = '';
-    this.pesoValue = null;
-    this.volumenValue = null;
-    this.submitted = false; 
-  }
-
-  deleteData(id: number){
-    this.tableItem$.subscribe((data: any)=> {      
-      data.map((elem: any,i: any)=>{elem.id == id && data.splice(i,1)})
+       this.service.InsertItems(this.items)
+       .subscribe((data:any) => {
+         if(data.success){
+         this.alertaLogrado();
+           this.modalRef.close();
+         }else if(data.message === "YaExiste"){
+           this.alertaValorRepetido();
+         }else{
+           this.alertaErrorInespero();
+           this.modalRef.close();
+         }
       
-    })
+         this.service.getItems()
+         .subscribe((data: any)=>{
+             this.itemList= data.data;
+         })
+       })
+
+     }else{
+       this.alertaCamposVacios();
+     }
+  }
+ 
+  EditarModelo() {
+    this.sumit = true;
+     let datoTrim = (this.EditGroup.value['item_Nombre'].trim());
+     this.EditGroup.get("item_Nombre").setValue(datoTrim)
+     this.items.item_Nombre = datoTrim;
+     this.items.item_UsuModificacion = this.user.user_Id;
+     if(this.EditGroup.valid){
+       this.service.EditarItems(this.items)
+       .subscribe((data:any) => {
+         if(data.success){
+         this.alertaLogrado();
+           this.modalRef.close();
+         }else if(data.message === "YaExiste"){
+           this.alertaValorRepetido();
+         }else{
+           this.alertaErrorInespero();
+           this.modalRef.close();
+         }
+      
+         this.service.getItems()
+         .subscribe((data: any)=>{
+             this.itemList= data.data;
+         })
+       })
+
+     }else{
+       this.alertaCamposVacios();
+     }
   }
 
+  EliminarModelo(){
+     this.service.DeleteItems(this.items)
+     .subscribe((data:any) => {
+       console.log(data);
+       if(data.success){
+         this.alertaEliminado()
+       }else{
+        this.alertaEliminado()
+       }
+       this.modalRef.close();
+       this.service.getItems()
+       .subscribe((data: any)=>{
+           this.itemList= data.data;
+       })
+     })
+  }
+
+  //Alertas
+  alertaCamposVacios() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'Completa todos los campos',
+        icon: 'warning'
+      })
+  }
+  alertaLogrado() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'Listo, el registro se guardo exitosamente',
+        icon: 'success'
+      })
+  }
+  alertaValorRepetido() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'Ya existe otro registro con el mismo nombre y marca',
+        icon: 'warning'
+      })
+  }
+  alertaErrorInespero() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'Ha ocurrido un error inesperado',
+        icon: 'error'
+      })
+  }
+  
+  alertaEliminado() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'El registro a sido eliminado',
+        icon: 'success'
+      })
+  }
+  
+  alertaEliminadoFallido() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'No se pudo eliminar este registro porque esta en uso',
+        icon: 'error'
+      })
+  }
  }
- 

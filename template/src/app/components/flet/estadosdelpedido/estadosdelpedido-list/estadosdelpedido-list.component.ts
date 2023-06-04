@@ -1,12 +1,16 @@
-import { Component, QueryList, ViewChildren,  OnInit } from '@angular/core';
+import { Component, QueryList, ViewChildren, OnInit, ViewChild } from '@angular/core';
 import { EstadosDelPedido } from '../../../../shared/model/estadosdelpedido.model';
-import { TableService } from '../../../../shared/services/estadosdelpedido.service';
+import { EstadosDelPedidoService } from '../../../../shared/services/estadosdelpedido.service';
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
+import { AgGridAngular } from 'ag-grid-angular';
+import { ColDef, DomLayoutType } from 'ag-grid-community';
+import { Idioma } from 'config';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-estadosdelpedido-list',
@@ -14,41 +18,108 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./estadosdelpedido-list.component.scss']
 })
 export class EstadosdelpedidoListComponent {
-  public selected = [];
-  estadosdelpedido:EstadosDelPedido = new EstadosDelPedido();
-  items: EstadosDelPedido[];
-  estadodelPedidoValue: string = '';
-  submitted: boolean = false;
-  modalRef: NgbModalRef | undefined;
-  
-  public tableItem$: Observable<EstadosDelPedido[]>;
-  public searchText;
-  total$: Observable<number>;
+  user: any = JSON.parse(localStorage.getItem("user"))
+
+  estadosdelpedido: EstadosDelPedido = new EstadosDelPedido();
+  estadosdelpedidolist!: EstadosDelPedido[];
+
+
+  @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
+
+  public domLayout: DomLayoutType = 'autoHeight';
+  idioma = Idioma
+  paginationPageSize: number = 10;
+  public searchText: string;
 
   constructor(
-    public service: TableService,
+    public service: EstadosDelPedidoService,
     private modalService: NgbModal,
-    private router:Router,
-    private http: HttpClient
+    private _formBuilder: FormBuilder,
   ) {
-    this.tableItem$ = service.tableItem$;
-    this.total$ = service.total$;
-    this.service.setUserData(this.items);
-    
+
   }
 
   ngOnInit(): void {
     this.service.getEstadosdelPedido()
-    .subscribe((data: any)=>{
-      this.items= data.data;
-      this.service.setUserData(data.data);
+      .subscribe((data: any) => {
+        this.estadosdelpedidolist = data.data;
+      })
+
+
+
+    this.CreateGroup = this._formBuilder.group({
+      estp_Nombre: ['', Validators.required],
     });
   }
-
-  onSearchInputChange(searchTerm: string) {
-    this.service.searchTerm = searchTerm;
+  @ViewChild('create') modalCreate: any;
+  modalRef: NgbModalRef;
+  sumit: boolean = false;
+  onSearchInputChange() {
+    this.agGrid.api.setQuickFilter(this.searchText);
   }
- 
+  CreateGroup: FormGroup;
+
+  OpenModalCreate() {
+    this.sumit = false;
+    const formGroup = this.CreateGroup;
+
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      control.markAsUntouched();
+    });
+
+    const Drenadora: EstadosDelPedido = new EstadosDelPedido();
+    this.estadosdelpedido = Drenadora;
+    this.modalRef = this.modalService.open(this.modalCreate, { centered: true });
+  }
+
+  CrearModelo() {
+    this.sumit = true;
+    let datoTrim = (this.CreateGroup.value['estp_Nombre'].trim());
+    this.CreateGroup.get("estp_Nombre").setValue(datoTrim)
+    this.estadosdelpedido.estp_Nombre = datoTrim;
+    this.estadosdelpedido.estp_UsuCreacion = this.user.user_Id;
+
+    if (this.CreateGroup.valid) {
+      this.service.InserttEstadosdelPedido(this.estadosdelpedido)
+        .subscribe((data: any) => {
+          if (data.success) {
+            this.alertaLogrado();
+            this.modalRef.close();
+          } else if (data.message === "YaExiste") {
+            this.alertaValorRepetido();
+          } else {
+            this.alertaErrorInespero();
+            this.modalRef.close();
+          }
+          this.service.getEstadosdelPedido()
+            .subscribe((data: any) => {
+              this.estadosdelpedidolist = data.data;
+            })
+        })
+
+    } else {
+      this.alertaCamposVacios();
+    }
+  }
+
+  closeModal() {
+    if (this.modalRef) {
+      this.sumit = false;
+      this.modalRef.dismiss();
+    }
+  }
+  public defaultColDef: ColDef = {
+    sortable: true,
+    filter: true,
+    autoHeight: true,
+  };
+
+  columnDefs: ColDef[] = [
+    { field: 'estp_Id', headerName: 'ID', flex: 1 },
+    { field: 'estp_Nombre', headerName: 'Estado del Pedido', flex: 1 },
+  ];
+
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
 
   onSort({ column, direction }: SortEvent) {
@@ -59,125 +130,51 @@ export class EstadosdelpedidoListComponent {
       }
     });
 
-    this.service.sortColumn = column;
-    this.service.sortDirection = direction;
   }
-
-  
-  open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      // Acción a realizar cuando se cierra el modal
-      console.log(result);
-    }, (reason) => {
-      // Acción a realizar cuando se descarta el modal sin guardar cambios
-      console.log(reason);
-    });
+  alertaCamposVacios() {
+    Swal.fire({
+      showConfirmButton: false,
+      toast: true,
+      position: 'top-end',
+      timer: 2500,
+      timerProgressBar: true,
+      title: 'Completa todos los campos',
+      icon: 'warning'
+    })
   }
-
-  Guardar(e: Event) {
-
-    e.preventDefault();
-    if (!this.estadodelPedidoValue) {
-      this.submitted = true;
-      Swal.fire({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 6000,
-        timerProgressBar: true,
-        title: '¡ERROR!, El campo de Estado del Pedido no puede estar vacío',
-        icon: 'error'
-      });
-      return; // Detener la ejecución del código si el campo está vacío
-    }
-    const apiUrl = 'https://localhost:44339/api/EstadosDelPedido/Insertar';
-    const requestBody = {
-      estp_Nombre: this.estadodelPedidoValue
-    };
-  
-    this.http.post(apiUrl, requestBody).subscribe(
-      (response: any) => {
-        console.log(response);
-  
-        if (response !== undefined) {
-          if (response.success) {
-            Swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 1500,
-              timerProgressBar: true,
-              title: '¡Registro Ingresado con éxito!',
-              icon: 'success'
-            }).then(() => {
-  
-              this.modalRef?.close(); // Cerrar el modal
-              this.estadodelPedidoValue = ''; // Restablecer el valor del campo
-              this.submitted = false; // Reiniciar el estado del formulario
-              this.service.getEstadosdelPedido()
-                .subscribe((data: any) => {
-                  this.items = data.data;
-                  this.service.setUserData(data.data);
-                });
-              this.modalService.dismissAll();
-            });
-          } else if (response.message === "YaExiste") {
-            Swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 6000,
-              timerProgressBar: true,
-              title: '¡Ya existe un registro con el mismo estado del pedido!',
-              icon: 'warning'
-            });
-          } else {
-            Swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 1500,
-              timerProgressBar: true,
-              title: '¡Hubo un error al insertar el registro!',
-              icon: 'error'
-            });
-          }
-        } else {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            title: '¡Hubo un error en la respuesta del API!',
-            icon: 'error'
-          });
-          console.error('Respuesta del API inválida:', response);
-        }
-      },
-      (error: any) => {
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
-          title: '¡Hubo un error al realizar la solicitud!',
-          icon: 'error'
-        });
-        console.error(error);
-      }
-    );
+  alertaLogrado() {
+    Swal.fire({
+      showConfirmButton: false,
+      toast: true,
+      position: 'top-end',
+      timer: 2500,
+      timerProgressBar: true,
+      title: 'Listo, el registro se guardo exitosamente',
+      icon: 'success'
+    })
+  }
+  alertaValorRepetido() {
+    Swal.fire({
+      showConfirmButton: false,
+      toast: true,
+      position: 'top-end',
+      timer: 2500,
+      timerProgressBar: true,
+      title: 'Ya existe otro registro con el mismo nombre',
+      icon: 'warning'
+    })
+  }
+  alertaErrorInespero() {
+    Swal.fire({
+      showConfirmButton: false,
+      toast: true,
+      position: 'top-end',
+      timer: 2500,
+      timerProgressBar: true,
+      title: 'Ha ocurrido un error inesperado',
+      icon: 'error'
+    })
   }
 
 
-  deleteData(id: number) {
-    this.tableItem$.subscribe((data: any) => {      
-      data.map((elem: any, i: any) => {
-        if (elem.id == id) {
-          data.splice(i, 1);
-        }
-      });
-    });
-  }
 }
