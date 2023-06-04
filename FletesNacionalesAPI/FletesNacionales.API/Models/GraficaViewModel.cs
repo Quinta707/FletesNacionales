@@ -7,8 +7,8 @@ namespace FletesNacionales.API.Models
 {
     public class GraficaViewModel
     {
-        public string flet_Inicio { get; set; }
-        public string flet_Fin { get; set; }
-        public int depa_Id { get; set; }
+        public string? flet_Inicio { get; set; }
+        public string? flet_Fin { get; set; }
+        public string? depa_Id { get; set; }
     }
 }

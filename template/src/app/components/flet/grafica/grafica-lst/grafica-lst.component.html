@@ -5,32 +5,28 @@
     
     <div class="card-header">
       <h5>Grafica filtrada de trayectos </h5>
-    </div>
+    </div>    
     <div class="card-body">
       
 <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">    
   <div class="row">
     
-  <form [formGroup]="firstFormGroup">     
-    <div class="col-6">
+  
+    <div class="col-sm-6">
 <div class="custom-datepicker custom-datepicker-dropdown">
     
     <div class="col-form-label">Fecha Inicio</div>
     <input  class="datepicker-here form-control digits text-dark"
             formControlName="flet_Inicio"
-            [(ngModel)]="graficaEnvio.flet_Inicio"
+            [(ngModel)]="graficaEnvio.flet_Inicio "
             placeholder="yyyy-mm-dd"
             name="dp"
             ngbDatepicker
-            #d="ngbDatepicker"  
-            (click)="d.toggle()"
-            [minDate]="getToday()">
+            #e="ngbDatepicker"  
+            (click)="e.toggle()">
   </div>
-  <ng-container class="invalid text-danger"
-  *ngIf="firstFormGroup.get('flet_Inicio').hasError('required') && firstFormGroup.get('flet_Inicio').touched">
-  <p class="text-danger">La fecha de salida es necesaria</p></ng-container>
 </div>
-<div class="col-6" >
+<div class="col-sm-6" >
 <div class="custom-datepicker custom-datepicker-dropdown">
   
     <div class="col-form-label">Fecha Fin</div>
@@ -41,15 +37,9 @@
             name="dp"
             ngbDatepicker
             #d="ngbDatepicker"
-            (click)="d.toggle()"
-            [minDate]="getToday()">
+            (click)="d.toggle()">
   </div>
-  
-  <ng-container class="invalid text-danger"
-  *ngIf="firstFormGroup.get('flet_Fin').hasError('required') && firstFormGroup.get('flet_Fin').touched">
-  <p class="text-danger">La fecha de salida es necesaria</p></ng-container>
 </div>
-</form> 
 <div class="col-sm-6">
   <div class="form-group">
     <label>Departamento Id </label>

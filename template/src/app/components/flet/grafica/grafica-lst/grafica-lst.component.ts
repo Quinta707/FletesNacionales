@@ -66,23 +66,23 @@ export class graficaLstComponent {
             horizontal: true
         }
     },
-    dataLabels: {
-        enabled: false
-    },
     xaxis: {
         categories: this.categorias
     }
     }
+
+    fletInicio: any[] = []
+
+
     Filtrar()
     {      
         this.categorias = []
         this.conteo = []
+
+        console.log(this.graficaEnvio)
         this.service.getGrafica(this.graficaEnvio)
         .subscribe((data: any) => {
-          console.log(data)
           data.forEach(element => {
-            console.log("hola")
-            console.log(element.tray_DepaDescripcion)
             this.categorias.push(element.tray_DepaDescripcion)
             this.conteo.push(element.tray_Conteo)
           });
@@ -105,9 +105,6 @@ export class graficaLstComponent {
               bar: {
                   horizontal: true
               }
-          },
-          dataLabels: {
-              enabled: false
           },
           xaxis: {
               categories: this.categorias

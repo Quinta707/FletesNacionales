@@ -2105,34 +2105,115 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_Grafica
 @depa_Id CHAR(2)
 AS
 BEGIN
-IF @depa_Id IS NULL
-BEGIN
-	SELECT depa_InicioNombre + ' hasta '+ depa_FinalNombre as tray_DepaDescripcion,
-	depa_FinalNombre,
-	depa_InicioNombre,   
-	flt.tray_Id , count(flt.tray_Id) tray_Conteo
-	FROM flet.tbFletes flt 
-	inner join flet.VW_tbTrayectos  tra 
-	ON flt.tray_Id = tra.tray_Id   
-	WHERE 
-	flet_FechaDeSalida BETWEEN @flet_Inicio AND @flet_Fin
-	GROUP BY flt.tray_Id , depa_InicioNombre ,depa_FinalNombre
-END
-ELSE
-BEGIN
-
-	SELECT depa_InicioNombre + ' hasta '+ depa_FinalNombre as tray_DepaDescripcion,
-	depa_FinalNombre,
-	depa_InicioNombre,   
-	flt.tray_Id , count(flt.tray_Id) tray_Conteo
-	FROM flet.tbFletes flt 
-	inner join flet.VW_tbTrayectos  tra 
-	ON flt.tray_Id = tra.tray_Id   
-	WHERE muni_Inicio in(SELECT muni_Id FROM gral.tbMunicipios where depa_Id = @depa_Id) and 
-	flet_FechaDeSalida BETWEEN @flet_Inicio AND @flet_Fin
-	GROUP BY flt.tray_Id , depa_InicioNombre ,depa_FinalNombre
-END
-
+	IF @depa_Id IS NULL or @depa_Id = ''
+	BEGIN
+		IF @flet_Inicio IS NULL and @flet_Fin IS NULL or @flet_Inicio = '' and @flet_Fin = ''
+		BEGIN
+			SELECT depa_InicioNombre + ' hasta '+ depa_FinalNombre as tray_DepaDescripcion,
+			depa_FinalNombre,
+			depa_InicioNombre,   
+			flt.tray_Id , count(flt.tray_Id) tray_Conteo
+			FROM flet.tbFletes flt 
+			inner join flet.VW_tbTrayectos  tra 
+			ON flt.tray_Id = tra.tray_Id   
+			GROUP BY flt.tray_Id , depa_InicioNombre ,depa_FinalNombre
+		END
+		ELSE IF @flet_Inicio IS NULL or @flet_Inicio = ''
+		BEGIN
+			SELECT depa_InicioNombre + ' hasta '+ depa_FinalNombre as tray_DepaDescripcion,
+			depa_FinalNombre,
+			depa_InicioNombre,   
+			flt.tray_Id , count(flt.tray_Id) tray_Conteo
+			FROM flet.tbFletes flt 
+			inner join flet.VW_tbTrayectos  tra 
+			ON flt.tray_Id = tra.tray_Id   
+			WHERE 
+			flet_FechaDeSalida BETWEEN '1900-01-01' AND @flet_Fin
+			GROUP BY flt.tray_Id , depa_InicioNombre ,depa_FinalNombre
+		END
+		ELSE IF @flet_Fin IS NULL or  @flet_Fin = ''
+		BEGIN
+			SELECT depa_InicioNombre + ' hasta '+ depa_FinalNombre as tray_DepaDescripcion,
+			depa_FinalNombre,
+			depa_InicioNombre,   
+			flt.tray_Id , count(flt.tray_Id) tray_Conteo
+			FROM flet.tbFletes flt 
+			inner join flet.VW_tbTrayectos  tra 
+			ON flt.tray_Id = tra.tray_Id   
+			WHERE 
+			flet_FechaDeSalida BETWEEN @flet_Inicio AND '2090-12-31'
+			GROUP BY flt.tray_Id , depa_InicioNombre ,depa_FinalNombre
+		END
+		ELSE 
+		BEGIN
+			SELECT depa_InicioNombre + ' hasta '+ depa_FinalNombre as tray_DepaDescripcion,
+			depa_FinalNombre,
+			depa_InicioNombre,   
+			flt.tray_Id , count(flt.tray_Id) tray_Conteo
+			FROM flet.tbFletes flt 
+			inner join flet.VW_tbTrayectos  tra 
+			ON flt.tray_Id = tra.tray_Id   
+			WHERE 
+			flet_FechaDeSalida BETWEEN @flet_Inicio AND @flet_Fin
+			GROUP BY flt.tray_Id , depa_InicioNombre ,depa_FinalNombre
+		END
+	END
+	ELSE
+	BEGIN
+	
+		IF @flet_Inicio IS NULL and @flet_Fin IS NULL or @flet_Inicio = '' and @flet_Fin = ''
+		BEGIN
+			print 'el inicio y final esta vacio'
+			SELECT depa_InicioNombre + ' hasta '+ depa_FinalNombre as tray_DepaDescripcion,
+			depa_FinalNombre,
+			depa_InicioNombre,   
+			flt.tray_Id , count(flt.tray_Id) tray_Conteo
+			FROM flet.tbFletes flt 
+			inner join flet.VW_tbTrayectos  tra 
+			ON flt.tray_Id = tra.tray_Id  
+			WHERE muni_Inicio in(SELECT muni_Id FROM gral.tbMunicipios where depa_Id = @depa_Id) 
+			GROUP BY flt.tray_Id , depa_InicioNombre ,depa_FinalNombre
+		END
+		ELSE IF @flet_Inicio IS NULL or @flet_Inicio = ''
+		BEGIN
+			SELECT depa_InicioNombre + ' hasta '+ depa_FinalNombre as tray_DepaDescripcion,
+			depa_FinalNombre,
+			depa_InicioNombre,   
+			flt.tray_Id , count(flt.tray_Id) tray_Conteo
+			FROM flet.tbFletes flt 
+			inner join flet.VW_tbTrayectos  tra 
+			ON flt.tray_Id = tra.tray_Id   
+			WHERE muni_Inicio in(SELECT muni_Id FROM gral.tbMunicipios where depa_Id = @depa_Id) and 
+			flet_FechaDeSalida BETWEEN '1900-01-01' AND @flet_Fin
+			GROUP BY flt.tray_Id , depa_InicioNombre ,depa_FinalNombre
+		END
+		ELSE IF @flet_Fin IS NULL or @flet_Fin = ''
+		BEGIN
+			SELECT depa_InicioNombre + ' hasta '+ depa_FinalNombre as tray_DepaDescripcion,
+			depa_FinalNombre,
+			depa_InicioNombre,   
+			flt.tray_Id , count(flt.tray_Id) tray_Conteo
+			FROM flet.tbFletes flt 
+			inner join flet.VW_tbTrayectos  tra 
+			ON flt.tray_Id = tra.tray_Id   
+			WHERE muni_Inicio in(SELECT muni_Id FROM gral.tbMunicipios where depa_Id = @depa_Id) and 
+			flet_FechaDeSalida BETWEEN @flet_Inicio AND '2090-12-31'
+			GROUP BY flt.tray_Id , depa_InicioNombre ,depa_FinalNombre
+		END
+		ELSE
+		BEGIN 
+			SELECT depa_InicioNombre + ' hasta '+ depa_FinalNombre as tray_DepaDescripcion,
+			depa_FinalNombre,
+			depa_InicioNombre,   
+			flt.tray_Id , count(flt.tray_Id) tray_Conteo
+			FROM flet.tbFletes flt 
+			inner join flet.VW_tbTrayectos  tra 
+			ON flt.tray_Id = tra.tray_Id   
+			WHERE muni_Inicio in(SELECT muni_Id FROM gral.tbMunicipios where depa_Id = @depa_Id) and 
+			flet_FechaDeSalida BETWEEN @flet_Inicio AND @flet_Fin
+			GROUP BY flt.tray_Id , depa_InicioNombre ,depa_FinalNombre
+		END
+	END
 END
 --************** INDEX PENDIENTES *****************--
 GO

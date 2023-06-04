@@ -10,6 +10,6 @@ namespace FletesNacionales.Entities.Entities
     {
         public string flet_Inicio { get; set; }
         public string flet_Fin { get; set; }
-        public int depa_Id { get; set; }
+        public string depa_Id { get; set; }
     }
 }
