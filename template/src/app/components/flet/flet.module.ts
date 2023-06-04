@@ -32,6 +32,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { ClientesCreateComponent } from './clientes/clientes-create/clientes-create.component';
 import { graficaLstComponent } from './grafica/grafica-lst/grafica-lst.component';
 import { NgApexchartsModule } from "ng-apexcharts";
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 
 
@@ -75,7 +76,9 @@ import { ReporteComponent } from './reporte/reporte/reporte.component';
     FormsModule,
     NgbModule,
     SharedModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    
+    Ng2GoogleChartsModule,
   ]
 })
 export class FletModule { }
