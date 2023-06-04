@@ -97,7 +97,7 @@
     <div class="modal-body ">      
           <div class="form-group">
             <label for="">Tipo de Vehiculo</label>
-            <input type="text" placeholder="Modelo" [(ngModel)]="tipodevehiculo.tipv_Descripcion" name="tipv_Descripcion" id="tipv_Descripcion" formControlName="tipv_Descripcion" class="form-control">
+            <input type="text" placeholder="Tipo de Vehiculo" [(ngModel)]="tipodevehiculo.tipv_Descripcion" name="tipv_Descripcion" id="tipv_Descripcion" formControlName="tipv_Descripcion" class="form-control">
             <ng-container class="invalid text-danger"
             *ngIf="CreateGroup.get('tipv_Descripcion').hasError('required') && (CreateGroup.get('tipv_Descripcion').touched || sumit)">
             <p class="text-danger">El campo es necesario</p></ng-container>

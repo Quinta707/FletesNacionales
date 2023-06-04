@@ -4,6 +4,7 @@ import { takeUntil, debounceTime } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { RolesporPantalla } from "../model/rolesPorPantalla.model";
+import { Global } from "config";
 
 export class Menu {
   headTitle1?: string;
@@ -72,7 +73,7 @@ export class NavService implements OnDestroy {
   }
 
   getMenuItems(roleId: number, isAdmin: string) {
-    const menuApiUrl = `https://localhost:44339/api/Roles/Menu/${roleId}/${isAdmin}`;
+    const menuApiUrl = Global + `Roles/Menu/${roleId}/${isAdmin}`;
     return this.http.get<RolesporPantalla[]>(menuApiUrl);
   }
 

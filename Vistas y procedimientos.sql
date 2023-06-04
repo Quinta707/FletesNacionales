@@ -210,7 +210,6 @@ BEGIN
         SELECT 0 
     END CATCH
 END
-
 --**************  UPDATE ******************--
 GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbDepartamentos_Update
@@ -3986,31 +3985,33 @@ Go
 CREATE OR ALTER PROCEDURE flet.UDP_tbTrayectos_Update
 (
 @tray_Id				INT,
-@muni_Inicio			INT,
-@muni_Final				INT, 
+@muni_Inicio			CHAR(4),
+@muni_Final				CHAR(4), 
+@tray_Precio		    DECIMAL(18,2),
 @tray_UsuModificacion	INT
  )
 AS
 BEGIN
 	BEGIN TRY
-       IF	@muni_Inicio IN (SELECT muni_Inicio FROM flet.tbTrayectos  WHERE tray_Id != @tray_Id) AND @muni_Final IN (SELECT muni_Final FROM flet.tbTrayectos WHERE tray_Id != @tray_Id)
+       IF EXISTS (SELECT * FROM flet.tbTrayectos WHERE (muni_Inicio = @muni_Inicio AND muni_Final = @muni_Final) AND tray_Id != @tray_Id)
 			BEGIN
-			SELECT - 2 codeStatus
+			SELECT - 2 AS codeStatus
 			END
 		ELSE
 			BEGIN
 				UPDATE	flet.tbTrayectos
 				SET		muni_Inicio  = @muni_Inicio,
 						muni_Final = @muni_Final,
+						tray_Precio = @tray_Precio,
 						tray_UsuModificacion = @tray_UsuModificacion,
 						tray_FechaModificacion  = GETDATE()
 				WHERE	tray_Id = @tray_Id
 
-				SELECT 1 codeStatus
+				SELECT 1 AS codeStatus
 			END
 	END TRY
 	BEGIN CATCH
-		SELECT 0  
+		SELECT 0  AS codeStatus
 	END CATCH
 END
 
@@ -4024,20 +4025,23 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbTrayectos_Delete
 AS
 BEGIN
 	BEGIN TRY
-		
-		UPDATE	flet.tbTrayectos
+		IF EXISTS (SELECT tray_Id FROM [flet].[tbFletes] WHERE tray_Id = @tray_Id AND [flet_Estado] = 1)
+			BEGIN
+				SELECT - 3 AS codeStatus
+			END
+		ELSE
+			BEGIN
+				UPDATE	flet.tbTrayectos
 		SET		tray_Estado = 0
 		WHERE	tray_Id = @tray_Id
 		
-		SELECT 1 
-	
+		SELECT 1 AS codeStatus
+			END
 	END TRY
 	BEGIN CATCH
-		SELECT 0 
+		SELECT 0 AS codeStatus
 	END CATCH
 END
-
-
 -----------------------------------------------------------------------------------------------------------------------------
 --****************UBICACION POR FLETE*****************--
 
