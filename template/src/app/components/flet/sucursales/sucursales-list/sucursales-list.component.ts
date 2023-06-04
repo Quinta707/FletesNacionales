@@ -173,14 +173,12 @@ export class SucursalesListComponent {
 
    CrearSucursal() {
     this.sumit = true;
-
-    let datoNombreTrim = (this.CreateGroup.value['sucu_Nombre'].trim());
-    // let datoDireccionTrim = (this.CreateGroup.value['meto_Direccion'].trim());
-    this.CreateGroup.get("sucu_Nombre").setValue(datoNombreTrim)
-    this.sucursal.sucu_Nombre = datoNombreTrim;
-    // this.CreateGroup.get("meto_Direccion").setValue(datoDireccionTrim)
-    // this.sucursal.sucu_Direccion = datoDireccionTrim;
-    this.sucursal.sucu_UsuCreacion = this.user.user_Id;
+    if(this.CreateGroup.value['sucu_Nombre']){
+      let datoNombreTrim = (this.CreateGroup.value['sucu_Nombre'].trim());
+      this.CreateGroup.get("sucu_Nombre").setValue(datoNombreTrim)
+      this.sucursal.sucu_Nombre = datoNombreTrim;
+      this.sucursal.sucu_UsuCreacion = this.user.user_Id;
+    }
 
     if(this.CreateGroup.valid){
 
@@ -210,13 +208,12 @@ export class SucursalesListComponent {
   EditarSucursal() {
     this.sumit = true;
 
-    let datoNombreTrim = (this.EditGroup.value['sucu_Nombre'].trim());
-    // let datoDireccionTrim = (this.CreateGroup.value['meto_Direccion'].trim());
-    this.EditGroup.get("sucu_Nombre").setValue(datoNombreTrim)
-    this.sucursal.sucu_Nombre = datoNombreTrim;
-    // this.CreateGroup.get("meto_Direccion").setValue(datoDireccionTrim)
-    // this.sucursal.sucu_Direccion = datoDireccionTrim;
-    this.sucursal.sucu_UsuCreacion = this.user.user_Id;
+    if(this.EditGroup.value['sucu_Nombre']){
+      let datoNombreTrim = (this.EditGroup.value['sucu_Nombre'].trim());
+      this.EditGroup.get("sucu_Nombre").setValue(datoNombreTrim)
+      this.sucursal.sucu_Nombre = datoNombreTrim;
+      this.sucursal.sucu_UsuCreacion = this.user.user_Id;
+    }
 
     if(this.EditGroup.valid){
 

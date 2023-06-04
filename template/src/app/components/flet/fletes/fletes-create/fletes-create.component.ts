@@ -113,7 +113,7 @@ export class FleteCreateComponent implements OnInit {
   }
   
   // actualiza el mapa con nuevas coordenadas
-   async updateMarker(municipio: string) {
+   async updateMarker(municipio: string, departamento:String) {
     if(this.routingControl){
       
       this.routingControl.getPlan().setWaypoints([]);
@@ -128,7 +128,7 @@ export class FleteCreateComponent implements OnInit {
       });
 
       const coordenadasMuni: any = await this.service
-        .obtenerCoordenadas(municipio)
+        .obtenerCoordenadas(municipio, departamento)
         .toPromise();
       const result1 = coordenadasMuni.results[0];
       let cords1 = {
@@ -567,7 +567,7 @@ export class FleteCreateComponent implements OnInit {
       }
 
 
-      const coordenadasMuniInicio: any = await this.service.obtenerCoordenadas(this.nuevoFlete.muni_NombreInicio).toPromise();
+      const coordenadasMuniInicio: any = await this.service.obtenerCoordenadas(this.nuevoFlete.muni_NombreInicio, this.nuevoFlete.depa_InicioNombre).toPromise();
       const result0 = coordenadasMuniInicio.results[0];
       let cords0 = {
         lat: result0.geometry.lat,
@@ -576,7 +576,7 @@ export class FleteCreateComponent implements OnInit {
       this.coordenadasIncio = cords0;
 
 
-      const coordenadasMuniFin: any = await this.service.obtenerCoordenadas(this.nuevoFlete.muni_NombreFinal).toPromise();
+      const coordenadasMuniFin: any = await this.service.obtenerCoordenadas(this.nuevoFlete.muni_NombreFinal, this.nuevoFlete.depa_FinalNombre).toPromise();
       const result1 = coordenadasMuniFin.results[0];
       let cords1 = {
         lat: result1.geometry.lat,
@@ -593,7 +593,7 @@ export class FleteCreateComponent implements OnInit {
       await dataObservable.toPromise()
       .then(async data => {
         for (const element of data) {
-          const result = await this.service.obtenerCoordenadas(element.pedi_DestinoNombre).toPromise();
+          const result = await this.service.obtenerCoordenadas(element.pedi_DestinoNombre, element.pedi_DepaDestino).toPromise();
           const result2 = result.results[0];
           this.waypointsPedidos.push(L.latLng(result2.geometry.lat, result2.geometry.lng));
           this.waypoints.push(L.latLng(result2.geometry.lat, result2.geometry.lng));

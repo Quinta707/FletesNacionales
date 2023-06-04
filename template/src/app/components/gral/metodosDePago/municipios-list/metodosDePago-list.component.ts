@@ -160,10 +160,12 @@ export class MetodosDePagoListComponent implements OnInit {
   CrearMetodo() {
     this.sumit = true;
 
-    let datoTrim = (this.CreateGroup.value['meto_Descripcion'].trim());
-    this.CreateGroup.get("meto_Descripcion").setValue(datoTrim)
-    this.metoPago.meto_Descripcion = datoTrim;
-    this.metoPago.meto_UsuCreacion = this.user.user_Id;
+    if(this.CreateGroup.value['meto_Descripcion']){
+      let datoTrim = (this.CreateGroup.value['meto_Descripcion'].trim());
+      this.CreateGroup.get("meto_Descripcion").setValue(datoTrim)
+      this.metoPago.meto_Descripcion = datoTrim;
+      this.metoPago.meto_UsuCreacion = this.user.user_Id;
+    }
 
     if(this.CreateGroup.valid){
 
@@ -192,11 +194,12 @@ export class MetodosDePagoListComponent implements OnInit {
  
   EditarMetodo() {
     this.sumit = true;
-
-    let datoTrim = (this.EditGroup.value['meto_Descripcion'].trim());
-    this.EditGroup.get("meto_Descripcion").setValue(datoTrim)
-    this.metoPago.meto_Descripcion = datoTrim;
-    this.metoPago.meto_UsuModificacion = this.user.user_Id;
+    if(this.EditGroup.value['meto_Descripcion']){
+      let datoTrim = (this.EditGroup.value['meto_Descripcion'].trim());
+      this.EditGroup.get("meto_Descripcion").setValue(datoTrim)
+      this.metoPago.meto_Descripcion = datoTrim;
+      this.metoPago.meto_UsuModificacion = this.user.user_Id;
+    }
 
     if(this.EditGroup.valid){
 

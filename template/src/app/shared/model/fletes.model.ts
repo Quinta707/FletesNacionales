@@ -43,5 +43,7 @@ export class Flete{
 	flet_FechaDeSalidaParseada!: Date
     flet_PedidosTotales !: number;
     flet_PedidosCompletados !: number;
-
+	flet_UbicadoDepa!: string;
+	depa_InicioNombre!: string;
+	depa_FinalNombre!: string;
 }

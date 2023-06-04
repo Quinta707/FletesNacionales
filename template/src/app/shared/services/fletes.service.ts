@@ -64,7 +64,7 @@ export class TableService {
   }
 
   getDllEmpleados(){
-    return this.http.get<Empleados[]>(Global+"Empleados/Listado")
+    return this.http.get<Empleados[]>(Global+"Empleados/ListadoConductores")
   }
 
   getDllVehiculos(){
@@ -122,9 +122,9 @@ export class TableService {
   }
 
 
-  obtenerCoordenadas(municipio: String){
+  obtenerCoordenadas(municipio: String, departamento:String){
 
-    const cityName = `${municipio}, Honduras`;
+    const cityName = `${municipio}, ${departamento}, Honduras`;
     const apiKey = '0ae2030d9b334e63ad7b7d75735626d9'; 
 
     return this.http.get<any>(`https://api.opencagedata.com/geocode/v1/json?q=${cityName}&key=${apiKey}`)

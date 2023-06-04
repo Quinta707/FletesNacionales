@@ -2116,7 +2116,7 @@ END
 GO
 CREATE OR ALTER VIEW flet.VW_tbFletes
 AS
-SELECT	flet_Id, 
+SELECT	T1.flet_Id, 
 		T1.vehi_Id, 
 		T11.vehi_Placa,
 		T12.mode_Id,
@@ -2125,6 +2125,7 @@ SELECT	flet_Id,
 --		(SELECT ISNULL(COUNT(*),0) FROM flet.VW_tbFleteDetalles as pc WHERE pc.flet_Id = T1.flet_Id AND pc.estp_Id = 4 ) AS flet_PedidosCompletados,
 		(SELECT ISNULL(COUNT(*),0) FROM flet.VW_tbFleteDetalles as pc WHERE pc.flet_Id = T1.flet_Id AND pc.estp_Id IN (4,5) ) AS flet_PedidosCompletados,
 		(SELECT TOP(1) pc.muni_Nombre FROM flet.VW_tbUbicacionPorFlete as pc WHERE pc.flet_Id = T1.flet_Id ORDER BY pc.ubif_FechaCreacion desc ) AS flet_Ubicado,
+		(SELECT TOP(1) px.depa_Nombre FROM flet.VW_tbUbicacionPorFlete as pc INNER JOIN gral.VW_tbMunicipios px ON pc.muni_Id = px.muni_Id  WHERE pc.flet_Id = T1.flet_Id ORDER BY pc.ubif_FechaCreacion desc ) AS flet_UbicadoDepa,
 		(SELECT TOP(1) pc.muni_Id FROM flet.VW_tbUbicacionPorFlete as pc WHERE pc.flet_Id = T1.flet_Id ORDER BY pc.ubif_FechaCreacion desc ) AS flet_UbicadoId,
 		T12.marc_Id,
 		T13.marc_Nombre,
@@ -2148,8 +2149,10 @@ SELECT	flet_Id,
 		T7.muni_Inicio,
 		T7.muni_Final,
 		T8.muni_Nombre AS muni_NombreInicio,
+		T7.depa_InicioNombre,
 		T8.muni_Id AS muni_IdInicio,
 		T9.muni_Nombre AS muni_NombreFinal,
+		T7.depa_FinalNombre,
 		T9.muni_Id AS muni_IdFinal,
 		flet_FechaDeSalida, 
 		flet_UsuCreacion, 
@@ -2164,7 +2167,7 @@ SELECT	flet_Id,
   ON T1.flet_UsuModificacion = T3.[user_Id] INNER JOIN flet.tbEmpleados T4
   ON T1.empe_Id = T4.empe_Id INNER JOIN flet.tbSucursales T5
   ON T4.sucu_Id = T5.sucu_Id INNER JOIN gral.tbCargos T6
-  ON T4.carg_Id = T6.carg_Id INNER JOIN flet.tbTrayectos T7
+  ON T4.carg_Id = T6.carg_Id INNER JOIN flet.VW_tbTrayectos T7
   ON T7.tray_Id = T1.tray_Id INNER JOIN gral.tbMunicipios T8
   ON T8.muni_Id = T7.muni_Inicio INNER JOIN gral.tbMunicipios T9
   ON T9.muni_Id = T7.muni_Final INNER JOIN gral.tbEstadosCiviles T10

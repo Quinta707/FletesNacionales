@@ -160,7 +160,7 @@ export class CalenderComponent {
     console.log(paso2) 
 
     const coordenadasMuniInicio: any = await this.service
-        .obtenerCoordenadas(paso2[0])
+        .obtenerCoordenadas(paso2[0], "")
         .toPromise();
       const result0 = coordenadasMuniInicio.results[0];
       let cords0 = {
@@ -170,7 +170,7 @@ export class CalenderComponent {
       let coordenadasIncio = cords0;
 
       const coordenadasMuniFin: any = await this.service
-        .obtenerCoordenadas(paso2[1])
+        .obtenerCoordenadas(paso2[1], "")
         .toPromise();
       const result1 = coordenadasMuniFin.results[0];
       let cords1 = {

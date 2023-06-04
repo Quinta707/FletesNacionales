@@ -177,10 +177,12 @@ export class ModelosIndexComponent {
     
   CrearModelo() {
        this.sumit = true;
-     let datoTrim = (this.CreateGroup.value['mode_Nombre'].trim());
-     this.CreateGroup.get("mode_Nombre").setValue(datoTrim)
-     this.modelo.mode_Nombre = datoTrim;
-     this.modelo.mode_UsuCreacion = this.user.user_Id;
+       if(this.CreateGroup.value['mode_Nombre']){
+         let datoTrim = (this.CreateGroup.value['mode_Nombre'].trim());
+         this.CreateGroup.get("mode_Nombre").setValue(datoTrim)
+         this.modelo.mode_Nombre = datoTrim;
+         this.modelo.mode_UsuCreacion = this.user.user_Id;
+       }
 
      if(this.CreateGroup.valid){
 
@@ -209,10 +211,12 @@ export class ModelosIndexComponent {
  
   EditarModelo() {
     this.sumit = true;
-     let datoTrim = (this.EditGroup.value['mode_Nombre'].trim());
-     this.EditGroup.get("mode_Nombre").setValue(datoTrim)
-     this.modelo.mode_Nombre = datoTrim;
-     this.modelo.mode_UsuModificacion = this.user.user_Id;
+    if(this.EditGroup.value['mode_Nombre']){
+      let datoTrim = (this.EditGroup.value['mode_Nombre'].trim());
+      this.EditGroup.get("mode_Nombre").setValue(datoTrim)
+      this.modelo.mode_Nombre = datoTrim;
+      this.modelo.mode_UsuModificacion = this.user.user_Id;
+    }
 
      if(this.EditGroup.valid){
 

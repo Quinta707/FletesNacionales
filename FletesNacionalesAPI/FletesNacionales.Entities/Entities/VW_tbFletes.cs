@@ -16,6 +16,7 @@ namespace FletesNacionales.Entities.Entities
         public int? flet_PedidosTotales { get; set; }
         public int? flet_PedidosCompletados { get; set; }
         public string flet_Ubicado { get; set; }
+        public string flet_UbicadoDepa { get; set; }
         public string flet_UbicadoId { get; set; }
         public int marc_Id { get; set; }
         public string marc_Nombre { get; set; }
@@ -39,8 +40,10 @@ namespace FletesNacionales.Entities.Entities
         public string muni_Inicio { get; set; }
         public string muni_Final { get; set; }
         public string muni_NombreInicio { get; set; }
+        public string depa_InicioNombre { get; set; }
         public string muni_IdInicio { get; set; }
         public string muni_NombreFinal { get; set; }
+        public string depa_FinalNombre { get; set; }
         public string muni_IdFinal { get; set; }
         public DateTime flet_FechaDeSalida { get; set; }
         public int flet_UsuCreacion { get; set; }

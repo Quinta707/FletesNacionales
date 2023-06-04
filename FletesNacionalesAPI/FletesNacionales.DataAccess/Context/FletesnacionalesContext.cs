@@ -513,6 +513,14 @@ namespace FletesNacionales.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(100);
 
+                entity.Property(e => e.depa_FinalNombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.depa_InicioNombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
                 entity.Property(e => e.eciv_Descripcion)
                     .HasMaxLength(100)
                     .IsUnicode(false);
@@ -550,6 +558,13 @@ namespace FletesNacionales.DataAccess.Context
                 entity.Property(e => e.flet_FechaModificacion).HasColumnType("datetime");
 
                 entity.Property(e => e.flet_Ubicado).HasMaxLength(80);
+
+                entity.Property(e => e.flet_UbicadoDepa).HasMaxLength(100);
+
+                entity.Property(e => e.flet_UbicadoId)
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
 
                 entity.Property(e => e.marc_Nombre)
                     .IsRequired()
@@ -2044,7 +2059,7 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToTable("tbRoles", "acce");
 
-                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E0BA3FB24")
+                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E7A62F6DC")
                     .IsUnique();
 
                 entity.Property(e => e.role_Estado)
@@ -2273,11 +2288,6 @@ namespace FletesNacionales.DataAccess.Context
                 entity.Property(e => e.user_NombreUsuario)
                     .IsRequired()
                     .HasMaxLength(100);
-
-                entity.HasOne(d => d.empe)
-                    .WithMany(p => p.tbUsuarios)
-                    .HasForeignKey(d => d.empe_Id)
-                    .HasConstraintName("FK_acce_tbUsuarios_flet_tbEmpleados_empe_Id");
 
                 entity.HasOne(d => d.role)
                     .WithMany(p => p.tbUsuarios)

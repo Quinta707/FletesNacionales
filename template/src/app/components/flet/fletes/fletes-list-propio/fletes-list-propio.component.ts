@@ -144,7 +144,7 @@ export class FleteListPropioComponent implements OnInit {
     };
   
     const redireccion = () => {
-      this.router.navigate(['/flet/Fletes/PersonalDetails'], { queryParams: { id: params.data.flet_Id } });
+      this.router.navigate(['/flet/Mis-Fletes/Details'], { queryParams: { id: params.data.flet_Id } });
     }
 
     const button = document.createElement('il');
@@ -191,7 +191,7 @@ export class FleteListPropioComponent implements OnInit {
   actionButtonRenderer2(params: any) {
     
     const redireccion = () => {
-      this.router.navigate(['/flet/Fletes/PersonalDetails'], { queryParams: { id: params.data.flet_Id } });
+      this.router.navigate(['/flet/Mis-Fletes/Details'], { queryParams: { id: params.data.flet_Id } });
     }
 
     const button2 = document.createElement('il');
@@ -219,7 +219,7 @@ export class FleteListPropioComponent implements OnInit {
   actionButtonRenderer3(params: any) {
     
     const redireccion = () => {
-      this.router.navigate(['/flet/Fletes/PersonalDetails'], { queryParams: { id: params.data.flet_Id } });
+      this.router.navigate(['/flet/Mis-Fletes/Details'], { queryParams: { id: params.data.flet_Id } });
     }
 
     const button2 = document.createElement('il');
@@ -336,7 +336,7 @@ export class FleteListPropioComponent implements OnInit {
           showConfirmButton: false,
           timer: 3000
         })
-      this.router.navigate(['/flet/Fletes/PersonalDetails'], { queryParams: { id: this.flete.flet_Id } });
+      this.router.navigate(['/flet/Mis-Fletes/Details'], { queryParams: { id: this.flete.flet_Id } });
       }else if(data.message === "PedidosPendientes"){
         Swal.fire({
           icon: 'error',

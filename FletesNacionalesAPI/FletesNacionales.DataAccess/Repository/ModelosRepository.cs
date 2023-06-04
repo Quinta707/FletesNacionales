@@ -38,7 +38,7 @@ namespace FletesNacionales.DataAccess.Repository
 
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
-            parametros.Add("@mode_Nombre", item.mode_Nombre, DbType.String, ParameterDirection.Input);
+            parametros.Add("@mode_Nombre", item.mode_Nombre.Trim(), DbType.String, ParameterDirection.Input);
             parametros.Add("@marc_Id", item.marc_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@tipv_Id", item.tipv_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@mode_UsuCreacion", item.mode_UsuCreacion, DbType.Int32, ParameterDirection.Input);
@@ -59,7 +59,7 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@mode_Id", item.mode_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@mode_Nombre", item.mode_Nombre, DbType.String, ParameterDirection.Input);
+            parametros.Add("@mode_Nombre", item.mode_Nombre.Trim(), DbType.String, ParameterDirection.Input);
             parametros.Add("@marc_Id", item.marc_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@tipv_Id", item.tipv_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@mode_UsuModificacion", item.mode_UsuModificacion, DbType.Int32, ParameterDirection.Input);

@@ -13,34 +13,31 @@ VALUES
 		('Motorista', 1);
 --****************************************PANTALLAS****************************************--
 INSERT INTO acce.tbPantallas (pant_Nombre, pant_Url, pant_Menu, pant_Icono, pant_UsuCreacion)
-VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','flag-icon flag-icon-hn',1),
-	   ('Estado Civiles',		'/gral/Municipios/List',			'gral','fa fa-list',1),
-	   ('Municipios',			'/gral/Municipios/List',			'gral','fa fa-tag',1),
-	   ('Metodos de Pagos',		'/gral/MetodosDePago/List',			'gral','fa fa-credit-card-alt',1) ,
-	   ('Cargos',				'/gral/Cargos/List',				'gral','fa fa-user-plus',1) ,
+VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','maps',1),
+	   ('Estado Civiles',		'/gral/Municipios/List',			'gral','bookmark',1),
+	   ('Municipios',			'/gral/Municipios/List',			'gral','gallery',1),
+	   ('Metodos de Pagos',		'/gral/MetodosDePago/List',			'gral','blog',1) ,
+	   ('Cargos',				'/gral/Cargos/List',				'gral','social',1) ,
 
-	   ('Clientes',				'/flet/Clientes/List',				'flet','fa fa-users',1),
-	   ('Fletes',				'/flet/Fletes/List',				'flet','fa fa-industry',1),
-	   ('Mis Fletes',			'/flet/Mis-Fletes/List',			'flet','fa fa-industry',1),
-	   ('Calendario',			'/flet/Calendario',					'flet','fa fa-calendar',1),
-	   ('Items',				'/flet/Items/List',					'flet','fa fa-paper-plane-o',1),
-	   ('Pedidos',				'/flet/Pedidos/List',				'flet','fa fa-briefcase',1),
-	   ('Sucursales',			'/flet/Sucursales/List',			'flet','fa fa-building-o',1),
-	   ('Trayectos',			'/flet/Trayectos/List',				'flet','fa fa-map',1),
-	   ('Ubicacion por Flete',	'/flet/UbicacionPorFlete/List ',	'flet','fa fa-map-marker',1),
-	   ('Estados del Pedido',	'/flet/EstadosdelPedido/List',		'flet','fa fa-check-circle-o',1),
-	   ('Escala por Trayecto',	'/flet/EscalasPorTrayecto/List ',	'flet','fa fa-map-signs',1),
-	   ('Empleados',			'/flet/Empleados/List',				'flet','fa fa-address-card',1),
+	   ('Clientes',				'/flet/Clientes/List',				'flet','user',1),
+	   ('Fletes',				'/flet/Fletes/List',				'flet','bonus-kit',1),
+	   ('Mis Fletes',			'/flet/Mis-Fletes/List',			'flet','bonus-kit',1),
+	   ('Calendario',			'/flet/Calendario',					'flet','calender',1),
+	   ('Items',				'/flet/Items/List',					'flet','ecommerce',1),
+	   ('Pedidos',				'/flet/Pedidos/List',				'flet','task',1),
+	   ('Sucursales',			'/flet/Sucursales/List',			'flet','others',1),
+	   ('Trayectos',			'/flet/Trayectos/List',				'flet','learning',1),
+	   ('Empleados',			'/flet/Empleados/List',				'flet','social',1),
 
-	   ('Modelos',				'/equi/Modelos/List',				'equi','fa fa-car',1),
-	   ('Marcas',				'/equi/Marcas/List',				'equi','fa fa-truck',1),
-	   ('Vehiculos',			'/flet/Vehiculos/List',				'equi','fa fa-truck',1),
-	   ('Tipos de Vehiculos',	'/flet/TipodeVehiculo/List ',		'equi','fa fa-car',1),
+	   ('Modelos',				'/equi/Modelos/List',				'equi','faq',1),
+	   ('Marcas',				'/equi/Marcas/List',				'equi','job-search',1),
+	   ('Vehiculos',			'/flet/Vehiculos/List',				'equi','project',1),
+	   ('Tipos de Vehiculos',	'/flet/TipodeVehiculo/List ',		'equi','icons',1),
 
-	   ('Usuarios',				'/acce/Usuarios/List',				'acce','fa fa-user',1),
-       ('Roles Por Pantalla',	'/acce/RolesPorPantalla/List ',		'acce','fa fa-credit-card-alt',1),
-	   ('Pantallas',			'/acce/Pantallas/List',				'acce','fa fa-credit-card-alt',1),
-	   ('Grafica',				'/acce/Grafica/List',				'acce','icofont icofont-chart-bar-graph',1)
+	   ('Usuarios',				'/acce/Usuarios/List',				'acce','user',1),
+       ('Roles',				'/acce/RolesPorPantalla/List ',		'acce','learning',1),
+	   --('Pantallas',			'/acce/Pantallas/List',				'acce','',1),
+	   ('Grafica',				'/acce/Grafica/List',				'acce','charts',1)
 GO
 	    
 --****************************************ROLES POR PANTALLAS****************************************--

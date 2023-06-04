@@ -1,15 +1,8 @@
 import {
   Component,
   OnInit,
-  QueryList,
-  ViewChildren,
-  ViewChild,
-  AfterViewInit,
 } from "@angular/core";
 import { Flete } from "../../../../shared/model/fletes.model";
-import { Pedidos } from "../../../../shared/model/pedidos.model";
-import { Vehiculos } from "../../../../shared/model/vehiculos.model";
-import { Trayectos } from "../../../../shared/model/trayectos.model";
 import { TableService } from "../../../../shared/services/fletes.service";
 import {
   NgbModal,
@@ -17,17 +10,7 @@ import {
   NgbNavChangeEvent,
 } from "@ng-bootstrap/ng-bootstrap";
 import { FormGroup, FormBuilder, Validators, FormArray } from "@angular/forms";
-import { ToastrService } from "ngx-toastr";
-import { WizardComponent } from "angular-archwizard";
-import { CustomValidator } from "../../../../shared/validators/OnlyNumbers";
 import Swal from "sweetalert2";
-import {
-  NgbCalendar,
-  NgbDate,
-  NgbDateParserFormatter,
-  NgbDateStruct,
-} from "@ng-bootstrap/ng-bootstrap";
-import { ChangeDetectorRef } from "@angular/core";
 import { Observable, of } from "rxjs";
 import * as L from "leaflet";
 import 'leaflet-routing-machine';
@@ -51,6 +34,10 @@ export class FleteDetailsPropioComponent implements OnInit {
 
   //mapa
   private routingControl: any;
+  private ControlDeUbicacion: any;
+  private removedLayers = [];
+  private removedLayerspoints = [];
+  
   //Control de las capas visibles
   layersControl = {
     baseLayers: {
@@ -146,22 +133,30 @@ export class FleteDetailsPropioComponent implements OnInit {
     }),
   };
   // actualiza el mapa con nuevas coordenadas
-  async updateMarker(municipio: string) {
+  async updateMarker(municipio: string, departamento: string) {
     if(this.routingControl){
-      
-      this.routingControl.getPlan().setWaypoints([]);
+      // console.log(this.routingControl)
+      // this.routingControl.getPlan().setWaypoints([]);
+      // this.routingControls.forEach(routingControl => {
+      //   routingControl.getPlan().setWaypoints([]);
+      // });
     }
     const popupText: string = "Este pedido llegara hasta " + municipio;
     const popupInfo = `<b style="color: black; background-color: white">${popupText}</b>`;
     if (this.map4) {
       this.map4.eachLayer((layer) => {
         if (layer instanceof L.Marker) {
+          this.removedLayerspoints.push(layer); 
+          this.map4.removeLayer(layer);
+        }
+        if (layer instanceof L.Polyline) {
+          this.removedLayers.push(layer); 
           this.map4.removeLayer(layer);
         }
       });
 
       const coordenadasMuni: any = await this.service
-        .obtenerCoordenadas(municipio)
+        .obtenerCoordenadas(municipio, departamento)
         .toPromise();
       const result1 = coordenadasMuni.results[0];
       let cords1 = {
@@ -169,7 +164,7 @@ export class FleteDetailsPropioComponent implements OnInit {
         lon: result1.geometry.lng,
       };
 
-      L.marker([cords1.lat, cords1.lon], this.IconPaquete)
+      L.marker([cords1.lat, cords1.lon], this.IconDestino)
         .addTo(this.map4)
         .bindPopup(popupInfo)
         .openPopup();
@@ -258,7 +253,7 @@ export class FleteDetailsPropioComponent implements OnInit {
       });
 
       const coordenadasMuniInicio: any = await this.service
-        .obtenerCoordenadas(this.nuevoFlete.muni_NombreInicio)
+        .obtenerCoordenadas(this.nuevoFlete.muni_NombreInicio, this.nuevoFlete.depa_InicioNombre)
         .toPromise();
       const result0 = coordenadasMuniInicio.results[0];
       let cords0 = {
@@ -268,7 +263,7 @@ export class FleteDetailsPropioComponent implements OnInit {
       this.coordenadasIncio = cords0;
 
       const coordenadasMuniFin: any = await this.service
-        .obtenerCoordenadas(this.nuevoFlete.muni_NombreFinal)
+        .obtenerCoordenadas(this.nuevoFlete.muni_NombreFinal, this.nuevoFlete.depa_FinalNombre)
         .toPromise();
       const result1 = coordenadasMuniFin.results[0];
       let cords1 = {
@@ -279,7 +274,7 @@ export class FleteDetailsPropioComponent implements OnInit {
 
       if (this.nuevoFlete.flet_Ubicado) {
         const coordenadasUbicacion: any = await this.service
-          .obtenerCoordenadas(this.nuevoFlete.flet_Ubicado)
+          .obtenerCoordenadas(this.nuevoFlete.flet_Ubicado, this.nuevoFlete.flet_UbicadoDepa)
           .toPromise();
         const result2 = coordenadasUbicacion.results[0];
         let cords2 = {
@@ -298,7 +293,7 @@ export class FleteDetailsPropioComponent implements OnInit {
       await dataObservable.toPromise()
       .then(async data => {
         for (const element of data) {
-          const result = await this.service.obtenerCoordenadas(element.pedi_DestinoNombre).toPromise();
+          const result = await this.service.obtenerCoordenadas(element.pedi_DestinoNombre, element.pedi_DepaDestino).toPromise();
           const result2 = result.results[0];
           this.waypointsPedidos.push(L.latLng(result2.geometry.lat, result2.geometry.lng));
           this.waypoints.push(L.latLng(result2.geometry.lat, result2.geometry.lng));
@@ -346,26 +341,42 @@ export class FleteDetailsPropioComponent implements OnInit {
           //   .bindPopup(popupFinal)
           //   .closePopup();
           
+          for (let index = 1; index < this.waypoints.length; index++) {
+            const element = this.waypoints[index];
+            this.routingControl += L.Routing.control({
+              waypoints: [
+                this.waypoints[index-1],
+                this.waypoints[index]
+              ],
+              routeWhileDragging: false,
+              fitSelectedRoutes: true,
+              addWaypoints: false,
+              collapsible: true,
+              lineOptions: {
+                extendToWaypoints: true,
+                styles: [{ color: this.getRandomColor(), opacity: 1, weight: 5 }],
+                missingRouteTolerance: 10
+              }
+            }).addTo(this.map4);
+          }
+          // this.routingControl = L.Routing.control({
+          //   waypoints: this.waypoints,
+          //   routeWhileDragging: false,
+          //   fitSelectedRoutes: true,
+          //   addWaypoints: false,
+          //   collapsible: true,
+          //   lineOptions: {
+          //     extendToWaypoints: true,
+          //     styles: [{ color: this.getRandomDarkColor(), opacity: 1, weight: 5 }],
+          //     missingRouteTolerance: 10 // Adjust the tolerance value as needed
+          //   }
+          // }).addTo(this.map4);
           
-          this.routingControl = L.Routing.control({
-            waypoints: this.waypoints,
-            routeWhileDragging: false,
-            fitSelectedRoutes: true,
-            addWaypoints: false,
-            collapsible: true,
-            // collapseBtnClass: "btn "
-            // altLineOptions: {
-            //   styles: [
-            //     { color: 'lightseagreen', opacity: 0.6, weight: 4 } // Configuración de estilo de la ruta alternativa
-            //   ],
-            //   extendToWaypoints: true,
-            //   missingRouteTolerance: 100
-            // }
-          }).addTo(this.map4)
+          
           
 
           if (this.nuevoFlete.flet_Ubicado) {
-            L.marker(
+            this.ControlDeUbicacion = L.marker(
               [this.coordenadasUbicacion.lat, this.coordenadasUbicacion.lon],
               this.IconCamion
             )
@@ -426,11 +437,17 @@ export class FleteDetailsPropioComponent implements OnInit {
         //   .bindPopup(popupFinal)
         //   .closePopup();
 
-          this.routingControl.getPlan().setWaypoints(this.waypoints);
-        
+          // this.routingControl.getPlan().setWaypoints(this.waypoints);
+
+          this.removedLayers.forEach((layer) => {
+            this.map4.addLayer(layer);
+          });
+          this.removedLayerspoints.forEach((layer) => {
+            this.map4.addLayer(layer);
+          });
 
         if (this.nuevoFlete.flet_Ubicado) {
-          L.marker(
+          this.ControlDeUbicacion = L.marker(
             [this.coordenadasUbicacion.lat, this.coordenadasUbicacion.lon],
             this.IconCamion
           )
@@ -445,7 +462,7 @@ export class FleteDetailsPropioComponent implements OnInit {
   modalRef: NgbModalRef;
 
   redirectToList() {
-    this.router.navigate(["/flet/Fletes/PersonalList"]);
+    this.router.navigate(["/flet/Mis-Fletes/List"]);
   }
   
   openModalEstado(content1, item:any) {
@@ -549,7 +566,7 @@ export class FleteDetailsPropioComponent implements OnInit {
         .subscribe((data:any) =>{
             this.nuevoFlete = data;
             this.ubicacionFormGroup.get('muni_Id').setValue(this.nuevoFlete.flet_UbicadoId); 
-            this.service.obtenerCoordenadas(this.nuevoFlete.flet_Ubicado)
+            this.service.obtenerCoordenadas(this.nuevoFlete.flet_Ubicado, this.nuevoFlete.flet_UbicadoDepa)
             .subscribe((data:any)=>{
               const result1 = data.results[0];
               let cords = {
@@ -558,7 +575,19 @@ export class FleteDetailsPropioComponent implements OnInit {
               };
               this.coordenadasUbicacion = cords;
 
-              this.recuperarMarker()
+              const popupUbicacion = `<b style="color: black; background-color: white">El flete se encuentra en: ${this.nuevoFlete.flet_Ubicado}</b>`;
+
+              this.ControlDeUbicacion.remove();
+
+              this.ControlDeUbicacion = L.marker(
+                [this.coordenadasUbicacion.lat, this.coordenadasUbicacion.lon],
+                this.IconCamion
+              )
+                .addTo(this.map4)
+                .bindPopup(popupUbicacion)
+                .closePopup();
+
+              // this.recuperarMarker()
             });
           
 
@@ -587,7 +616,7 @@ export class FleteDetailsPropioComponent implements OnInit {
           title: 'Gran trabajo, el flete ha sido terminado',
           icon: 'success'
         }).then(()=>{
-          this.router.navigate(['/flet/Fletes/PersonalList']);
+          this.router.navigate(['/flet/Mis-Fletes/List']);
         })
       }else if(data.message === "PedidosPendientes"){
         Swal.fire({
@@ -619,6 +648,26 @@ export class FleteDetailsPropioComponent implements OnInit {
       this.modalRef.dismiss();
     }
   }
+
+  getRandomColor(): any {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+getRandomDarkColor(): string {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 3; i++) {
+    const randomIndex = Math.floor(Math.random() * 10); // Random index for letters
+    color += letters[randomIndex];
+    color += letters[randomIndex];
+  }
+  return color;
+}
 
 }
 
