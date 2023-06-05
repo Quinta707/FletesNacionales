@@ -120,14 +120,14 @@
 
           <ng-template #Delete let-modal>
             <div class="modal-header">
-              <h4 class="modal-title" id="modal-basic-title">Eliminar Municipios</h4>
+              <h4 class="modal-title" id="modal-basic-title">Eliminar Vehiculo</h4>
               <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
             </div>
             <div class="modal-body">
               <h3>Desea Eliminar Este Registro?</h3>
             </div>
             <div class="modal-footer">
-              <button class="btn btn-success" (click)="delete()">Eliminar</button>
+              <button class="btn btn-danger" (click)="delete()">Eliminar</button>
             </div>
           </ng-template>
           <button (click)="open(Create)" class="btn btn-block btn-primary">

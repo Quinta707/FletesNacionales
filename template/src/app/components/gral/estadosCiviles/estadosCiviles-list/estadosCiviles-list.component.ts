@@ -59,7 +59,7 @@ export class EstadosCivilesComponent implements OnInit {
     this.estadosCreate.eciv_Descripcion = null
     this.validate = false;
 
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', centered: true}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -88,14 +88,17 @@ export class EstadosCivilesComponent implements OnInit {
     console.log(this.estadosCreate.eciv_Descripcion)
     try
     {
-      this.estadosCreate.eciv_Descripcion = this.estadosCreate.eciv_Descripcion.trim()
+      let datoTrim = (this.estadosCreate.eciv_Descripcion.trim());
+      this.createFormGroup.get("eciv_Descripcion").setValue(datoTrim)
+      this.estadosCreate.eciv_Descripcion = datoTrim;
     }
-    catch
+    catch(e)
     {
-      this.estadosCreate.eciv_Descripcion = null
+      console.log(e)
     }
     
-    if(this.estadosCreate.eciv_Descripcion == null)
+    
+    if(this.estadosCreate.eciv_Descripcion == null || this.estadosCreate.eciv_Descripcion == "")
     {
       this.validate = true
 
@@ -167,6 +170,18 @@ export class EstadosCivilesComponent implements OnInit {
   update(){
     this.validate = false
     this.sumbite = false
+    
+    try
+    {
+      let datoTrim = (this.estadosEditar.eciv_Descripcion.trim());
+      this.updateFormGroup.get("eciv_Descripcion").setValue(datoTrim)
+      this.estadosEditar.eciv_Descripcion = datoTrim;
+    }
+    catch(e)
+    {
+      console.log(e)
+    }
+    
     if(this.estadosEditar.eciv_Descripcion == null || this.estadosEditar.eciv_Descripcion == "")
     {
       this.validate = true

@@ -71,7 +71,7 @@ export class MunicipiosListComponent implements OnInit {
     this.validate = false;
     this.sumbit = false
     this.municipiosCreate = new Municipios()
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title',centered: true}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
