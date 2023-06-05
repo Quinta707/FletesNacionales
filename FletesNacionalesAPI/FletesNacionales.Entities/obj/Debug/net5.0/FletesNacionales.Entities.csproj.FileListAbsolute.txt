@@ -70,3 +70,15 @@ C:\Users\LAB02\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacio
 C:\Users\LAB02\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.dll
 C:\Users\LAB02\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\ref\FletesNacionales.Entities.dll
 C:\Users\LAB02\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.pdb
+C:\Users\Sarai Quintanilla\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\bin\Debug\net5.0\FletesNacionales.Entities.deps.json
+C:\Users\Sarai Quintanilla\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\bin\Debug\net5.0\FletesNacionales.Entities.dll
+C:\Users\Sarai Quintanilla\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\bin\Debug\net5.0\ref\FletesNacionales.Entities.dll
+C:\Users\Sarai Quintanilla\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\bin\Debug\net5.0\FletesNacionales.Entities.pdb
+C:\Users\Sarai Quintanilla\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.csproj.AssemblyReference.cache
+C:\Users\Sarai Quintanilla\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Sarai Quintanilla\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.AssemblyInfoInputs.cache
+C:\Users\Sarai Quintanilla\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.AssemblyInfo.cs
+C:\Users\Sarai Quintanilla\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.csproj.CoreCompileInputs.cache
+C:\Users\Sarai Quintanilla\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.dll
+C:\Users\Sarai Quintanilla\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\ref\FletesNacionales.Entities.dll
+C:\Users\Sarai Quintanilla\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Entities\obj\Debug\net5.0\FletesNacionales.Entities.pdb

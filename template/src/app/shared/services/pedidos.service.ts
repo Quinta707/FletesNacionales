@@ -5,6 +5,7 @@ import  { Pedidos } from '../model/pedidos.model';
 import { Municipios } from '../model/municipios.model';
 import { Clientes } from '../model/clientes.model';
 import { Items } from '../model/items.model';
+import { MetodosDePago } from '../model/metodosDePago.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,9 @@ export class PedidoService {
   }
   getItems(){
     return this.http.get<Items[]>(Global+"Items/Listado")
+  }
+  getMetodos(){
+    return this.http.get<MetodosDePago[]>(Global+"MetodosPago/Listado")
   }
   
 }

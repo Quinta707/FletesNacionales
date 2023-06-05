@@ -7,6 +7,12 @@ import { Pedidos } from 'src/app/shared/model/pedidos.model';
 import { Clientes } from 'src/app/shared/model/clientes.model';
 import Swal from 'sweetalert2';
 import { WizardComponent } from 'angular-archwizard';
+import { Items } from 'src/app/shared/model/items.model';
+import { FormControl } from '@angular/forms';
+import { MetodosDePago } from 'src/app/shared/model/metodosDePago.model';
+import { Global } from 'config';
+import { HttpClient } from '@angular/common/http';
+
 
 
 interface Card {
@@ -28,35 +34,47 @@ export class PedidosCreateComponent implements OnInit{
   ClientValue: string = '';
   OrigenValue: string = '';
   DestinoValue: string = '';
+  ItemValue: string = '';
+  MetodoValue: string = '';
   submitted: boolean = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
   fourthFormGroup: FormGroup;
   maxDate: Date;
+  searchTerm: string = '';
+  firstFormSubmitted: boolean = false;
+  thisabled: boolean = true;
+
  
   currentStep: number = 1;
 
   constructor(
     private _formBuilder: FormBuilder,
     private toaster: ToastrService,
-    private service: PedidoService
+    private service: PedidoService,
+    private http: HttpClient
   ) {
     this.maxDate = new Date();
    }
   public municipiosDdl1 = [];
   public municipiosDdl2 = [];
   public clienteDdl = [];
+  public itemsDdl = [];
   public Items = [];
+  public metodoDdl = [];
+  allItems: Card[] = [];
   MuniOrigen: Pedidos = new Pedidos();
   MuniDestino: Pedidos = new Pedidos();
   SelectCliente: Clientes = new Clientes();
+  SelectItem: Items = new Items();
+  SelectMetodo: MetodosDePago = new MetodosDePago();
 
   ngOnInit(): void {
     this.service.getItems()
-      .subscribe((data: any) => {
-        this.Items = data.data;
-      })
+    .subscribe((data: any)=>{
+      this.Items = data.data;
+    })
     this.service.getDllMunicipios()
       .subscribe((data: any) => {
         this.municipiosDdl1 = data.data.map((item: any) => ({
@@ -77,6 +95,14 @@ export class PedidosCreateComponent implements OnInit{
           label: item.clie_NombreCompleto,
         }));
       })
+      this.service.getMetodos()
+      .subscribe((data: any) => {
+        this.metodoDdl = data.data.map((item: any) => ({
+          value: item.meto_Id,
+          label: item.meto_Descripcion,
+        }));
+      })
+      
 
     this.firstFormGroup = this._formBuilder.group({
       clie_Id: ['', Validators.required],
@@ -85,23 +111,20 @@ export class PedidosCreateComponent implements OnInit{
       DireccionPedido: ['', Validators.required],
     });
     this.secondFormGroup = this._formBuilder.group({
-      email: ['', [Validators.required,Validators.email]],
-      password: ['', Validators.required],
-      cnfPassword: ['', Validators.required],
-    },
-    {
-      validator: MustMatch('password', 'cnfPassword')
+      item_Id: [, Validators.required],
+      meto_Id: ['', Validators.required],
     });
     this.thirdFormGroup = this._formBuilder.group({
-      birthdate: [null, Validators.required],
-      age: [''],
-      hasPassport: ['', Validators.required],
     })
     this.fourthFormGroup = this._formBuilder.group({
       country: ['', Validators.required],
       state: ['', Validators.required],
       city: ['', Validators.required],
     })
+    this.service.getItems().subscribe((data: any) => {
+      this.allItems = data.data;
+      this.Items = [...this.allItems]; // Copia los elementos a 'Items'
+    });
   }
   public finish(){
     this.toaster.success('Successfully Registered')
@@ -111,7 +134,6 @@ export class PedidosCreateComponent implements OnInit{
     if(this.firstFormGroup.valid){
       this.wizard.goToStep(1);
     }else{
-      console.log(this.MuniDestino.muni_Destino);
       this.submitted = true;
       Swal.fire({
         toast: true,
@@ -131,14 +153,30 @@ export class PedidosCreateComponent implements OnInit{
 
   filteredCards: Card[] = [...this.Items];
 
-  onSearch(searchTerm: string) {
-    this.Items = this.filteredCards.filter(card =>
-      card.item_Nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      card.item_Descripcion.toLowerCase().includes(searchTerm.toLowerCase())||
-      card.item_Peso.toLowerCase().includes(searchTerm.toLowerCase())||
-      card.item_Volumen.toLowerCase().includes(searchTerm.toLowerCase())
+  // onSearch() {
+  //   this.Items = this.filteredCards.filter(card =>
+  //     card.item_Nombre.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+  //     card.item_Descripcion.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+  //     card.item_Peso.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+  //     card.item_Volumen.toLowerCase().includes(this.searchTerm.toLowerCase())
+  //   );
+  //   this.currentPage = 1; // Reinicia la página actual al realizar una búsqueda
+  // }
+
+  onSearch() {
+    // Filtra los elementos en 'allItems' y asigna los resultados a 'filteredItems'
+    const filteredItems = this.allItems.filter(card =>
+      card.item_Nombre.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      card.item_Descripcion.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      card.item_Peso.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      card.item_Volumen.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
+  
+    // Asigna los elementos filtrados a 'Items' para mostrar en la página actual
+    this.Items = filteredItems;
+    this.currentPage = 1; // Reinicia la página actual al realizar una búsqueda
   }
+  
 currentPage: number = 1;
 itemsPerPage: number = 4;
 
@@ -170,6 +208,128 @@ showNextButton(): boolean {
   return this.currentPage < totalPages;
 }
 
+selectedCardIds: number[] = [];
 
+toggleSelection(item: Card) {
+  const index = this.selectedCardIds.indexOf(item.item_Id);
+  if (index > -1) {
+    this.selectedCardIds.splice(index, 1); // Desmarca la tarjeta si ya está seleccionada
+  } else {
+    this.selectedCardIds.push(item.item_Id); // Marca la tarjeta si no está seleccionada
+  }
+}
+
+ValidarItems(){
+  if(this.selectedCardIds.length > 0){
+    const cliente = this.firstFormGroup.value["clie_Id"]
+    const origen = this.firstFormGroup.value["muni_Origen"]
+    const destino = this.firstFormGroup.value["muni_Destino"]
+    const metodo = this.secondFormGroup.value["meto_Id"]
+    var comosalio = 0;
+    const apiUrl = Global + 'Pedidos/Insertar';
+      const requestBody = {
+        clie_Id:            parseInt(cliente),
+        muni_Origen:        String(origen),
+        muni_Destino:       String(destino),
+        pedi_DestinoFinal:  this.DirecValue,
+        meto_Id:            parseInt(metodo),
+        pedi_UsuCreacion:   1
+      };
+    
+      this.http.post(apiUrl, requestBody).subscribe(
+        (response: any) => {
+          console.log(response);
+          if (response !== undefined) {
+            if (response.success) {
+              const apiUrl2 = Global + 'PedidoDetalles/Insertar';
+              this.selectedCardIds.forEach(element => {
+                const requestBody2 = {
+                  pedi_Id:            response.codeStatus,
+                  item_Id:            this.selectedCardIds,
+                  pdet_UsuCreacion:   1
+                };
+                this.http.post(apiUrl2, requestBody2).subscribe(
+                  (response: any) => {
+                    console.log(response)
+                    if (response !== undefined) {
+                      if (response.success) {
+                        comosalio = 1
+                      }
+                      else{
+                        comosalio = 0
+                      }
+                    }
+                    else{
+                      comosalio = 0
+                    }
+                });
+              })
+              if (response.success) {
+                Swal.fire({
+                  text: 'El pedido se ha ingresado exitosamente',
+                  imageUrl: 'assets/images/gifcarro.gif',
+                  imageWidth: 400,
+                  imageHeight: 400,
+                  imageAlt: 'Esooo',
+                  showConfirmButton: false,
+                  timer: 3000,
+                  timerProgressBar: true,
+                  title: '¡Exito!'
+                })
+                this.wizard.goToStep(2);
+              } else {
+                Swal.fire({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 1500,
+                  timerProgressBar: true,
+                  title: '¡Hubo un error al ingresar el pedido!(2)',
+                  icon: 'error'
+                });
+              }
+            }
+                
+          
+          } else {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 1500,
+              timerProgressBar: true,
+              title: '¡Hubo un error en la respuesta del API!',
+              icon: 'error'
+            });
+            console.error('Respuesta del API inválida:', response);
+          }
+        },
+        (error: any) => {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            title: '¡Hubo un error al realizar la solicitud!',
+            icon: 'error'
+          });
+          console.error(error);
+        }
+      );
+  }else{
+    this.submitted = true;
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2500,
+      timerProgressBar: true,
+      title: 'Seleccione al menos un producto',
+      icon: 'warning'
+    })
+
+  }
+}
 
 }

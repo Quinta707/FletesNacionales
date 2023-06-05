@@ -2658,13 +2658,13 @@ AS
 BEGIN
 	BEGIN TRY
         
-		INSERT INTO flet.tbPedidoDetalles (pedi_Id, item_Id, pdet_UsuCreacion)
-		VALUES	(@pedi_Id, @item_Id, @pdet_UsuCreacion)
+		INSERT INTO flet.tbPedidoDetalles (pedi_Id, item_Id, pdet_Cantidad, pdet_UsuCreacion)
+		VALUES	(@pedi_Id, @item_Id, 1, @pdet_UsuCreacion)
 
-		SELECT 1 
+		SELECT 1 as codeStatus
 	END TRY
 	BEGIN CATCH
-		SELECT 0 
+		SELECT 0 as codeStatus
 	END CATCH
 END
 
@@ -2809,25 +2809,25 @@ END
 
 --************** INSERT *****************--
 GO
-CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_Insert 
+CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_Insert
 (
 @clie_Id			INT,
-@muni_Origen		INT,
-@muni_Destino		INT,
+@muni_Origen		CHAR(4),
+@muni_Destino		CHAR(4),
 @pedi_DestinoFinal	NVARCHAR(250),
+@meto_Id			INT,
 @pedi_UsuCreacion	INT
 )
 AS
 BEGIN
 	BEGIN TRY
         
-		INSERT INTO flet.tbPedidos (clie_Id, muni_Origen, muni_Destino, pedi_DestinoFinal, pedi_UsuCreacion, estp_Id)
-		VALUES	(@clie_Id, @muni_Origen, @muni_Destino, @pedi_DestinoFinal, @pedi_UsuCreacion, 1)
-
-		SELECT 1 
+		INSERT INTO flet.tbPedidos (clie_Id, muni_Origen, muni_Destino, pedi_DestinoFinal, meto_Id, pedi_UsuCreacion, estp_Id)
+		VALUES	(@clie_Id, @muni_Origen, @muni_Destino, @pedi_DestinoFinal, @meto_Id, @pedi_UsuCreacion, 1)
+		SELECT SCOPE_IDENTITY() as codeStatus;
 	END TRY
 	BEGIN CATCH
-		SELECT 0 
+		SELECT 0 AS codeStatus
 	END CATCH
 END
 
