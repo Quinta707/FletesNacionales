@@ -18,7 +18,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./estadosdelpedido-list.component.scss']
 })
 export class EstadosdelpedidoListComponent {
-  user: any = JSON.parse(localStorage.getItem("user"))
+
 
   estadosdelpedido: EstadosDelPedido = new EstadosDelPedido();
   estadosdelpedidolist!: EstadosDelPedido[];
@@ -32,9 +32,7 @@ export class EstadosdelpedidoListComponent {
   public searchText: string;
 
   constructor(
-    public service: EstadosDelPedidoService,
-    private modalService: NgbModal,
-    private _formBuilder: FormBuilder,
+    public service: EstadosDelPedidoService
   ) {
 
   }
@@ -45,70 +43,13 @@ export class EstadosdelpedidoListComponent {
         this.estadosdelpedidolist = data.data;
       })
 
-
-
-    this.CreateGroup = this._formBuilder.group({
-      estp_Nombre: ['', Validators.required],
-    });
+  
   }
-  @ViewChild('create') modalCreate: any;
-  modalRef: NgbModalRef;
-  sumit: boolean = false;
+
   onSearchInputChange() {
     this.agGrid.api.setQuickFilter(this.searchText);
   }
-  CreateGroup: FormGroup;
 
-  OpenModalCreate() {
-    this.sumit = false;
-    const formGroup = this.CreateGroup;
-
-    Object.keys(formGroup.controls).forEach(key => {
-      const control = formGroup.get(key);
-      control.markAsUntouched();
-    });
-
-    const Drenadora: EstadosDelPedido = new EstadosDelPedido();
-    this.estadosdelpedido = Drenadora;
-    this.modalRef = this.modalService.open(this.modalCreate, { centered: true });
-  }
-
-  CrearModelo() {
-    this.sumit = true;
-    let datoTrim = (this.CreateGroup.value['estp_Nombre'].trim());
-    this.CreateGroup.get("estp_Nombre").setValue(datoTrim)
-    this.estadosdelpedido.estp_Nombre = datoTrim;
-    this.estadosdelpedido.estp_UsuCreacion = this.user.user_Id;
-
-    if (this.CreateGroup.valid) {
-      this.service.InserttEstadosdelPedido(this.estadosdelpedido)
-        .subscribe((data: any) => {
-          if (data.success) {
-            this.alertaLogrado();
-            this.modalRef.close();
-          } else if (data.message === "YaExiste") {
-            this.alertaValorRepetido();
-          } else {
-            this.alertaErrorInespero();
-            this.modalRef.close();
-          }
-          this.service.getEstadosdelPedido()
-            .subscribe((data: any) => {
-              this.estadosdelpedidolist = data.data;
-            })
-        })
-
-    } else {
-      this.alertaCamposVacios();
-    }
-  }
-
-  closeModal() {
-    if (this.modalRef) {
-      this.sumit = false;
-      this.modalRef.dismiss();
-    }
-  }
   public defaultColDef: ColDef = {
     sortable: true,
     filter: true,
@@ -131,50 +72,5 @@ export class EstadosdelpedidoListComponent {
     });
 
   }
-  alertaCamposVacios() {
-    Swal.fire({
-      showConfirmButton: false,
-      toast: true,
-      position: 'top-end',
-      timer: 2500,
-      timerProgressBar: true,
-      title: 'Completa todos los campos',
-      icon: 'warning'
-    })
-  }
-  alertaLogrado() {
-    Swal.fire({
-      showConfirmButton: false,
-      toast: true,
-      position: 'top-end',
-      timer: 2500,
-      timerProgressBar: true,
-      title: 'Listo, el registro se guardo exitosamente',
-      icon: 'success'
-    })
-  }
-  alertaValorRepetido() {
-    Swal.fire({
-      showConfirmButton: false,
-      toast: true,
-      position: 'top-end',
-      timer: 2500,
-      timerProgressBar: true,
-      title: 'Ya existe otro registro con el mismo nombre',
-      icon: 'warning'
-    })
-  }
-  alertaErrorInespero() {
-    Swal.fire({
-      showConfirmButton: false,
-      toast: true,
-      position: 'top-end',
-      timer: 2500,
-      timerProgressBar: true,
-      title: 'Ha ocurrido un error inesperado',
-      icon: 'error'
-    })
-  }
-
-
+ 
 }

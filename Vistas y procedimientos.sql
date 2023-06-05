@@ -3518,30 +3518,33 @@ GO
 ----*********** UPDATE  ****************--
 GO
 CREATE OR ALTER PROCEDURE acce.UDP_tbusuarios_Update
-(@user_Id INT,
- @user_EsAdmin INT,
- @role_Id INT,
- @empe_Id INT,
- @user_UsuModificacion INT)
+    (@user_Id INT,
+     @user_EsAdmin INT,
+     @usua_Contraseña NVARCHAR(MAX),
+     @role_Id INT,
+     @empe_Id INT,
+     @user_UsuModificacion INT)
 AS
 BEGIN
-	BEGIN TRY
-		UPDATE [acce].[tbUsuarios]
-		SET [user_EsAdmin] = @user_EsAdmin,
-			[role_Id] = @role_Id,
-			[empe_Id] = @empe_Id,
-			[user_UsuModificacion] = @user_UsuModificacion,
-			[user_FechaModificacion] = GETDATE()
-		WHERE [user_Id] = @user_Id;
-		SELECT 1Proceso;
+    BEGIN TRY
+        DECLARE @Pass AS NVARCHAR(MAX);
+        SET @Pass = CONVERT(NVARCHAR(MAX), HASHBYTES('sha2_512', @usua_Contraseña));
 
-	END TRY
-	BEGIN CATCH
-		SELECT 0Proceso;
+        UPDATE [acce].[tbUsuarios]
+        SET [user_EsAdmin] = @user_EsAdmin,
+            [role_Id] = @role_Id,
+            [empe_Id] = @empe_Id,
+            user_Contrasena = @Pass, -- Encripta la nueva contraseña antes de asignarla
+            [user_UsuModificacion] = @user_UsuModificacion,
+            [user_FechaModificacion] = GETDATE()
+        WHERE [user_Id] = @user_Id;
 
-	END CATCH
+        SELECT 1 AS Proceso;
+    END TRY
+    BEGIN CATCH
+        SELECT 0 AS Proceso;
+    END CATCH
 END
-
 
 ----********** DELETE ***********--
 GO
@@ -3573,6 +3576,7 @@ SELECT T1.[user_Id]
       ,T1.[user_NombreUsuario]
       ,T1.[user_EsAdmin]
 	  ,T1.user_Url
+	  ,T1.user_Contrasena
       ,T1.[role_Id]
 	  ,T4.role_Nombre
       ,T1.[empe_Id]

@@ -1,41 +1,54 @@
 <div class="container">
-  <app-breadcrumb [title]="'Listado de Usuarios'" [items]="['Usuarios']" [active_item]="'Usuarios'"></app-breadcrumb>
+  <app-breadcrumb [title]="'Usuarios'" [items]="['Acceso']" [active_item]="'Usuarios'"></app-breadcrumb>
   <div class="row widget-grid">
     <div class="col-sm-12">
       <div class="card card-border">
         <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;"
           src="../../../../assets//images/equipo/headers/Usuarios.png" alt="Card image cap">
         <div class="card-body">
-          <button class="btn btn-primary" (click)="open(content)">+ Nuevo</button>
-          <br>
-          <div class="d-flex justify-content-between mb-2 mx-1 mt-4">
-            <table>
-              <thead>
-                <tr>
-                  <td>Elementos:</td>
-                  <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
-                      [(ngModel)]="paginationPageSize">
-                      <option [ngValue]="5">5</option>
-                      <option [ngValue]="10">10</option>
-                      <option [ngValue]="25">25</option>
-                      <option [ngValue]="50">50</option>
-                    </select>
-                  </td>
-                </tr>
-              </thead>
-            </table>
-            <div class="col-4">
+          <div class="d-flex justify-content-between mb-2 ">
+            <div class="col-3">
               <div class="input-group">
+                <table class="form-control d-flex justify-content-center">
+                  <thead>
+                    <tr>
+                      <td>Mostrar</td>
+                      <td>
+                        <select class="selectPhynomo" name="pageSize" [(ngModel)]="paginationPageSize">
+                          <option [ngValue]="5">5</option>
+                          <option [ngValue]="10">10</option>
+                          <option [ngValue]="25">25</option>
+                          <option [ngValue]="50">50</option>
+                        </select>
+                      </td>
+                      <td>elementos</td>
+                    </tr>
+                  </thead>
+                </table>
+                <span class="input-group-text"><i style="color: #3c334d; " class="fa fa-list-ol"></i></span>
+              </div>
+            </div>
+            <div class="col-4">
+              <button (click)="open(content)" class="btn btn-block btn-primary">
+                + Nuevo
+              </button>
+            </div>
+            <div class="col-3">
+              <div class="input-group" style="height:100%;">
                 <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
                 <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
                   placeholder="Buscar..." />
               </div>
             </div>
           </div>
-          <ag-grid-angular class="ag-theme-alpine" [columnDefs]="columnDefs" [pagination]="true"
-            [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
-            [rowData]="Usuarios" [rowSelection]="'multiple'" [domLayout]="domLayout"
-            [animateRows]="true"></ag-grid-angular>
+  
+          <div class="row mt-3">
+            <div class="col-12">
+              <ag-grid-angular class="ag-theme-alpine" [columnDefs]="columnDefs" [pagination]="true"
+                [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
+                [rowData]="Usuarios" [rowSelection]="'multiple'" [domLayout]="domLayout"
+                [animateRows]="true"></ag-grid-angular>
+            </div>
         </div>
       </div>
     </div>
@@ -66,7 +79,7 @@
         <div class="row">
           <div class="col-sm-6">
             <label for="">Nombre del Usuario</label>
-            <input type="text"  [(ngModel)]="Usuarios.user_NombreUsuario" name="user_NombreUsuario"
+            <input type="text" disabled [(ngModel)]="Usuarios.user_NombreUsuario" name="user_NombreUsuario"
               id="user_NombreUsuario" formControlName="user_NombreUsuario" class="form-control">
           </div>          
           <div class="col-sm-6">
@@ -82,8 +95,12 @@
         <div class="row">
           <div class="col-sm-6">
             <label for="">Contraseña</label>
-            <input type="password" disabled [(ngModel)]="Usuarios.user_Contrasena" name="user_Contrasena" id="user_Contrasena"
+            <input type="password"  [(ngModel)]="Usuarios.user_Contrasena" name="user_Contrasena" id="user_Contrasena"
               formControlName="user_Contrasena" class="form-control">
+              <ng-container class="invalid text-danger"
+              *ngIf="EditGroup.get('user_Contrasena').hasError('required') && (EditGroup.get('user_Contrasena').touched || sumit)">
+              <p class="text-danger">El campo es necesario</p>
+            </ng-container>
           </div>
           <div class="col-sm-6">   
             <label for="">Rol</label>

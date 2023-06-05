@@ -1,5 +1,5 @@
 <div class="container">
-  <app-breadcrumb [title]="'Modelos'" [items]="['Equipo']" [active_item]="'Modelos'"></app-breadcrumb>
+  <app-breadcrumb [title]="'Items'" [items]="['Fletes']" [active_item]="'Items'"></app-breadcrumb>
   <div class="row widget-grid">
     <div class="col-sm-12">
         <div class="card">
@@ -7,44 +7,50 @@
             <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/Items.png" alt="Card image cap">
     
       <div class="card-body">
-        <div class="row d-flex justify-content-center">
+        <div class="d-flex justify-content-between mb-2 ">
+          <div class="col-3">
+            <div class="input-group">
+              <table class="form-control d-flex justify-content-center">
+                <thead>
+                  <tr>
+                    <td>Mostrar</td>
+                    <td>
+                      <select class="selectPhynomo" name="pageSize" [(ngModel)]="paginationPageSize">
+                        <option [ngValue]="5">5</option>
+                        <option [ngValue]="10">10</option>
+                        <option [ngValue]="25">25</option>
+                        <option [ngValue]="50">50</option>
+                      </select>
+                    </td>
+                    <td>elementos</td>
+                  </tr>
+                </thead>
+              </table>
+              <span class="input-group-text"><i style="color: #3c334d; " class="fa fa-list-ol"></i></span>
+            </div>
+          </div>
           <div class="col-4">
             <button (click)="OpenModalCreate()" class="btn btn-block btn-primary">
               + Nuevo
             </button>
           </div>
-        </div>
-        <div class="d-flex justify-content-between mb-2 mt-4">
-        <table>
-          <thead>
-            <tr>
-              <td>Mostrar:</td>
-              <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
-                  [(ngModel)]="paginationPageSize">
-                  <option [ngValue]="5">5</option>
-                  <option [ngValue]="10">10</option>
-                  <option [ngValue]="25">25</option>
-                  <option [ngValue]="50">50</option>
-                </select>
-              </td>
-            </tr>
-          </thead>
-        </table>
-        <div class="col-4">
-          <div class="input-group">
-            <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
-            <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
-              placeholder="Buscar..." />
+          <div class="col-3">
+            <div class="input-group" style="height:100%;">
+              <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
+              <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
+                placeholder="Buscar..." />
+            </div>
           </div>
         </div>
-      </div>
-        <ag-grid-angular class="ag-theme-alpine" [columnDefs]="columnDefs" [pagination]="true"
-            [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
-            [rowData]="itemList" [rowSelection]="'multiple'" [domLayout]="domLayout"
-            [animateRows]="true"></ag-grid-angular>
-          <!-- (cellClicked)="onCellClicked($event)" -->
 
-
+        <div class="row mt-3">
+          <div class="col-12">
+            <ag-grid-angular class="ag-theme-alpine" [columnDefs]="columnDefs" [pagination]="true"
+              [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
+              [rowData]="itemList" [rowSelection]="'multiple'" [domLayout]="domLayout"
+              [animateRows]="true"></ag-grid-angular>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -97,16 +103,27 @@
         <div class="col">
           <div class="form-group">
             <label for="">Peso</label>
-            <input type="text" [(ngModel)]="items.item_Peso" name="item_Peso" id="item_Peso" formControlName="item_Peso" class="form-control" pattern="[0-9]*">
+            <div class="input-group">
+              <input type="number" [(ngModel)]="items.item_Peso" name="item_Peso" id="item_Peso" formControlName="item_Peso" class="form-control" pattern="[0-9]*">
+              <span class="input-group-text">
+                <span style="color: black;">Kg</span>
+              </span>
+            </div>
             <ng-container class="invalid text-danger"
-            *ngIf="EditGroup.get('item_Peso').hasError('required') && (EditGroup.get('item_Peso').touched || sumit)">
-            <p class="text-danger">El campo Pesoi es necesario</p></ng-container>
+              *ngIf="EditGroup.get('item_Peso').hasError('required') && (EditGroup.get('item_Peso').touched || sumit)">
+              <p class="text-danger">El campo Peso es necesario</p>
+            </ng-container>
           </div>
         </div>
         <div class="col">
           <div class="form-group">
             <label for="">Volumen</label>
-            <input type="text" [(ngModel)]="items.item_Volumen" name="item_Volumen" id="item_Volumen" formControlName="item_Volumen" class="form-control" pattern="[0-9]*">
+            <div class="input-group">
+              <input type="number" [(ngModel)]="items.item_Volumen" name="item_Volumen" id="item_Volumen" formControlName="item_Volumen" class="form-control" pattern="[0-9]*">
+              <span class="input-group-text">
+                <span style="color: black;">m³</span>
+              </span>
+            </div>
             <ng-container class="invalid text-danger"
             *ngIf="EditGroup.get('item_Volumen').hasError('required') && (EditGroup.get('item_Volumen').touched || sumit)">
             <p class="text-danger">El campo Volumen es necesario</p></ng-container>
@@ -133,7 +150,7 @@
             <label for="">Item</label>
             <input type="text" [(ngModel)]="items.item_Nombre" name="item_Nombre" id="item_Nombre" formControlName="item_Nombre" class="form-control">
             <ng-container class="invalid text-danger"
-            *ngIf="EditGroup.get('item_Nombre').hasError('required') && (EditGroup.get('item_Nombre').touched || sumit)">
+            *ngIf="CreateGroup.get('item_Nombre').hasError('required') && (CreateGroup.get('item_Nombre').touched || sumit)">
             <p class="text-danger">El campo Item es necesario</p></ng-container>
           </div>
         </div>
@@ -142,7 +159,7 @@
             <label for="">Descripción</label>
             <input type="text" [(ngModel)]="items.item_Descripcion" name="item_Descripcion" id="mode_Nombre" formControlName="item_Descripcion" class="form-control">
             <ng-container class="invalid text-danger"
-            *ngIf="EditGroup.get('item_Descripcion').hasError('required') && (EditGroup.get('item_Descripcion').touched || sumit)">
+            *ngIf="CreateGroup.get('item_Descripcion').hasError('required') && (CreateGroup.get('item_Descripcion').touched || sumit)">
             <p class="text-danger">El campo Descripción es necesario</p></ng-container>
           </div>
         </div>
@@ -151,20 +168,32 @@
         <div class="col">
           <div class="form-group">
             <label for="">Peso</label>
-            <input type="text" [(ngModel)]="items.item_Peso" name="item_Peso" id="item_Peso" formControlName="item_Peso" class="form-control" pattern="[0-9]*">
+            <div class="input-group">
+              <input type="number" [(ngModel)]="items.item_Peso" name="item_Peso" id="item_Peso" formControlName="item_Peso" class="form-control" pattern="[0-9]*">
+              <span class="input-group-text">
+                <span style="color: black;">Kg</span>
+              </span>
+            </div>
             <ng-container class="invalid text-danger"
-            *ngIf="EditGroup.get('item_Peso').hasError('required') && (EditGroup.get('item_Peso').touched || sumit)">
-            <p class="text-danger">El campo Peso es necesario</p></ng-container>
+              *ngIf="CreateGroup.get('item_Peso').hasError('required') && (CreateGroup.get('item_Peso').touched || sumit)">
+              <p class="text-danger">El campo Peso es necesario</p>
+            </ng-container>
           </div>
         </div>
         <div class="col">
           <div class="form-group">
             <label for="">Volumen</label>
-            <input type="text" [(ngModel)]="items.item_Volumen" name="item_Volumen" id="item_Volumen" formControlName="item_Volumen" class="form-control" pattern="[0-9]*">
+            <div class="input-group">
+              <input type="number" [(ngModel)]="items.item_Volumen" name="item_Volumen" id="item_Volumen" formControlName="item_Volumen" class="form-control" pattern="[0-9]*">
+              <span class="input-group-text">
+                <span style="color: black;">m³</span>
+              </span>
+            </div>
             <ng-container class="invalid text-danger"
-            *ngIf="EditGroup.get('item_Volumen').hasError('required') && (EditGroup.get('item_Volumen').touched || sumit)">
-            <p class="text-danger">El campo Volumen es necesario</p></ng-container>
-        </div>
+              *ngIf="CreateGroup.get('item_Volumen').hasError('required') && (CreateGroup.get('item_Volumen').touched || sumit)">
+              <p class="text-danger">El campo Volumen es necesario</p>
+            </ng-container>
+          </div>
       </div>
       </div>
     </div>

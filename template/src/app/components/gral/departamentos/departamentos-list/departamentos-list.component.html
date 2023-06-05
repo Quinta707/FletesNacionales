@@ -1,5 +1,5 @@
 <div class="container">
-  <app-breadcrumb [title]="'Departamentos'" [items]="['Equipo']" [active_item]="'Departamentos'"></app-breadcrumb>
+  <app-breadcrumb [title]="'Departamentos'" [items]="['General']" [active_item]="'Departamentos'"></app-breadcrumb>
   <div class="row widget-grid">
     <div class="col-sm-12">
         <div class="card">
@@ -7,43 +7,50 @@
             <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/Departamentos.png" alt="Card image cap">
     
       <div class="card-body">
-        <div class="row d-flex justify-content-center">
+        <div class="d-flex justify-content-between mb-2 ">
+          <div class="col-3">
+            <div class="input-group">
+              <table class="form-control d-flex justify-content-center">
+                <thead>
+                  <tr>
+                    <td>Mostrar</td>
+                    <td>
+                      <select class="selectPhynomo" name="pageSize" [(ngModel)]="paginationPageSize">
+                        <option [ngValue]="5">5</option>
+                        <option [ngValue]="10">10</option>
+                        <option [ngValue]="25">25</option>
+                        <option [ngValue]="50">50</option>
+                      </select>
+                    </td>
+                    <td>elementos</td>
+                  </tr>
+                </thead>
+              </table>
+              <span class="input-group-text"><i style="color: #3c334d; " class="fa fa-list-ol"></i></span>
+            </div>
+          </div>
           <div class="col-4">
             <button (click)="OpenModalCreate()" class="btn btn-block btn-primary">
               + Nuevo
             </button>
           </div>
-        </div>
-        <div class="d-flex justify-content-between mb-2 mt-4">
-        <table>
-          <thead>
-            <tr>
-              <td>Mostrar:</td>
-              <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
-                  [(ngModel)]="paginationPageSize">
-                  <option [ngValue]="5">5</option>
-                  <option [ngValue]="10">10</option>
-                  <option [ngValue]="25">25</option>
-                  <option [ngValue]="50">50</option>
-                </select>
-              </td>
-            </tr>
-          </thead>
-        </table>
-        <div class="col-4">
-          <div class="input-group">
-            <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
-            <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
-              placeholder="Buscar..." />
+          <div class="col-3">
+            <div class="input-group" style="height:100%;">
+              <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
+              <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
+                placeholder="Buscar..." />
+            </div>
           </div>
         </div>
-      </div>
-        <ag-grid-angular class="ag-theme-alpine" [columnDefs]="columnDefs" [pagination]="true"
-            [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
-            [rowData]="departamentoslist" [rowSelection]="'multiple'" [domLayout]="domLayout"
-            [animateRows]="true"></ag-grid-angular>
-          <!-- (cellClicked)="onCellClicked($event)" -->
 
+        <div class="row mt-3">
+          <div class="col-12">
+            <ag-grid-angular class="ag-theme-alpine" [columnDefs]="columnDefs" [pagination]="true"
+              [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
+              [rowData]="departamentoslist" [rowSelection]="'multiple'" [domLayout]="domLayout"
+              [animateRows]="true"></ag-grid-angular>
+          </div>
+        </div>
 
       </div>
     </div>
