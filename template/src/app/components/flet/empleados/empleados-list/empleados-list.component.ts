@@ -48,16 +48,10 @@ export class EmpleadosListComponent implements OnInit{
 
   actionButtonRenderer(params: any, modalService: NgbModal) {
     const onClickHandler = () => {
-      this.Empleados.empe_Id = params.data.empe_Id;
-      this.Empleados.empe_NombreCompleto = params.data.empe_NombreCompleto;
-      this.Empleados.carg_Descripcion = params.data.carg_Descripcion;
-      this.Empleados.empe_Telefono = params.data.empe_Telefono;
-
-      
-    this.modalRef = this.modalService.open(this.modalContent, { centered: true });
+      this.router.navigate(['/flet/Empleados/Edit'], { queryParams: { id: params.data.empe_Id } });
     };
   
-    const redireccion = () => {
+    const redireccion = () => { 
       this.router.navigate(['/flet/Fletes/Details'], { queryParams: { id: params.data.flet_Id } });
     }
 
@@ -150,4 +144,7 @@ export class EmpleadosListComponent implements OnInit{
       this.agGrid.api.setQuickFilter(this.searchText);
     }
 
+    Nuevo(){
+      this.router.navigate(['flet/Empleados/Create']);
+    }
 }

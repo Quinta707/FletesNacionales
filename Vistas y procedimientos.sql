@@ -1642,7 +1642,7 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_Insert
  @empe_FechaNacimiento Date,
  @empe_Sexo char(1),
  @eciv_Id INT,
- @muni_Id INT,
+ @muni_Id CHAR(4),
  @empe_DireccionExacta NVARCHAR(250),
  @empe_Telefono NVARCHAR(20),
  @sucu_Id INT,

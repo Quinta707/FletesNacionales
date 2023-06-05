@@ -8,6 +8,10 @@ import { SortColumn, SortDirection } from '../directives/NgbdSortableHeader';
 import { Empleados } from '../model/empleados.model';
 import { Global } from '../../../../config';
 import { HttpClient } from '@angular/common/http';
+import { Municipios } from '../model/municipios.model';
+import { EstadosCiviles } from '../model/estadosCiviles.model';
+import { Sucursales } from '../model/sucursales.model';
+import { Cargos } from '../model/cargos.model';
 
 interface SearchResult {
     tableItem: any[];
@@ -151,5 +155,23 @@ export class TableService {
     return this.http.get<Empleados[]>(this.EmpleadosListado);
   }
 
+  getDllMunicipios(){
+    return this.http.get<Municipios[]>(Global+"Municipios/Listado")
+  }
+
+  getDllEstadosCiviles(){
+    return this.http.get<EstadosCiviles[]>(Global+"EstadosCiviles/Listado")
+  }
+
+  getDllSucursales(){
+    return this.http.get<Sucursales[]>(Global+"Sucursales/Listado")
+  }
+
+  getDllCargos(){
+    return this.http.get<Cargos[]>(Global+"Cargos/Listado")
+  }
+  buscarEmpleados(id){
+    return this.http.get<Empleados[]>(Global+"Empleados/Listado¿empe_Id=" + id)
+  }
 }
 

@@ -16,6 +16,8 @@ import { FletedetailsComponent } from './fletes/fletes-details/fletes-details.co
 import { ClientesCreateComponent } from './clientes/clientes-create/clientes-create.component';
 import { PedidosCreateComponent } from './pedidos/pedidos-create/pedidos-create.component';
 import { ClientesEditComponent } from './clientes/clientes-edit/clientes-edit.component';
+import { EmpleadosCreateComponent } from './empleados/empleados-create/empleados-create.component';
+import { EmpleadosEditComponent } from './empleados/empleados-edit/empleados-edit.component';
 
 import { ReporteComponent } from './reporte/reporte/reporte.component';
 const routes: Routes = [
@@ -97,6 +99,14 @@ const routes: Routes = [
           {
             path: "List",
             component: EmpleadosListComponent,
+          },
+          {
+            path: "Create",
+            component: EmpleadosCreateComponent,
+          },
+          {
+            path: "Edit",
+            component: EmpleadosEditComponent,
           },
           
         ],

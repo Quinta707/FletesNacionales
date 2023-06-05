@@ -35,7 +35,6 @@ import { ReporteComponent } from './reporte/reporte/reporte.component';
 import { ClientesEditComponent } from './clientes/clientes-edit/clientes-edit.component';
 import { EmpleadosCreateComponent } from './empleados/empleados-create/empleados-create.component';
 import { EmpleadosEditComponent } from './empleados/empleados-edit/empleados-edit.component';
-import { EmpleadosDetailsComponent } from './empleados/empleados-details/empleados-details.component';
 import { ClientesDetailsComponent } from './clientes/clientes-details/clientes-details.component';
 
 
@@ -60,7 +59,6 @@ import { ClientesDetailsComponent } from './clientes/clientes-details/clientes-d
     ClientesEditComponent,
     EmpleadosCreateComponent,
     EmpleadosEditComponent,
-    EmpleadosDetailsComponent,
     ClientesDetailsComponent,
   ],
   imports: [

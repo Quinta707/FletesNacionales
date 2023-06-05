@@ -1,1 +1,138 @@
-<p>empleados-edit works!</p>
+<div class="container">
+    <app-breadcrumb [title]="'Editar un Empleado'" [items]="['Fletes']" [active_item]="'Empleados'"></app-breadcrumb>
+      <div class="row widget-grid">
+        <div class="col-sm-12">
+    
+          <div class="card card-border">
+            <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../../assets/images/equipo/headers/editar-headers/EditarEmpleados.png" alt="Card image cap">
+    
+          <div class="card-body">
+            <form [formGroup]="FormGroup1">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label class="form-label" for="NombresVal">Nombres</label>
+                        <input class="form-control" formControlName="empe_Nombres" id="NombresVal" type="text" placeholder="Nombres" required  rows="3"
+                        />
+                        <ng-container class="invalid text-danger"
+                        *ngIf="FormGroup1.get('empe_Nombres').hasError('required') && (FormGroup1.get('empe_Nombres').touched || submitted)">
+                        <label style="color:red">Este campo es requerido</label></ng-container>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label" for="ApeVal">Apellidos</label>
+                        <input class="form-control" formControlName="empe_Apellidos" id="ApeVal" type="text" placeholder="Apellidos" required  rows="3"
+                        />
+                        <ng-container class="invalid text-danger"
+                        *ngIf="FormGroup1.get('empe_Apellidos').hasError('required') && (FormGroup1.get('empe_Apellidos').touched || submitted)">
+                        <label style="color:red">Este campo es requerido</label></ng-container>
+                    </div>
+                </div><br>
+    
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label class="form-label" for="identVal">Identidad</label>
+                        <input class="form-control" formControlName="empe_Identidad" id="IdentidadInput" placeholder="0000-0000-00000" required 
+                        />
+                        <ng-container class="invalid text-danger"
+                        *ngIf="FormGroup1.get('empe_Identidad').hasError('required') && (FormGroup1.get('empe_Identidad').touched || submitted)">
+                        <label style="color:red">Este campo es requerido</label></ng-container>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label" for="FechaVal">Fecha de nacimiento</label>
+                        <input class="form-control" formControlName="empe_FechaNacimiento" id="FechaVal" type="date"required />
+                        <ng-container class="invalid text-danger"
+                        *ngIf="FormGroup1.get('empe_FechaNacimiento').hasError('required') && (FormGroup1.get('empe_FechaNacimiento').touched || submitted)">
+                        <label style="color:red">Este campo es requerido</label></ng-container>
+                    </div>
+                </div><br>
+    
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label class="form-label" for="SexoVal">Sexo</label>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="radio radio-primary">
+                                    <input class="form-check-input" formControlName="empe_Sexo" id="radio44" type="radio" name="SexoValue" value="F"/>
+                                    <label class="form-check-label" for="radio44">Femenino</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="radio radio-primary">
+                                    <input class="form-check-input" formControlName="empe_Sexo" id="radio33" type="radio" name="SexoValue" value="M" />
+                                    <label class="form-check-label" for="radio33">Masculino</label>
+                                  </div>
+                            </div>
+                        </div>
+                        <ng-container class="invalid text-danger"
+                        *ngIf="FormGroup1.get('empe_Sexo').hasError('required') && (FormGroup1.get('empe_Sexo').touched || submitted)">
+                        <label style="color:red">Este campo es requerido</label></ng-container>
+                       
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label" >Estado Civil</label>
+                        <ng-select formControlName="eciv_Id" placeholder="Seleccione un estado civil"  [items]="estadosCivilesDdl" required
+                      class="js-example-placeholder-multiple" [(ngModel)]="Estados.eciv_Id" bindValue="value" name="EstadoValue" ></ng-select>
+                      <ng-container class="invalid"
+                      *ngIf="FormGroup1.get('eciv_Id').hasError('required') && (FormGroup1.get('eciv_Id').touched || submitted)">
+                      <label style="color:red">Este campo es requerido</label></ng-container>
+                    </div>
+                </div><br>
+    
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label class="form-label">Municipio</label>
+                        <ng-select formControlName="muni_Id" placeholder="Seleccione un municipio"  [items]="municipiosDdl" required
+                      class="js-example-placeholder-multiple" [(ngModel)]="Municipio.muni_Id" bindValue="value" groupBy="job" name="MunicipioValue"></ng-select>
+                      <ng-container class="invalid"
+                      *ngIf="FormGroup1.get('muni_Id').hasError('required') && (FormGroup1.get('muni_Id').touched || submitted)">
+                      <label style="color:red">Este campo es requerido</label></ng-container>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="form-label">Sucursal</label>
+                        <ng-select formControlName="sucu_Id" placeholder="Seleccione una sucursal"  [items]="sucursalesDdl" required
+                      class="js-example-placeholder-multiple" [(ngModel)]="Sucursales.sucu_Id" bindValue="value" groupBy="job"></ng-select>
+                      <ng-container class="invalid"
+                      *ngIf="FormGroup1.get('sucu_Id').hasError('required') && (FormGroup1.get('sucu_Id').touched || submitted)">
+                      <label style="color:red">Este campo es requerido</label></ng-container>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="form-label">Cargo</label>
+                        <ng-select formControlName="carg_Id" placeholder="Seleccione un cargo"  [items]="cargosDdl" required
+                      class="js-example-placeholder-multiple" [(ngModel)]="Cargos.carg_Id" bindValue="value" groupBy="job" ></ng-select>
+                      <ng-container class="invalid"
+                      *ngIf="FormGroup1.get('carg_Id').hasError('required') && (FormGroup1.get('carg_Id').touched || submitted)">
+                      <label style="color:red">Este campo es requerido</label></ng-container>
+                    </div>
+                </div><br>
+    
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label class="form-label" for="empe_DireccionExacta">Direccion exacta</label>
+                        <input class="form-control" formControlName="empe_DireccionExacta" id="DirecVal" type="text" required 
+                        />
+                        <ng-container class="invalid text-danger"
+                        *ngIf="FormGroup1.get('empe_DireccionExacta').hasError('required') && (FormGroup1.get('empe_DireccionExacta').touched || submitted)">
+                        <label style="color:red">Este campo es requerido</label></ng-container>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label" for="empe_Telefono">Telefono</label>
+                        <input class="form-control" formControlName="empe_Telefono" id="tuInput" placeholder="+(000) 0000-0000" required
+                        />
+                        <ng-container class="invalid text-danger"
+                        *ngIf="FormGroup1.get('empe_Telefono').hasError('required') && (FormGroup1.get('empe_Telefono').touched || submitted)">
+                        <label style="color:red">Este campo es requerido</label></ng-container>
+                    </div>
+                </div><br>
+    
+                <div class="text-center">
+                    <div class="aling-content-center">
+                        <button class="btn btn-success" (click)="Guardar()">Editar</button>
+                        <button class="btn btn-secondary" (click)="Cancelar()"  style="margin-left: 15px;">Cancelar</button>
+                    </div>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      </div>
+  </div>
+  
