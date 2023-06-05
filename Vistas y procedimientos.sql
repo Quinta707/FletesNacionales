@@ -3500,24 +3500,25 @@ GO
 --GO
 
 
-CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_EliminarUsuario
-	@user_Id			INT
-AS
-BEGIN
-	BEGIN TRY
-		BEGIN TRAN
-			DELETE FROM	ACCE.tbUsuarios
-				  WHERE user_Id = @user_Id
+--CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_EliminarUsuario
+--	@user_Id			INT
+--AS
+--BEGIN
+--	BEGIN TRY
+--		BEGIN TRAN
+--			DELETE FROM	ACCE.tbUsuarios
+--			       SET 
+--				  WHERE user_Id = @user_Id
 		
-		COMMIT
-		SELECT 1
-	END TRY
-	BEGIN CATCH
-		ROLLBACK
-		SELECT 0
-	END CATCH
-END
-GO
+--		COMMIT
+--		SELECT 1
+--	END TRY
+--	BEGIN CATCH
+--		ROLLBACK
+--		SELECT 0
+--	END CATCH
+--END
+--GO
 --************  INSERT **************---
 GO
 --CREATE OR ALTER PROCEDURE acce.UDP_tbUsuarios_Insert

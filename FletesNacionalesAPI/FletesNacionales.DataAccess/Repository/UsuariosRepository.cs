@@ -19,7 +19,7 @@ namespace FletesNacionales.DataAccess.Repository
 
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
-            parametros.Add("@user_Id", item.role_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@user_Id", item.user_Id, DbType.Int32, ParameterDirection.Input);
             var resultado = db.QueryFirst<int>(ScriptsDataBase.UsuraiosDelete, parametros, commandType: System.Data.CommandType.StoredProcedure);
 
             RequestStatus request = new()

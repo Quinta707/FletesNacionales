@@ -155,6 +155,10 @@ export class UsuariosComponent {
                 if (data.code === 200) {
                   if (data.data.codeStatus === 1) {
                     this.mensajeSuccess('Usuario agregado con exito');
+                    this.service.getUsuarios()
+                    .subscribe((data: any)=>{
+                        this.Usuarios= data.data;
+                    })
                   } else {
                     this.mensajeError('Ocurrio un error al intentar agregar el usuario');
                   }
@@ -261,7 +265,7 @@ export class UsuariosComponent {
       this.modalRef.close();
       this.service.getUsuarios()
       .subscribe((data: any)=>{
-          this.usuarios= data.data;
+          this.Usuarios= data.data;
       })
 
     })

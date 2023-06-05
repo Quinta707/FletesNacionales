@@ -11,7 +11,7 @@
         public static string UsuraiosIndex = "acce.UDP_tbUsuarios_Index";
         public static string UsuraiosInsert = "ACCE.UDP_tbUsuarios_InsertarNuevoUsuario";
         public static string UsuraiosUpdate = "acce.UDP_tbusuarios_Update";
-        public static string UsuraiosDelete = "ACCE.UDP_tbUsuarios_EliminarUsuario";
+        public static string UsuraiosDelete = "acce.UDP_tbusuarios_Delete";
         public static string ValidarUsuariosPoseenRol = "ACCE.UDP_tbUsuarios_ValidarUsuariosPoseenRol";
         public static string ValidarUsernameExiste = "ACCE.UDP_tbUsuarios_ValidarUsernameExiste";
         public static string EmpleadosNoTienenUsuario = "ACCE.UDP_tbUsuarios_EmpleadosNoTienenUsuario";
