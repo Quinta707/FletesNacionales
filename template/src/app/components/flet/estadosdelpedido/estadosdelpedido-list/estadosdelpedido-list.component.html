@@ -1,5 +1,5 @@
 <div class="container">
-  <app-breadcrumb [title]="'Estados Del Pedido'" [items]="['Equipo']" [active_item]="'Estados Del Pedido'"></app-breadcrumb>
+  <app-breadcrumb [title]="'Estados Del Pedido'" [items]="['Fletes']" [active_item]="'Estados Del Pedido'"></app-breadcrumb>
   <div class="row widget-grid">
     <div class="col-sm-12">
         <div class="card">
@@ -7,44 +7,48 @@
             <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/EstadosDelPedido.png" alt="Card image cap">
     
       <div class="card-body">
-        <div class="row d-flex justify-content-center">
+        <div class="d-flex justify-content-between mb-2 ">
+          <div class="col-3">
+            <div class="input-group">
+              <table class="form-control d-flex justify-content-center">
+                <thead>
+                  <tr>
+                    <td>Mostrar</td>
+                    <td>
+                      <select class="selectPhynomo" name="pageSize" [(ngModel)]="paginationPageSize">
+                        <option [ngValue]="5">5</option>
+                        <option [ngValue]="10">10</option>
+                        <option [ngValue]="25">25</option>
+                        <option [ngValue]="50">50</option>
+                      </select>
+                    </td>
+                    <td>elementos</td>
+                  </tr>
+                </thead>
+              </table>
+              <span class="input-group-text"><i style="color: #3c334d; " class="fa fa-list-ol"></i></span>
+            </div>
+          </div>
           <div class="col-4">
-            <button (click)="OpenModalCreate()" class="btn btn-block btn-primary">
-              + Nuevo
-            </button>
+        
+          </div>
+          <div class="col-3">
+            <div class="input-group" style="height:100%;">
+              <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
+              <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
+                placeholder="Buscar..." />
+            </div>
           </div>
         </div>
-        <div class="d-flex justify-content-between mb-2 mt-4">
-        <table>
-          <thead>
-            <tr>
-              <td>Mostrar:</td>
-              <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
-                  [(ngModel)]="paginationPageSize">
-                  <option [ngValue]="5">5</option>
-                  <option [ngValue]="10">10</option>
-                  <option [ngValue]="25">25</option>
-                  <option [ngValue]="50">50</option>
-                </select>
-              </td>
-            </tr>
-          </thead>
-        </table>
-        <div class="col-4">
-          <div class="input-group">
-            <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
-            <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
-              placeholder="Buscar..." />
+
+        <div class="row mt-3">
+          <div class="col-12">
+            <ag-grid-angular class="ag-theme-alpine" [columnDefs]="columnDefs" [pagination]="true"
+              [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
+              [rowData]="estadosdelpedidolist" [rowSelection]="'multiple'" [domLayout]="domLayout"
+              [animateRows]="true"></ag-grid-angular>
           </div>
         </div>
-      </div>
-        <ag-grid-angular class="ag-theme-alpine" [columnDefs]="columnDefs" [pagination]="true"
-            [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
-            [rowData]="estadosdelpedidolist" [rowSelection]="'multiple'" [domLayout]="domLayout"
-            [animateRows]="true"></ag-grid-angular>
-          <!-- (cellClicked)="onCellClicked($event)" -->
-
-
       </div>
     </div>
   </div>
@@ -52,24 +56,3 @@
 </div>
 
 
-<form [formGroup]="CreateGroup">
-  <ng-template #create let-c="close" let-d="dismiss" class="">
-    <div class="modal-header d-flex justify-content-center">
-      <h4 class="modal-title" id="modal-basic-title">Crear</h4>
-    </div>
-    <div class="modal-body ">      
-          <div class="form-group">
-            <label for="">Estado del Pedido</label>
-            <input type="text" placeholder="Modelo" [(ngModel)]="estadosdelpedido.estp_Nombre" name="estp_Nombre" id="estp_Nombre" formControlName="estp_Nombre"
-            placeholder="Estado del Pedido" class="form-control">
-            <ng-container class="invalid text-danger"
-            *ngIf="CreateGroup.get('estp_Nombre').hasError('required') && (CreateGroup.get('estp_Nombre').touched || sumit)">
-            <p class="text-danger">El campo es necesario</p></ng-container>
-          </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-dark" (click)="closeModal()">Cancelar</button>
-    <button type="button" class="btn btn-primary" (click)="CrearModelo()" >Guardar</button>
-  </div>
-</ng-template>
-</form>
