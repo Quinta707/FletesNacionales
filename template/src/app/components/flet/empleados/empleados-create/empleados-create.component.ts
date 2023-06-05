@@ -195,6 +195,6 @@ export class EmpleadosCreateComponent {
   }
 
   public Cancelar() {
-    this.router.navigate(['flet/Clientes/List']);
+    this.router.navigate(['flet/Empleados/List']);
   }
 }
