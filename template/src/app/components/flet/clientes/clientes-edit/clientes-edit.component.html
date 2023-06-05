@@ -6,7 +6,7 @@
 
             <div class="card card-border">
                 <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;"
-                    src="../../../../../assets/images/equipo/headers/agregar-headers/IngresarCliente.png"
+                    src="../../../../../assets/images/equipo/headers/editar-headers/EditarClientes.png"
                     alt="Card image cap">
                     <form [formGroup]="CreateGroup">
                         
@@ -123,7 +123,8 @@
                         </div><br>
 
                         <div class="row d-flex justify-content-end">
-                            <div class="col-3 d-flex justify-content-end">
+                            <div class="col-4 d-flex justify-content-end">
+                                <button type="button" class="btn mx-2 btn-dark btn-block" (click)="Regresar()">Regresar</button>
                                 <button class="btn btn-primary btn-block" (click)="Guardar()">Guardar</button>
                             </div>
                         </div>

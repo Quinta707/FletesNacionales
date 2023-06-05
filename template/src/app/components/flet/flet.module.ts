@@ -10,6 +10,7 @@ import { SharedModule } from '../../shared/shared.module';
 
 import { ItemListComponent } from './item/items-list/items-list.component';
 import { ClienteListComponent } from './clientes/clientes-list/clientes-list.component';
+import { ClientesEditComponent } from './clientes/clientes-edit/clientes-edit.component';
 import { FleteListPropioComponent } from './fletes/fletes-list-propio/fletes-list-propio.component';
 import { FleteDetailsPropioComponent } from './fletes/fletes-details-propio/fletes-details-propio.component';
 import { FleteCreateComponent } from './fletes/fletes-create/fletes-create.component';
@@ -60,6 +61,7 @@ import { ReporteComponent } from './reporte/reporte/reporte.component';
     TrayectosIndexComponent,
     PedidosIndexComponent,
     ClientesCreateComponent,
+    ClientesEditComponent,
     ReporteComponent,
     CalenderComponent,
     graficaLstComponent

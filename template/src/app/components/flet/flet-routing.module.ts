@@ -20,7 +20,11 @@ import { AccesoGuard } from '../../shared/guard/acceso.guard';
 
 import { ReporteComponent } from './reporte/reporte/reporte.component';
 import { FleteDetailsPropioComponent } from "./fletes/fletes-details-propio/fletes-details-propio.component";
+<<<<<<< HEAD
 import { graficaLstComponent } from './grafica/grafica-lst/grafica-lst.component';
+=======
+import { ClientesEditComponent } from "./clientes/clientes-edit/clientes-edit.component";
+>>>>>>> Phynomo
 const routes: Routes = [
   {
     path: "",
@@ -109,6 +113,10 @@ const routes: Routes = [
           {
             path: "Create",
             component: ClientesCreateComponent,
+          },
+          {
+            path: "Edit",
+            component: ClientesEditComponent,
           },
           
         ],

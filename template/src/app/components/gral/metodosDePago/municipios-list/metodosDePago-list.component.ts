@@ -124,6 +124,7 @@ export class MetodosDePagoListComponent implements OnInit {
 
   //fomularios
   CreateGroup: FormGroup;
+  
   EditGroup: FormGroup;  
 
   sumit:boolean = false;
