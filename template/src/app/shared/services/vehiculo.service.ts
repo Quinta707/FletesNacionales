@@ -8,7 +8,6 @@ import { SortColumn, SortDirection } from '../directives/NgbdSortableHeader';
 import { Global } from '../../../../config';
 import { HttpClient } from '@angular/common/http';
 import { Vehiculos } from '../model/vehiculos.model';
-import { Modelos } from '../model/Modelos.model';
 
 interface SearchResult {
     tableItem: any[];
@@ -140,36 +139,6 @@ export class TableService {
     return this.http.get<Vehiculos[]>(this.VehiculoListado);
   }
 
-  ModelosListado = Global + "Modelos/Listado";
-  getModelos(){
-    return this.http.get<Modelos[]>(this.ModelosListado);
-  }
-
-  VehiculosCreate = Global + "Vehiculos/Insertar";
-  createVehiculos(vehiculo: Vehiculos)
-  {
-    return this.http.post<Vehiculos[]>(this.VehiculosCreate,vehiculo);
-  }
-
-  VehiculosUpdate = Global + "Vehiculos/Editar";
-  updateVehiculos(vehiculo: Vehiculos)
-  {
-    return this.http.put<Vehiculos[]>(this.VehiculosUpdate,vehiculo);
-  }
-  VehiculosDelete = Global + "Vehiculos/Eliminar";
-
-  deleteVehiculos(vehiculo: Vehiculos)
-  {
-    return this.http.put<Vehiculos[]>(this.VehiculosDelete,vehiculo);
-  }
-  
-  VehiculosFind = Global + "Vehiculos/Buscar?id=";
-  findVehiculos(id?: number)
-  {
-    return this.http.get<Vehiculos[]>(this.VehiculosFind + id);
-  }
-  
-  
 
 }
 

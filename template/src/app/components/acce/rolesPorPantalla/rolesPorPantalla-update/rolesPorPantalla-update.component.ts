@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
 
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
@@ -33,8 +32,10 @@ export class RolesporPantallaupdateComponent {
     config.backdrop = 'static';
     config.keyboard = false;
   }
+  //que te puedo decir amor
   dropdownList = [];
   selectedItems: any[] = [];
+  dropdownSettings : IDropdownSettings;
   ngOnInit() {
     if(localStorage.getItem("role_Id") == 'null')
     {
@@ -54,13 +55,18 @@ export class RolesporPantallaupdateComponent {
       .subscribe((data: any) =>{
         this.dropdownList = data.data
       })
-      
+      this.dropdownSettings = {
+        singleSelection: false,
+        idField: 'pant_Id',
+        textField: 'pant_Nombre',
+        selectAllText: 'Seleccionar todo',
+        searchPlaceholderText: 'Buscar pantalla' ,
+        unSelectAllText: 'Deseleccionar',
+        itemsShowLimit: 3,
+        allowSearchFilter: true
+      };
     }
   }
-
-  
-  format = { add: 'Añadir', remove: 'remover', all: 'Todo', none: 'Ninguno',
-  direction: 'left-to-right', draggable: true, locale: 'Indefinido' };
 
   onItemSelect(item: any) {
   }
@@ -70,111 +76,39 @@ export class RolesporPantallaupdateComponent {
     localStorage.setItem("role_Id", null)
     this.router.navigate(['/acce/Roles/List'])
   }
+  //no es a vos que te deseo
   
   enviar: RolesporPantalla = new RolesporPantalla();
   eliminar: RolesporPantalla = new RolesporPantalla();
   Update()
   {   
-    this.validate = true;
-    this.updateRol.role_Nombre = this.updateRol.role_Nombre.trim()
-
     if(this.updateRol.role_Nombre == "")
     {
       this.validate = true;
+      console.log('inserte un nombre')
     }
     if(this.selectedItems.length == 0)
     {
-      Swal.fire({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 1500,
-        timerProgressBar: true,
-        title: 'Favor Seleccione almenos 1 pantalla',
-        icon: 'error'
-      })  
+      console.log('selecciona pantallas')
     }
     if(this.updateRol.role_Nombre != "" && this.selectedItems.length != 0)
     {  
       this.eliminar.role_Id = parseInt(localStorage.getItem("role_Id"))
       this.service.deleteRolesporPantalla(this.eliminar).subscribe(data =>{
       })    
+
+      console.log(this.updateRol.role_Nombre + ' aqui iria el orl')
       this.service.updateRol(this.updateRol).subscribe((data:any) =>{
       
-        if(data.message == "YaExiste")
-        {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            title: 'Este rol ya existe',
-            icon: 'error'
+      this.selectedItems.forEach((element: any) => {
+        this.enviar.pant_Id = element.pant_Id
+        this.enviar.role_Id = parseInt(localStorage.getItem("role_Id"))
+          
+          this.service.createRolesporPantalla(this.enviar)
+          .subscribe((data:any)=>{
+            this.router.navigate(['acce/Roles/List'])
           })
-        }
-        if(data.message == "ErrorInesperado")
-        {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            title: 'Ocurrio un error',
-            icon: 'error'
-          })
-        }
-        if(data.message == "Exitoso")
-        {
-          this.selectedItems.forEach((element: any, i: any) => {
-            
-            this.enviar.pant_Id = element.pant_Id
-            this.enviar.role_Id = parseInt(localStorage.getItem("role_Id"))
-              
-              this.service.createRolesporPantalla(this.enviar)
-              .subscribe((data:any)=>{
-               
-              if(data.message == 1) 
-              {
-                Swal.fire({
-                  toast: true,
-                  position: 'top-end',
-                  showConfirmButton: false,
-                  timer: 1500,
-                  timerProgressBar: true,
-                  title: 'Registro actualizado con exito',
-                  icon: 'success'
-                })
-                this.router.navigate(["/acce/Roles/List"])
-              }
-              if(data.message == "-2")
-              {
-                Swal.fire({
-                  toast: true,
-                  position: 'top-end',
-                  showConfirmButton: false,
-                  timer: 1500,
-                  timerProgressBar: true,
-                  title: 'Este rol ya existe',
-                  icon: 'error'
-                })
-              }
-              if(data.message == "0")
-              {
-                Swal.fire({
-                  toast: true,
-                  position: 'top-end',
-                  showConfirmButton: false,
-                  timer: 1500,
-                  timerProgressBar: true,
-                  title: 'Ocurrio un error',
-                  icon: 'error'
-                })
-              } 
-              })
-          });
-        }
+        });
       })
     }
     

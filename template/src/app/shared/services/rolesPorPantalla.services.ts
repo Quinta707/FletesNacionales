@@ -168,13 +168,8 @@ export class TableService {
   
   RolesFind = Global + 'Roles/Buscar?id=';
   findRol(id?: number){
-    return this.http.get<RolesporPantalla>(this.RolesFind + id);
+    return this.http.get<RolesporPantalla[]>(this.RolesFind + id);
   }
-  RolesporPantallaFind = Global + 'Roles/BuscarRolxPantalla?id=';
-  findRolesporPantalla(id?: number) {
-    return this.http.get<RolesporPantalla[]>(this.RolesporPantallaFind + id);
-  }
-
 
   PantallasGet = Global + 'Pantallas/Listado'
   getPantallas()
@@ -190,6 +185,12 @@ export class TableService {
   RolesporPantallaCreate = Global + 'Roles/InsertarRolxPantalla';
   createRolesporPantalla(Roles: RolesporPantalla){
     return this.http.post<RolesporPantalla[]>(this.RolesporPantallaCreate, Roles);
+  }
+
+
+  RolesporPantallaFind = Global + 'Roles/BuscarRolxPantalla?id=';
+  findRolesporPantalla(id?: number) {
+    return this.http.get<RolesporPantalla[]>(this.RolesporPantallaFind + id);
   }
 
   RolesporPantallaDelete = Global + 'Roles/EliminarRolxPantalla';

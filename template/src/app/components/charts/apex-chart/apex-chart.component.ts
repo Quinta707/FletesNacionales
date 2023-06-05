@@ -6,8 +6,6 @@ import * as chartData from './../../../shared/data/chart/apex';
   templateUrl: './apex-chart.component.html',
   styleUrls: ['./apex-chart.component.scss']
 })
-
-
 export class ApexChartComponent implements OnInit {
   
   public splineArea1 = chartData.splineArea1;

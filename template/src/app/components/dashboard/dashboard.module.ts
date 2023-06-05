@@ -11,7 +11,6 @@ import { FormsModule } from "@angular/forms";
 import { SharedModule } from "../../shared/shared.module";
 import { DashboardRoutingModule } from "./dashboard-routing.module";
 import { GoogleMapsModule } from "@angular/google-maps";
-import { NgSelectModule } from '@ng-select/ng-select';
 
 import { DefaultComponent } from "./default/default.component";
 import { EcommerceComponent } from "./ecommerce/ecommerce.component";
@@ -149,9 +148,8 @@ import { SaleStatusComponent } from './ecommerce/left-content/order-board/sale-s
     ViewsComponent,
     CoursesComponent,
     SaleStatusComponent,
-    
   ],
-  imports: [CommonModule, ChartistModule, CarouselModule, NgChartsModule, NgApexchartsModule, SharedModule, GoogleMapsModule, CKEditorModule, CountToModule, NgbModule, FormsModule, DashboardRoutingModule,NgSelectModule],
+  imports: [CommonModule, ChartistModule, CarouselModule, NgChartsModule, NgApexchartsModule, SharedModule, GoogleMapsModule, CKEditorModule, CountToModule, NgbModule, FormsModule, DashboardRoutingModule],
   exports: [
     CoinComponent,
     ProductStatusChartBoxComponent,
@@ -164,7 +162,6 @@ import { SaleStatusComponent } from './ecommerce/left-content/order-board/sale-s
     CalendarComponent,
     AverageComponent,
     TotalUsersComponent
-    
   ]
 })
 export class DashboardModule {}

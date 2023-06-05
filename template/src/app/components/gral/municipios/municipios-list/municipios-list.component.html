@@ -1,7 +1,6 @@
 
-<div class="container">
-<app-breadcrumb [title]="'Municipio'" [items]="['Generales']" [active_item]="'Municipio'"></app-breadcrumb>
-
+<app-breadcrumb [title]="'Items listado'" [items]="['Flet']" [active_item]="'Items'"></app-breadcrumb>
+<br>
 <div class="row">
   <div class="col-12">
     <div class="card">
@@ -11,79 +10,52 @@
         </div>
       </div>
       <div class="card-body">
+        <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">
           <ng-template #Create let-modal>
             <div class="modal-header">
               <h4 class="modal-title" id="modal-basic-title">Insertar Municipios</h4>
               <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
             </div>
-           
+            <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">    
             <div class="modal-body">
-               <form [formGroup]="createFormGroup"  class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">    
               <div class="row">
                 <div class="col-sm-6">
-                  <label>Departamento</label>
-                <ng-select [(ngModel)]="municipiosCreate.depa_Id"  formControlName="depa_Id"  bindValue="value" [items]="departamentosDDL" placeholder="Departamento"></ng-select>
-                <ng-container class="invalid text-danger"
-                *ngIf="createFormGroup.get('depa_Id').hasError('required') && (createFormGroup.get('depa_Id').touched || sumbit)">
-                <p class="text-danger">El Departamento es necesario </p></ng-container>
+                <ng-select [(ngModel)]="municipiosCreate.depa_Id" bindValue="value" [items]="departamentosDDL" placeholder="Departamento"></ng-select>
               </div>
                 <div class="col-sm-6">
-                  <label>Nombre Municipio</label>
-              <input [(ngModel)]="municipiosCreate.muni_Nombre" class="form-control" formControlName="muni_Nombre"  type="text" required=""  />
-              <ng-container class="invalid text-danger"
-                *ngIf="createFormGroup.get('muni_Nombre').hasError('required') && (createFormGroup.get('muni_Nombre').touched || sumbit)">
-                <p class="text-danger">El nombre del municipio es necesario</p></ng-container>
+              <input [(ngModel)]="municipiosCreate.muni_Nombre" class="form-control" id="validationCustom01" type="text" required=""  />
             </div>
-              <div class="col-sm-6 mt-3">
-                <label>Codigo Municipio</label>
-                <div class="input-group">
-                <span class="input-group-text text-dark">{{ municipiosCreate.depa_Id ? municipiosCreate.depa_Id : '00' }}</span>  
-                <input type="text" [(ngModel)]="municipiosCreate.muni_Id" formControlName="muni_Id"  class="form-control" (keydown)="onKeyDown($event)" required="" (paste)="onPaste($event)" maxlength="2">
-              </div>
-              <ng-container class="invalid text-danger"
-                *ngIf="createFormGroup.get('muni_Id').hasError('required') && (createFormGroup.get('muni_Id').touched || sumbit)">
-                <p class="text-danger">El codigo del municipio es necesario</p></ng-container>
+            </div>
+              <div class="row">
+                <div class="col-sm-6">
+                <input [(ngModel)]="municipiosCreate.muni_Id" class="form-control" id="validationCustom01" type="text" required=""  />
               </div>
             </div>
-            </form>
             </div>
             <div class="modal-footer">
               <button class="btn btn-primary" type="button" (click)="Guardar()">Crear</button>
             </div>  
+          </form>
           </ng-template>
-          
+        </form>
           <ng-template #Update let-modal>
             <div class="modal-header">
               <h4 class="modal-title" id="modal-basic-title">Actualizar Municipios</h4>
               <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
             </div>
             <div class="modal-body">
-             
-              <form [formGroup]="updateFormGroup"  class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }"> 
-              
+              <label class="form-label" for="validationCustom01">Municipios</label>
               <div class="row">
                 <div class="col-sm-6">
-                  <label>Departamento</label>
-                 
-                  <input disabled="true" [(ngModel)]="municipiosEditar.depa_Id" formControlName="depa_Id"  class="form-control"  id="depa_Id" type="text" required=""  />
-                 
+                <ng-select [(ngModel)]="municipiosEditar.depa_Id" bindValue="value" [items]="departamentosDDL" placeholder="Departamento"></ng-select>
               </div>
                 <div class="col-sm-6">
-                  <label>Nombre Municipio</label>
-              <input [(ngModel)]="municipiosEditar.muni_Nombre" formControlName="muni_Nombre"  class="form-control" id="muni_Nombre" type="text" required=""  />
-              <ng-container class="invalid text-danger"
-                *ngIf="updateFormGroup.get('muni_Nombre').hasError('required') && (updateFormGroup.get('muni_Nombre').touched || sumbit)">
-                <p class="text-danger">El nombre del municipio es necesario</p></ng-container>
-              
+              <input [(ngModel)]="municipiosEditar.muni_Nombre" class="form-control" id="validationCustom01" type="text" required=""  />
             </div>
-            <div class="col-sm-6">
-              <label>Municipio Codigo</label>
-             
-              <input [disabled]="true" [(ngModel)]="municipiosEditar.muni_Id" formControlName="muni_Id"  class="form-control"  id="muni_Id" type="text" required=""  />
-             
+              <div class="col-sm-6">
+              <input [disabled]="" [(ngModel)]="municipiosEditar.muni_Id" class="form-control" id="validationCustom01" type="text" required="" disabled />
+            </div>
           </div>
-          </div>
-        </form>
             </div>
             <div class="modal-footer">
               <button class="btn btn-success" (click)="update()">Actualizar</button>
@@ -99,51 +71,81 @@
               <h3>Desea Eliminar Este Registro?</h3>
             </div>
             <div class="modal-footer">
-              <button class="btn btn-danger" (click)="delete()">Eliminar</button>
+              <button class="btn btn-success" (click)="delete()">Eliminar</button>
             </div>
           </ng-template>
-          <button (click)="open(Create)" class="btn btn-block btn-primary">
-            + Nuevo
-          </button>
-          <div class="container">   
-
-          <div class="d-flex justify-content-between mb-2 mx-1 mt-4">
-            <table>
-              <thead>
-                <tr>
-                  <td>Elementos:</td>
-                  <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
-                      [(ngModel)]="paginationPageSize">
-                      <option [ngValue]="5">5</option>
-                      <option [ngValue]="10">10</option>
-                      <option [ngValue]="25">25</option>
-                      <option [ngValue]="50">50</option>
-                    </select>
-                  </td>
-                </tr>
-              </thead>
-            </table>
-            <div class="col-4">
-              <div class="input-group">
-                <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
-                <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
-                  placeholder="Buscar..." />
+          
+          <button class="btn btn-lg btn-outline-primary" (click)="open(Create)">Crear Municipios</button><div class="container">   
+          <hr>
+        <div class="d-flex justify-content-between mb-2 mx-1">
+          <select class="form-select" style="color: #3c334d; width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+            <option [ngValue]="5">5 </option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="25">25</option>
+            <option [ngValue]="50">50</option>
+          </select>
+          <div class="col-4">
+            <div class="input-group">
+              <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
+              <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange(searchText)" placeholder="Buscar..." />
+            </div>
+          </div>
+        </div>
+          
+        <div class="row mt-3">
+          <div class="col-12">
+            <div class="custom-datatable noscroll">
+              <div class="custom-datatable table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col" sortable="muni_Id" (sort)="onSort($event)">Id</th>
+                      <th scope="col" sortable="muni_Nombre" (sort)="onSort($event)">Nombre</th>
+                      <th scope="col" sortable="depa_Nombre" (sort)="onSort($event)">Departamento</th>
+                      <th scope="col">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of tableItem$ | async">
+                        <td>
+                        <ngb-highlight [result]="item.muni_Id" [term]="service.searchTerm"></ngb-highlight>
+                      </td>
+                      <td>
+                        <ngb-highlight [result]="item.muni_Nombre" [term]="service.searchTerm"></ngb-highlight>
+                      </td>
+                      <td>
+                        <ngb-highlight [result]="item.depa_Nombre" [term]="service.searchTerm"></ngb-highlight>
+                      </td>
+                      <td>
+                        <div class="action">
+                          <li class="edit" (click)="Actualizar(item, Update)">
+                            <a ><i class="icon-pencil-alt"></i></a>
+                          </li>
+                          <li class="delete" (click)="Eliminar(item, Delete)">
+                            <a ><i class="icon-trash"></i></a>
+                          </li>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="d-flex justify-content-between mt-3 mb-2 mx-1">
+                  <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+                    <option [ngValue]="5">5</option>
+                    <option [ngValue]="10">10</option>
+                    <option [ngValue]="25">25</option>
+                    <option [ngValue]="50">50</option>
+                  </select>
+                  <ngb-pagination class="ms-3" [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize"> </ngb-pagination>
+                </div>
               </div>
             </div>
           </div>
-
-          
-          <ag-grid-angular  class="ag-theme-alpine ag-root-wrapper" [columnDefs]="columnDefs" [pagination]="true"
-          [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
-          [rowData]="municipios" [rowSelection]="'multiple'" [domLayout]="domLayout"
-          [animateRows]="true"></ag-grid-angular>
-
-        
+        </div>
         
       
       </div>
     </div>
   </div>
-</div>
 </div>
 </div>

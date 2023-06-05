@@ -2,11 +2,7 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { MarcasIndexComponent } from "./marcas/marcas-index.component";
 import { ModelosIndexComponent } from './modelos/modelos-index/modelos-index.component';
-<<<<<<< HEAD
 import { AccesoGuard } from "src/app/shared/guard/acceso.guard";
-=======
-import { VehiculosListComponent } from './vehiculos/vehiculos-list/vehiculos-list.component';
->>>>>>> nya
 const routes: Routes = [
   {
     path: "",
@@ -37,16 +33,6 @@ const routes: Routes = [
             component: ModelosIndexComponent,
           },
         ],
-      },
-      {
-        path: "Vehiculos",
-        children: [
-          {
-            path: "List",
-            component: VehiculosListComponent,
-          },
-        ],
-        
       },
     ],
   },
