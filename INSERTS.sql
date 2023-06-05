@@ -3,7 +3,7 @@ USE master
 DROP DATABASE FletesNacionales
 */
 
-USE FletesNacionales
+--USE FletesNacionales
 --****************************************INSERTS ACCESO****************************************--
 --****************************************ROLES****************************************--
 INSERT INTO acce.tbRoles (role_Nombre,role_UsuCreacion)
@@ -31,12 +31,12 @@ VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','maps',1),
 
 	   ('Modelos',				'/equi/Modelos/List',				'equi','faq',1),
 	   ('Marcas',				'/equi/Marcas/List',				'equi','job-search',1),
-	   ('Vehiculos',			'/flet/Vehiculos/List',				'equi','project',1),
+	   ('Vehiculos',			'/equi/Vehiculos/List',				'equi','project',1),
 	   ('Tipos de Vehiculos',	'/flet/TipodeVehiculo/List',		'equi','icons',1),
  	   ('Grafica',				'/flet/Grafica/List',				'acce','charts',1),
 
  	   ('Usuarios',				'/acce/Usuarios/List',				'acce','user',1),
-        ('Roles',				'/acce/Roles/List ',		'acce','learning',1)
+        ('Roles',				'/acce/Roles/List',		'acce','learning',1)
 GO
 	   
 --****************************************ROLES POR PANTALLAS****************************************--
@@ -937,12 +937,12 @@ muni_Inicio = 62 and muni_Final = 62
 INSERT INTO flet.tbFletes(vehi_Id, empe_Id, tray_Id, flet_FechaDeSalida, flet_UsuCreacion)
 VALUES 
 (1,1,1,	'05-08-2023',1),
-(2,2,19,'05-08-2023',1), --EN PARADAS HAY QUE HACER QUE ESTE FLETE (CON LOS ID DE PEDIDO 2 Y 3) VAYA PARA TELA TMB XD (EL TRAYECTO ES 26)
-(3,3,36,'05-08-2023',1), 
-(4,4,69,'05-08-2023',1),
-(5,5,5,	'05-08-2023',1),
-(2,2,80,'05-08-2023',1),
-(5,5,45,'05-08-2023',1)
+(2,1,19,'05-08-2023',1), --EN PARADAS HAY QUE HACER QUE ESTE FLETE (CON LOS ID DE PEDIDO 2 Y 3) VAYA PARA TELA TMB XD (EL TRAYECTO ES 26)
+(3,1,36,'05-08-2023',1), 
+(4,1,69,'05-08-2023',1),
+(5,1,5,	'05-08-2023',1),
+(2,1,80,'05-08-2023',1),
+(5,1,45,'05-08-2023',1)
 
 
 INSERT INTO [flet].[tbFleteDetalles] (flet_Id, pedi_Id, fdet_UsuCreacion)

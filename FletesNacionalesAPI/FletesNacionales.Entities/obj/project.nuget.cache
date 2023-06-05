@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "uFJ+vi5/M1zDBdDny5IuEyetmshdvzbN4MXlu6FCcMojb04Kmt8gcTVI03e9IJO3SPFBSdRSTKIoiFHWXQHZpA==",
+  "dgSpecHash": "dN8wJlHBC/vJ7TDyrhnhy7VM9Xh8HzZvUnyj5ImcbYWx7007FP9S3WsRQJ/rANTL3NO0Qj7xwS+icmKDoJDwZA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\LAB01\\Documents\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
+  "projectFilePath": "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
