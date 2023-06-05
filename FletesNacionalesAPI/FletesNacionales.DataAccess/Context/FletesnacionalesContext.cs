@@ -1156,8 +1156,6 @@ namespace FletesNacionales.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(200);
 
-                entity.Property(e => e.user_Contrasena).IsRequired();
-
                 entity.Property(e => e.user_FechaCreacion).HasColumnType("datetime");
 
                 entity.Property(e => e.user_FechaModificacion).HasColumnType("datetime");
