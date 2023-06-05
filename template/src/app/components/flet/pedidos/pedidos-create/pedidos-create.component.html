@@ -128,7 +128,7 @@
               </div>
             </aw-wizard-step>
             <div>
-              <aw-wizard-step>
+              <!-- <aw-wizard-step>
               <form [formGroup]="thirdFormGroup">
                 <div class="row">
                   <div class="col-sm-12">
@@ -143,34 +143,18 @@
                   <div class="col-sm-6">
                     <div class="row mt-6 d-flex justify-content-between">
                       <div class="col">
-                        <h4>Flete</h4>
+                        <h4 class="h4 txt-primary">Pedido</h4>
                       </div>
                       <div class="col text-end">
-                        <h4>Nº {{nuevoFlete.flet_Id}}</h4>
+                        <h4>Nº {{pedidos.codeStatus}}</h4>
                       </div>
                     </div>
                     <div class="row mt-4 d-flex justify-content-between">
                       <div class="col">
-                        <h6>Conductor:</h6>
+                        <h6>Cliente:</h6>
                       </div>
                       <div class="col text-end">
-                        <h6>{{nuevoFlete.empe_NombreCompleto}}</h6>
-                      </div>
-                    </div>
-                    <div class="row mt-2 d-flex justify-content-between">
-                      <div class="col">
-                        <h6>Vehiculo:</h6>
-                      </div>
-                      <div class="col text-end">
-                        <h6>{{nuevoFlete.marc_Nombre}} {{nuevoFlete.mode_Nombre}} <br> {{nuevoFlete.vehi_Placa}}</h6>
-                      </div>
-                    </div>
-                    <div class="row mt-2 d-flex justify-content-between">
-                      <div class="col">
-                        <h6>Fecha de salida:</h6>
-                      </div>
-                      <div class="col text-end">
-                        <h6>{{nuevoFlete.flet_FechaDeSalida}}</h6>
+                        <h6>{{pedidos.clie_NombreCompleto}}</h6>
                       </div>
                     </div>
                     <div class="row mt-2 d-flex justify-content-between">
@@ -179,7 +163,7 @@
                           <tbody>
                             <tr>
                               <td><h6>Desde:</h6></td>
-                              <td><h6>{{nuevoFlete.muni_NombreInicio}}</h6></td>
+                              <td><h6>{{pedidos.muni_Origen}}</h6></td>
                             </tr>
                           </tbody>
                         </table>
@@ -189,84 +173,45 @@
                           <tbody>
                             <tr>
                               <td><h6>Hasta:</h6></td>
-                              <td><h6>{{nuevoFlete.muni_NombreFinal}}</h6></td>
+                              <td><h6>{{pedidos.muni_Destino}}</h6></td>
                             </tr>
                           </tbody>
                         </table>
                       </div>
                     </div>
-                    <div class="row d-flex justify-content-end">
-                      <div class="col d-flex justify-content-end">
-                        <button class="btn btn-primary" (click)="recuperarMarker()">Ver municipios en el mapa</button>
-                      </div>
+                     <div class="row">
+                      <h5>Items</h5>
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Nombre</th>
+                            <th>Modelo</th>
+                            <th>Peso</th>
+                            <th>Volumen</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr  *ngFor="let item2 of itemsArray$ | async">
+                              <ng-container *ngIf="item.pedi_Id === item2.pedi_Id">
+                              <td>{{item2.item_Nombre}}</td>
+                              <td>{{item2.item_Descripcion}}</td>
+                              <td>{{item2.item_Peso}}</td>
+                              <td>{{item2.item_Volumen}}</td>
+                              </ng-container>
+                            </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
-                <div class="row mt-4">
-                  <div class="col">
-                    <h5 class="ms-2">Pedidos</h5>
-                    <ngb-accordion #acc="ngbAccordion">
-                      <ngb-panel *ngFor="let item of pedidosDelNuevoFlete$ | async">
-                        <ng-template ngbPanelTitle>
-                          <span (click)="handlePanelClick(item)">
-                            <h6>Pedido de {{item.clie_NombreCompleto}}</h6>
-                          </span>
-                        </ng-template>
-                        <ng-template ngbPanelContent>
-                          <div class="row">
-                            <div class="col">
-                              <span class="text-end"><strong>Direccion Exacta:</strong> {{item.pedi_DestinoFinal}}</span>
-                            </div>
-                          </div>
-                          <div class="row mt-2">
-                            <div class="col">
-                              <span class="text-end"><strong>Telefono:</strong> {{item.clie_Telefono}}</span>
-                            </div>
-                            <div class="col">
-                              <span class="text-end"><strong>Destino:</strong> {{item.pedi_DestinoNombre}}</span>
-                            </div>
-                            <hr>
-                          </div>
-                          <div class="row">
-                            <h5>Items</h5>
-                            <table class="table">
-                              <thead>
-                                <tr>
-                                  <th>Nombre</th>
-                                  <th>Modelo</th>
-                                  <th>Peso</th>
-                                  <th>Volumen</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                  <tr  *ngFor="let item2 of itemsArray$ | async">
-                                    <ng-container *ngIf="item.pedi_Id === item2.pedi_Id">
-                                    <td>{{item2.item_Nombre}}</td>
-                                    <td>{{item2.item_Descripcion}}</td>
-                                    <td>{{item2.item_Peso}}</td>
-                                    <td>{{item2.item_Volumen}}</td>
-                                    </ng-container>
-                                  </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                          <div class="row mt-3">
-                            <div class="col">
-                              <button class="btn btn-success" (click)="updateMarker(item.pedi_DestinoNombre)">Ver destino del pedido en el mapa</button>
-                            </div>
-                          </div>
-                        </ng-template>
-                      </ngb-panel>
-                    </ngb-accordion>
-                  </div>
-                </div>     
+                    
                 <button class="btn btn-success pull-right mt-4" type="button" (click)="redirectToList()">Completar</button>
               </div>
                 <div>
 
                 </div>
               </form>
-            </aw-wizard-step>
+            </aw-wizard-step> -->
             </div>
             </aw-wizard>
           </form>

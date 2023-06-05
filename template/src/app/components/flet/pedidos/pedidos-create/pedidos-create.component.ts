@@ -12,6 +12,8 @@ import { FormControl } from '@angular/forms';
 import { MetodosDePago } from 'src/app/shared/model/metodosDePago.model';
 import { Global } from 'config';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import * as L from 'leaflet';
 
 
 
@@ -53,7 +55,8 @@ export class PedidosCreateComponent implements OnInit{
     private _formBuilder: FormBuilder,
     private toaster: ToastrService,
     private service: PedidoService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {
     this.maxDate = new Date();
    }
@@ -69,6 +72,7 @@ export class PedidosCreateComponent implements OnInit{
   SelectCliente: Clientes = new Clientes();
   SelectItem: Items = new Items();
   SelectMetodo: MetodosDePago = new MetodosDePago();
+  pedidos: Pedidos = new Pedidos();
 
   ngOnInit(): void {
     this.service.getItems()
@@ -229,9 +233,14 @@ ValidarItems(){
     
       this.http.post(apiUrl, requestBody).subscribe(
         (response: any) => {
+          
           console.log(response);
           if (response !== undefined) {
             if (response.success) {
+              this.service.getBuscarDetalles(response.codeStatus)
+              .subscribe((response: any) => {
+              this.pedidos = response;
+            });
               const apiUrl2 = Global + 'PedidoDetalles/Insertar';
               this.selectedCardIds.forEach(element => {
                 const requestBody2 = {
@@ -258,7 +267,7 @@ ValidarItems(){
               if (response.success) {
                 Swal.fire({
                   text: 'El pedido se ha ingresado exitosamente',
-                  imageUrl: 'assets/images/gifcarro.gif',
+                  imageUrl: 'assets/images/check.gif',
                   imageWidth: 400,
                   imageHeight: 400,
                   imageAlt: 'Esooo',
@@ -267,7 +276,8 @@ ValidarItems(){
                   timerProgressBar: true,
                   title: '¡Exito!'
                 })
-                this.wizard.goToStep(2);
+                this.router.navigate(['flet/Pedidos/List'])
+                //this.wizard.goToStep(2);
               } else {
                 Swal.fire({
                   toast: true,
@@ -322,5 +332,147 @@ ValidarItems(){
 
   }
 }
+
+redirectToList(){
+  this.router.navigate(['flet/Pedidos/List']);
+}
+
+//Control de las capas visibles
+layersControl = {
+  baseLayers: {
+    'Open Street Map': L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' }),
+    'Open Cycle Map': L.tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
+  },
+  overlays: {
+    'Big Circle': L.circle([46.95, -122], { radius: 5000 }),
+    'Big Square': L.polygon([[46.8, -121.55], [46.9, -121.55], [46.9, -121.7], [46.8, -121.7]])
+  }
+}
+
+//Declaracion del mapa
+private map4: L.Map;
+
+//Coordenadas Iniciales
+private homeCoords = {
+  lat: 15.5062156,
+  lon: -88.0248937
+};
+private coordenadasIncio = {
+  lat: 15.5062156,
+  lon: -88.0248937
+};
+private coordenadasFin = {
+  lat: 15.5062156,
+  lon: -88.0248937
+};
+
+//Iconos
+private markerIcon = {
+  icon: L.icon({
+    iconSize: [40, 40],
+    iconAnchor: [10, 41],
+    popupAnchor: [2, -40],
+    iconUrl: "assets/images/maker-icon.png",
+  })
+};
+private IconInicio = {
+  icon: L.icon({
+    iconSize: [40, 40],
+    iconAnchor: [10, 41],
+    popupAnchor: [2, -40],
+    iconUrl: "assets/images/map_icon_Inicio.png",
+  })
+};
+private IconDestino = {
+  icon: L.icon({
+    iconSize: [40, 40],
+    iconAnchor: [10, 41],
+    popupAnchor: [2, -40],
+    iconUrl: "assets/images/map_icon_Destino.png",
+  })
+};
+private IconPaquete = {
+  icon: L.icon({
+    iconSize: [40, 40],
+    iconAnchor: [10, 41],
+    popupAnchor: [2, -40],
+    iconUrl: "assets/images/map_icon_paquete.png",
+    // iconUrl: "assets/images/map_icon_paquete_añternative.png",
+  })
+};
+handlePanelClick(item: any) {
+  // Lógica para manejar el clic en el panel
+  // Puedes acceder al objeto 'item' y realizar las operaciones necesarias
+  console.log('Panel clickeado', item);
+}
+
+// actualiza el mapa con nuevas coordenadas
+async updateMarker(municipio: string) {
+  const popupText: string = 'Este pedido llegara hasta ' + municipio
+  const popupInfo = `<b style="color: red; background-color: white">${popupText}</b>`;
+  if (this.map4) {
+    this.map4.eachLayer(layer => {
+      if (layer instanceof L.Marker) {
+        this.map4.removeLayer(layer);
+      }
+    });
+
+    const coordenadasMuni: any = await this.service.obtenerCoordenadas(municipio).toPromise();
+    const result1 = coordenadasMuni.results[0];
+    let cords1 = {
+      lat: result1.geometry.lat,
+      lon: result1.geometry.lng
+    };
+
+    L.marker([cords1.lat, cords1.lon], this.IconPaquete)
+      .addTo(this.map4)
+      .bindPopup(popupInfo)
+      .openPopup();
+
+  }
+}
+
+  // actualiza el mapa con nuevas coordenadas
+  async recuperarMarker() {
+    const popupInicio = `<b style="color: red; background-color: white">Lugar de origen: ${this.pedidos.muni_Origen}</b>`;
+      const popupFinal = `<b style="color: red; background-color: white">Lugar de destino: ${this.pedidos.muni_Destino}</b>`;
+
+      if (this.map4) {
+        this.map4.eachLayer(layer => {
+          if (layer instanceof L.Marker) {
+            this.map4.removeLayer(layer);
+          }
+        });
+        if (this.pedidos.muni_Origen === this.pedidos.muni_Destino) {
+          L.marker([this.coordenadasFin.lat, this.coordenadasFin.lon], this.IconDestino)
+            .addTo(this.map4)
+            .closePopup();
+        } else {
+          L.marker([this.coordenadasIncio.lat, this.coordenadasIncio.lon], this.IconInicio)
+            .addTo(this.map4)
+            .bindPopup(popupInicio)
+            .closePopup();
+          L.marker([this.coordenadasFin.lat, this.coordenadasFin.lon], this.IconDestino)
+            .addTo(this.map4)
+            .bindPopup(popupFinal)
+            .closePopup();
+        }
+      }
+  }
+  //Configuracion
+  options4 = {
+    layers: [
+      L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: ""
+      })
+    ],
+    zoom: 4,
+    center: L.latLng(14.772433199139046, -86.63434162882122)
+  };
+
+  onMapReady4(map: L.Map) {
+    this.map4 = map;
+  }
 
 }

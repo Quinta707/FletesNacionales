@@ -32,5 +32,6 @@ export class Pedidos{
       user_Modificacion !: String;
       pedi_Array: any[] = [];
       Items !: String;
+      codeStatus!: 0;
 
 }
