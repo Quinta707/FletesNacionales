@@ -153,15 +153,6 @@ export class PedidosCreateComponent implements OnInit{
 
   filteredCards: Card[] = [...this.Items];
 
-  // onSearch() {
-  //   this.Items = this.filteredCards.filter(card =>
-  //     card.item_Nombre.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-  //     card.item_Descripcion.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-  //     card.item_Peso.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-  //     card.item_Volumen.toLowerCase().includes(this.searchTerm.toLowerCase())
-  //   );
-  //   this.currentPage = 1; // Reinicia la página actual al realizar una búsqueda
-  // }
 
   onSearch() {
     // Filtra los elementos en 'allItems' y asigna los resultados a 'filteredItems'
