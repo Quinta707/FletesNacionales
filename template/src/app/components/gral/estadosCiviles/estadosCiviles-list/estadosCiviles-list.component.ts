@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { ColDef, DomLayoutType } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
 import { Idioma } from '../../../../../../config';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -16,14 +17,17 @@ import { Idioma } from '../../../../../../config';
   styleUrls: ['./estadosCiviles-list.component.scss']
 })
 export class EstadosCivilesComponent implements OnInit {
+  
   public validate = false;
   public selected = [];
   paginationPageSize: number = 10;
+
+  sumbite: boolean
   
   estadosCiviles: EstadosCiviles[];
   closeResult: string;
   
-  constructor(config: NgbModalConfig, private modalService: NgbModal, public service: TableService) {
+  constructor(config: NgbModalConfig, private modalService: NgbModal, public service: TableService,private _formBuilder: FormBuilder) {
     
     this.tableItem$ = service.tableItem$;
     this.total$ = service.total$;
@@ -37,8 +41,21 @@ export class EstadosCivilesComponent implements OnInit {
     this.validate = !this.validate;
   }
   
-  open(content: any) {
+  createFormGroup: FormGroup;
+  updateFormGroup: FormGroup;
+  ngOnInit(): void {
+    this.index()
+
+    this.createFormGroup = this._formBuilder.group({
+      eciv_Descripcion: ['', Validators.required],
+    });
     
+    this.updateFormGroup = this._formBuilder.group({
+      eciv_Descripcion: ['', Validators.required],
+    }); 
+  }
+
+  open(content: any) {
     this.estadosCreate.eciv_Descripcion = null
     this.validate = false;
 
@@ -68,6 +85,7 @@ export class EstadosCivilesComponent implements OnInit {
 
   Guardar() {
     this.validate = false;
+    console.log(this.estadosCreate.eciv_Descripcion)
     try
     {
       this.estadosCreate.eciv_Descripcion = this.estadosCreate.eciv_Descripcion.trim()
@@ -84,6 +102,7 @@ export class EstadosCivilesComponent implements OnInit {
     }
     else
     {
+      this.validate = false
       this.service.createEstadosCiviles(this.estadosCreate)
       .subscribe((data: any) =>{   
         this.validate = false
@@ -147,13 +166,16 @@ export class EstadosCivilesComponent implements OnInit {
 
   update(){
     this.validate = false
+    this.sumbite = false
     if(this.estadosEditar.eciv_Descripcion == null || this.estadosEditar.eciv_Descripcion == "")
     {
-
       this.validate = true
+      this.sumbite = true
     }
     else
     {
+      this.validate = false
+      this.sumbite = false
       this.service.updateEstadosCiviles(this.estadosEditar)
       .subscribe((data:any) =>{     
         
@@ -280,9 +302,6 @@ export class EstadosCivilesComponent implements OnInit {
     })
   }
  
-  ngOnInit(): void {
-    this.index()
-  }
 
   @ViewChild('Update') modalUpdate: any;
   
@@ -310,7 +329,7 @@ export class EstadosCivilesComponent implements OnInit {
     };
     const Eli = () => {
     
-      this.Eliminar(params,this.modalDelete)
+      this.Eliminar(params.node.data,this.modalDelete)
     }
 
     const button = document.createElement('il');
@@ -329,8 +348,7 @@ export class EstadosCivilesComponent implements OnInit {
     button2.classList.add('detail'); 
   
     const iconElement2 = document.createElement('i');
-    iconElement2.classList.add('fa'); 
-    iconElement2.classList.add('fa-file-text-o'); 
+    iconElement2.classList.add('icon-trash'); 
 
     const textElement2 = document.createElement('span');
     textElement2.innerText = '';

@@ -10,7 +10,7 @@
           </div>
         </div>
         <div class="card-body">
-          <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">
+          <form  [formGroup]="createFormGroup" class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">
           <ng-template #Create let-modal>
             <div class="modal-header">
               <h4 class="modal-title" id="modal-basic-title">Insertar Estado Civil</h4>
@@ -19,8 +19,10 @@
             <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">    
             <div class="modal-body">
               <label class="form-label" for="validationCustom01">Estado Civil</label>
-              <input [(ngModel)]="estadosCreate.eciv_Descripcion" class="form-control" id="validationCustom01" type="text" required="" />
-              
+              <input [(ngModel)]="estadosCreate.eciv_Descripcion"  class="form-control" id="validationCustom01" type="text" required="" />
+              <ng-container class="invalid text-danger"
+              *ngIf="createFormGroup.get('eciv_Descripcion').hasError('required') && (createFormGroup.get('eciv_Descripcion').touched || sumbit)">
+              <p class="text-danger">El Estado Civil es necesario</p></ng-container>
             </div>
             <div class="modal-footer">
               <button class="btn btn-primary" type="button" (click)="Guardar()">Crear</button>
@@ -33,11 +35,13 @@
               <h4 class="modal-title" id="modal-basic-title">Actualizar Estado Civil</h4>
               <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
             </div>
-            <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">
+            <form [formGroup]="updateFormGroup" class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">
             <div class="modal-body">
               <label class="form-label" for="validationCustom01">Estado Civil</label>
-              <input [(ngModel)]="estadosEditar.eciv_Descripcion" class="form-control" id="validationCustom01" type="text" required="" />
-
+              <input [(ngModel)]="estadosEditar.eciv_Descripcion" formControlName="eciv_Descripcion" class="form-control" id="validationCustom01" type="text" required="" />
+              <ng-container class="invalid text-danger"
+              *ngIf="updateFormGroup.get('eciv_Descripcion').hasError('required') && (updateFormGroup.get('eciv_Descripcion').touched && sumbit)">
+              <p class="text-danger">El Estado Civil es necesario</p></ng-container>
             </div>
           </form>
             <div class="modal-footer">

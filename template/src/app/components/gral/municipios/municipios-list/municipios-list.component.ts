@@ -70,6 +70,7 @@ export class MunicipiosListComponent implements OnInit {
   open(content: any) {
     this.validate = false;
     this.sumbit = false
+    this.municipiosCreate = new Municipios()
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -164,7 +165,9 @@ export class MunicipiosListComponent implements OnInit {
           this.toastMunicipioError()
         }
         if(parseInt(data.message) > 0){
-
+          this.municipiosCreate.muni_Id = null
+          this.municipiosCreate.depa_Id = null
+          this.municipiosCreate.muni_Nombre = null
           this.toastMunicipioAgregado()
           this.modalService.dismissAll()
           
@@ -290,7 +293,7 @@ export class MunicipiosListComponent implements OnInit {
     };
     const Eli = () => {
     
-      this.Eliminar(params,this.modalDelete)
+      this.Eliminar(params.node.data,this.modalDelete)
     }
 
     const button = document.createElement('il');
@@ -309,8 +312,7 @@ export class MunicipiosListComponent implements OnInit {
     button2.classList.add('detail'); 
   
     const iconElement2 = document.createElement('i');
-    iconElement2.classList.add('fa'); 
-    iconElement2.classList.add('fa-file-text-o'); 
+    iconElement2.classList.add('icon-trash'); 
 
     const textElement2 = document.createElement('span');
     textElement2.innerText = '';

@@ -85,7 +85,7 @@ export class VehiculosListComponent implements OnInit {
   textInput: string;
   
   onKeyDown(event: any, eve: KeyboardEvent) {
-    const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Delete', 'Tab'];
+    const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Delete', 'Tab', ''];
     if (event.key !== undefined  && !allowedKeys.includes(event.key) && isNaN(Number(event.key))) {
       event.preventDefault();
     }
@@ -174,6 +174,9 @@ export class VehiculosListComponent implements OnInit {
           this.toastVehizuloAgregado()
           this.modalService.dismissAll()
           
+          this.sumbit = false;
+          this.validate = false;  
+          
           this.index()
         }  
       })
@@ -257,13 +260,13 @@ export class VehiculosListComponent implements OnInit {
   }
 
   Eliminar(est: Vehiculos, content) {
+    
     this.vehiculosEliminar.vehi_Id = est.vehi_Id
    
     this.open(content)
   }
 
   delete() {
-    console.log(this.vehiculosEliminar.vehi_Id)
     this.service.deleteVehiculos(this.vehiculosEliminar)
     .subscribe((data: any) => {      
       if(data.message == "Registro eliminado")
@@ -320,7 +323,6 @@ export class VehiculosListComponent implements OnInit {
   
   @ViewChild('Delete') modalDelete: any;
 
-
   public domLayout: DomLayoutType = 'autoHeight';
   idioma = Idioma
   columnDefs: ColDef[] = [
@@ -332,9 +334,7 @@ export class VehiculosListComponent implements OnInit {
     { field: 'marc_Nombre', headerName: 'Marca', flex: 1 },
     { field: 'vehi_Placa', headerName: 'Placa', flex: 1 },
 
-
     { cellRenderer: (params) => this.actionButtonRenderer(params, this.modalService), headerName: 'Acciones', flex: 1 }
-
   ];
   public defaultColDef: ColDef = {
     sortable: true,
@@ -348,7 +348,7 @@ export class VehiculosListComponent implements OnInit {
     };
     const Eli = () => {
     
-      this.Eliminar(params,this.modalDelete)
+      this.Eliminar(params.node.data,this.modalDelete)
     }
 
     const button = document.createElement('il');
@@ -367,8 +367,7 @@ export class VehiculosListComponent implements OnInit {
     button2.classList.add('detail'); 
   
     const iconElement2 = document.createElement('i');
-    iconElement2.classList.add('fa'); 
-    iconElement2.classList.add('fa-file-text-o'); 
+    iconElement2.classList.add('icon-trash'); 
 
     const textElement2 = document.createElement('span');
     textElement2.innerText = '';
