@@ -157,6 +157,7 @@ export class RolesporPantallaListComponent implements OnInit {
   public tableItem$: Observable<RolesporPantalla[]>;
   public searchText;
   public pantallas: [];
+  paginationPageSize: number = 10;
   total$: Observable<number>;
 
 

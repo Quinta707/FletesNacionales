@@ -16,8 +16,7 @@ INSERT INTO acce.tbPantallas (pant_Nombre, pant_Url, pant_Menu, pant_Icono, pant
 VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','flag-icon flag-icon-hn',1),
 	   ('Estado Civiles',		'/gral/EstadosCiviles/List',		'gral','fa fa-list',1),
 	   ('Municipios',			'/gral/Municipios/List',			'gral','fa fa-tag',1),
-	   ('Tipo de Pagos',		'/gral/TiposDePago/List',			'gral','fa fa-credit-card-alt',1) ,
-	   ('Cargos',				'/gral/Cargos/List',				'gral','fa fa-user-plus',1) ,
+	   ('Tipo de Pagos',		'/gral/MetodosDePago/List',			'gral','fa fa-credit-card-alt',1) ,
 
 	   ('Clientes',				'/flet/Clientes/List',				'flet','fa fa-users',1),
 	   ('Fletes',				'/flet/Fletes/List',				'flet','fa fa-industry',1),
@@ -32,11 +31,10 @@ VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','flag-icon flag-i
 	   ('Modelos',				'/equi/Modelos/List',				'equi','fa fa-car',1),
 	   ('Marcas',				'/equi/Marcas/List',				'equi','fa fa-truck',1),
 	   ('Vehiculos',			'/equi/Vehiculos/List',				'equi','fa fa-truck',1),
-	   ('Tipos de Vehiculos',	'/equi/TipodeVehiculo/List ',		'equi','fa fa-car',1),
+	   ('Tipos de Vehiculos',	'/flet/TipodeVehiculo/List',		'equi','fa fa-car',1),
 
 	   ('Usuarios',				'/acce/Usuarios/List',				'acce','fa fa-user',1),
-       ('Roles Por Pantalla',	'/acce/Roles/List',					'acce','fa fa-credit-card-alt',1),
-	   ('Pantallas',			'/acce/Pantallas/List',				'acce','fa fa-credit-card-alt',1)
+       ('Roles Por Pantalla',	'/acce/Roles/List',					'acce','fa fa-credit-card-alt',1)
 GO
 	    
 --****************************************ROLES POR PANTALLAS****************************************--
@@ -66,7 +64,6 @@ VALUES	--Admin
 		(19,1 ,1),
 		--acceso
 		(20,1 ,1),
-		(21,1 ,1),
 	
 		--Digitador
 		--generales

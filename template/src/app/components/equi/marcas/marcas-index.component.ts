@@ -18,6 +18,7 @@ import { Global } from 'config';
 export class MarcasIndexComponent implements OnInit{
     public selected = [];
     marcas!: Marcas[];
+    paginationPageSize: number = 10;
  
    
     ngOnInit(): void {

@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
-import { AgGridModule } from 'ag-grid-angular';
 
 import { DepartamentosListComponent } from './departamentos/departamentos-list/departamentos-list.component'
 import { MunicipiosListComponent } from "./municipios/municipios-list/municipios-list.component";

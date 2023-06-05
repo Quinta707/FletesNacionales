@@ -1,6 +1,5 @@
 
-<app-breadcrumb [title]="'Roles listado'" [items]="['Flet']" [active_item]="'Items'"></app-breadcrumb>
-<br>
+<app-breadcrumb [title]="'Roles listado'" [items]="['Acceso']" [active_item]="'Roles'"></app-breadcrumb>
 <div class="row">
   <div class="col-12">
     <div class="card">
@@ -10,15 +9,31 @@
         </div>
       </div>
       <div class="card-body">
-        <button class="btn btn-lg btn-outline-primary" (click)="Insertar()">Crear Rol</button>
-          <hr>
         <div class="d-flex justify-content-between mb-2 mx-1">
-          <select class="form-select" style="color: #3c334d; width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-            <option [ngValue]="5">5 </option>
-            <option [ngValue]="10">10</option>
-            <option [ngValue]="25">25</option>
-            <option [ngValue]="50">50</option>
-          </select>
+          <div class="col-3">
+            <div class="input-group">
+              <table class="form-control d-flex justify-content-center">
+                <thead>
+                  <tr>
+                    <td>Mostrar</td>
+                    <td>
+                      <select class="selectPhynomo" name="pageSize" [(ngModel)]="paginationPageSize">
+                        <option [ngValue]="5">5</option>
+                        <option [ngValue]="10">10</option>
+                        <option [ngValue]="25">25</option>
+                        <option [ngValue]="50">50</option>
+                      </select>
+                    </td>
+                    <td>elementos</td>
+                  </tr>
+                </thead>
+              </table>
+              <span class="input-group-text"><i style="color: #3c334d; " class="fa fa-list-ol"></i></span>
+            </div>
+          </div>
+          <div class="col-4">
+        <button class="btn btn-block btn-primary" (click)="Insertar()">Nuevo + </button>
+      </div>
           <div class="col-4">
             <div class="input-group">
               <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
@@ -27,16 +42,19 @@
           </div>
         </div>
           
+     
         <ng-template #Delete let-modal>
-          <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Eliminar Rol</h4>
-            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+          <div class="modal-header d-flex justify-content-center">
+            
+            <h4 class="modal-title" id="modal-basic-title">Eliminar</h4>
           </div>
-          <div class="modal-body">
-            <h3>Desea Eliminar Este Registro?</h3>
+          <div class="modal-body text-center">
+            <h6>Parece que deseas eliminar un registro</h6> <br>
+            <h6>¿Estas seguro de esta accion?</h6>
           </div>
-          <div class="modal-footer">
-            <button class="btn btn-danger" (click)="delete()">Eliminar</button>
+          <div class="modal-footer d-flex justify-content-center">
+            <button type="button" class="btn btn-dark" aria-label="Close" (click)="modal.dismiss('Cross click')">No</button>
+            <button type="button" class="btn btn-danger" (click)="delete()" >Si</button>
           </div>
         </ng-template>
         <div class="row mt-3">

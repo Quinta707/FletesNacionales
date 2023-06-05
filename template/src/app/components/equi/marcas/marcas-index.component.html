@@ -10,15 +10,26 @@
         <button class="btn btn-primary" (click)="open(content)">+ Nuevo</button>
         <br><br>
         <div class="d-flex justify-content-between mb-2 mx-1">
-          <div class="d-flex aling-content-center">
-            
-            <label>Elementos a mostrar:</label>
-          <select class="form-select" style="color: #3c334d; width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-            <option [ngValue]="5">5</option>
-            <option [ngValue]="10">10</option>
-            <option [ngValue]="25">25</option>
-            <option [ngValue]="50">50</option>
-          </select>
+          <div class="col-3">
+            <div class="input-group">
+              <table class="form-control d-flex justify-content-center">
+                <thead>
+                  <tr>
+                    <td>Mostrar</td>
+                    <td>
+                      <select class="selectPhynomo" name="pageSize" [(ngModel)]="paginationPageSize">
+                        <option [ngValue]="5">5</option>
+                        <option [ngValue]="10">10</option>
+                        <option [ngValue]="25">25</option>
+                        <option [ngValue]="50">50</option>
+                      </select>
+                    </td>
+                    <td>elementos</td>
+                  </tr>
+                </thead>
+              </table>
+              <span class="input-group-text"><i style="color: #3c334d; " class="fa fa-list-ol"></i></span>
+            </div>
           </div>
           <div class="col-4">
             <div class="input-group">
