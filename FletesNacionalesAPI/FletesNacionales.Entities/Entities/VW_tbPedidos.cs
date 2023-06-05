@@ -10,6 +10,13 @@ namespace FletesNacionales.Entities.Entities
     {
         public int pedi_Id { get; set; }
         public int clie_Id { get; set; }
+        public int item_Id { get; set; }
+        public string item_Nombre { get; set; }
+        public string item_Descripcion { get; set; }
+        public decimal item_Peso { get; set; }
+        public decimal item_Volumen { get; set; }
+
+        public int pdet_Cantidad { get; set; }
         public string clie_NombreCompleto { get; set; }
         public string clie_Identidad { get; set; }
         public DateTime clie_FechaNacimiento { get; set; }

@@ -556,6 +556,9 @@ CONSTRAINT FK_flet_tbEscalasPorTrayecto_acce_tbUsuarios_pedi_UsuCreacion        
 CONSTRAINT FK_flet_tbEscalasPorTrayecto_acce_tbUsuarios_pedi_UsuModificacion    FOREIGN KEY(estr_UsuModificacion) REFERENCES acce.tbUsuarios(User_Id)
 );
 
+ALTER TABLE [flet].[tbPedidos]
+ADD CONSTRAINT FK_flet_tbFletes_flet_tbClientes_clied_Id FOREIGN KEY(clie_Id) REFERENCES flet.tbClientes(clie_Id)
+GO
 
 -----------------SOLO TABLAS-----------------
 

@@ -16,4 +16,8 @@ export class ServiceService {
   getPedidos(){
     return this.http.get<Pedidos[]>(this.PedidosListado);
   }
+
+  getPedidosListado(id: number) {
+    return this.http.get<Pedidos>(Global + `Pedidos/ListarPedidos/${id}`);
+}
 }

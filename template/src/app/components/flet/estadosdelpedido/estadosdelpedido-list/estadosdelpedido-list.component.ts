@@ -1,16 +1,10 @@
 import { Component, QueryList, ViewChildren, OnInit, ViewChild } from '@angular/core';
 import { EstadosDelPedido } from '../../../../shared/model/estadosdelpedido.model';
 import { EstadosDelPedidoService } from '../../../../shared/services/estadosdelpedido.service';
-import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
-import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
-import { HttpClient } from '@angular/common/http';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, DomLayoutType } from 'ag-grid-community';
 import { Idioma } from 'config';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-estadosdelpedido-list',

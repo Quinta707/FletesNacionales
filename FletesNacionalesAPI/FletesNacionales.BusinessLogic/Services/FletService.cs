@@ -2,6 +2,8 @@
 using FletesNacionales.DataAccess.Repository;
 using FletesNacionales.Entities.Entities;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FletesNacionales.BusinessLogic.Services
 {
@@ -959,7 +961,20 @@ namespace FletesNacionales.BusinessLogic.Services
                 return result.Error(e.Message);
             }
         }
-        
+
+        public IEnumerable<VW_tbPedidos> ListarPedidos(int id)
+        {
+            try
+            {
+                return _pedidosRepository.ListarPedidos(id);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+                return Enumerable.Empty<VW_tbPedidos>();
+            }
+        }
+
         public ServiceResult PedidosPorMunicipio(int id)
         {
             var result = new ServiceResult();
