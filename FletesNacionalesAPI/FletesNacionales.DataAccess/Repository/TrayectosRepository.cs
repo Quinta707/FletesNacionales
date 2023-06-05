@@ -15,12 +15,16 @@ namespace FletesNacionales.DataAccess.Repository
     {
         public RequestStatus Delete(tbTrayectos item)
         {
+            RequestStatus resultado = new RequestStatus();
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@tray_Id", item.tray_Id, DbType.Int32, ParameterDirection.Input);
 
-            var result = db.QueryFirst<RequestStatus>(ScriptsDataBase.TrayectosDelete, parametros, commandType: System.Data.CommandType.StoredProcedure);
-            return result;
+            var result = db.QueryFirst<int>(ScriptsDataBase.TrayectosDelete, parametros, commandType: System.Data.CommandType.StoredProcedure);
+
+            resultado.CodeStatus = result;
+
+            return resultado;
         }
 
         public VW_tbTrayectos find(int? id)
@@ -66,15 +70,20 @@ namespace FletesNacionales.DataAccess.Repository
 
         public RequestStatus Update(tbTrayectos item)
         {
+            RequestStatus resultado = new RequestStatus();
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@tray_Id", item.tray_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@muni_Inicio", item.muni_Inicio, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@muni_Final", item.muni_Final, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@muni_Inicio", item.muni_Inicio, DbType.String, ParameterDirection.Input); // Cambiado a DbType.String
+            parametros.Add("@muni_Final", item.muni_Final, DbType.String, ParameterDirection.Input); // Cambiado a DbType.String
+            parametros.Add("@tray_Precio", item.tray_Precio, DbType.Decimal, ParameterDirection.Input);
             parametros.Add("@tray_UsuModificacion", item.tray_UsuModificacion, DbType.Int32, ParameterDirection.Input);
 
-            var result = db.QueryFirst<RequestStatus>(ScriptsDataBase.TrayectosUpdate, parametros, commandType: System.Data.CommandType.StoredProcedure);
-            return result;
+            var result = db.QueryFirst<int>(ScriptsDataBase.TrayectosUpdate, parametros, commandType: System.Data.CommandType.StoredProcedure);
+
+            resultado.CodeStatus = result;
+
+            return resultado;
         }
     }
 }

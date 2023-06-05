@@ -11,6 +11,7 @@ import { LayoutService } from '../../services/layout.service';
 })
 export class SidebarComponent {
   public iconSidebar;
+  user:any = JSON.parse(localStorage.getItem("user"))
   menuItems: Menu[] = [];
   menugral: Menu[] = [];
   menuflet: Menu[] = [];
@@ -30,9 +31,7 @@ export class SidebarComponent {
 
   ngOnInit(): void {
     if (localStorage.getItem('isLoggedin')) {
-      const roleId = localStorage.getItem("role_Id");
-      const isAdmin = localStorage.getItem("user_EsAdmin");
-      this.navServices.getMenuItems(parseInt(roleId,0), isAdmin).subscribe(
+      this.navServices.getMenuItems(parseInt(this.user.role_Id,0), this.user.user_EsAdmin).subscribe(
         (menuResponse:any) => {
           menuResponse.forEach(
             item => {

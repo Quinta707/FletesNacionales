@@ -1,262 +1,176 @@
 <div class="container">
-  <app-breadcrumb [title]="'Items listado'" [items]="['Flet']" [active_item]="'Items'"></app-breadcrumb>
-  <br>
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header ">
-          <img class="card-img-top" style="border-radius: 14px;"
-            src="../../../../assets//images/equipo/headers/Items.png" alt="Card image cap">
-        </div>
-        <div class="card-body">
-          <button class="btn btn-lg btn-primary" (click)="open(content)">+ Nuevo</button>
-          <br>
-          <br>
-          <div class="d-flex justify-content-between mb-2 mx-1">
-            <select class="form-select" style="color: #3c334d; width: auto" name="pageSize"
-              [(ngModel)]="service.pageSize">
-              <option [ngValue]="5">5</option>
-              <option [ngValue]="10">10</option>
-              <option [ngValue]="25">25</option>
-              <option [ngValue]="50">50</option>
-            </select>
-            <div class="col-4">
-              <div class="input-group">
-                <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
-                <input class="form-control" type="text" [(ngModel)]="searchText"
-                  (input)="onSearchInputChange(searchText)" placeholder="Buscar..." />
-              </div>
-            </div>
+  <app-breadcrumb [title]="'Modelos'" [items]="['Equipo']" [active_item]="'Modelos'"></app-breadcrumb>
+  <div class="row widget-grid">
+    <div class="col-sm-12">
+        <div class="card">
+          <div class="card card-border">
+            <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/Items.png" alt="Card image cap">
+    
+      <div class="card-body">
+        <div class="row d-flex justify-content-center">
+          <div class="col-4">
+            <button (click)="OpenModalCreate()" class="btn btn-block btn-primary">
+              + Nuevo
+            </button>
           </div>
-
-          <div class="row mt-3">
-            <div class="col-12">
-              <div class="custom-datatable noscroll">
-                <div class="custom-datatable table-responsive">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col" sortable="item_Id" (sort)="onSort($event)">Id</th>
-                        <th scope="col" sortable="item_Nombre" (sort)="onSort($event)">Nombre</th>
-                        <th scope="col" sortable="item_Descripcion" (sort)="onSort($event)">Descripcion</th>
-                        <th scope="col" sortable="item_Peso" (sort)="onSort($event)">Peso</th>
-                        <th scope="col" sortable="item_Volumen" (sort)="onSort($event)">Volumen</th>
-                        <th scope="col" sortable="item_Visible" (sort)="onSort($event)">Visible</th>
-                        <th scope="col">Acciones</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let item of tableItem$ | async">
-                        <td scope="row">
-                          <ngb-highlight [result]="item.item_Id" [term]="service.searchTerm"></ngb-highlight>
-                        </td>
-                        <td>
-                          <ngb-highlight [result]="item.item_Nombre" [term]="service.searchTerm"></ngb-highlight>
-                        </td>
-                        <td>
-                          <ngb-highlight [result]="item.item_Descripcion" [term]="service.searchTerm"></ngb-highlight>
-                        </td>
-                        <td>
-                          <ngb-highlight [result]="item.item_Peso" [term]="service.searchTerm"></ngb-highlight> Kg
-                        </td>
-                        <td>
-                          <ngb-highlight [result]="item.item_Volumen" [term]="service.searchTerm"></ngb-highlight> mtª
-                        </td>
-                        <td>
-                          <ngb-highlight [result]="item.item_Visible" [term]="service.searchTerm"></ngb-highlight>
-                        </td>
-                        <td>
-                          <div class="action">
-                            <li class="edit">
-                              <a type="button" (click)="openBasicModal3(basicModal2,item)"><i
-                                  class="icon-pencil-alt"></i></a>
-                            </li>
-                            <li class="delete">
-                              <a type="button" (click)="openBasicModal1(basicModal1,item.item_Id)"><i
-                                  class="icon-trash"></i></a>
-                            </li>
-                          </div>
-                        </td>
-                      </tr>
-
-                      <ng-template #basicModal1 let-modal>
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Eliminar registro</h5>
-                        </div>
-                        <div class="modal-body">
-                          <h4>¿Desea eliminar este registro?</h4>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary"
-                            (click)="cancelar(); modal.close('by: close button')">Cancelar</button>
-                          <button type="button" (click)="Delete()" class="btn btn-primary">Eliminar</button>
-                        </div>
-                      </ng-template>
-
-                      <ng-template #basicModal2 let-modal>
-                        <div class="modal-header">
-                          <h4 class="modal-title" id="modal-basic-title">Editar Item</h4>
-                          <button type="button" class="btn-close" aria-label="Close"
-                            (click)="modal.dismiss('Cross click')"></button>
-                          <input type="text" disabled hidden [(ngModel)]="ItemsEdit.tipv_Id">
-                        </div>
-                        <div class="modal-body">
-                          <div class="row">
-                            <div class="col-sm-6">
-                              <div class="form-group">
-                                <label for="dateOfBirth">Nombre Item</label>
-                                <div class="input-group">
-                                  <input type="text" class="form-control" id="exampleInputEmail1" required
-                                    placeholder="Nombre Item" [(ngModel)]="ItemsEdit.item_Nombre"
-                                    name="ItemsEdit.item_Nombre" #itemInput="ngModel"
-                                    [ngClass]="{ 'is-invalid': submitted && itemInput.invalid }">
-                                  <div class="invalid-feedback" *ngIf="itemInput?.errors?.required && submitted">
-                                    Item es requerido
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-sm-6">
-                              <div class="form-group">
-                                <label for="dateOfBirth">Descripcion</label>
-                                <div class="input-group">
-                                  <input type="text" class="form-control" id="exampleInputEmail1" required
-                                    placeholder="Descripcion" [(ngModel)]="ItemsEdit.item_Descripcion"
-                                    name="ItemsEdit.item_Descripcion" #descripcionInput="ngModel"
-                                    [ngClass]="{ 'is-invalid': submitted && descripcionInput.invalid }">
-                                  <div class="invalid-feedback" *ngIf="descripcionInput?.errors?.required && submitted">
-                                    Item es requerido
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <br>
-                          <div class="row">
-                            <div class="col-sm-6">
-                              <div class="form-group">
-                                <label for="dateOfBirth">Peso</label>
-                                <div class="input-group">
-                                  <input type="text" class="form-control" id="exampleInputEmail1" required
-                                    placeholder="Peso" [(ngModel)]="ItemsEdit.item_Peso"
-                                    name="ItemsEdit.item_Peso" #pesoInput="ngModel"
-                                    [ngClass]="{ 'is-invalid': submitted && pesoInput.invalid }">
-                                  <div class="invalid-feedback" *ngIf="pesoInput?.errors?.required && submitted">
-                                    Peso es requerido
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-sm-6">
-                              <div class="form-group">
-                                <label for="dateOfBirth">Volumen</label>
-                                <div class="input-group">
-                                  <input type="text" class="form-control" id="exampleInputEmail1" required
-                                    placeholder="Volumen" [(ngModel)]="ItemsEdit.item_Volumen"
-                                    name="ItemsEdit.item_Volumen" #volumenInput="ngModel"
-                                    [ngClass]="{ 'is-invalid': submitted && volumenInput.invalid }">
-                                  <div class="invalid-feedback" *ngIf="volumenInput?.errors?.required && submitted">
-                                    Volumen es requerido
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary"
-                            (click)="cancelar(); modal.close('by: close button')">Cancelar</button>
-                          <button class="btn btn-primary" (click)="Editar()">Guardar</button>
-                        </div>
-                      </ng-template>
-                    </tbody>
-                  </table>
-                  <div class="d-flex justify-content-between mt-3 mb-2 mx-1">
-                    <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-                      <option [ngValue]="5">5</option>
-                      <option [ngValue]="10">10</option>
-                      <option [ngValue]="25">25</option>
-                      <option [ngValue]="50">50</option>
-                    </select>
-                    <ngb-pagination class="ms-3" [collectionSize]="(total$ | async)!" [(page)]="service.page"
-                      [pageSize]="service.pageSize"> </ngb-pagination>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
         </div>
+        <div class="d-flex justify-content-between mb-2 mt-4">
+        <table>
+          <thead>
+            <tr>
+              <td>Mostrar:</td>
+              <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
+                  [(ngModel)]="paginationPageSize">
+                  <option [ngValue]="5">5</option>
+                  <option [ngValue]="10">10</option>
+                  <option [ngValue]="25">25</option>
+                  <option [ngValue]="50">50</option>
+                </select>
+              </td>
+            </tr>
+          </thead>
+        </table>
+        <div class="col-4">
+          <div class="input-group">
+            <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
+            <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
+              placeholder="Buscar..." />
+          </div>
+        </div>
+      </div>
+        <ag-grid-angular class="ag-theme-alpine" [columnDefs]="columnDefs" [pagination]="true"
+            [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
+            [rowData]="itemList" [rowSelection]="'multiple'" [domLayout]="domLayout"
+            [animateRows]="true"></ag-grid-angular>
+          <!-- (cellClicked)="onCellClicked($event)" -->
+
+
       </div>
     </div>
   </div>
-  <ng-template #content let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Agregar Item</h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+</div>
+
+
+<ng-template #delete let-c="close" let-d="dismiss" class="text-center">
+  <div class="modal-header d-flex justify-content-center">
+    <h4 class="modal-title" id="modal-basic-title">Eliminar</h4>
+  </div>
+  <div class="modal-body text-center">
+    <h6>Parece que deseas eliminar un registro</h6> <br>
+    <h6>¿Estas seguro de esta accion?</h6>
+  </div>
+  <div class="modal-footer d-flex justify-content-center">
+    <button type="button" class="btn btn-dark" (click)="closeModal()">No</button>
+    <button type="button" class="btn btn-danger" (click)="EliminarModelo()" >Si</button>
+  </div>
+</ng-template>
+
+
+<form [formGroup]="EditGroup">
+  <ng-template #edit let-c="close" let-d="dismiss" class="">
+    <div class="modal-header d-flex justify-content-center">
+      <h4 class="modal-title" id="modal-basic-title">Editar</h4>
     </div>
-    <div class="modal-body">
-      <form>
-        <div class="row">
-          <div class="col-sm-6">
-            <div class="form-group">
-              <label for="dateOfBirth">Nombre Item</label>
-              <div class="input-group">
-                <input type="text" class="form-control" id="exampleInputEmail1" required placeholder="Nombre Item"
-                  [(ngModel)]="itemValue" name="itemValue" #itemInput="ngModel"
-                  [ngClass]="{ 'is-invalid': submitted && itemInput.invalid }">
-                <div class="invalid-feedback" *ngIf="itemInput?.errors?.required && submitted">Item es requerido
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="form-group">
-              <label for="dateOfBirth">Descripcion</label>
-              <div class="input-group">
-                <input type="text" class="form-control" id="exampleInputEmail1" required placeholder="Descripcion"
-                  [(ngModel)]="descripcionValue" name="descripcionValue" #descripcionInput="ngModel"
-                  [ngClass]="{ 'is-invalid': submitted && descripcionInput.invalid }">
-                <div class="invalid-feedback" *ngIf="descripcionInput?.errors?.required && submitted">Descripcion es
-                  requerido</div>
-              </div>
-            </div>
+    <div class="modal-body ">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="">Item</label>
+            <input type="text" [(ngModel)]="items.item_Nombre" name="item_Nombre" id="item_Nombre" formControlName="item_Nombre" class="form-control">
+            <ng-container class="invalid text-danger"
+            *ngIf="EditGroup.get('item_Nombre').hasError('required') && (EditGroup.get('item_Nombre').touched || sumit)">
+            <p class="text-danger">El campo Item es necesario</p></ng-container>
           </div>
         </div>
-        <br>
-        <div class="row">
-          <div class="col-sm-6">
-            <div class="form-group">
-              <label for="dateOfBirth">Peso</label>
-              <div class="input-group">
-                <input type="number" class="form-control" id="exampleInputEmail1" required placeholder="Peso"
-                  [(ngModel)]="pesoValue" name="pesoValue" #pesoInput="ngModel"
-                  [ngClass]="{ 'is-invalid': submitted && pesoInput.invalid }">
-                <div class="invalid-feedback" *ngIf="pesoInput?.errors?.required && submitted">Peso es requerido
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="form-group">
-              <label for="dateOfBirth">Volumen</label>
-              <div class="input-group">
-                <input type="number" class="form-control" id="exampleInputEmail1" required placeholder="Volumen"
-                  [(ngModel)]="volumenValue" name="volumenValue" #volumenInput="ngModel"
-                  [ngClass]="{ 'is-invalid': submitted && volumenInput.invalid }">
-                <div class="invalid-feedback" *ngIf="volumenInput?.errors?.required && submitted">Volumen es
-                  requerido</div>
-              </div>
-            </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="">Descripción</label>
+            <input type="text" [(ngModel)]="items.item_Descripcion" name="item_Descripcion" id="mode_Nombre" formControlName="item_Descripcion" class="form-control">
+            <ng-container class="invalid text-danger"
+            *ngIf="EditGroup.get('item_Descripcion').hasError('required') && (EditGroup.get('item_Descripcion').touched || sumit)">
+            <p class="text-danger">El campo Descripción es necesario</p></ng-container>
           </div>
         </div>
-      </form>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="">Peso</label>
+            <input type="text" [(ngModel)]="items.item_Peso" name="item_Peso" id="item_Peso" formControlName="item_Peso" class="form-control" pattern="[0-9]*">
+            <ng-container class="invalid text-danger"
+            *ngIf="EditGroup.get('item_Peso').hasError('required') && (EditGroup.get('item_Peso').touched || sumit)">
+            <p class="text-danger">El campo Pesoi es necesario</p></ng-container>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="">Volumen</label>
+            <input type="text" [(ngModel)]="items.item_Volumen" name="item_Volumen" id="item_Volumen" formControlName="item_Volumen" class="form-control" pattern="[0-9]*">
+            <ng-container class="invalid text-danger"
+            *ngIf="EditGroup.get('item_Volumen').hasError('required') && (EditGroup.get('item_Volumen').touched || sumit)">
+            <p class="text-danger">El campo Volumen es necesario</p></ng-container>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="modal-footer d-flex justify-content-center">
+      <button type="button" class="btn btn-dark" (click)="closeModal()">Cancelar</button>
+    <button type="button" class="btn btn-primary" (click)="EditarModelo()" >Guardar</button>
+  </div>
+</ng-template>
+</form>
+
+<form [formGroup]="CreateGroup">
+  <ng-template #create let-c="close" let-d="dismiss" class="">
+    <div class="modal-header d-flex justify-content-center">
+      <h4 class="modal-title" id="modal-basic-title">Crear</h4>
+    </div>
+    <div class="modal-body ">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="">Item</label>
+            <input type="text" [(ngModel)]="items.item_Nombre" name="item_Nombre" id="item_Nombre" formControlName="item_Nombre" class="form-control">
+            <ng-container class="invalid text-danger"
+            *ngIf="EditGroup.get('item_Nombre').hasError('required') && (EditGroup.get('item_Nombre').touched || sumit)">
+            <p class="text-danger">El campo Item es necesario</p></ng-container>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="">Descripción</label>
+            <input type="text" [(ngModel)]="items.item_Descripcion" name="item_Descripcion" id="mode_Nombre" formControlName="item_Descripcion" class="form-control">
+            <ng-container class="invalid text-danger"
+            *ngIf="EditGroup.get('item_Descripcion').hasError('required') && (EditGroup.get('item_Descripcion').touched || sumit)">
+            <p class="text-danger">El campo Descripción es necesario</p></ng-container>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="">Peso</label>
+            <input type="text" [(ngModel)]="items.item_Peso" name="item_Peso" id="item_Peso" formControlName="item_Peso" class="form-control" pattern="[0-9]*">
+            <ng-container class="invalid text-danger"
+            *ngIf="EditGroup.get('item_Peso').hasError('required') && (EditGroup.get('item_Peso').touched || sumit)">
+            <p class="text-danger">El campo Peso es necesario</p></ng-container>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="">Volumen</label>
+            <input type="text" [(ngModel)]="items.item_Volumen" name="item_Volumen" id="item_Volumen" formControlName="item_Volumen" class="form-control" pattern="[0-9]*">
+            <ng-container class="invalid text-danger"
+            *ngIf="EditGroup.get('item_Volumen').hasError('required') && (EditGroup.get('item_Volumen').touched || sumit)">
+            <p class="text-danger">El campo Volumen es necesario</p></ng-container>
+        </div>
+      </div>
+      </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary"
-        (click)="cancelar(); modal.close('by: close button')">Cancelar</button>
-      <button class="btn btn-primary" (click)="Guardar($event)">Guardar</button>
-    </div>
-  </ng-template>
-</div>
+      <button type="button" class="btn btn-dark" (click)="closeModal()">Cancelar</button>
+    <button type="button" class="btn btn-primary" (click)="CrearModelo()" >Guardar</button>
+  </div>
+</ng-template>
+</form>

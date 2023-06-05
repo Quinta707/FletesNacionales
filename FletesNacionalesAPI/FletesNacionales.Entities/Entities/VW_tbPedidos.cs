@@ -37,6 +37,5 @@ namespace FletesNacionales.Entities.Entities
         public bool? pedi_Estado { get; set; }
         public string user_Creacion { get; set; }
         public string user_Modificacion { get; set; }
-        public string Items { get; set; }
     }
 }

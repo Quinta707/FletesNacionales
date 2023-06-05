@@ -1,107 +1,75 @@
 <div class="container">
-    <app-breadcrumb [title]="'Estados del Pedido listado'" [items]="['Flet']" [active_item]="'Estados del Pedido'"></app-breadcrumb>
-    <br>
-    <div class="row">
-      <div class="col-12">
+  <app-breadcrumb [title]="'Estados Del Pedido'" [items]="['Equipo']" [active_item]="'Estados Del Pedido'"></app-breadcrumb>
+  <div class="row widget-grid">
+    <div class="col-sm-12">
         <div class="card">
-          <div class="card-header bg-primary">
-            <div class="text-center">
-              <h3>Listado de Estados del Pedido</h3>
-            </div>         
+          <div class="card card-border">
+            <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/EstadosDelPedido.png" alt="Card image cap">
+    
+      <div class="card-body">
+        <div class="row d-flex justify-content-center">
+          <div class="col-4">
+            <button (click)="OpenModalCreate()" class="btn btn-block btn-primary">
+              + Nuevo
+            </button>
           </div>
-          <div class="card-body">
-            <button class="btn btn-lg btn-primary" (click)="open(content)">+ Nuevo</button>
-            <br>
-            <br>
-            <div class="d-flex justify-content-between mb-2 mx-1">
-              <select class="form-select" style="color: #3c334d; width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-                <option [ngValue]="5">5 Elementos por pagina</option>
-                <option [ngValue]="10">10 Elementos por pagina</option>
-                <option [ngValue]="25">25 Elementos por pagina</option>
-                <option [ngValue]="50">50 Elementos por pagina</option>
-              </select>
-              <div class="col-4">
-                <div class="input-group">
-                  <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
-                  <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange(searchText)" placeholder="Buscar..." />
-                </div>
-              </div>
-            </div>
-              
-            <div class="row mt-3">
-              <div class="col-12">
-                <div class="custom-datatable noscroll">
-                  <div class="custom-datatable table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th scope="col" sortable="estp_Id" (sort)="onSort($event)">Id</th>
-                          <th scope="col" sortable="estp_Nombre" (sort)="onSort($event)">Nombre Estado del Pedido</th>
-                          <th scope="col">Acciones</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let item of tableItem$ | async">
-                          <td scope="row">
-                            <ngb-highlight [result]="item.estp_Id" [term]="service.searchTerm"></ngb-highlight>
-                          </td>
-                          <td>
-                            <ngb-highlight [result]="item.estp_Nombre" [term]="service.searchTerm"></ngb-highlight>
-                          </td>                 
-                          <td>
-                            <div class="action">
-                              <li class="edit">
-                                <a href="#"><i class="icon-pencil-alt"></i></a>
-                              </li>
-                              <li class="delete">
-                                <a href="#"><i class="icon-trash"></i></a>
-                              </li>
-                            </div>
-                          <td>            
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <div class="d-flex justify-content-between mt-3 mb-2 mx-1">
-                      <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-                        <option [ngValue]="5">5 Elementos por pagina</option>
-                        <option [ngValue]="10">10 Elementos por pagina</option>
-                        <option [ngValue]="25">25 Elementos por pagina</option>
-                        <option [ngValue]="50">50 Elementos por pagina</option>
-                      </select>
-                      <ngb-pagination class="ms-3" [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize"> </ngb-pagination>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>   
+        </div>
+        <div class="d-flex justify-content-between mb-2 mt-4">
+        <table>
+          <thead>
+            <tr>
+              <td>Mostrar:</td>
+              <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
+                  [(ngModel)]="paginationPageSize">
+                  <option [ngValue]="5">5</option>
+                  <option [ngValue]="10">10</option>
+                  <option [ngValue]="25">25</option>
+                  <option [ngValue]="50">50</option>
+                </select>
+              </td>
+            </tr>
+          </thead>
+        </table>
+        <div class="col-4">
+          <div class="input-group">
+            <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
+            <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
+              placeholder="Buscar..." />
           </div>
         </div>
       </div>
+        <ag-grid-angular class="ag-theme-alpine" [columnDefs]="columnDefs" [pagination]="true"
+            [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
+            [rowData]="estadosdelpedidolist" [rowSelection]="'multiple'" [domLayout]="domLayout"
+            [animateRows]="true"></ag-grid-angular>
+          <!-- (cellClicked)="onCellClicked($event)" -->
+
+
+      </div>
     </div>
-    <ng-template #content let-modal>
-      <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Agregar Estado del Pedido</h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="dateOfBirth">Estado del Pedido</label>
-            <div class="input-group">
-              <input type="text" class="form-control" id="exampleInputEmail1" required placeholder="Estado del Pedido"
-              [(ngModel)]="estadodelPedidoValue" name="estadodelPedidoValue" #estadodelPedidoInput="ngModel"
-              [ngClass]="{ 'is-invalid': submitted && estadodelPedidoInput.invalid }">
-            <div class="invalid-feedback" *ngIf="estadodelPedidoInput?.errors?.required && submitted">Estado del Pedido requerido</div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" (click)="Guardar($event)">Guardar</button>
-      </div>
-    </ng-template>
   </div>
-  
+  </div>
+</div>
 
 
+<form [formGroup]="CreateGroup">
+  <ng-template #create let-c="close" let-d="dismiss" class="">
+    <div class="modal-header d-flex justify-content-center">
+      <h4 class="modal-title" id="modal-basic-title">Crear</h4>
+    </div>
+    <div class="modal-body ">      
+          <div class="form-group">
+            <label for="">Estado del Pedido</label>
+            <input type="text" placeholder="Modelo" [(ngModel)]="estadosdelpedido.estp_Nombre" name="estp_Nombre" id="estp_Nombre" formControlName="estp_Nombre"
+            placeholder="Estado del Pedido" class="form-control">
+            <ng-container class="invalid text-danger"
+            *ngIf="CreateGroup.get('estp_Nombre').hasError('required') && (CreateGroup.get('estp_Nombre').touched || sumit)">
+            <p class="text-danger">El campo es necesario</p></ng-container>
+          </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-dark" (click)="closeModal()">Cancelar</button>
+    <button type="button" class="btn btn-primary" (click)="CrearModelo()" >Guardar</button>
+  </div>
+</ng-template>
+</form>

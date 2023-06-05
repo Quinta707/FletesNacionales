@@ -1,4 +1,5 @@
 export class RolesporPantalla{
+  prol_Id!: Number;
   pant_Id!: Number;
   pant_Nombre!: String;
   pant_Url!: String;

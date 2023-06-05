@@ -7,6 +7,7 @@ import { EstadosDelPedidoListComponent } from './estadosDelPedido/estadosDelPedi
 import { EmpleadosListComponent } from './empleados/empleados-list/empleados-list.component'
 import { MetodosDePagoListComponent } from './metodosDePago/municipios-list/metodosDePago-list.component'
 import { EstadosCivilesComponent } from './estadosCiviles/estadosCiviles-list/estadosCiviles-list.component'
+import { AccesoGuard } from "src/app/shared/guard/acceso.guard";
 
 
 const routes: Routes = [
@@ -15,6 +16,10 @@ const routes: Routes = [
     children: [
        {
          path: "Departamentos",
+         canActivate: [AccesoGuard],
+         data: {
+           parametro: "Departamentos" // Aquí puedes definir el valor del parámetro que quieres enviar
+         },
          children: [
            {
              path: "List",
@@ -24,6 +29,10 @@ const routes: Routes = [
        },
        {
         path: "Municipios",
+        canActivate: [AccesoGuard],
+        data: {
+          parametro: "Municipios" // Aquí puedes definir el valor del parámetro que quieres enviar
+        },
         children: [
           {
             path: "List",
@@ -33,6 +42,10 @@ const routes: Routes = [
       },
       {
        path: "EstadosDelPedido",
+       canActivate: [AccesoGuard],
+       data: {
+         parametro: "EstadosDelPedido" // Aquí puedes definir el valor del parámetro que quieres enviar
+       },
        children: [
          {
            path: "List",
@@ -42,6 +55,10 @@ const routes: Routes = [
      },
      {
       path: "Empleados",
+      canActivate: [AccesoGuard],
+      data: {
+        parametro: "Empleados" // Aquí puedes definir el valor del parámetro que quieres enviar
+      },
       children: [
         {
           path: "List",
@@ -51,6 +68,10 @@ const routes: Routes = [
     },
     {
      path: "EstadosCiviles",
+     canActivate: [AccesoGuard],
+     data: {
+       parametro: "EstadosCiviles" // Aquí puedes definir el valor del parámetro que quieres enviar
+     },
      children: [
        {
          path: "List",
@@ -60,6 +81,10 @@ const routes: Routes = [
    },
     {
      path: "MetodosDePago",
+     canActivate: [AccesoGuard],
+     data: {
+       parametro: "MetodosDePago" // Aquí puedes definir el valor del parámetro que quieres enviar
+     },
      children: [
        {
          path: "List",

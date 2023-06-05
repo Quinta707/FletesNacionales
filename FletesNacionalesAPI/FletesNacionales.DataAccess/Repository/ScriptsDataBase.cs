@@ -9,11 +9,14 @@
 
         public static string UsuraiosFind = "acce.UDP_tbUsuarios_Find";
         public static string UsuraiosIndex = "acce.UDP_tbUsuarios_Index";
-        public static string UsuraiosInsert = "acce.UDP_tbUsuarios_Insert";
-        public static string UsuraiosUpdate = "acce.UDP_tbUsuarios_Update";
-        public static string UsuraiosDelete = "acce.UDP_tbUsuarios_Delete";
-
+        public static string UsuraiosInsert = "ACCE.UDP_tbUsuarios_InsertarNuevoUsuario";
+        public static string UsuraiosUpdate = "acce.UDP_tbusuarios_Update";
+        public static string UsuraiosDelete = "ACCE.UDP_tbUsuarios_EliminarUsuario";
+        public static string ValidarUsuariosPoseenRol = "ACCE.UDP_tbUsuarios_ValidarUsuariosPoseenRol";
+        public static string ValidarUsernameExiste = "ACCE.UDP_tbUsuarios_ValidarUsernameExiste";
+        public static string EmpleadosNoTienenUsuario = "ACCE.UDP_tbUsuarios_EmpleadosNoTienenUsuario";
         public static string UsuraiosLogin = "acce.UDP_Login";
+
         #endregion
 
         #region Roles
@@ -40,6 +43,7 @@
         public static string PantallaXRolesFind = "acce.UDP_tbPantallasPorRoles_Find";
         public static string PantallaXRolesIndex = "acce.UDP_tbPantallasPorRoles_Index";
         public static string PantallasXRolesMenu = "acce.tbRolesPorPantallaMenu";
+        public static string ValidarRolTienePantalla = "ACCE.UDP_tbRolesPorPantalla_ValidarRolTienePantalla";
         #endregion
 
         #endregion
@@ -63,7 +67,6 @@
         public static string DepartamentosInsert = "gral.UDP_tbDepartamentos_Insert";
         public static string DepartamentosUpdate = "gral.UDP_tbDepartamentos_Update";
         public static string DepartamentosDelete = "gral.UDP_tbDepartamentos_Delete";
-
         #endregion
 
         #region Municipios

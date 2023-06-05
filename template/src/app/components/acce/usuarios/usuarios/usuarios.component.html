@@ -1,0 +1,183 @@
+<div class="container">
+  <app-breadcrumb [title]="'Listado de Usuarios'" [items]="['Usuarios']" [active_item]="'Usuarios'"></app-breadcrumb>
+  <div class="row widget-grid">
+    <div class="col-sm-12">
+      <div class="card card-border">
+        <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;"
+          src="../../../../assets//images/equipo/headers/Usuarios.png" alt="Card image cap">
+        <div class="card-body">
+          <button class="btn btn-primary" (click)="open(content)">+ Nuevo</button>
+          <br>
+          <div class="d-flex justify-content-between mb-2 mx-1 mt-4">
+            <table>
+              <thead>
+                <tr>
+                  <td>Elementos:</td>
+                  <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
+                      [(ngModel)]="paginationPageSize">
+                      <option [ngValue]="5">5</option>
+                      <option [ngValue]="10">10</option>
+                      <option [ngValue]="25">25</option>
+                      <option [ngValue]="50">50</option>
+                    </select>
+                  </td>
+                </tr>
+              </thead>
+            </table>
+            <div class="col-4">
+              <div class="input-group">
+                <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
+                <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
+                  placeholder="Buscar..." />
+              </div>
+            </div>
+          </div>
+          <ag-grid-angular class="ag-theme-alpine" [columnDefs]="columnDefs" [pagination]="true"
+            [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
+            [rowData]="Usuarios" [rowSelection]="'multiple'" [domLayout]="domLayout"
+            [animateRows]="true"></ag-grid-angular>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #delete let-c="close" let-d="dismiss" class="text-center">
+    <div class="modal-header d-flex justify-content-center">
+      <h4 class="modal-title" id="modal-basic-title">Eliminar</h4>
+    </div>
+    <div class="modal-body text-center">
+      <h6>Parece que deseas eliminar un registro</h6> <br>
+      <h6>¿Estas seguro de esta accion?</h6>
+    </div>
+    <div class="modal-footer d-flex justify-content-center">
+      <button type="button" class="btn btn-dark" (click)="closeModal()">No</button>
+      <button type="button" class="btn btn-danger" (click)="EliminarModelo()" >Si</button>
+    </div>
+  </ng-template>
+  
+
+  <form [formGroup]="EditGroup">
+    <ng-template #content2 let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Editar Usuarios</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-6">
+            <label for="">Nombre del Usuario</label>
+            <input type="text"  [(ngModel)]="Usuarios.user_NombreUsuario" name="user_NombreUsuario"
+              id="user_NombreUsuario" formControlName="user_NombreUsuario" class="form-control">
+          </div>          
+          <div class="col-sm-6">
+            <label for="">Empleado</label>
+            <ng-select [items]="emppleadosDDL" class="" formControlName="empe_Id" [(ngModel)]="Usuarios.empe_Id"
+              bindLabel="empe_NombreCompleto" bindValue="empe_Id" placeholder="Empleados"></ng-select>
+            <ng-container class="invalid text-danger"
+              *ngIf="EditGroup.get('empe_Id').hasError('required') && (EditGroup.get('empe_Id').touched || sumit)">
+              <p class="text-danger">El campo es necesario</p>
+            </ng-container>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <label for="">Contraseña</label>
+            <input type="password" disabled [(ngModel)]="Usuarios.user_Contrasena" name="user_Contrasena" id="user_Contrasena"
+              formControlName="user_Contrasena" class="form-control">
+          </div>
+          <div class="col-sm-6">   
+            <label for="">Rol</label>
+            <ng-select [items]="listadoRoles" class="" formControlName="role_Id" [(ngModel)]="Usuarios.role_Id"
+              bindLabel="role_Nombre" bindValue="role_Id" placeholder="Roles"></ng-select>
+            <ng-container class="invalid text-danger"
+              *ngIf="EditGroup.get('role_Id').hasError('required') && (EditGroup.get('role_Id').touched || sumit)">
+              <p class="text-danger">El campo es necesario</p>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div class="row"> 
+          <div class="col-sm-12">
+            <label for="user_EsAdmin" class="form-label">¿Es admin?</label>
+            <div class="form-control" style="display: flex; justify-content: center; height: 38px;">
+              <input class="form-check-input"  [(ngModel)]="Usuarios.user_EsAdmin" type="checkbox" id="user_EsAdmin" name="user_EsAdmin"
+                formControlName="user_EsAdmin">
+            </div>
+          </div>
+      </div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+  <button class="btn btn-primary" (click)="EditarModelo()">Guardar</button>
+</div>
+</ng-template>
+</form>
+  
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Agregar Usuarios</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <form [formGroup]="usuarioForm">
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="user_NombreUsuario" class="form-label">Nombre de usuario</label>
+          <input type="text" id="user_NombreUsuario" class="form-control" placeholder="Ingrese nombre de usuario"
+            formControlName="user_NombreUsuario"
+            [ngClass]="{ 'is-invalid': submitted && form['user_NombreUsuario'].errors }" />
+          <div class="invalid-feedback">Por favor ingrese un nombre de usuario.</div>
+        </div>
+        <div class="col-sm-6">
+          <label for="empe_Id" class="form-label">Empleado</label>
+          <ng-select [items]="empleadosNoTienenUsuario" class="" formControlName="empe_Id"
+            bindLabel="empe_NombreCompleto" bindValue="empe_Id" placeholder="Seleccione un Empleado"
+            [ngClass]="{ 'is-invalid': submitted && form['empe_Id'].errors }"></ng-select>
+          <div class="invalid-feedback">Por favor seleccione un empleado.</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <label class="form-label" for="user_Contrasena">Contraseña</label>
+          <div class="position-relative auth-pass-inputgroup mb-3">
+            <input [type]="fieldTextType ? 'text' : 'password'" class="form-control pe-5"
+              placeholder="Ingrese una contraseña" id="user_Contrasena" name="user_Contrasena"
+              formControlName="user_Contrasena"
+              [ngClass]="{ 'is-invalid': submitted && form['user_Contrasena'].errors }">
+            <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button"
+              id="password-addon">
+              <i class="mdi align-middle"
+                [ngClass]="{'mdi-eye-off-outline': !fieldTextType, 'mdi-eye-outline': fieldTextType}"
+                (click)="toggleFieldTextType()"></i>
+            </button>
+            <div class="invalid-feedback">Por favor ingrese una contraseña.</div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label for="role_Id" class="form-label">Rol</label>
+          <ng-select [items]="listadoRoles" class="" formControlName="role_Id" bindLabel="role_Nombre"
+            bindValue="role_Id" placeholder="Seleccione un Rol"
+            [ngClass]="{ 'is-invalid': submitted && form['role_Id'].errors}"></ng-select>
+          <div class="invalid-feedback">Por favor seleccione un rol.</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <label for="user_EsAdmin" class="form-label">¿Es admin?</label>
+          <div class="form-control" style="display: flex; justify-content: center; height: 38px;">
+            <input class="form-check-input" type="checkbox" id="user_EsAdmin" name="user_EsAdmin"
+              formControlName="user_EsAdmin">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary"
+        (click)="cancelar(); modal.close('by: close button')">Cancelar</button>
+      <button class="btn btn-primary" (click)="guardarUsuario()">Guardar</button>
+    </div>
+  </form>
+</ng-template>
+</div>

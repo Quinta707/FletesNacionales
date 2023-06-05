@@ -43,7 +43,7 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@item_Descripcion", item.item_Descripcion, DbType.String, ParameterDirection.Input);
             parametros.Add("@item_Peso", item.item_Peso, DbType.Decimal, ParameterDirection.Input);
             parametros.Add("@item_Volumen", item.item_Volumen, DbType.Decimal, ParameterDirection.Input);
-            //parametros.Add("@item_UsuCreacion", item.item_UsuCreacion, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@item_UsuCreacion", item.item_UsuCreacion, DbType.Int32, ParameterDirection.Input);
             result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.ItemsInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
 
             return result;
@@ -54,7 +54,6 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
             return db.Query<VW_tbItems>(ScriptsDataBase.ItemsIndex, null, commandType: System.Data.CommandType.StoredProcedure);
         }
-
         public RequestStatus Update(tbItems item)
         {
             RequestStatus result = new RequestStatus();
@@ -66,7 +65,7 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@item_Descripcion", item.item_Descripcion, DbType.String, ParameterDirection.Input);
             parametros.Add("@item_Peso", item.item_Peso, DbType.Decimal, ParameterDirection.Input);
             parametros.Add("@item_Volumen", item.item_Volumen, DbType.Decimal, ParameterDirection.Input);
-           // parametros.Add("@item_UsuModificacion", item.item_UsuModificacion, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@item_UsuModificacion", item.item_UsuModificacion, DbType.Int32, ParameterDirection.Input);
             result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.ItemsUpdate, parametros, commandType: System.Data.CommandType.StoredProcedure);
 
             return result;

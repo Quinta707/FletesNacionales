@@ -1098,15 +1098,22 @@ namespace FletesNacionales.BusinessLogic.Services
                 {
                     return result.Ok(map);
                 }
+                else if (map.CodeStatus == -3)
+                {
+                    return result.SetMessage("EnUso", ServiceResultType.Conflict);
+                }
+                else if (map.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
+                }
                 else
                 {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
+                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                return result.Error(e.Message); 
             }
         }
 
@@ -1148,10 +1155,17 @@ namespace FletesNacionales.BusinessLogic.Services
                 {
                     return result.Ok(map);
                 }
+                else if (map.CodeStatus == -2)
+                {
+                    return result.SetMessage("YaExiste", ServiceResultType.Conflict);
+                }
+                else if (map.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
+                }
                 else
                 {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
+                    return result.SetMessage("ErrorInesperado", ServiceResultType.Error);
                 }
             }
             catch (Exception)

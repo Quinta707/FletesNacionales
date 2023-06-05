@@ -8,6 +8,7 @@ namespace FletesNacionales.Entities.Entities
 {
     public partial class VW_tbPantallasPorRoles
     {
+        public int prol_Id { get; set; }
         public int pant_Id { get; set; }
         public string pant_Nombre { get; set; }
         public string pant_Url { get; set; }

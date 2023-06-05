@@ -174,7 +174,8 @@ GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbDepartamentos_Insert
 (
     @depa_Nombre        NVARCHAR(100),
-    @depa_Id            CHAR(2)
+    @depa_Id            CHAR(2),
+	@depa_UsuCreacion   INT
 )
 AS
 BEGIN
@@ -200,7 +201,7 @@ BEGIN
         ELSE 
         BEGIN
             INSERT INTO [gral].[tbDepartamentos] (depa_Nombre, depa_Id, depa_UsuCreacion, depa_UsuModificacion, depa_FechaModificacion)
-            VALUES (@depa_Nombre, @depa_Id, 1, NULL, NULL);
+            VALUES (@depa_Nombre, @depa_Id,@depa_UsuCreacion, NULL, NULL);
 
             SELECT 1 
         END
@@ -209,12 +210,12 @@ BEGIN
         SELECT 0 
     END CATCH
 END
-
 --**************  UPDATE ******************--
 GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbDepartamentos_Update
 (@depa_Id INT,
- @depa_Nombre NVARCHAR(100))
+ @depa_Nombre NVARCHAR(100),
+ @depa_UsuModificacion   INT)
 AS
 BEGIN
 	BEGIN TRY
@@ -226,7 +227,7 @@ BEGIN
 			BEGIN
 				UPDATE gral.tbDepartamentos
 				SET   depa_Nombre = @depa_Nombre,  
-					  depa_UsuModificacion = 1, 
+					  depa_UsuModificacion = @depa_UsuModificacion, 
 					  depa_FechaModificacion = GETDATE()
 				WHERE depa_Id = @depa_Id		
 
@@ -274,8 +275,6 @@ BEGIN
 	SELECT * FROM gral.VW_tbDepartamentos
 	WHERE depa_Id = @depa_Id
 END
-
-
 
 -----------------------------------------------------------------------------------------------------------------------------
 --******************MUNICIPIOS********************--
@@ -765,7 +764,8 @@ ON T1.tipv_UsuCreacion = T3.[user_Id]
 GO
 CREATE OR ALTER PROCEDURE equi.UDP_tbTipoDeVehiculo_Insert
 (
-  @tipv_Descripcion NVARCHAR(100)
+  @tipv_Descripcion NVARCHAR(100),
+  @tipv_UsuCreacion     INT
 )
 AS
 BEGIN
@@ -799,7 +799,7 @@ BEGIN
       VALUES 
       (
         @tipv_Descripcion, 
-        1,
+        @tipv_UsuCreacion,
         GETDATE(),
         NULL, 
         NULL
@@ -817,7 +817,8 @@ GO
 CREATE OR ALTER PROCEDURE equi.UDP_tbTipoDeVehiculo_Update 
 (
   @tipv_Id				INT,
-  @tipv_Descripcion		NVARCHAR(100)
+  @tipv_Descripcion		NVARCHAR(100),
+  @tipv_UsuModificacion INT
 )
 AS
 BEGIN
@@ -898,7 +899,6 @@ BEGIN
 	FROM	equi.VW_tbTipoDeVehiculo
 	WHERE	tipv_Id = @tipv_Id;
 END
-
 
 -----------------------------------------------------------------------------------------------------------------------------
 --***********************MARCAS***********************--
@@ -2545,7 +2545,8 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbItems_Insert
    @item_Nombre		   NVARCHAR(100), 
    @item_Descripcion	NVARCHAR(100),
    @item_Peso			DECIMAL(18,2), 
-   @item_Volumen		DECIMAL(18,2)
+   @item_Volumen		DECIMAL(18,2),
+   @item_UsuCreacion    INT
 )
 AS
 BEGIN
@@ -2573,7 +2574,7 @@ BEGIN
         ELSE 
         BEGIN
             INSERT INTO flet.tbItems (item_Nombre, item_Descripcion, item_Peso, item_Volumen, item_UsuCreacion)
-		    VALUES	(@item_Nombre, @item_Descripcion, @item_Peso, @item_Volumen, 1)
+		    VALUES	(@item_Nombre, @item_Descripcion, @item_Peso, @item_Volumen, @item_UsuCreacion)
 
 		SELECT 1 
         END
@@ -2590,8 +2591,8 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbItems_Update
 @item_Nombre			NVARCHAR(100), 
 @item_Descripcion		NVARCHAR(100),
 @item_Peso				DECIMAL(18,2), 
-@item_Volumen			DECIMAL(18,2) 
---@item_UsuModificacion	INT 
+@item_Volumen			DECIMAL(18,2), 
+@item_UsuModificacion	INT 
  )
 AS
 BEGIN
@@ -2608,7 +2609,7 @@ BEGIN
 				item_Descripcion = @item_Descripcion,
 				item_Peso = @item_Peso,
 				item_Volumen = @item_Volumen,
-				item_UsuModificacion = 1,
+				item_UsuModificacion = @item_UsuModificacion,
 				item_FechaModificacion  = GETDATE()
 		WHERE	item_Id = @item_Id
 
@@ -3023,7 +3024,8 @@ GO
 
 CREATE OR ALTER PROCEDURE flet.UDP_tbEstadosDelPedido_Insert
 (
-@estp_Nombre nvarchar(150)
+@estp_Nombre nvarchar(150),
+@estp_UsuCreacion INT
 )
 AS
 BEGIN
@@ -3054,7 +3056,7 @@ BEGIN
 					   ,[estp_FechaModificacion])
 				 VALUES
 					   (@estp_Nombre
-					   ,1
+					   ,@estp_UsuCreacion
 					   ,GETDATE()
 					   ,NULL
 					   ,NULL)
@@ -3303,61 +3305,221 @@ END
 
 
 -- ************* TABLA USUARIOS *****************--
-
-
---************  INSERT **************---
 GO
-CREATE OR ALTER PROCEDURE acce.UDP_tbUsuarios_Insert
-(@user_NombreUsuario NVARCHAR(100),
- @user_Contrasena NVARCHAR(MAX),
- @user_Url NVARCHAR(MAX),
- @user_EsAdmin BIT,
- @role_Id INT,
- @empe_Id INT,
- @user_UsuCreacion INT)
+
+CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_ValidarUsernameExiste
+	@user_NombreUsuario  NVARCHAR(255)
+AS
+BEGIN
+	DECLARE @user_Id INT
+
+	SELECT @user_Id = user_Id 
+	  FROM ACCE.tbUsuarios 
+	 WHERE user_NombreUsuario = @user_NombreUsuario
+	   AND user_Estado = 1
+
+	   IF @user_Id > 0
+	   BEGIN
+			SELECT @user_Id
+	   END
+	   ELSE
+	   BEGIN
+			SELECT 0
+	   END
+END
+GO
+
+
+CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_ValidarUsuariosPoseenRol
+	@role_Id	INT
+AS
+BEGIN
+	DECLARE @user_Id INT
+
+	SELECT TOP 1 @user_Id = user_Id 
+		  FROM ACCE.tbUsuarios 
+		 WHERE role_Id = @role_Id
+
+	IF @user_Id > 0
+	BEGIN	
+		SELECT 1
+	END
+	ELSE
+	BEGIN
+		SELECT 0
+	END
+END
+GO
+
+CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_InsertarNuevoUsuario
+	 @usua_NombreUsuario		NVARCHAR(255),
+	 @usua_Contraseña           NVARCHAR(255),
+	 @role_Id		         	INT,
+	 @empe_Id			        INT,
+	 @usua_EsAdmin              INT,
+	 @usua_IdCreacion           INT
 AS
 BEGIN
 	BEGIN TRY
-		IF EXISTS (SELECT * FROM acce.tbUsuarios WHERE user_NombreUsuario = @user_NombreUsuario AND user_Estado = 1 )
-			BEGIN
-				SELECT -2 AS Proceso
-			END
 
-		ELSE IF NOT EXISTS (SELECT * FROM acce.tbUsuarios WHERE user_NombreUsuario = @user_NombreUsuario)
-			BEGIN
-				INSERT INTO [acce].[tbUsuarios] (user_NombreUsuario, user_Contrasena, user_EsAdmin, role_Id, empe_Id, user_UsuCreacion, user_UsuModificacion, user_FechaModificacion,user_Url)
-				VALUES (@user_NombreUsuario, HASHBYTES('SHA2_512',@user_Contrasena), @user_EsAdmin, @role_Id, @empe_Id, @user_UsuCreacion, NULL, NULL,@user_Url)
-				SELECT 1Proceso
+		 BEGIN TRAN 
+			 DECLARE @Pass AS NVARCHAR(MAX);
+			 SET @Pass = CONVERT(NVARCHAR(MAX), HASHBYTES('sha2_512', @usua_Contraseña));
 
-				SELECT 1Proceso
-			END
-		ELSE
-			BEGIN
-				UPDATE [acce].[tbUsuarios]
-				SET [user_Estado] = 1,
-					user_Url = @user_Url,
-					user_Contrasena = HASHBYTES('SHA2_512',@user_Contrasena),
-					[user_UsuCreacion] = @user_UsuCreacion,
-					[user_FechaCreacion] = GETDATE(),
-					[user_UsuModificacion] = NULL,
-					[user_FechaModificacion] = NULL
-				WHERE [user_NombreUsuario] = @user_NombreUsuario;
-
-				SELECT 1Proceso;
-			END
-
+			
+			 IF @role_Id = 0
+			 BEGIN 
+				 INSERT INTO ACCE.tbUsuarios([user_NombreUsuario],[user_Contrasena],empe_Id,[user_EsAdmin],user_Url,user_Estado,user_UsuCreacion)
+				 VALUES (@usua_NombreUsuario, @Pass, @empe_Id, @usua_EsAdmin,NULL, 1, @usua_IdCreacion)
+			 END
+			 ELSE
+			 BEGIN
+				 INSERT INTO ACCE.tbUsuarios([user_NombreUsuario],[user_Contrasena],role_Id,empe_Id,[user_EsAdmin],user_Url,user_Estado,user_UsuCreacion)
+				 VALUES (@usua_NombreUsuario, @Pass, @role_Id, @empe_Id, @usua_EsAdmin,NULL, 1, @usua_IdCreacion)
+			 END
+			 
+		COMMIT
+		SELECT 1
 	END TRY
-	BEGIN CATCH
-		SELECT 0Processo
+	BEGIN CATCH 
+		ROLLBACK
+	    SELECT 0
 	END CATCH
 END
+GO
 
---*********** UPDATE  ****************--
+CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_EmpleadosNoTienenUsuario
+AS
+BEGIN
+	SELECT *
+	FROM flet.VW_tbEmpleados
+	WHERE empe_Estado = 1
+	  AND empe_Id NOT IN (
+        SELECT empe_Id
+        FROM ACCE.tbUsuarios
+        WHERE empe_Id IS NOT NULL -- Asegurarse de que empe_Id no sea nulo en la tabla de usuarios
+          AND user_Estado = 1
+      )
+END
+GO
+
+
+--CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_EditarUsuarios
+--	@user_Id				INT,
+--	@user_NombreUsuario		NVARCHAR(250),
+--	@user_EsAdmin			BIT,
+--	@role_Id				INT,
+--	@empe_Id				INT,
+--	@user_UsuModificacion	INT
+--AS
+--BEGIN
+--	BEGIN TRY
+
+--		BEGIN TRAN 
+
+--			IF @role_Id = 0
+--			BEGIN 
+--				UPDATE ACCE.tbUsuarios
+--				   SET user_NombreUsuario = @user_NombreUsuario,
+--					   user_EsAdmin = @user_EsAdmin,
+--					   empe_Id = @empe_Id,
+--					   user_UsuModificacion = @user_UsuModificacion,
+--					   user_FechaModificacion = GETDATE()
+--				 WHERE user_Id = @user_Id
+--			END
+--			ELSE
+--			BEGIN
+--				UPDATE ACCE.tbUsuarios
+--				   SET user_NombreUsuario = @user_NombreUsuario,
+--					   user_EsAdmin = @user_EsAdmin,
+--					   role_Id = @role_Id,
+--					   empe_Id = @empe_Id,
+--                       user_UsuModificacion = @user_UsuModificacion,
+--					   user_FechaModificacion = GETDATE()
+--				 WHERE user_Id = @user_Id
+--			END
+		
+--		COMMIT
+--		SELECT 1
+--	END TRY
+--	BEGIN CATCH
+--		ROLLBACK
+--		SELECT 0
+--	END CATCH 
+--	END
+--GO
+
+
+CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_EliminarUsuario
+	@user_Id			INT
+AS
+BEGIN
+	BEGIN TRY
+		BEGIN TRAN
+			DELETE FROM	ACCE.tbUsuarios
+				  WHERE user_Id = @user_Id
+		
+		COMMIT
+		SELECT 1
+	END TRY
+	BEGIN CATCH
+		ROLLBACK
+		SELECT 0
+	END CATCH
+END
+GO
+--************  INSERT **************---
+GO
+--CREATE OR ALTER PROCEDURE acce.UDP_tbUsuarios_Insert
+--(@user_NombreUsuario NVARCHAR(100),
+-- @user_Contrasena NVARCHAR(MAX),
+-- @user_Url NVARCHAR(MAX),
+-- @user_EsAdmin BIT,
+-- @role_Id INT,
+-- @empe_Id INT,
+-- @user_UsuCreacion INT)
+--AS
+--BEGIN
+--	BEGIN TRY
+--		IF EXISTS (SELECT * FROM acce.tbUsuarios WHERE user_NombreUsuario = @user_NombreUsuario AND user_Estado = 1 )
+--			BEGIN
+--				SELECT -2 AS Proceso
+--			END
+
+--		ELSE IF NOT EXISTS (SELECT * FROM acce.tbUsuarios WHERE user_NombreUsuario = @user_NombreUsuario)
+--			BEGIN
+--				INSERT INTO [acce].[tbUsuarios] (user_NombreUsuario, user_Contrasena, user_EsAdmin, role_Id, empe_Id, user_UsuCreacion, user_UsuModificacion, user_FechaModificacion,user_Url)
+--				VALUES (@user_NombreUsuario, HASHBYTES('SHA2_512',@user_Contrasena), @user_EsAdmin, @role_Id, @empe_Id, @user_UsuCreacion, NULL, NULL,@user_Url)
+--				SELECT 1Proceso
+
+--				SELECT 1Proceso
+--			END
+--		ELSE
+--			BEGIN
+--				UPDATE [acce].[tbUsuarios]
+--				SET [user_Estado] = 1,
+--					user_Url = @user_Url,
+--					user_Contrasena = HASHBYTES('SHA2_512',@user_Contrasena),
+--					[user_UsuCreacion] = @user_UsuCreacion,
+--					[user_FechaCreacion] = GETDATE(),
+--					[user_UsuModificacion] = NULL,
+--					[user_FechaModificacion] = NULL
+--				WHERE [user_NombreUsuario] = @user_NombreUsuario;
+
+--				SELECT 1Proceso;
+--			END
+
+--	END TRY
+--	BEGIN CATCH
+--		SELECT 0Processo
+--	END CATCH
+--END
+
+----*********** UPDATE  ****************--
 GO
 CREATE OR ALTER PROCEDURE acce.UDP_tbusuarios_Update
 (@user_Id INT,
  @user_EsAdmin INT,
- @user_Url NVARCHAR(MAX),
  @role_Id INT,
  @empe_Id INT,
  @user_UsuModificacion INT)
@@ -3368,7 +3530,6 @@ BEGIN
 		SET [user_EsAdmin] = @user_EsAdmin,
 			[role_Id] = @role_Id,
 			[empe_Id] = @empe_Id,
-			[user_Url] = @user_Url,
 			[user_UsuModificacion] = @user_UsuModificacion,
 			[user_FechaModificacion] = GETDATE()
 		WHERE [user_Id] = @user_Id;
@@ -3382,7 +3543,7 @@ BEGIN
 END
 
 
---********** DELETE ***********--
+----********** DELETE ***********--
 GO
 CREATE OR ALTER PROCEDURE acce.UDP_tbusuarios_Delete
 (@user_Id INT)
@@ -3410,7 +3571,6 @@ CREATE OR ALTER VIEW acce.VW_tbUsuarios
 AS
 SELECT T1.[user_Id]
       ,T1.[user_NombreUsuario]
-      ,T1.[user_Contrasena]
       ,T1.[user_EsAdmin]
 	  ,T1.user_Url
       ,T1.[role_Id]
@@ -3489,6 +3649,7 @@ GO
 CREATE OR ALTER VIEW acce.VW_tbPantallasPorRoles
 AS
 SELECT 
+prr.prol_Id,
 prr.pant_Id, 
 
 pant_Nombre, 
@@ -3592,7 +3753,6 @@ BEGIN
 	END CATCH
 END
 
-select * from acce.tbPantallasPorRoles where role_Id = 6
 --************** FIND *****************--
 GO
 CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Find  
@@ -3604,6 +3764,38 @@ BEGIN
 	SELECT * FROM acce.VW_tbPantallasPorRoles
 	WHERE role_Id = @role_Id
 END
+
+
+--*************Segusridad***************---
+GO
+CREATE OR ALTER PROCEDURE ACCE.UDP_tbRolesPorPantalla_ValidarRolTienePantalla
+	@role_Id		INT,
+	@pant_Nombre	NVARCHAR(150)
+AS
+BEGIN
+	DECLARE @pant_Id INT, @prol_Id INT
+
+	SELECT @pant_Id = pant_Id
+	  FROM acce.tbPantallas
+	 WHERE pant_Nombre = pant_Nombre
+	   AND pant_Estado = 1
+
+	SELECT @prol_Id = prol_Id
+	  FROM [acce].[tbPantallasPorRoles]
+	 WHERE role_Id = @role_Id
+	   AND pant_Id = @pant_Id
+	   AND [prol_Estado] = 1
+
+	IF @prol_Id > 0
+	BEGIN
+		SELECT @prol_Id
+	END
+	ELSE
+	BEGIN
+		SELECT 0
+	END
+END
+GO
 
 
 
@@ -3876,31 +4068,33 @@ Go
 CREATE OR ALTER PROCEDURE flet.UDP_tbTrayectos_Update
 (
 @tray_Id				INT,
-@muni_Inicio			INT,
-@muni_Final				INT, 
+@muni_Inicio			CHAR(4),
+@muni_Final				CHAR(4), 
+@tray_Precio		    DECIMAL(18,2),
 @tray_UsuModificacion	INT
  )
 AS
 BEGIN
 	BEGIN TRY
-       IF	@muni_Inicio IN (SELECT muni_Inicio FROM flet.tbTrayectos  WHERE tray_Id != @tray_Id) AND @muni_Final IN (SELECT muni_Final FROM flet.tbTrayectos WHERE tray_Id != @tray_Id)
+       IF EXISTS (SELECT * FROM flet.tbTrayectos WHERE (muni_Inicio = @muni_Inicio AND muni_Final = @muni_Final) AND tray_Id != @tray_Id)
 			BEGIN
-			SELECT - 2 codeStatus
+			SELECT - 2 AS codeStatus
 			END
 		ELSE
 			BEGIN
 				UPDATE	flet.tbTrayectos
 				SET		muni_Inicio  = @muni_Inicio,
 						muni_Final = @muni_Final,
+						tray_Precio = @tray_Precio,
 						tray_UsuModificacion = @tray_UsuModificacion,
 						tray_FechaModificacion  = GETDATE()
 				WHERE	tray_Id = @tray_Id
 
-				SELECT 1 codeStatus
+				SELECT 1 AS codeStatus
 			END
 	END TRY
 	BEGIN CATCH
-		SELECT 0  
+		SELECT 0  AS codeStatus
 	END CATCH
 END
 
@@ -3914,20 +4108,23 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbTrayectos_Delete
 AS
 BEGIN
 	BEGIN TRY
-		
-		UPDATE	flet.tbTrayectos
+		IF EXISTS (SELECT tray_Id FROM [flet].[tbFletes] WHERE tray_Id = @tray_Id AND [flet_Estado] = 1)
+			BEGIN
+				SELECT - 3 AS codeStatus
+			END
+		ELSE
+			BEGIN
+				UPDATE	flet.tbTrayectos
 		SET		tray_Estado = 0
 		WHERE	tray_Id = @tray_Id
 		
-		SELECT 1 
-	
+		SELECT 1 AS codeStatus
+			END
 	END TRY
 	BEGIN CATCH
-		SELECT 0 
+		SELECT 0 AS codeStatus
 	END CATCH
 END
-
-
 -----------------------------------------------------------------------------------------------------------------------------
 --****************UBICACION POR FLETE*****************--
 

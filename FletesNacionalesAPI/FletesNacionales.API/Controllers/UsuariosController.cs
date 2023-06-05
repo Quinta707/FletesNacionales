@@ -38,7 +38,7 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
-        [HttpPut("Editar")]
+        [HttpPost("Editar")]
         public IActionResult Update(UsuariosViewModel usuarios)
         {
             var item = _mapper.Map<tbUsuarios>(usuarios);
@@ -46,7 +46,7 @@ namespace FletesNacionales.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut("Eliminar")]
+        [HttpPost("Eliminar")]
         public IActionResult Delete(UsuariosViewModel usuarios)
         {
             var item = _mapper.Map<tbUsuarios>(usuarios);
@@ -69,5 +69,28 @@ namespace FletesNacionales.API.Controllers
             return Ok(list);
         }
 
+        [HttpGet("ListarEmpleadosNoTienenUsuario")]
+        public IActionResult ListarEmpleados()
+        {
+            var list = _acceService.EmpleadosNoTienenUsuario();
+            //list.Data = _mapper.Map<IEnumerable<EmpleadoViewModel>>(list.Data);
+            return Ok(list);
+        }
+
+        [HttpGet("ValidarUsuariosPoseenRol/{role_Id}")]
+        public IActionResult ValidarUsuariosPoseenRol(int role_Id)
+        {
+            var respuesta = _acceService.ValidarUsuariosPoseenRol(role_Id);
+
+            return Ok(respuesta);
+        }
+
+        [HttpGet("ValidarUsernameExiste/{username}")]
+        public IActionResult ValidarUserNameExiste(string username)
+        {
+            var resultado = _acceService.ValidarUsernameExiste(username);
+
+            return Ok(resultado);
+        }
     }
 }

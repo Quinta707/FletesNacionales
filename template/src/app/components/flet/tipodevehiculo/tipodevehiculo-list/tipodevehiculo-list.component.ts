@@ -1,13 +1,16 @@
-import { Component, QueryList, ViewChildren,  OnInit, TemplateRef } from '@angular/core';
+import { Component, QueryList, ViewChildren,  OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { TipoDeVehiculo } from '../../../../shared/model/tipodevehiculo.model';
-import { TipoDeVehiculoEdit } from '../../../../shared/model/tipodevehiculoedit.model';
-import { TableService } from '../../../../shared/services/tipodevehiculo.service';
+import { TipodeVehiculoService } from '../../../../shared/services/tipodevehiculo.service';
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AgGridAngular } from 'ag-grid-angular';
+import { ColDef, DomLayoutType } from 'ag-grid-community';
+import { Idioma } from 'config';
 
 @Component({
   selector: 'app-tipodevehiculo-list',
@@ -15,324 +18,306 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./tipodevehiculo-list.component.scss']
 })
 export class TipodevehiculoListComponent {
-  public selected = [];
-  TipoDeVehiculo:TipoDeVehiculo = new TipoDeVehiculo();
-  TipoDeVehiculoEdit: TipoDeVehiculoEdit = new TipoDeVehiculoEdit();
-  items: TipoDeVehiculo[];
-  tipodeVehiculoValue: string = '';
-  submitted: boolean = false;
-  basicModalCloseResult: string = '';
-  modalRef: NgbModalRef | undefined;
+  user:any = JSON.parse(localStorage.getItem("user"))
+
+  tipodevehiculo:TipoDeVehiculo= new TipoDeVehiculo();
+  tipodevehiculolist!: TipoDeVehiculo[];
+
+
+  @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
+
+  public domLayout: DomLayoutType = 'autoHeight';
+  idioma = Idioma
+  paginationPageSize: number = 10;
+  public searchText:string;
+
+  public defaultColDef: ColDef = {
+    sortable: true,
+    filter: true,
+    autoHeight: true,
+  };
+
+  columnDefs: ColDef[] = [
+    { field: 'tipv_Id', headerName: 'ID', flex: 1 },
+    { field: 'tipv_Descripcion', headerName: 'Tipo de vehiculo', flex: 1 },
+    { cellRenderer: (params) => this.actionButtonRenderer(params, this.modalService), headerName: 'Acciones', flex: 1 }
+
+  ];
+
+  actionButtonRenderer(params: any, modalService: NgbModal) {
+    const openModelEdit = () => {
+      console.log(params.data)
+      this.sumit = false;
+      this.tipodevehiculo.tipv_Id = params.data.tipv_Id;
+      this.EditGroup.get('tipv_Descripcion').setValue(params.data.tipv_Descripcion);
+      this.tipodevehiculo = params.data;
+      this.modalRef = this.modalService.open(this.modalEdit, { centered: true });
+   };
   
-  public tableItem$: Observable<TipoDeVehiculo[]>;
-  public searchText;
-  total$: Observable<number>;
+    const openModalDelete = () => {
+      this.tipodevehiculo = params.data;
+      this.tipodevehiculo.tipv_Id = params.data.tipv_Id;
+      this.modalRef = this.modalService.open(this.modalDelete, { centered: true });
+      // this.router.navigate(['/flet/Fletes/PersonalDetails'], { queryParams: { id: params.data.flet_Id } });
+    }
 
-  constructor(
-    public service: TableService,
-    private modalService: NgbModal,
-    private router:Router,
-    private http: HttpClient
-  ) {
-    this.tableItem$ = service.tableItem$;
-    this.total$ = service.total$;
-    this.service.setUserData(this.items);   
-  }
+    const button = document.createElement('il');
+    button.classList.add('edit'); 
 
-  ngOnInit(): void {
-    this.service.getTipoDeVehiculo()
-    .subscribe((data: any)=>{
-      this.items= data.data;
-      this.service.setUserData(data.data);
-    });
-  }
+    const iconElement = document.createElement('i');
+    iconElement.classList.add('icon-pencil-alt'); 
+    iconElement.classList.add('mx-2'); 
 
-  onSearchInputChange(searchTerm: string) {
-    this.service.searchTerm = searchTerm;
+    const textElement = document.createElement('span');
+    textElement.innerText = '';
+    textElement.appendChild(iconElement);
+
+
+    const button2 = document.createElement('il');
+    button2.classList.add('delete'); 
+  
+    const iconElement2 = document.createElement('i');
+    iconElement2.classList.add('fa'); 
+    iconElement2.classList.add('fa-trash-o'); 
+
+    const textElement2 = document.createElement('span');
+    textElement2.innerText = '';
+    textElement2.appendChild(iconElement2);
+   
+    button.appendChild(textElement);
+    button2.appendChild(textElement2);
+  
+    button.addEventListener('click', openModelEdit);
+    button2.addEventListener('click', openModalDelete);
+  
+    const container = document.createElement('div');
+    container.classList.add('action')
+    container.appendChild(button);
+    container.appendChild(button2);
+  
+    return container;
   }
  
-  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+  
 
-  onSort({ column, direction }: SortEvent) {
-    // resetting other headers
-    this.headers.forEach((header) => {
-      if (header.sortable !== column) {
-        header.direction = '';
-      }
-    });
+  constructor(private service: TipodeVehiculoService,
+              private modalService: NgbModal,
+              private _formBuilder: FormBuilder,
+              private router: Router){}
+   
+    ngOnInit(): void {
 
-    this.service.sortColumn = column;
-    this.service.sortDirection = direction;
-  }
+      this.service.getTipoDeVehiculo()
+      .subscribe((data: any)=>{
+        this.tipodevehiculolist= data.data;
+      })
+
+
+
+      this.CreateGroup = this._formBuilder.group({
+        tipv_Descripcion: ['', Validators.required],
+      });
+       
+      this.EditGroup = this._formBuilder.group({
+        tipv_Descripcion: ['', Validators.required],
+      });
+
+    }
 
     
-  open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      // Acción a realizar cuando se cierra el modal
-      console.log(result);
-    }, (reason) => {
-      // Acción a realizar cuando se descarta el modal sin guardar cambios
-      console.log(reason);
-    });
-  }
+  CreateGroup: FormGroup;
+  EditGroup: FormGroup;  
+  
+  sumit:boolean = false;
 
-  Guardar(e: Event) {
-    e.preventDefault();
-    if (!this.tipodeVehiculoValue) {
-      this.submitted = true;
-      Swal.fire({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 6000,
-        timerProgressBar: true,
-        title: '¡ERROR!, El campo de tipo de vehiculo no puede estar vacío',
-        icon: 'error'
-      });
-      return;
+  @ViewChild('delete') modalDelete: any;
+  @ViewChild('edit') modalEdit: any;
+  @ViewChild('create') modalCreate: any;
+  
+  modalRef: NgbModalRef;
+
+
+    onSearchInputChange() {
+      this.agGrid.api.setQuickFilter(this.searchText);
     }
   
-    const apiUrl = 'https://localhost:44339/api/TipoDeVehiculo/Insertar';
-    const requestBody = {
-      tipv_Descripcion: this.tipodeVehiculoValue
-    };
-  
-    this.http.post(apiUrl, requestBody).subscribe(
-      (response: any) => {
-        console.log(response);
-        if (response !== undefined) {
-          if (response.success) {
-            Swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 1500,
-              timerProgressBar: true,
-              title: '¡Registro Ingresado con éxito!',
-              icon: 'success'
-            }).then(() => {
-              this.modalRef?.close(); // Cerrar el modal
-              this.tipodeVehiculoValue = ''; // Restablecer el valor del campo
-              this.submitted = false; // Reiniciar el estado del formulario
-              this.service.getTipoDeVehiculo()
-                .subscribe((data: any) => {
-                  this.items = data.data;
-                  this.service.setUserData(data.data);
-                });
-              this.modalService.dismissAll();
-            });
-          } else if (response.message === "YaExiste") {
-            Swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 6000,
-              timerProgressBar: true,
-              title: '¡Ya existe un registro con el mismo tipo de vehiculo!',
-              icon: 'warning'
-            });
-          } else {
-            Swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 1500,
-              timerProgressBar: true,
-              title: '¡Hubo un error al insertar el registro!',
-              icon: 'error'
-            });
-          }
-        } else {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            title: '¡Hubo un error en la respuesta del API!',
-            icon: 'error'
-          });
-          console.error('Respuesta del API inválida:', response);
-        }
-      },
-      (error: any) => {
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
-          title: '¡Hubo un error al realizar la solicitud!',
-          icon: 'error'
-        });
-        console.error(error);
+    closeModal() {
+      if (this.modalRef) {
+        this.sumit = false;
+        this.modalRef.dismiss();
       }
-    );
+    }
+
+    OpenModalCreate() {
+      this.sumit = false;
+      const formGroup = this.CreateGroup;
+  
+      Object.keys(formGroup.controls).forEach(key => {
+        const control = formGroup.get(key);
+        control.markAsUntouched();
+      });
+  
+      const Drenadora: TipoDeVehiculo = new TipoDeVehiculo();
+      this.tipodevehiculo = Drenadora;
+      this.modalRef = this.modalService.open(this.modalCreate, { centered: true });
+    }
+  
+    
+  CrearModelo() {
+       this.sumit = true;
+     let datoTrim = (this.CreateGroup.value['tipv_Descripcion'].trim());
+     this.CreateGroup.get("tipv_Descripcion").setValue(datoTrim)
+     this.tipodevehiculo.tipv_Descripcion = datoTrim;
+     this.tipodevehiculo.tipv_UsuCreacion = this.user.user_Id;
+
+     if(this.CreateGroup.valid){
+
+       this.service.InsertTipoDeVehiculo(this.tipodevehiculo)
+       .subscribe((data:any) => {
+         if(data.success){
+         this.alertaLogrado();
+           this.modalRef.close();
+         }else if(data.message === "YaExiste"){
+           this.alertaValorRepetido();
+         }else{
+           this.alertaErrorInespero();
+           this.modalRef.close();
+         }
+      
+         this.service.getTipoDeVehiculo()
+         .subscribe((data: any)=>{
+             this.tipodevehiculolist= data.data;
+         })
+       })
+
+     }else{
+       this.alertaCamposVacios();
+     }
+  }
+ 
+  EditarModelo() {
+    this.sumit = true;
+     let datoTrim = (this.EditGroup.value['tipv_Descripcion'].trim());
+     this.EditGroup.get("tipv_Descripcion").setValue(datoTrim)
+     this.tipodevehiculo.tipv_Descripcion = datoTrim;
+     this.tipodevehiculo.tipv_UsuModificacion = this.user.user_Id;
+
+     if(this.EditGroup.valid){
+
+       this.service.EditarTipoVehiculoEditar(this.tipodevehiculo)
+       .subscribe((data:any) => {
+         if(data.success){
+         this.alertaLogrado();
+           this.modalRef.close();
+         }else if(data.message === "YaExiste"){
+           this.alertaValorRepetido();
+         }else{
+           this.alertaErrorInespero();
+           this.modalRef.close();
+         }
+      
+         this.service.getTipoDeVehiculo()
+         .subscribe((data: any)=>{
+             this.tipodevehiculolist= data.data;
+         })
+       })
+
+     }else{
+       this.alertaCamposVacios();
+     }
   }
 
-  Editar() {
-    if (!this.TipoDeVehiculoEdit.tipv_Descripcion) {
-      this.submitted = true;
-      Swal.mixin({
+  EliminarModelo(){
+     this.service.DeleteTipoDeVehiculo(this.tipodevehiculo)
+     .subscribe((data:any) => {
+       console.log(data);
+       if(data.message === "Operación completada exitosamente."){
+         this.alertaEliminado()
+       }else{
+         this.alertaErrorInespero()
+       }
+
+       this.modalRef.close();
+       this.service.getTipoDeVehiculo()
+       .subscribe((data: any)=>{
+           this.tipodevehiculolist= data.data;
+       })
+
+     })
+  }
+
+  //Alertas
+  alertaCamposVacios() {
+    Swal.fire({
+        showConfirmButton: false,
         toast: true,
         position: 'top-end',
-        showConfirmButton: false,
-        timer: 6000,
+        timer: 2500,
         timerProgressBar: true,
-      }).fire({
-        title: '¡ERROR!, El campo de tipo de vehiculo no puede estar vacio',
+        title: 'Completa todos los campos',
         icon: 'warning'
-      });
-      return;
-    }
+      })
+  }
+  alertaLogrado() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'Listo, el registro se guardo exitosamente',
+        icon: 'success'
+      })
+  }
+  alertaValorRepetido() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'Ya existe otro registro con el mismo nombre',
+        icon: 'warning'
+      })
+  }
+  alertaErrorInespero() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'Ha ocurrido un error inesperado',
+        icon: 'error'
+      })
+  }
   
-    this.service.EditarTipoVehiculoEditar(this.TipoDeVehiculoEdit).subscribe(
-      (response: any) => {
-        console.log(response);
-        if (response.success == 1) {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            title: '¡Registro Actualizado con éxito!',
-            icon: 'success'
-          });
-          this.modalService.dismissAll();
-          this.service.getTipoDeVehiculo().subscribe(data => {
-            this.items = data;  
-          });
-        } else if (response.message == "YaExiste") {
-          // El registro ya existe
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 6000,
-            timerProgressBar: true,
-            title: 'Ya existe este registro',
-            icon: 'warning'
-          });
-        } else {
-          // Error desconocido u otro código de estado
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            title: 'Ha ocurrido un error',
-            icon: 'error'
-          });
-        }
-      },
-      (error) => {
-        // Error en la comunicación con el servidor
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
-          title: 'Error de comunicación con el servidor',
-          icon: 'error'
-        });
-        console.error(error);
-      }
-    );
+  alertaEliminado() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'El registro a sido eliminado',
+        icon: 'success'
+      })
   }
-
-  Delete() {
-    const tipv_Id: number | undefined = isNaN(parseInt(localStorage.getItem("tipv_Id") ?? '', 0)) ? undefined : parseInt(localStorage.getItem("tipv_Id") ?? '', 0);
-    if (tipv_Id !== undefined) {
-      this.TipoDeVehiculo.tipv_Id = tipv_Id;
-    }
   
-    this.service.DeleteTipoDeVehiculo(this.TipoDeVehiculo).subscribe(
-      (response: any) => {
-        console.log(this.TipoDeVehiculo);
-        console.log(response);
-        if (response.success == 1) {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            title: '¡Registro eliminado con éxito!',
-            icon: 'success'
-          }).then(() => {
-            this.modalService.dismissAll();
-            this.service.getTipoDeVehiculo().subscribe((data: any) => {
-              this.items = data;
-            });
-          });
-        } else {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            title: '¡ERROR!, ¡Oh no!, hubo un error al eliminar el registro',
-            icon: 'error'
-          });
-        }
-      },
-      (error: any) => {
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
-          title: '¡Hubo un error al realizar la solicitud!',
-          icon: 'error'
-        });
-        console.error(error);
-      }
-    );
-  }
-
-  openBasicModal1(content: TemplateRef<any>, id:number) {
-    this.modalRef = this.modalService.open(content, {});
-    this.modalRef.result.then((result) => {
-      this.basicModalCloseResult = "Modal closed" + result;
-    }).catch((res) => {});
-    localStorage.setItem("tipv_Id",id.toString())
-  }
-
-  openBasicModal2(content: TemplateRef<any>, id:number) {
-    this.modalRef = this.modalService.open(content, {});
-    this.modalRef.result.then((result) => {
-      this.basicModalCloseResult = "Modal closed" + result;
-    }).catch((res) => {});
-    localStorage.setItem("tipv_Id",id.toString())
-  }
-
-  openBasicModal3(content: TemplateRef<any>,TipoDeVehiculoEdit: TipoDeVehiculoEdit) {
-    this.TipoDeVehiculoEdit = {...TipoDeVehiculoEdit};
-    console.log(TipoDeVehiculoEdit)
-    this.modalRef = this.modalService.open(content, {});
-    this.modalRef.result.then((result) => {
-      this.basicModalCloseResult = "Modal closed" + result;
-    }).catch((res) => {});
-  }
-
-  cancelar() {
-    this.tipodeVehiculoValue = ''; // Restablecer el valor del campo
-    this.submitted = false; // Reiniciar el estado del formulario
+  alertaEliminadoFallido() {
+    Swal.fire({
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        timerProgressBar: true,
+        title: 'No se pudo eliminar este registro porque esta en uso',
+        icon: 'error'
+      })
   }
 
 
-  deleteData(id: number) {
-    this.tableItem$.subscribe((data: any[]) => {
-      data.map((elem: any, i: number) => {
-        if (elem.id == id) {
-          data.splice(i, 1);
-        }
-      });
-    });
-  }
+  
+
+ 
   }

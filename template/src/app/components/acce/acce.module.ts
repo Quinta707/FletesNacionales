@@ -9,20 +9,25 @@ import { AcceRoutingModule } from './acce-routing.module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { RolesporPantallaListComponent } from './rolesPorPantalla/rolesPorPantalla-list/rolesPorPantalla-list.component';
 import { RolesporPantallaupdateComponent } from './rolesPorPantalla/rolesPorPantalla-update/rolesPorPantalla-update.component';
-
-import { RolesporPantallaCreateComponent } from './rolesPorPantalla/rolesPorPantalla-create/rolesPorPantalla-create.component'
+import { ReactiveFormsModule } from '@angular/forms';
+import { RolesporPantallaCreateComponent } from './rolesPorPantalla/rolesPorPantalla-create/rolesPorPantalla-create.component';
+import { UsuariosComponent } from './usuarios/usuarios/usuarios.component'
+import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
   declarations: [
     RolesporPantallaListComponent,
     RolesporPantallaCreateComponent,
-    RolesporPantallaupdateComponent
+    RolesporPantallaupdateComponent,
+    UsuariosComponent
   ],
   imports: [
     CommonModule,
     NgSelectModule,
     AcceRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
+    AgGridModule,
     NgbModule,
     SharedModule,
     NgMultiSelectDropDownModule.forRoot()
