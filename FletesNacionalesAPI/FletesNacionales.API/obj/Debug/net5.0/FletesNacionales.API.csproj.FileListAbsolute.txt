@@ -898,6 +898,11 @@ C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacio
 C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\FletesNacionales.API.pdb
 C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\FletesNacionales.API.genruntimeconfig.cache
 C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\FletesNacionales.API.MvcApplicationPartsAssemblyInfo.cs
+C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\FletesNacionales.API.GeneratedMSBuildEditorConfig.editorconfig
+C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\FletesNacionales.API.AssemblyInfoInputs.cache
+C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\FletesNacionales.API.AssemblyInfo.cs
+C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\FletesNacionales.API.csproj.CoreCompileInputs.cache
+C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\FletesNacionales.API.MvcApplicationPartsAssemblyInfo.cache
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\bin\Debug\net5.0\appsettings.Development.json
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\bin\Debug\net5.0\appsettings.json
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\bin\Debug\net5.0\FletesNacionales.API.exe
@@ -1033,12 +1038,6 @@ C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\bin
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\bin\Debug\net5.0\FletesNacionales.DataAccess.pdb
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\bin\Debug\net5.0\FletesNacionales.Entities.pdb
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\FletesNacionales.API.csproj.AssemblyReference.cache
-C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\FletesNacionales.API.GeneratedMSBuildEditorConfig.editorconfig
-C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\FletesNacionales.API.AssemblyInfoInputs.cache
-C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\FletesNacionales.API.AssemblyInfo.cs
-C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\FletesNacionales.API.csproj.CoreCompileInputs.cache
-C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\FletesNacionales.API.MvcApplicationPartsAssemblyInfo.cs
-C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\FletesNacionales.API.MvcApplicationPartsAssemblyInfo.cache
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\staticwebassets\FletesNacionales.API.StaticWebAssets.Manifest.cache
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\staticwebassets\FletesNacionales.API.StaticWebAssets.xml
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\scopedcss\bundle\FletesNacionales.API.styles.css

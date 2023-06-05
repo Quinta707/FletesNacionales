@@ -258,7 +258,7 @@ namespace FletesNacionales.BusinessLogic.Services
             }
         }
 
-        public VW_tbEmpleados BuscarEmpleados(int? id)
+        public VW_tbEmpleados BuscarEmpleados(int id)
         {
             try
             {
@@ -961,147 +961,6 @@ namespace FletesNacionales.BusinessLogic.Services
         }
         #endregion
 
-        #region Pedidos
-        public ServiceResult ListadoPedidos()
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var list = _pedidosRepository.List();
-                return result.Ok(list);
-            }
-            catch (Exception e)
-            {
-                return result.Error(e.Message);
-            }
-        }
-
-        public IEnumerable<VW_tbPedidos> ListarPedidos(int id)
-        {
-            try
-            {
-                return _pedidosRepository.ListarPedidos(id);
-            }
-            catch (Exception e)
-            {
-                string message = e.Message;
-                return Enumerable.Empty<VW_tbPedidos>();
-            }
-        }
-
-        public ServiceResult PedidosPorMunicipio(int id)
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var list = _pedidosRepository.PedidosPorMunicipio(id);
-                return result.Ok(list);
-            }
-            catch (Exception e)
-            {
-                return result.Error(e.Message);
-            }
-        }
-
-        public ServiceResult EliminarPedidos(tbPedidos item)
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var map = _pedidosRepository.Delete(item);
-                if (map.CodeStatus > 0)
-                {
-                    return result.Ok(map);
-                }
-                else
-                {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public ServiceResult InsertarPedidos(tbPedidos item)
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var map = _pedidosRepository.Insert(item);
-                if (map.CodeStatus > 0)
-                {
-                    return result.Ok(map);
-                }
-                else
-                {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        public ServiceResult EditarPedidos(tbPedidos item)
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var map = _pedidosRepository.Update(item);
-                if (map.CodeStatus > 0)
-                {
-                    return result.Ok(map);
-                }
-                else
-                {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        public ServiceResult EditarPedidosEstado(tbPedidos item)
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var map = _pedidosRepository.UpdateEstado(item);
-                if (map.CodeStatus == 1)
-                    return result.SetMessage("Exitoso", ServiceResultType.Success);
-                else if (map.CodeStatus == -2)
-                    return result.SetMessage("NoEsPosible", ServiceResultType.Error);
-                else if (map.CodeStatus == 0)
-                    return result.SetMessage("Error Inesperado", ServiceResultType.Error);
-                else
-                    return result.SetMessage("Conexión perdida", ServiceResultType.Error);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public VW_tbPedidos BuscarPedidos(int? id)
-        {
-            try
-            {
-                var list = _pedidosRepository.find(id);
-                return list;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-        #endregion
-
         #region Trayectos
         public ServiceResult ListadoTrayectos()
         {
@@ -1323,6 +1182,149 @@ namespace FletesNacionales.BusinessLogic.Services
             }
         }
         #endregion
+
+        #region Pedidos
+        public ServiceResult ListadoPedidos()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _pedidosRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+
+        public IEnumerable<VW_tbPedidos> ListarPedidos(int id)
+        {
+            try
+            {
+                return _pedidosRepository.ListarPedidos(id);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+                return Enumerable.Empty<VW_tbPedidos>();
+            }
+        }
+
+        public ServiceResult PedidosPorMunicipio(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _pedidosRepository.PedidosPorMunicipio(id);
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+
+        public ServiceResult EliminarPedidos(tbPedidos item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _pedidosRepository.Delete(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public ServiceResult InsertarPedidos(tbPedidos item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _pedidosRepository.Insert(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public ServiceResult EditarPedidos(tbPedidos item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _pedidosRepository.Update(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public ServiceResult EditarPedidosEstado(tbPedidos item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _pedidosRepository.UpdateEstado(item);
+                if (map.CodeStatus == 1)
+                    return result.SetMessage("Exitoso", ServiceResultType.Success);
+                else if (map.CodeStatus == -2)
+                    return result.SetMessage("NoEsPosible", ServiceResultType.Error);
+                else if (map.CodeStatus == 0)
+                    return result.SetMessage("Error Inesperado", ServiceResultType.Error);
+                else
+                    return result.SetMessage("Conexión perdida", ServiceResultType.Error);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public VW_tbPedidos BuscarPedidos(int? id)
+        {
+            try
+            {
+                var list = _pedidosRepository.find(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        #endregion
+
+       
 
     }
 }

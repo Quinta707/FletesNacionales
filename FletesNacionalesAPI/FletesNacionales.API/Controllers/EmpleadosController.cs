@@ -62,7 +62,7 @@ namespace FletesNacionales.API.Controllers
         }
 
         [HttpGet("Buscar")]
-        public IActionResult Find(int? id)
+        public IActionResult Find(int id)
         {
             var list = _fletService.BuscarEmpleados(id);
             return Ok(list);

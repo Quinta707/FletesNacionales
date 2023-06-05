@@ -118,6 +118,10 @@ C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacio
 C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\obj\Debug\net5.0\ref\FletesNacionales.BusinessLogic.dll
 C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\obj\Debug\net5.0\FletesNacionales.BusinessLogic.pdb
 C:\Users\danie\Documents\GitHub\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\obj\Debug\net5.0\FletesNacionales.BusinessLogic.genruntimeconfig.cache
+C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\obj\Debug\net5.0\FletesNacionales.BusinessLogic.GeneratedMSBuildEditorConfig.editorconfig
+C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\obj\Debug\net5.0\FletesNacionales.BusinessLogic.AssemblyInfoInputs.cache
+C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\obj\Debug\net5.0\FletesNacionales.BusinessLogic.AssemblyInfo.cs
+C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\obj\Debug\net5.0\FletesNacionales.BusinessLogic.csproj.CoreCompileInputs.cache
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\bin\Debug\net5.0\FletesNacionales.BusinessLogic.deps.json
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\bin\Debug\net5.0\FletesNacionales.BusinessLogic.runtimeconfig.json
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\bin\Debug\net5.0\FletesNacionales.BusinessLogic.runtimeconfig.dev.json
@@ -129,10 +133,6 @@ C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.Busines
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\bin\Debug\net5.0\FletesNacionales.DataAccess.pdb
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\bin\Debug\net5.0\FletesNacionales.Entities.pdb
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\obj\Debug\net5.0\FletesNacionales.BusinessLogic.csproj.AssemblyReference.cache
-C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\obj\Debug\net5.0\FletesNacionales.BusinessLogic.GeneratedMSBuildEditorConfig.editorconfig
-C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\obj\Debug\net5.0\FletesNacionales.BusinessLogic.AssemblyInfoInputs.cache
-C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\obj\Debug\net5.0\FletesNacionales.BusinessLogic.AssemblyInfo.cs
-C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\obj\Debug\net5.0\FletesNacionales.BusinessLogic.csproj.CoreCompileInputs.cache
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\obj\Debug\net5.0\FletesNacionales.BusinessLogic.csproj.CopyComplete
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\obj\Debug\net5.0\FletesNacionales.BusinessLogic.dll
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.BusinessLogic\obj\Debug\net5.0\ref\FletesNacionales.BusinessLogic.dll

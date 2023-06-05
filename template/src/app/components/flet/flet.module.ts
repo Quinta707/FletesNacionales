@@ -19,6 +19,8 @@ import { FletedetailsComponent } from './fletes/fletes-details/fletes-details.co
 import { VehiculosLstComponent } from './vehiculos/vehiculos-lst/vehiculos-lst.component';
 import { SucursalesListComponent } from './sucursales/sucursales-list/sucursales-list.component';
 import { EmpleadosListComponent } from './empleados/empleados-list/empleados-list.component';
+import { EmpleadosCreateComponent } from './empleados/empleados-create/empleados-create.component';
+import { EmpleadosEditComponent } from './empleados/empleados-edit/empleados-edit.component';
 import { EstadosdelpedidoListComponent } from './estadosdelpedido/estadosdelpedido-list/estadosdelpedido-list.component';
 import { TipodevehiculoListComponent } from './tipodevehiculo/tipodevehiculo-list/tipodevehiculo-list.component';
 
@@ -26,6 +28,7 @@ import { FleteListComponent } from './fletes/fletes-list/fletes-list.component';
 import { FletRoutingModule } from './flet-routing.module';
 import { TrayectosIndexComponent } from './trayectos/trayectos-index/trayectos-index.component';
 import { PedidosIndexComponent } from './pedidos/pedidos-index/pedidos-index.component';
+import { PedidosCreateComponent } from './pedidos/pedidos-create/pedidos-create.component';
 
 import { GoogleMapsModule } from "@angular/google-maps";
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
@@ -56,10 +59,13 @@ import { ReporteComponent } from './reporte/reporte/reporte.component';
     VehiculosLstComponent,
     SucursalesListComponent,
     EmpleadosListComponent,
+    PedidosCreateComponent,
     EstadosdelpedidoListComponent,
     TipodevehiculoListComponent,
     TrayectosIndexComponent,
+    EmpleadosEditComponent,
     PedidosIndexComponent,
+    EmpleadosCreateComponent,
     ClientesCreateComponent,
     ClientesEditComponent,
     ReporteComponent,

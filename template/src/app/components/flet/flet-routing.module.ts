@@ -22,6 +22,9 @@ import { ReporteComponent } from './reporte/reporte/reporte.component';
 import { FleteDetailsPropioComponent } from "./fletes/fletes-details-propio/fletes-details-propio.component";
 import { graficaLstComponent } from './grafica/grafica-lst/grafica-lst.component';
 import { ClientesEditComponent } from "./clientes/clientes-edit/clientes-edit.component";
+import { PedidosCreateComponent } from "./pedidos/pedidos-create/pedidos-create.component";
+import { EmpleadosEditComponent } from "./empleados/empleados-edit/empleados-edit.component";
+import { EmpleadosCreateComponent } from "./empleados/empleados-create/empleados-create.component";
 const routes: Routes = [
   {
     path: "",
@@ -157,6 +160,14 @@ const routes: Routes = [
             path: "List",
             component: EmpleadosListComponent,
           },
+          {
+            path: "Edit",
+            component: EmpleadosEditComponent,
+          },
+          {
+            path: "Create",
+            component: EmpleadosCreateComponent,
+          },
           
         ],
       },    
@@ -212,6 +223,10 @@ const routes: Routes = [
           {
             path: "List",
             component: PedidosIndexComponent,
+          },
+          {
+            path: "Create",
+            component: PedidosCreateComponent,
           },
         ],
         

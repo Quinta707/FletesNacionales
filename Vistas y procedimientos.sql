@@ -2909,28 +2909,27 @@ END
 
 --************** INSERT *****************--
 GO
-CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_Insert 
+CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_Insert
 (
-@clie_Id			INT,
-@muni_Origen		INT,
-@muni_Destino		INT,
-@pedi_DestinoFinal	NVARCHAR(250),
-@pedi_UsuCreacion	INT
+@clie_Id            INT,
+@muni_Origen        CHAR(4),
+@muni_Destino        CHAR(4),
+@pedi_DestinoFinal    NVARCHAR(250),
+@meto_Id            INT,
+@pedi_UsuCreacion    INT
 )
 AS
 BEGIN
-	BEGIN TRY
-        
-		INSERT INTO flet.tbPedidos (clie_Id, muni_Origen, muni_Destino, pedi_DestinoFinal, pedi_UsuCreacion, estp_Id)
-		VALUES	(@clie_Id, @muni_Origen, @muni_Destino, @pedi_DestinoFinal, @pedi_UsuCreacion, 1)
+    BEGIN TRY
 
-		SELECT 1 
-	END TRY
-	BEGIN CATCH
-		SELECT 0 
-	END CATCH
+        INSERT INTO flet.tbPedidos (clie_Id, muni_Origen, muni_Destino, pedi_DestinoFinal, meto_Id, pedi_UsuCreacion, estp_Id)
+        VALUES    (@clie_Id, @muni_Origen, @muni_Destino, @pedi_DestinoFinal, @meto_Id, @pedi_UsuCreacion, 1)
+        SELECT SCOPE_IDENTITY() as codeStatus;
+    END TRY
+    BEGIN CATCH
+        SELECT 0 AS codeStatus
+    END CATCH
 END
-
 --************** UPDATE *****************--
 Go
 CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_Update
@@ -4385,3 +4384,134 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_ListarInforById
 	END CATCH
 END
 GO
+
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_Insert 
+(@empe_Nombres NVARCHAR(200),
+ @empe_Apellidos NVARCHAR(200),
+ @empe_Identidad NVARCHAR(15),
+ @empe_FechaNacimiento Date,
+ @empe_Sexo char(1),
+ @eciv_Id INT,
+ @muni_Id CHAR(4),
+ @empe_DireccionExacta NVARCHAR(250),
+ @empe_Telefono NVARCHAR(20),
+ @sucu_Id INT,
+ @carg_Id INT,
+ @empe_UsuCreacion INT)
+AS
+BEGIN
+	BEGIN TRY
+         IF EXISTS (SELECT * FROM [flet].[tbEmpleados] WHERE empe_Identidad = @empe_Identidad AND empe_Estado = 1)
+        BEGIN
+
+            SELECT -2 
+
+        END
+        ELSE IF NOT EXISTS (SELECT * FROM [flet].[tbEmpleados]  WHERE empe_Identidad = @empe_Identidad)
+        BEGIN
+		INSERT INTO [flet].[tbEmpleados]
+				([empe_Nombres]
+				,[empe_Apellidos]
+				,[empe_Identidad]
+				,[empe_FechaNacimiento]
+				,[empe_Sexo]
+				,[eciv_Id]
+				,[muni_Id]
+				,[empe_DireccionExacta]
+				,[empe_Telefono]
+				,[sucu_Id]
+				,[carg_Id]
+				,[empe_UsuCreacion]
+				,[empe_FechaCreacion]
+				,[empe_UsuModificacion]
+				,[empe_FechaModificacion]
+				,[empe_Estado])
+			VALUES
+				(@empe_Nombres
+				,@empe_Apellidos
+				,@empe_Identidad
+				,@empe_FechaNacimiento
+				,@empe_Sexo
+				,@eciv_Id
+				,@muni_Id
+				,@empe_DireccionExacta
+				,@empe_Telefono
+				,@sucu_Id
+				,@carg_Id
+				,@empe_UsuCreacion
+				,GETDATE()
+				,NULL
+				,NULL
+				,1)
+
+		SELECT 1 
+		END
+		ELSE
+		BEGIN
+			
+            UPDATE [flet].[tbEmpleados]
+            SET  empe_Estado = 1
+				,empe_UsuCreacion = @empe_UsuCreacion
+				,empe_FechaCreacion = GETDATE()
+            WHERE empe_Identidad = @empe_Identidad
+
+            select empe_Id From [flet].[tbEmpleados]  WHERE empe_Identidad = @empe_Identidad 
+        
+		END
+	END TRY
+	BEGIN CATCH
+		SELECT 0 
+	END CATCH
+END
+
+--************** UPDATE *****************--
+Go
+CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_Update
+(@empe_Id INT,
+ @empe_Nombres NVARCHAR(200),
+ @empe_Apellidos NVARCHAR(200),
+ @empe_Identidad NVARCHAR(15),
+ @empe_FechaNacimiento NVARCHAR(200),
+ @empe_Sexo char(1),
+ @eciv_Id INT,
+ @muni_Id CHAR(4),
+ @empe_DireccionExacta NVARCHAR(250),
+ @empe_Telefono NVARCHAR(20),
+ @sucu_Id INT,
+ @carg_Id INT,
+ @empe_UsuModificacion INT)
+AS
+BEGIN
+      
+    BEGIN TRY
+        IF EXISTS (SELECT * FROM [flet].[tbEmpleados] WHERE (empe_Identidad = @empe_Identidad AND empe_Id != @empe_Id))
+			BEGIN
+				SELECT -2 
+			END
+        ELSE
+			BEGIN
+
+		UPDATE [flet].[tbEmpleados]
+		SET [empe_Nombres] = @empe_Nombres
+			,[empe_Apellidos] = @empe_Apellidos
+			,[empe_Identidad] = @empe_Identidad
+			,[empe_FechaNacimiento] = @empe_FechaNacimiento
+			,[empe_Sexo] = @empe_Sexo
+			,[eciv_Id] = @eciv_Id
+			,[muni_Id] = @muni_Id
+			,[empe_DireccionExacta] = @empe_DireccionExacta
+			,[empe_Telefono] = @empe_Telefono
+			,[sucu_Id] = @sucu_Id
+			,[carg_Id] = @carg_Id
+			,[empe_UsuModificacion] =  @empe_UsuModificacion
+			,[empe_FechaModificacion] = GETDATE()
+		WHERE empe_Id = @empe_Id
+
+		SELECT 1 
+		END
+	END TRY
+	BEGIN CATCH
+		SELECT 0  
+	END CATCH
+END

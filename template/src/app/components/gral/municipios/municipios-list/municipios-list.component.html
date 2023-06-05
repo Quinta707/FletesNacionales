@@ -63,13 +63,8 @@
               <form [formGroup]="updateFormGroup"  class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }"> 
               
               <div class="row">
-                <div class="col-sm-6">
-                  <label>Departamento</label>
-                 
-                  <input disabled="true" [(ngModel)]="municipiosEditar.depa_Id" formControlName="depa_Id"  class="form-control"  id="depa_Id" type="text" required=""  />
-                 
-              </div>
-                <div class="col-sm-6">
+                
+                <div class="col-sm-12 mt-3">
                   <label>Nombre Municipio</label>
               <input [(ngModel)]="municipiosEditar.muni_Nombre" formControlName="muni_Nombre"  class="form-control" id="muni_Nombre" type="text" required=""  />
               <ng-container class="invalid text-danger"
@@ -77,12 +72,7 @@
                 <p class="text-danger">El nombre del municipio es necesario</p></ng-container>
               
             </div>
-            <div class="col-sm-6">
-              <label>Municipio Codigo</label>
-             
-              <input [disabled]="true" [(ngModel)]="municipiosEditar.muni_Id" formControlName="muni_Id"  class="form-control"  id="muni_Id" type="text" required=""  />
-             
-          </div>
+            
           </div>
         </form>
             </div>

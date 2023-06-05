@@ -421,21 +421,23 @@ CONSTRAINT FK_flet_tbEstadosDelPedido_acce_tbUsuarios_pedi_UsuModificacion     F
 --********** PEDIDOS ************--
 GO
 CREATE TABLE flet.tbPedidos(
-pedi_Id						INT IDENTITY(1,1),
-clie_Id						INT NOT NULL,
-muni_Origen					CHAR(4) NOT NULL, --Municipio de recogida del producto
-muni_Destino				CHAR(4) NOT NULL, --Municipio de entrega del producto
-pedi_DestinoFinal			NVARCHAR(250), --Direccion exacta del destino final
-estp_Id						INT NOT NULL CONSTRAINT DF_flet_tbPedidos_estp_Id DEFAULT(1) , --Dice el estado del pedido 
-pedi_UsuCreacion			INT NOT NULL,
-pedi_FechaCreacion			DATETIME CONSTRAINT DF_flet_tbPedidos_pedi_FechaCreacion DEFAULT(GETDATE()),
-pedi_UsuModificacion		INT ,
-pedi_FechaModificacion		DATETIME,
-pedi_Estado					BIT CONSTRAINT DF_flet_tbPedidos_pedi_Estado DEFAULT(1)
+pedi_Id                        INT IDENTITY(1,1),
+clie_Id                        INT NOT NULL,
+muni_Origen                    CHAR(4) NOT NULL, --Municipio de recogida del producto
+muni_Destino                CHAR(4) NOT NULL, --Municipio de entrega del producto
+pedi_DestinoFinal            NVARCHAR(250), --Direccion exacta del destino final
+meto_Id                        INT NOT NULL,
+estp_Id                        INT NOT NULL CONSTRAINT DF_flet_tbPedidos_estp_Id DEFAULT(1) , --Dice el estado del pedido 
+pedi_UsuCreacion            INT NOT NULL,
+pedi_FechaCreacion            DATETIME CONSTRAINT DF_flet_tbPedidos_pedi_FechaCreacion DEFAULT(GETDATE()),
+pedi_UsuModificacion        INT ,
+pedi_FechaModificacion        DATETIME,
+pedi_Estado                    BIT CONSTRAINT DF_flet_tbPedidos_pedi_Estado DEFAULT(1)
 CONSTRAINT PK_flet_tbPedidos_pedi_Id                                  PRIMARY KEY(pedi_Id),
-CONSTRAINT FK_flet_tbPedidos_flet_tbEstadosDelPedido_estp_Id			FOREIGN KEY(estp_Id) REFERENCES flet.tbEstadosDelPedido(estp_Id),
-CONSTRAINT FK_flet_tbPedidos_gral_tbMunicipios_muni_Origen			  FOREIGN KEY(muni_Origen) REFERENCES gral.tbMunicipios(muni_Id),
-CONSTRAINT FK_flet_tbPedidos_gral_tbMunicipios_muni_Destino			  FOREIGN KEY(muni_Destino) REFERENCES gral.tbMunicipios(muni_Id),
+CONSTRAINT FK_flet_tbPedidos_flet_tbEstadosDelPedido_estp_Id            FOREIGN KEY(estp_Id) REFERENCES flet.tbEstadosDelPedido(estp_Id),
+CONSTRAINT FK_flet_tbPedidos_gral_tbMunicipios_muni_Origen              FOREIGN KEY(muni_Origen) REFERENCES gral.tbMunicipios(muni_Id),
+CONSTRAINT FK_flet_tbPedidos_gral_tbMunicipios_muni_Destino              FOREIGN KEY(muni_Destino) REFERENCES gral.tbMunicipios(muni_Id),
+CONSTRAINT FK_flet_tbPedidos_gral_tbMetodosDePago_meto_Id              FOREIGN KEY(meto_Id) REFERENCES gral.tbMetodosDePago(meto_Id),
 CONSTRAINT FK_flet_tbPedidos_acce_tbUsuarios_pedi_UsuCreacion         FOREIGN KEY(pedi_UsuCreacion) REFERENCES acce.tbUsuarios(User_Id),
 CONSTRAINT FK_flet_tbPedidos_acce_tbUsuarios_pedi_UsuModificacion     FOREIGN KEY(pedi_UsuModificacion) REFERENCES acce.tbUsuarios(User_Id)
 );

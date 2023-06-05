@@ -31,6 +31,20 @@ namespace FletesNacionales.DataAccess.Repository
             return request;
         }
 
+        public VW_tbEmpleados find(int id)
+        {
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+
+            parametros.Add("@empe_Id", id, DbType.Int16, ParameterDirection.Input);
+
+            var resultado = db.QueryFirst<VW_tbEmpleados>(ScriptsDataBase.EmpleadosFind, parametros, commandType: CommandType.StoredProcedure);
+
+
+            return resultado;
+        }
+
         public VW_tbEmpleados find(int? id)
         {
             using var db = new SqlConnection(FleteContext.ConnectionString);
@@ -57,7 +71,7 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@empe_FechaNacimiento", item.empe_FechaNacimiento, DbType.Date, ParameterDirection.Input);
             parametros.Add("@empe_Sexo", item.empe_Sexo, DbType.String, ParameterDirection.Input);
             parametros.Add("@eciv_Id", item.eciv_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@muni_Id", item.muni_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@muni_Id", item.muni_Id, DbType.String, ParameterDirection.Input);
             parametros.Add("@empe_DireccionExacta", item.empe_DireccionExacta, DbType.String, ParameterDirection.Input);
             parametros.Add("@empe_Telefono", item.empe_Telefono, DbType.String, ParameterDirection.Input);
             parametros.Add("@sucu_Id", item.sucu_Id, DbType.Int32, ParameterDirection.Input);
@@ -99,7 +113,7 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@empe_FechaNacimiento", item.empe_FechaNacimiento, DbType.String, ParameterDirection.Input);
             parametros.Add("@empe_Sexo", item.empe_Sexo, DbType.String, ParameterDirection.Input);
             parametros.Add("@eciv_Id", item.eciv_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@muni_Id", item.muni_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@muni_Id", item.muni_Id, DbType.String, ParameterDirection.Input);
             parametros.Add("@empe_DireccionExacta", item.empe_DireccionExacta, DbType.String, ParameterDirection.Input);
             parametros.Add("@empe_Telefono", item.empe_Telefono, DbType.String, ParameterDirection.Input);
             parametros.Add("@sucu_Id", item.sucu_Id, DbType.Int32, ParameterDirection.Input);

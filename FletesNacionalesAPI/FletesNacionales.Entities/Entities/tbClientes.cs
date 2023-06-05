@@ -8,6 +8,11 @@ namespace FletesNacionales.Entities.Entities
 {
     public partial class tbClientes
     {
+        public tbClientes()
+        {
+            tbPedidos = new HashSet<tbPedidos>();
+        }
+
         public int clie_Id { get; set; }
         public string clie_Nombres { get; set; }
         public string clie_Apellidos { get; set; }
@@ -29,5 +34,6 @@ namespace FletesNacionales.Entities.Entities
         public virtual tbUsuarios clie_UsuModificacionNavigation { get; set; }
         public virtual tbEstadosCiviles eciv { get; set; }
         public virtual tbMunicipios muni { get; set; }
+        public virtual ICollection<tbPedidos> tbPedidos { get; set; }
     }
 }

@@ -10,20 +10,12 @@ namespace FletesNacionales.Entities.Entities
     {
         public int pedi_Id { get; set; }
         public int clie_Id { get; set; }
-        public int item_Id { get; set; }
-        public string item_Nombre { get; set; }
-        public string item_Descripcion { get; set; }
-        public decimal item_Peso { get; set; }
-        public decimal item_Volumen { get; set; }
-
-        public int pdet_Cantidad { get; set; }
         public string clie_NombreCompleto { get; set; }
         public string clie_Identidad { get; set; }
         public DateTime clie_FechaNacimiento { get; set; }
         public string clie_Sexo { get; set; }
         public int eciv_Id { get; set; }
         public decimal? pedi_Peso { get; set; }
-        public decimal tray_Precio { get; set; }
         public decimal? pedi_Volumen { get; set; }
         public string clie_DireccionExacta { get; set; }
         public string clie_Telefono { get; set; }
@@ -36,6 +28,8 @@ namespace FletesNacionales.Entities.Entities
         public string pedi_DepaDestinoId { get; set; }
         public string pedi_DepaDestino { get; set; }
         public string pedi_DestinoFinal { get; set; }
+        public int meto_Id { get; set; }
+        public string meto_Descripcion { get; set; }
         public int estp_Id { get; set; }
         public string estp_Nombre { get; set; }
         public int pedi_UsuCreacion { get; set; }

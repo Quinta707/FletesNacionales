@@ -4,7 +4,7 @@ import 'jspdf-autotable';
 import { Empleados } from '../../../../shared/model/empleados.model';
 import { TableService } from '../../../../shared/services/empleados.service';
 import { Pedidos } from '../../../../shared/model/pedidos.model';
-import { ServiceService } from '../../../../shared/services/pedidos.service';
+import { PedidoService } from '../../../../shared/services/pedidos.service';
 import { Items } from '../../../../shared/model/items.model';
 import { ItemsService } from '../../../../shared/services/items.service';
 import { Clientes } from '../../../../shared/model/clientes.model';
@@ -22,7 +22,7 @@ export class ReporteComponent implements OnInit {
 
 
   constructor(public service: TableService,
-    public service2: ServiceService,
+    public service2: PedidoService,
     public service3: ItemsService,
     public service4: ClientService,
     private route: ActivatedRoute,
