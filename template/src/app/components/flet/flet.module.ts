@@ -30,7 +30,13 @@ import { GoogleMapsModule } from "@angular/google-maps";
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { AgGridModule } from 'ag-grid-angular';
 import { ClientesCreateComponent } from './clientes/clientes-create/clientes-create.component';
+<<<<<<< HEAD
 import { CalenderComponent } from './calendario/calender.component';
+=======
+import { graficaLstComponent } from './grafica/grafica-lst/grafica-lst.component';
+import { NgApexchartsModule } from "ng-apexcharts";
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+>>>>>>> nya
 
 
 import { CalendarModule, DateAdapter } from 'angular-calendar';
@@ -58,7 +64,11 @@ import { ReporteComponent } from './reporte/reporte/reporte.component';
     PedidosIndexComponent,
     ClientesCreateComponent,
     ReporteComponent,
+<<<<<<< HEAD
     CalenderComponent,
+=======
+    graficaLstComponent
+>>>>>>> nya
   ],
   imports: [
     CommonModule,
@@ -77,11 +87,17 @@ import { ReporteComponent } from './reporte/reporte/reporte.component';
     FormsModule,
     NgbModule,
     SharedModule,
+<<<<<<< HEAD
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
     }),
     FlatpickrModule.forRoot()
+=======
+    NgApexchartsModule,
+    
+    Ng2GoogleChartsModule,
+>>>>>>> nya
   ]
 })
 export class FletModule { }

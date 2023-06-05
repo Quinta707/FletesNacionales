@@ -16,6 +16,7 @@ import { EstadosCivilesComponent } from './estadosCiviles/estadosCiviles-list/es
 
 
 import { GralRoutingModule } from './gral-routing.module';
+import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { GralRoutingModule } from './gral-routing.module';
     FormsModule,
     NgbModule,
     SharedModule,
+    AgGridModule
   ]
 })
 export class GralModule { }

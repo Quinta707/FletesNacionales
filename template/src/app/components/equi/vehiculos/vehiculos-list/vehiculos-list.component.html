@@ -1,0 +1,174 @@
+<div class="container">
+<app-breadcrumb [title]="'Vehiculos'" [items]="['Equipo']" [active_item]="'Vehiculos'"></app-breadcrumb>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header bg-primary">
+        <div class="text-center">
+          <h3>Listado de Vehiculos</h3>
+        </div>
+      </div>
+      <div class="card-body">
+          <ng-template #Create let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Insertar Vehiculo</h4>
+              <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+            </div>
+           
+            <div class="modal-body">
+            <form [formGroup]="createFormGroup" class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">    
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Modelo</label>
+                <ng-select [(ngModel)]="vehiculosCreate.mode_Id"  formControlName="mode_Id"  bindValue="value" [items]="modelosDDL" placeholder="Vehiculo" required=""></ng-select>
+                <ng-container class="invalid text-danger"
+                *ngIf="createFormGroup.get('mode_Id').hasError('required') && (createFormGroup.get('mode_Id').touched || sumbit)">
+                <p class="text-danger">El modelo del vehiculo es necesario</p></ng-container>
+              </div>    
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Peso</label>
+              <input [(ngModel)]="vehiculosCreate.vehi_PesoMaximo" class="form-control"  formControlName="vehi_PesoMaximo" type="text" bindValue="value" (keydown)="onKeyDown($event)"  [items]="modelosDDL" placeholder="Peso" required=""/>
+              <ng-container class="invalid text-danger"
+              *ngIf="createFormGroup.get('vehi_PesoMaximo').hasError('required') && (createFormGroup.get('vehi_PesoMaximo').touched || sumbit)">
+              <p class="text-danger">El peso del vehiculo es necesario</p></ng-container>
+            </div>
+          </div>                
+            <div class="col-sm-6 mt-3">
+              <div class="form-group">
+                <label>Volumen Maximo</label>
+              <input [(ngModel)]="vehiculosCreate.vehi_VolumenMaximo" class="form-control"  formControlName="vehi_VolumenMaximo" type="text" (keydown)="onKeyDown($event)" required=""/>
+              <ng-container class="invalid text-danger"
+              *ngIf="createFormGroup.get('vehi_VolumenMaximo').hasError('required') && (createFormGroup.get('vehi_VolumenMaximo').touched || sumbit)">
+              <p class="text-danger">El volumen del vehiculo es necesario</p></ng-container>
+            </div>
+          </div>
+
+            <div class="col-sm-6  mt-3">
+              <div class="form-group">
+                <label>Placa</label>
+              <input type="text" [(ngModel)]="vehiculosCreate.vehi_Placa" formControlName="vehi_Placa"  class="form-control" required="" >
+              <ng-container class="invalid text-danger"
+                *ngIf="createFormGroup.get('vehi_Placa').hasError('required') && (createFormGroup.get('vehi_Placa').touched || sumbit)">
+                <p class="text-danger">La placa del vehiculo es necesario</p></ng-container>
+              </div>
+            </div>   
+          </div>
+                   
+          </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" type="button" (click)="Guardar()">Guardar</button>
+            </div>  
+          </ng-template>
+          
+          <ng-template #Update let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Actualizar Municipios</h4>
+              <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+            </div>
+            <div class="modal-body">
+              <form [formGroup]="updateFormGroup" class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">    
+                <div class="row">
+                  
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Modelo</label>
+                  <ng-select [(ngModel)]="vehiculosEditar.mode_Id" formControlName="mode_Id" bindValue="value" [items]="modelosDDL" placeholder="Vehiculo"></ng-select>            
+                <ng-container class="invalid text-danger"
+                *ngIf="updateFormGroup.get('mode_Id').hasError('required') && (updateFormGroup.get('mode_Id').touched || sumbit)">
+                <p class="text-danger">El modelo del vehiculo es necesario</p></ng-container>
+                </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Volumen</label>
+                  <input type="text" [(ngModel)]="vehiculosEditar.vehi_VolumenMaximo" formControlName="vehi_VolumenMaximo"  class="form-control"  name="vehi_VolumenMaximo" id="vehi_Placa" required="" >
+                  <ng-container class="invalid text-danger"
+                  *ngIf="updateFormGroup.get('vehi_VolumenMaximo').hasError('required') && (updateFormGroup.get('vehi_VolumenMaximo').touched || sumbit)">
+                  <p class="text-danger">El Volumen del vehiculo es necesario</p></ng-container>
+                  </div>
+                </div>          <div class="col-sm-6  mt-3">
+                  <div class="form-group">
+                    <label>Peso</label>
+                  <input type="text" [(ngModel)]="vehiculosEditar.vehi_PesoMaximo" formControlName="vehi_PesoMaximo"  class="form-control"  name="vehi_PesoMaximo" id="vehi_Placa" required="" >
+                  <ng-container class="invalid text-danger"
+                  *ngIf="updateFormGroup.get('vehi_PesoMaximo').hasError('required') && (updateFormGroup.get('vehi_PesoMaximo').touched || sumbit)">
+                  <p class="text-danger">La placa del vehiculo es necesario</p></ng-container>
+                  </div>
+                </div>  
+              <div class="col-sm-6  mt-3">
+                <div class="form-group">
+                  <label>Placa</label>
+                <input type="text" [(ngModel)]="vehiculosEditar.vehi_Placa" formControlName="vehi_Placa"  class="form-control"  name="vehi_Placa" id="vehi_Placa" required="" >
+                <ng-container class="invalid text-danger"
+                *ngIf="updateFormGroup.get('vehi_Placa').hasError('required') && (updateFormGroup.get('vehi_Placa').touched || sumbit)">
+                <p class="text-danger">La placa del vehiculo es necesario</p></ng-container>
+                </div>
+              </div>     
+            </div>
+                     
+            </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-success" (click)="update()">Actualizar</button>
+            </div>
+          </ng-template>
+
+          <ng-template #Delete let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Eliminar Vehiculo</h4>
+              <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+            </div>
+            <div class="modal-body">
+              <h3>Desea Eliminar Este Registro?</h3>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-danger" (click)="delete()">Eliminar</button>
+            </div>
+          </ng-template>
+          <button (click)="open(Create)" class="btn btn-block btn-primary">
+            + Nuevo
+          </button>
+
+        <div class="d-flex justify-content-between mb-2 mx-1 mt-4">
+          <table>
+            <thead>
+              <tr>
+                <td>Elementos:</td>
+                <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
+                    [(ngModel)]="paginationPageSize">
+                    <option [ngValue]="5">5</option>
+                    <option [ngValue]="10">10</option>
+                    <option [ngValue]="25">25</option>
+                    <option [ngValue]="50">50</option>
+                  </select>
+                </td>
+              </tr>
+            </thead>
+          </table>
+          <div class="col-4">
+            <div class="input-group">
+              <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
+              <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
+                placeholder="Buscar..." />
+            </div>
+          </div>
+        </div>
+
+        
+        <ag-grid-angular  class="ag-theme-alpine ag-root-wrapper" [columnDefs]="columnDefs" [pagination]="true"
+        [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
+        [rowData]="vehiculos" [rowSelection]="'multiple'" [domLayout]="domLayout"
+        [animateRows]="true"></ag-grid-angular>
+
+      
+      
+      </div>
+    </div>
+  </div>
+</div>
+</div>

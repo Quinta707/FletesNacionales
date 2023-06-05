@@ -63,6 +63,15 @@ export class LoginComponent implements OnInit {
         console.log(response);
         if (response.data && response.data.user_NombreUsuario) {
           localStorage.setItem('user', JSON.stringify(response.data));
+<<<<<<< HEAD
+=======
+          localStorage.setItem('IdUsuario', response.data.user_Id);
+          localStorage.setItem('Usuario', response.data.user_NombreUsuario);
+          localStorage.setItem('empe_Id', response.data.empe_Id);
+          localStorage.setItem('user_EsAdmin', response.data.user_EsAdmin);
+          localStorage.setItem('empe_NombreCompleto', response.data.empe_NombreCompleto);
+          localStorage.setItem('role_Id', response.data.role_Id);
+>>>>>>> nya
           localStorage.setItem('isLoggedin', 'true');
           if (localStorage.getItem('isLoggedin')) {
             this.router.navigate(["/dashboard/default"]);
