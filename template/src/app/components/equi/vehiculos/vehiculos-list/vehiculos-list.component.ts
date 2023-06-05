@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Vehiculos } from '../../../../shared/model/vehiculos.model';
 import { TableService } from '../../../../shared/services/vehiculo.service';
 import { Observable } from 'rxjs';
@@ -6,6 +6,9 @@ import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSor
 import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AgGridAngular } from 'ag-grid-angular';
+import { ColDef, DomLayoutType } from 'ag-grid-community';
+import { Idioma } from 'config';
 
 
 @Component({
@@ -184,20 +187,20 @@ export class VehiculosListComponent implements OnInit {
     .subscribe((data : any) =>{
       this.vehiculosEditar = data
       console.log(this.vehiculosEditar)      
+      console.log(this.vehiculosEditar.vehi_PesoMaximo)     
+      console.log(this.vehiculosEditar.vehi_VolumenMaximo)     
     
       this.open(content)
     })
-  }
-  cosas(){
-    console.log(this.vehiculosEditar)
   }
 
   update(){
     this.validate = true; 
     this.sumbit = false
+    
     try
     {
-      let datoTrim = (this.createFormGroup.value['vehi_Placa'].trim());
+      let datoTrim = (this.vehiculosEditar.vehi_Placa.trim());
       this.createFormGroup.get("vehi_Placa").setValue(datoTrim)
       this.vehiculosEditar.vehi_Placa = datoTrim;
     }
@@ -303,26 +306,87 @@ export class VehiculosListComponent implements OnInit {
   public searchText;
   total$: Observable<number>;
 
-  onSearchInputChange(searchTerm: string) {
-    this.service.searchTerm = searchTerm;
-  }
-  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
-  onSort({ column, direction }: SortEvent) {
-    // resetting other headers
-    this.headers.forEach((header) => {
-      if (header.sortable !== column) {
-        header.direction = '';
-      }
-    });
-    this.service.sortColumn = column;
-    this.service.sortDirection = direction;
-  }
-  deleteData(id: number){
-    this.tableItem$.subscribe((data: any)=> {      
-      data.map((elem: any,i: any)=>{elem.id == id && data.splice(i,1)})
-    })
-  }
+  paginationPageSize: number = 10;
 
+  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+
+
+  onSearchInputChange() {
+    this.agGrid.api.setQuickFilter(this.searchText);
+  }
+  @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
+
+  @ViewChild('Update') modalUpdate: any;
+  
+  @ViewChild('Delete') modalDelete: any;
+
+
+  public domLayout: DomLayoutType = 'autoHeight';
+  idioma = Idioma
+  columnDefs: ColDef[] = [
+    { field: 'vehi_Id', headerName: 'Id', flex: 1 },
+    { field: 'mode_Nombre', headerName: 'Modelo', flex: 2 },
+    { field: 'vehi_PesoMaximo', headerName: 'Peso Maximo', flex: 1 },
+    { field: 'vehi_VolumenMaximo', headerName: 'Volumen Maximo', flex: 1 },
+    { field: 'tipv_Descripcion', headerName: 'Vehiculo tipo', flex: 1 },
+    { field: 'marc_Nombre', headerName: 'Marca', flex: 1 },
+    { field: 'vehi_Placa', headerName: 'Placa', flex: 1 },
+
+
+    { cellRenderer: (params) => this.actionButtonRenderer(params, this.modalService), headerName: 'Acciones', flex: 1 }
+
+  ];
+  public defaultColDef: ColDef = {
+    sortable: true,
+    filter: true,
+    autoHeight: true,
+  };
+  actionButtonRenderer(params: any, modalService: NgbModal) {
+    const Act = () => {
+          
+    this.Actualizar(params.node.data,this.modalUpdate)  
+    };
+    const Eli = () => {
+    
+      this.Eliminar(params,this.modalDelete)
+    }
+
+    const button = document.createElement('il');
+    button.classList.add('edit'); 
+
+    const iconElement = document.createElement('i');
+    iconElement.classList.add('icon-pencil-alt'); 
+    iconElement.classList.add('mx-2'); 
+
+    const textElement = document.createElement('span');
+    textElement.innerText = '';
+    textElement.appendChild(iconElement);
+
+
+    const button2 = document.createElement('il');
+    button2.classList.add('detail'); 
+  
+    const iconElement2 = document.createElement('i');
+    iconElement2.classList.add('fa'); 
+    iconElement2.classList.add('fa-file-text-o'); 
+
+    const textElement2 = document.createElement('span');
+    textElement2.innerText = '';
+    textElement2.appendChild(iconElement2);
+   
+    button.appendChild(textElement);
+    button2.appendChild(textElement2);
+  
+    button.addEventListener('click', Act);
+    button2.addEventListener('click', Eli);
+  
+    const container = document.createElement('div');
+    container.classList.add('action')
+    container.appendChild(button);
+    container.appendChild(button2);
+  
+    return container;
+  }
 
   toastVehiculoExiste()
   {

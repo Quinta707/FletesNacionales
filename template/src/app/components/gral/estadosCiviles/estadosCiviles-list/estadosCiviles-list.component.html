@@ -1,6 +1,6 @@
 <div class="container">
- <br>
-  <br>
+  <app-breadcrumb [title]="'Estados Civiles'" [items]="['Generales']" [active_item]="'Estados Civiles'"></app-breadcrumb>
+
   <div class="row">
     <div class="col-12">
       <div class="card">
@@ -33,11 +33,13 @@
               <h4 class="modal-title" id="modal-basic-title">Actualizar Estado Civil</h4>
               <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
             </div>
+            <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">
             <div class="modal-body">
               <label class="form-label" for="validationCustom01">Estado Civil</label>
               <input [(ngModel)]="estadosEditar.eciv_Descripcion" class="form-control" id="validationCustom01" type="text" required="" />
 
             </div>
+          </form>
             <div class="modal-footer">
               <button class="btn btn-success" (click)="update()">Actualizar</button>
             </div>
@@ -56,69 +58,43 @@
             </div>
           </ng-template>
           
-          <button class="btn btn-lg btn-outline-primary" (click)="open(Create)">Crear Estado civil</button>
-          <hr>
-          <div class="d-flex justify-content-between mb-2 mx-1">
-            <select class="form-select" style="color: #3c334d; width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-              <option [ngValue]="5">5 </option>
-              <option [ngValue]="10">10</option>
-              <option [ngValue]="25">25</option>
-              <option [ngValue]="50">50</option>
-            </select>
-            <div class="col-4">
-              <div class="input-group">
-                <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
-                <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange(searchText)" placeholder="Buscar..." />
-              </div>
-            </div>
-          </div>
-            
-          <div class="row mt-3">
-            <div class="col-12">
-              <div class="custom-datatable noscroll">
-                <div class="custom-datatable table-responsive">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col" sortable="eciv_Id" (sort)="onSort($event)">Id</th>
-                        <th scope="col" sortable="eciv_Descripcion" (sort)="onSort($event)">Nombre</th>
-                        <th scope="col">Acciones</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let item of tableItem$ | async">
-                        <td scope="row">
-                          <ngb-highlight [result]="item.eciv_Id" [term]="service.searchTerm"></ngb-highlight>
-                        </td>
-                        <td>
-                          <ngb-highlight [result]="item.eciv_Descripcion" [term]="service.searchTerm"></ngb-highlight>
-                        </td>
-                        <td>
-                          <div class="action">
-                            <li class="edit" (click)="Actualizar(item, Update)">
-                              <a ><i class="icon-pencil-alt"></i></a>
-                            </li>
-                            <li class="delete" (click)="Eliminar(item, Delete)">
-                              <a ><i class="icon-trash"></i></a>
-                            </li>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div class="d-flex justify-content-between mt-3 mb-2 mx-1">
-                    <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+         
+          <button (click)="open(Create)" class="btn btn-block btn-primary">
+            + Nuevo
+          </button>
+       
+          <div class="d-flex justify-content-between mb-2 mx-1 mt-4">
+            <table>
+              <thead>
+                <tr>
+                  <td>Elementos:</td>
+                  <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
+                      [(ngModel)]="paginationPageSize">
                       <option [ngValue]="5">5</option>
                       <option [ngValue]="10">10</option>
                       <option [ngValue]="25">25</option>
                       <option [ngValue]="50">50</option>
                     </select>
-                    <ngb-pagination class="ms-3" [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize"> </ngb-pagination>
-                  </div>
-                </div>
+                  </td>
+                </tr>
+              </thead>
+            </table>
+            <div class="col-4">
+              <div class="input-group">
+                <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
+                <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
+                  placeholder="Buscar..." />
               </div>
             </div>
           </div>
+
+          
+          <ag-grid-angular  class="ag-theme-alpine ag-root-wrapper" [columnDefs]="columnDefs" [pagination]="true"
+          [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
+          [rowData]="estadosCiviles" [rowSelection]="'multiple'" [domLayout]="domLayout"
+          [animateRows]="true"></ag-grid-angular>
+
+        
           
         
         </div>

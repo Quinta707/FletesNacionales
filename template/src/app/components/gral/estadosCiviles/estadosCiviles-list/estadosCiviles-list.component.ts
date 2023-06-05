@@ -1,10 +1,13 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { EstadosCiviles } from '../../../../shared/model/estadosCiviles.model';
 import { TableService } from '../../../../shared/services/estadosCiviles.service';
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
 import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
+import { ColDef, DomLayoutType } from 'ag-grid-community';
+import { AgGridAngular } from 'ag-grid-angular';
+import { Idioma } from '../../../../../../config';
 
 
 @Component({
@@ -15,6 +18,7 @@ import Swal from 'sweetalert2';
 export class EstadosCivilesComponent implements OnInit {
   public validate = false;
   public selected = [];
+  paginationPageSize: number = 10;
   
   estadosCiviles: EstadosCiviles[];
   closeResult: string;
@@ -63,16 +67,26 @@ export class EstadosCivilesComponent implements OnInit {
   estadosEliminar: EstadosCiviles = new EstadosCiviles();
 
   Guardar() {
-    this.validate = !this.validate;
-    this.estadosCreate.eciv_Descripcion = this.estadosCreate.eciv_Descripcion.trim()
+    this.validate = false;
+    try
+    {
+      this.estadosCreate.eciv_Descripcion = this.estadosCreate.eciv_Descripcion.trim()
+    }
+    catch
+    {
+      this.estadosCreate.eciv_Descripcion = null
+    }
+    
     if(this.estadosCreate.eciv_Descripcion == null)
     {
+      this.validate = true
 
     }
     else
     {
       this.service.createEstadosCiviles(this.estadosCreate)
       .subscribe((data: any) =>{   
+        this.validate = false
         if(data.message == "YaExiste")
         {
           Swal.fire({
@@ -118,65 +132,76 @@ export class EstadosCivilesComponent implements OnInit {
   }
 
   Actualizar(est: EstadosCiviles, content: any) {
-    this.estadosCreate.eciv_Descripcion = this.estadosCreate.eciv_Descripcion.trim()
     const id = est.eciv_Id
 
     this.service.findEstadosCiviles(id ?? 0)
     .subscribe((data : any) =>{
-      
-      this.estadosEditar = data;
+      console.log(data)
+      this.estadosEditar = data
+
     
       this.open(content)
     })
+    
   }
 
   update(){
-    this.service.updateEstadosCiviles(this.estadosEditar)
-    .subscribe((data:any) =>{     
-      
-      if(data.message == "YaExiste")
-      {
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
-          title: 'Este Estado Civil ya existe',
-          icon: 'error'
-        })
-      }
-      if(data.message == "ErrorInesperado")
-      {
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
-          title: 'Ocurrio un error',
-          icon: 'error'
-        })
-      }
-      if(parseInt(data.data.codeStatus) > 0){
+    this.validate = false
+    if(this.estadosEditar.eciv_Descripcion == null || this.estadosEditar.eciv_Descripcion == "")
+    {
 
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
-          title: 'Registro actualizado con exito',
-          icon: 'success'
-        })
-        this.modalService.dismissAll()
-
-        this.estadosCreate.eciv_Descripcion = null
-        this.validate = false;
-
-        this.index()
-      }  
-    })
+      this.validate = true
+    }
+    else
+    {
+      this.service.updateEstadosCiviles(this.estadosEditar)
+      .subscribe((data:any) =>{     
+        
+        if(data.message == "YaExiste")
+        {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            title: 'Este Estado Civil ya existe',
+            icon: 'error'
+          })
+        }
+        if(data.message == "ErrorInesperado")
+        {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            title: 'Ocurrio un error',
+            icon: 'error'
+          })
+        }
+        if(parseInt(data.data.codeStatus) > 0){
+  
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            title: 'Registro actualizado con exito',
+            icon: 'success'
+          })
+          this.modalService.dismissAll()
+  
+          this.estadosCreate.eciv_Descripcion = null
+          this.validate = false;
+  
+          this.index()
+        }  
+      })
+    }
+  
   }
 
   Eliminar(est: EstadosCiviles, content) {
@@ -259,16 +284,82 @@ export class EstadosCivilesComponent implements OnInit {
     this.index()
   }
 
+  @ViewChild('Update') modalUpdate: any;
+  
+  @ViewChild('Delete') modalDelete: any;
 
 
+  public domLayout: DomLayoutType = 'autoHeight';
+  idioma = Idioma
+  columnDefs: ColDef[] = [
+    { field: 'eciv_Id', headerName: 'Id', flex: 2 },
+    { field: 'eciv_Descripcion', headerName: 'Descripcion', flex: 2 },
+
+    { cellRenderer: (params) => this.actionButtonRenderer(params, this.modalService), headerName: 'Acciones', flex: 1 }
+
+  ];
+  public defaultColDef: ColDef = {
+    sortable: true,
+    filter: true,
+    autoHeight: true,
+  };
+  actionButtonRenderer(params: any, modalService: NgbModal) {
+    const Act = () => {
+          
+    this.Actualizar(params.node.data,this.modalUpdate)  
+    };
+    const Eli = () => {
+    
+      this.Eliminar(params,this.modalDelete)
+    }
+
+    const button = document.createElement('il');
+    button.classList.add('edit'); 
+
+    const iconElement = document.createElement('i');
+    iconElement.classList.add('icon-pencil-alt'); 
+    iconElement.classList.add('mx-2'); 
+
+    const textElement = document.createElement('span');
+    textElement.innerText = '';
+    textElement.appendChild(iconElement);
+
+
+    const button2 = document.createElement('il');
+    button2.classList.add('detail'); 
+  
+    const iconElement2 = document.createElement('i');
+    iconElement2.classList.add('fa'); 
+    iconElement2.classList.add('fa-file-text-o'); 
+
+    const textElement2 = document.createElement('span');
+    textElement2.innerText = '';
+    textElement2.appendChild(iconElement2);
+   
+    button.appendChild(textElement);
+    button2.appendChild(textElement2);
+  
+    button.addEventListener('click', Act);
+    button2.addEventListener('click', Eli);
+  
+    const container = document.createElement('div');
+    container.classList.add('action')
+    container.appendChild(button);
+    container.appendChild(button2);
+  
+    return container;
+  }
+
+  
   public tableItem$: Observable<EstadosCiviles[]>;
   public searchText;
   total$: Observable<number>;
 
 
-  onSearchInputChange(searchTerm: string) {
-    this.service.searchTerm = searchTerm;
+  onSearchInputChange() {
+    this.agGrid.api.setQuickFilter(this.searchText);
   }
+  @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
 
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
 

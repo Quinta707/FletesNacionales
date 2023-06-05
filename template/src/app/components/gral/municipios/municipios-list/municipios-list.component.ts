@@ -37,20 +37,15 @@ export class MunicipiosListComponent implements OnInit {
       muni_Nombre: ['', Validators.required],
       muni_Id: ['', Validators.required],
       depa_Id: ['', Validators.required],
-   });
+   });  
+   this.updateFormGroup = this._formBuilder.group({
+    muni_Nombre: ['', Validators.required],
+    muni_Id: ['', Validators.required],
+    depa_Id: ['', Validators.required],
+ });
 
- 
-    this.updateFormGroup = this._formBuilder.group({
-     muni_Nombre:['', Validators.required],
-     muni_Id:['', Validators.required],
-     depa_Id:['', Validators.required]
-    });
      this.index()
  
-   }
-   algo(){
-    console.log(this.createFormGroup)
-    console.log(this.municipiosCreate)
    }
 
   public validate = false;
@@ -124,7 +119,6 @@ export class MunicipiosListComponent implements OnInit {
   Guardar() {
     this.sumbit = true;
     this.validate = false;
-    console.log(this.municipiosCreate)
     try
     {
       let datoTrim = (this.createFormGroup.value['muni_Nombre'].trim());
@@ -159,6 +153,7 @@ export class MunicipiosListComponent implements OnInit {
       
       this.service.createMunicipios(this.municipiosCreate)
       .subscribe((data: any) =>{    
+        console.log(data)
         if(data.message == "YaExiste")
         {
           this.toastMunicipioExiste()
@@ -178,24 +173,23 @@ export class MunicipiosListComponent implements OnInit {
       })
     }
   }
-  Actualizar(est: any, content: any) {
-    const id = est.data.muni_Id
+  Actualizar(est: Municipios, content: any) {
+    const id = est.muni_Id
 
     this.service.findMunicipios(id)
     .subscribe((data : any) =>{
       this.municipiosEditar = data;
-      console.log(content)
-    
       this.open(content)
     })
   }
 
   update(){
+    console.log(this.municipiosEditar)
     this.validate = false;
     this.sumbit = false
     try
     {
-      let datoTrim = (this.updateFormGroup.value['muni_Nombre'].trim());
+      let datoTrim = (this.municipiosEditar.muni_Nombre.trim());
       this.updateFormGroup.get("muni_Nombre").setValue(datoTrim)
       this.municipiosEditar.muni_Nombre = datoTrim;
     }
@@ -229,7 +223,7 @@ export class MunicipiosListComponent implements OnInit {
       {
         this.toastMunicipioExiste()
       }
-      if(data.message == "Error Inesperado")
+      if(data.message == "ErrorInespero")
       {
         this.toastMunicipioError()
         this.modalService.dismissAll()
@@ -292,7 +286,7 @@ export class MunicipiosListComponent implements OnInit {
   actionButtonRenderer(params: any, modalService: NgbModal) {
     const Act = () => {
           
-    this.Actualizar(params,this.modalUpdate)  
+    this.Actualizar(params.node.data,this.modalUpdate)  
     };
     const Eli = () => {
     

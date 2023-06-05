@@ -25,6 +25,7 @@ export class graficaLstComponent {
   conteo : any[] = []
   colores: any[] = []
   graficaEnvio : Grafica = new Grafica()
+  depa : any
   departamentosDDL: any[] = []
   ngOnInit() {
     
@@ -41,7 +42,8 @@ export class graficaLstComponent {
      
      this.firstFormGroup = this._formBuilder.group({
        flet_Inicio: ['', Validators.required],
-       flet_Fin: ['', Validators.required]
+       flet_Fin: ['', Validators.required],
+       depa_Id: ['', Validators.required]
      });
  
    }
@@ -113,12 +115,14 @@ export class graficaLstComponent {
           }
       }
   };
-    
+    algo()
+    {
+      console.log(this.depa)
+    }
     Filtrar()
     {      
         this.categorias = []
         this.conteo = []
-   
         try
         {
           if(this.graficaEnvio.flet_Inicio == null || this.graficaEnvio.flet_Inicio == "")
@@ -149,6 +153,10 @@ export class graficaLstComponent {
         catch
         {
           this.graficaEnvio.flet_Fin = null
+        }
+        if(this.depa != null || this.depa != "")
+        {
+          this.graficaEnvio.depa_Id = this.depa 
         }
         this.service.getGrafica(this.graficaEnvio)
         .subscribe((data: any) => {

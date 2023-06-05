@@ -1,7 +1,7 @@
 
 <div class="container">
-<app-breadcrumb [title]="'Municipio listado'" [items]="['Flet']" [active_item]="'Items'"></app-breadcrumb>
-<br>
+<app-breadcrumb [title]="'Municipio'" [items]="['Generales']" [active_item]="'Municipio'"></app-breadcrumb>
+
 <div class="row">
   <div class="col-12">
     <div class="card">
@@ -24,14 +24,14 @@
                   <label>Departamento</label>
                 <ng-select [(ngModel)]="municipiosCreate.depa_Id"  formControlName="depa_Id"  bindValue="value" [items]="departamentosDDL" placeholder="Departamento"></ng-select>
                 <ng-container class="invalid text-danger"
-                *ngIf="updateFormGroup.get('depa_Id').hasError('required') && (updateFormGroup.get('depa_Id').touched || sumbit)">
+                *ngIf="createFormGroup.get('depa_Id').hasError('required') && (createFormGroup.get('depa_Id').touched || sumbit)">
                 <p class="text-danger">El Departamento es necesario </p></ng-container>
               </div>
                 <div class="col-sm-6">
                   <label>Nombre Municipio</label>
               <input [(ngModel)]="municipiosCreate.muni_Nombre" class="form-control" formControlName="muni_Nombre"  type="text" required=""  />
               <ng-container class="invalid text-danger"
-                *ngIf="updateFormGroup.get('muni_Nombre').hasError('required') && (updateFormGroup.get('muni_Nombre').touched || sumbit)">
+                *ngIf="createFormGroup.get('muni_Nombre').hasError('required') && (createFormGroup.get('muni_Nombre').touched || sumbit)">
                 <p class="text-danger">El nombre del municipio es necesario</p></ng-container>
             </div>
               <div class="col-sm-6 mt-3">
@@ -41,7 +41,7 @@
                 <input type="text" [(ngModel)]="municipiosCreate.muni_Id" formControlName="muni_Id"  class="form-control" (keydown)="onKeyDown($event)" required="" (paste)="onPaste($event)" maxlength="2">
               </div>
               <ng-container class="invalid text-danger"
-                *ngIf="updateFormGroup.get('muni_Id').hasError('required') && (updateFormGroup.get('muni_Id').touched || sumbit)">
+                *ngIf="createFormGroup.get('muni_Id').hasError('required') && (createFormGroup.get('muni_Id').touched || sumbit)">
                 <p class="text-danger">El codigo del municipio es necesario</p></ng-container>
               </div>
             </div>
@@ -58,19 +58,32 @@
               <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
             </div>
             <div class="modal-body">
-              <label class="form-label" for="validationCustom01">Municipios</label>
+             
+              <form [formGroup]="updateFormGroup"  class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }"> 
+              
               <div class="row">
                 <div class="col-sm-6">
-                  <input [disabled]="" [(ngModel)]="municipiosEditar.depa_Id" class="form-control"  type="text" required="" disabled />
-                
+                  <label>Departamento</label>
+                 
+                  <input disabled="true" [(ngModel)]="municipiosEditar.depa_Id" formControlName="depa_Id"  class="form-control"  id="depa_Id" type="text" required=""  />
+                 
               </div>
                 <div class="col-sm-6">
-              <input [(ngModel)]="municipiosEditar.muni_Nombre" class="form-control"  type="text" required=""  />
+                  <label>Nombre Municipio</label>
+              <input [(ngModel)]="municipiosEditar.muni_Nombre" formControlName="muni_Nombre"  class="form-control" id="muni_Nombre" type="text" required=""  />
+              <ng-container class="invalid text-danger"
+                *ngIf="updateFormGroup.get('muni_Nombre').hasError('required') && (updateFormGroup.get('muni_Nombre').touched || sumbit)">
+                <p class="text-danger">El nombre del municipio es necesario</p></ng-container>
+              
             </div>
-              <div class="col-sm-6">
-              <input [disabled]="" [(ngModel)]="municipiosEditar.muni_Id" class="form-control"  type="text" required="" disabled />
-            </div>
+            <div class="col-sm-6">
+              <label>Municipio Codigo</label>
+             
+              <input [disabled]="true" [(ngModel)]="municipiosEditar.muni_Id" formControlName="muni_Id"  class="form-control"  id="muni_Id" type="text" required=""  />
+             
           </div>
+          </div>
+        </form>
             </div>
             <div class="modal-footer">
               <button class="btn btn-success" (click)="update()">Actualizar</button>
@@ -89,8 +102,10 @@
               <button class="btn btn-success" (click)="delete()">Eliminar</button>
             </div>
           </ng-template>
-          <button class="btn btn-lg btn-outline-primary" (click)="open(Create)">Crear Municipios</button><div class="container">   
-          <hr>
+          <button (click)="open(Create)" class="btn btn-block btn-primary">
+            + Nuevo
+          </button>
+          <div class="container">   
 
           <div class="d-flex justify-content-between mb-2 mx-1 mt-4">
             <table>

@@ -8,10 +8,9 @@
       </div>
       <div class="card-body">
   
-  <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">    
+        <form [formGroup]="firstFormGroup">   
     <div class="row">
-  
-    <form [formGroup]="firstFormGroup">     
+    
       <div class="col-sm-6">
   <div class="custom-datepicker custom-datepicker-dropdown">
   
@@ -48,39 +47,26 @@
     *ngIf="firstFormGroup.get('flet_Fin').hasError('required') && firstFormGroup.get('flet_Fin').touched">
     <p class="text-danger"></p></ng-container>
   </div>
-  </form> 
+
+  </div>
+</form> 
+<div class="row">
   <div class="col-sm-6">
-    <div class="form-group">
-      <label>Departamento Id </label>
-  <ng-select [(ngModel)]="graficaEnvio.depa_Id" bindValue="value" [items]="departamentosDDL" placeholder="Departamento" required=""></ng-select>
+  <div class="form-group">
+    <label>Departamento Id </label>
+<ng-select [(ngModel)]="depa" bindValue="value" (change)="algo()" [items]="departamentosDDL" placeholder="Departamento" required=""></ng-select>
+</div>
+</div> 
+<div class="col-sm-6 mt-4">
+  <div class="form-group">
+    <button class="btn btn-primary" (click)="Filtrar()">Filtrar</button>
   </div>
-  </div> 
-  <div class="col-sm-6 mt-4">
-    <div class="form-group">
-      <button class="btn btn-primary" (click)="Filtrar()">Filtrar</button>
-    </div>
-  </div>
-  </div>
-  
-  </form>
+</div>
+
+</div>
         <div id="basic-bar">
           <apx-chart [series]="ChartOptions.series" [chart]="ChartOptions.chart" [dataLabels]="ChartOptions.dataLabels"
             [plotOptions]="ChartOptions.plotOptions" [xaxis]="ChartOptions.xaxis" [colors]="ChartOptions.colors"></apx-chart>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-12 col-xl-6 xl-100">
-    <div class="card">
-      <div class="card-header">
-        <h5>Area Spaline Chart </h5>
-      </div>
-      <div class="card-body">
-        <div id="area-spaline">
-          <apx-chart [series]="splineArea1.series" [chart]="splineArea1.chart" [xaxis]="splineArea1.xaxis"
-            [stroke]="splineArea1.stroke" [tooltip]="splineArea1.tooltip" [dataLabels]="splineArea1.dataLabels"
-            [colors]="splineArea1.colors">
-          </apx-chart>
         </div>
       </div>
     </div>
