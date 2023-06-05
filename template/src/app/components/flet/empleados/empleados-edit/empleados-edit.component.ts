@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import Inputmask from 'inputmask';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import  { TableService } from '../../../../shared/services/empleados.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -43,7 +43,7 @@ export class EmpleadosEditComponent {
   Cargos: Cargos = new Cargos();
   Empleados: Empleados = new Empleados();
 
-  constructor(private router: Router, private service: TableService, private http: HttpClient, private _formBuilder: FormBuilder){}
+  constructor(private router: Router, private service: TableService, private http: HttpClient, private _formBuilder: FormBuilder, private route: ActivatedRoute){}
   FormGroup1: FormGroup;
   ngOnInit(): void {    
     this.service.getDllMunicipios()
@@ -83,6 +83,7 @@ export class EmpleadosEditComponent {
     const inputmaskIdentidad = new Inputmask('9999-9999-99999');
     inputmaskIdentidad.mask(inputElementIdentidad);
     this.FormGroup1 = this._formBuilder.group({
+        empe_Id:         ['', Validators.required],
         empe_Nombres:         ['', Validators.required],
         empe_Apellidos:       ['', Validators.required],
         empe_Identidad:       [, Validators.required],
@@ -95,11 +96,13 @@ export class EmpleadosEditComponent {
         sucu_Id:              [, Validators.required],
         carg_Id:              [, Validators.required],
     }) 
+    const id = this.route.snapshot.queryParams["id"];
+    this.Editar(id);
   }
-  Editar(){
-    const id: number | undefined = isNaN(parseInt(localStorage.getItem("id") ?? '', 0)) ? undefined: parseInt(localStorage.getItem("id") ?? '', 0)
+  Editar(id){
     this.service.buscarEmpleados(id)
     .subscribe((data:any)=> {
+      console.log(data)
       this.FormGroup1.get('empe_Id').setValue(data.empe_Id);
       this.FormGroup1.get('empe_Nombres').setValue(data.empe_Nombres);
       this.FormGroup1.get('empe_Apellidos').setValue(data.empe_Apellidos);
@@ -140,8 +143,9 @@ export class EmpleadosEditComponent {
     if(this.FormGroup1.valid){
       this.submitted = false;
       
-      const apiUrl = Global + 'Empleados/Insertar';
+      const apiUrl = Global + 'Empleados/Editar';
       const requestBody = {
+        empe_Id:              this.FormGroup1.value['empe_Id'],
         empe_Nombres:         this.FormGroup1.value['empe_Nombres'],
         empe_Apellidos:       this.FormGroup1.value['empe_Apellidos'],
         empe_Identidad:       String(this.FormGroup1.value['empe_Identidad']),
@@ -156,7 +160,7 @@ export class EmpleadosEditComponent {
         empe_UsuCreacion:     1
       };
     
-      this.http.post(apiUrl, requestBody).subscribe(
+      this.http.put(apiUrl, requestBody).subscribe(
         (response: any) => {
           
           console.log(response);
@@ -216,6 +220,6 @@ export class EmpleadosEditComponent {
   }
 
   public Cancelar() {
-    this.router.navigate(['flet/Clientes/List']);
+    this.router.navigate(['flet/Empleados/List']);
   }
 }

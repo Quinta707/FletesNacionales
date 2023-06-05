@@ -171,7 +171,7 @@ export class TableService {
     return this.http.get<Cargos[]>(Global+"Cargos/Listado")
   }
   buscarEmpleados(id){
-    return this.http.get<Empleados[]>(Global+"Empleados/Listado¿empe_Id=" + id)
+    return this.http.get<Empleados[]>(Global+"Empleados/Buscar?id="+ id)
   }
 }
 
