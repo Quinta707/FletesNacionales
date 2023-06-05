@@ -1,4 +1,4 @@
-export const Global = "https://localhost:44339/api/";
+export const Global = "http://www.mamamia.somee.com/api/";
 
 
 export const Idioma = {

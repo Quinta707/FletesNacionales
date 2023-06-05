@@ -1047,3 +1047,4 @@ C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\ref\FletesNacionales.API.dll
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\FletesNacionales.API.pdb
 C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\FletesNacionales.API.genruntimeconfig.cache
+C:\GitHub\FUNCIONA\FletesNacionales\FletesNacionalesAPI\FletesNacionales.API\obj\Debug\net5.0\FletesNacionales.API.MvcApplicationPartsAssemblyInfo.cs
