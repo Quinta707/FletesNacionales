@@ -231,7 +231,7 @@ BEGIN
 			BEGIN
 				UPDATE gral.tbDepartamentos
 				SET   depa_Nombre = @depa_Nombre,  
-					  depa_UsuModificacion = @depa_UsuModificacion, 
+					  depa_UsuModificacion = 1, 
 					  depa_FechaModificacion = GETDATE()
 				WHERE depa_Id = @depa_Id		
 
@@ -1585,7 +1585,7 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbEmpleados_Insert
  @empe_FechaNacimiento Date,
  @empe_Sexo char(1),
  @eciv_Id INT,
- @muni_Id INT,
+ @muni_Id CHAR(4),
  @empe_DireccionExacta NVARCHAR(250),
  @empe_Telefono NVARCHAR(20),
  @sucu_Id INT,
@@ -2313,6 +2313,84 @@ BEGIN
 	WHERE flet_Estado = 1 AND @empe_Id = empe_Id AND estp_Id = 4
 END
 
+--************** INDEX PENDIENTES *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexPendientes
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbFletes
+	WHERE flet_Estado = 1 AND estp_Id = 1
+END
+
+--************** INDEX TERMINADOS *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexTerminados
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbFletes
+	WHERE flet_Estado = 1  AND estp_Id = 4
+END
+
+--************** INDEX EN PROCESO *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexEnProceso
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbFletes
+	WHERE flet_Estado = 1  AND estp_Id NOT IN (1,4)
+END
+
+--************** INDEX POR EMPLEADO *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexPorEmpleado
+(
+	@empe_Id INT
+)
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbFletes
+	WHERE flet_Estado = 1 AND @empe_Id = empe_Id
+END
+
+
+--************** INDEX POR EMPLEADO *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexPorEmpleadoPedientes
+(
+	@empe_Id INT
+)
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbFletes
+	WHERE flet_Estado = 1 AND @empe_Id = empe_Id AND estp_Id = 1
+END
+
+
+--************** INDEX POR EMPLEADO *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexPorEmpleadoEnProceso
+(
+	@empe_Id INT
+)
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbFletes
+	WHERE flet_Estado = 1 AND @empe_Id = empe_Id  AND estp_Id NOT IN (1,4)
+END
+
+
+--************** INDEX POR EMPLEADO *****************--
+GO
+CREATE OR ALTER PROCEDURE flet.UDP_tbFletes_IndexPorEmpleadoTerminados
+(
+	@empe_Id INT
+)
+AS 
+BEGIN
+	SELECT * FROM flet.VW_tbFletes
+	WHERE flet_Estado = 1 AND @empe_Id = empe_Id AND estp_Id = 4
+END
+
 
 --************** FIND *****************--
 GO
@@ -2640,8 +2718,8 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbItems_Update
 @item_Nombre			NVARCHAR(100), 
 @item_Descripcion		NVARCHAR(100),
 @item_Peso				DECIMAL(18,2), 
-@item_Volumen			DECIMAL(18,2), 
-@item_UsuModificacion	INT 
+@item_Volumen			DECIMAL(18,2) 
+--@item_UsuModificacion	INT 
  )
 AS
 BEGIN
@@ -2658,7 +2736,7 @@ BEGIN
 				item_Descripcion = @item_Descripcion,
 				item_Peso = @item_Peso,
 				item_Volumen = @item_Volumen,
-				item_UsuModificacion = @item_UsuModificacion,
+				item_UsuModificacion = 1,
 				item_FechaModificacion  = GETDATE()
 		WHERE	item_Id = @item_Id
 
@@ -2761,13 +2839,13 @@ AS
 BEGIN
 	BEGIN TRY
         
-		INSERT INTO flet.tbPedidoDetalles (pedi_Id, item_Id, pdet_UsuCreacion)
-		VALUES	(@pedi_Id, @item_Id, @pdet_UsuCreacion)
+		INSERT INTO flet.tbPedidoDetalles (pedi_Id, item_Id, pdet_Cantidad, pdet_UsuCreacion)
+		VALUES	(@pedi_Id, @item_Id, 1, @pdet_UsuCreacion)
 
-		SELECT 1 
+		SELECT 1 as codeStatus
 	END TRY
 	BEGIN CATCH
-		SELECT 0 
+		SELECT 0 as codeStatus
 	END CATCH
 END
 
@@ -2850,6 +2928,8 @@ SELECT	T1.pedi_Id,
 		T8.depa_Id AS pedi_DepaDestinoId,
 		T8.depa_Nombre   AS pedi_DepaDestino,
 		pedi_DestinoFinal, 
+		T1.meto_Id,
+		T10.meto_Descripcion,
 		T1.estp_Id,
 		T9.estp_Nombre,
 		pedi_UsuCreacion, 
@@ -2867,7 +2947,8 @@ SELECT	T1.pedi_Id,
   ON T5.depa_Id = T6.depa_Id INNER JOIN gral.tbMunicipios T7
   ON T1.muni_Destino = T7.muni_Id  INNER JOIN gral.tbDepartamentos T8
   ON T7.depa_Id = T8.depa_Id INNER JOIN flet.tbEstadosDelPedido T9
-  ON T1.estp_Id = T9.estp_Id
+  ON T1.estp_Id = T9.estp_Id INNER JOIN gral.tbMetodosdePago T10
+  ON T1.meto_Id = T10.meto_Id
 
 
 --************** INDEX *****************--
@@ -2909,12 +2990,13 @@ END
 
 --************** INSERT *****************--
 GO
-CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_Insert 
+CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_Insert
 (
 @clie_Id			INT,
-@muni_Origen		INT,
-@muni_Destino		INT,
+@muni_Origen		CHAR(4),
+@muni_Destino		CHAR(4),
 @pedi_DestinoFinal	NVARCHAR(250),
+@meto_Id			INT,
 @pedi_UsuCreacion	INT
 )
 AS
@@ -3403,7 +3485,7 @@ GO
 
 CREATE OR ALTER PROCEDURE ACCE.UDP_tbUsuarios_InsertarNuevoUsuario
 	 @usua_NombreUsuario		NVARCHAR(255),
-	 @usua_Contraseña           NVARCHAR(255),
+	 @usua_Contraseï¿½a           NVARCHAR(255),
 	 @role_Id		         	INT,
 	 @empe_Id			        INT,
 	 @usua_EsAdmin              INT,
@@ -3414,7 +3496,7 @@ BEGIN
 
 		 BEGIN TRAN 
 			 DECLARE @Pass AS NVARCHAR(MAX);
-			 SET @Pass = CONVERT(NVARCHAR(MAX), HASHBYTES('sha2_512', @usua_Contraseña));
+			 SET @Pass = CONVERT(NVARCHAR(MAX), HASHBYTES('sha2_512', @usua_Contraseï¿½a));
 
 			
 			 IF @role_Id = 0
@@ -3571,7 +3653,7 @@ GO
 CREATE OR ALTER PROCEDURE acce.UDP_tbusuarios_Update
     (@user_Id INT,
      @user_EsAdmin INT,
-     @usua_Contraseña NVARCHAR(MAX),
+     @usua_Contraseï¿½a NVARCHAR(MAX),
      @role_Id INT,
      @empe_Id INT,
      @user_UsuModificacion INT)
@@ -3579,13 +3661,13 @@ AS
 BEGIN
     BEGIN TRY
         DECLARE @Pass AS NVARCHAR(MAX);
-        SET @Pass = CONVERT(NVARCHAR(MAX), HASHBYTES('sha2_512', @usua_Contraseña));
+        SET @Pass = CONVERT(NVARCHAR(MAX), HASHBYTES('sha2_512', @usua_Contraseï¿½a));
 
         UPDATE [acce].[tbUsuarios]
         SET [user_EsAdmin] = @user_EsAdmin,
             [role_Id] = @role_Id,
             [empe_Id] = @empe_Id,
-            user_Contrasena = @Pass, -- Encripta la nueva contraseña antes de asignarla
+            user_Contrasena = @Pass, -- Encripta la nueva contraseï¿½a antes de asignarla
             [user_UsuModificacion] = @user_UsuModificacion,
             [user_FechaModificacion] = GETDATE()
         WHERE [user_Id] = @user_Id;

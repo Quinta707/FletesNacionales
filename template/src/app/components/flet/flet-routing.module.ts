@@ -17,11 +17,14 @@ import { ClientesCreateComponent } from './clientes/clientes-create/clientes-cre
 import { CalenderComponent } from './calendario/calender.component';
 
 import { AccesoGuard } from '../../shared/guard/acceso.guard';
-
-import { ReporteComponent } from './reporte/reporte/reporte.component';
 import { FleteDetailsPropioComponent } from "./fletes/fletes-details-propio/fletes-details-propio.component";
 import { graficaLstComponent } from './grafica/grafica-lst/grafica-lst.component';
-import { ClientesEditComponent } from "./clientes/clientes-edit/clientes-edit.component";
+import { PedidosCreateComponent } from './pedidos/pedidos-create/pedidos-create.component';
+import { ClientesEditComponent } from './clientes/clientes-edit/clientes-edit.component';
+import { EmpleadosCreateComponent } from './empleados/empleados-create/empleados-create.component';
+import { EmpleadosEditComponent } from './empleados/empleados-edit/empleados-edit.component';
+
+import { ReporteComponent } from './reporte/reporte/reporte.component';
 const routes: Routes = [
   {
     path: "",
@@ -40,6 +43,10 @@ const routes: Routes = [
           {
             path: "Create",
             component: FleteCreateComponent,
+          },
+          {
+            path: "Details",
+            component: FletedetailsComponent,
           },
           {
             path: "Details",
@@ -157,6 +164,14 @@ const routes: Routes = [
             path: "List",
             component: EmpleadosListComponent,
           },
+          {
+            path: "Create",
+            component: EmpleadosCreateComponent,
+          },
+          {
+            path: "Edit",
+            component: EmpleadosEditComponent,
+          },
           
         ],
       },    
@@ -212,6 +227,20 @@ const routes: Routes = [
           {
             path: "List",
             component: PedidosIndexComponent,
+          },
+          {
+            path: "Create",
+            component: PedidosCreateComponent,
+          },
+        ],
+        
+      },
+      {
+        path: "Reporte",
+        children: [
+          {
+            path: "List",
+            component: ReporteComponent,
           },
         ],
         

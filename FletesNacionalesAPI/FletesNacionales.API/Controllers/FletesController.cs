@@ -90,7 +90,7 @@ namespace FletesNacionales.API.Controllers
             var item = _mapper.Map<VW_Grafica>(flete);
             var response = _fletService.GraficaFletes(item);
             return Ok(response);
-            }   
+        }   
 
         [HttpGet("VehiculoDisponible")]
         public IActionResult VehiDispo(int vehi_Id, string fechaSalida)

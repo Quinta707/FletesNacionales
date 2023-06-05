@@ -38,7 +38,7 @@ namespace FletesNacionales.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("Editar")]
+        [HttpPut("Editar")]
         public IActionResult Update(TrayectosViewModel Trayectos)
         {
             var item = _mapper.Map<tbTrayectos>(Trayectos);

@@ -30,6 +30,7 @@ namespace FletesNacionales.Entities.Entities
         public string muni_Origen { get; set; }
         public string muni_Destino { get; set; }
         public string pedi_DestinoFinal { get; set; }
+        public int meto_Id { get; set; }
         public int estp_Id { get; set; }
         [NotMapped]
         public string estp_Nombre { get; set; }
@@ -44,6 +45,7 @@ namespace FletesNacionales.Entities.Entities
         public bool? pedi_Estado { get; set; }
 
         public virtual tbEstadosDelPedido estp { get; set; }
+        public virtual tbMetodosdePago meto { get; set; }
         public virtual tbMunicipios muni_DestinoNavigation { get; set; }
         public virtual tbMunicipios muni_OrigenNavigation { get; set; }
         public virtual tbUsuarios pedi_UsuCreacionNavigation { get; set; }

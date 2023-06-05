@@ -3,6 +3,8 @@ import { Clientes } from '../../../../shared/model/clientes.model';
 import { ClientService } from '../../../../shared/services/clientes.service';
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/directives/NgbdSortableHeader';
+import { NgbCalendar, NgbDateStruct, NgbModal, NgbModalRef, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, DomLayoutType } from 'ag-grid-community';
@@ -105,8 +107,15 @@ export class ClienteListComponent implements OnInit {
   constructor(public service: ClientService, public router: Router, private modalService: NgbModal) {
 
 
-  }
-
+  //Columnas de las tablas
+  columnDefs: ColDef[] = [
+    { field: 'clie_Id', headerName: 'ID', flex: 1 },
+    { field: 'clie_NombreCompleto', headerName: 'Nombre', flex: 1 },
+    { field: 'clie_FechaNacimiento', headerName: 'Fecha de Nacimiento', flex: 1 },
+    { field: 'clie_Telefono', headerName: 'Telefono', flex: 1 },
+    { cellRenderer: (params) => this.actionButtonRenderer(params, this.modalService), headerName: 'Acciones', flex: 1 }
+  ]
+  
   onSearchInputChange() {
     this.agGrid.api.setQuickFilter(this.searchText);
   }

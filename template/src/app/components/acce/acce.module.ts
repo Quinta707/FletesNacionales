@@ -16,6 +16,7 @@ import { AgGridModule } from 'ag-grid-angular';
 
 import { AngularDualListBoxModule } from 'angular-dual-listbox';
 
+
 @NgModule({
   declarations: [
     RolesporPantallaListComponent,

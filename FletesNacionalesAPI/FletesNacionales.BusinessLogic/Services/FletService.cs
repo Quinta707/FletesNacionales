@@ -543,6 +543,7 @@ namespace FletesNacionales.BusinessLogic.Services
             }
         }
 
+        
         public ServiceResult VehiDisponible(int vehi_Id, string fechaSalida)
         {
             ServiceResult result = new ServiceResult();
@@ -968,6 +969,20 @@ namespace FletesNacionales.BusinessLogic.Services
             try
             {
                 var list = _pedidosRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        
+        public ServiceResult PedidosPorMunicipio(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _pedidosRepository.PedidosPorMunicipio(id);
                 return result.Ok(list);
             }
             catch (Exception e)

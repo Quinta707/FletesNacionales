@@ -37,9 +37,10 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@clie_Id", item.clie_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@muni_Origen", item.muni_Origen, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@muni_Destino", item.muni_Destino, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@muni_Origen", item.muni_Origen, DbType.String, ParameterDirection.Input);
+            parametros.Add("@muni_Destino", item.muni_Destino, DbType.String, ParameterDirection.Input);
             parametros.Add("@pedi_DestinoFinal", item.pedi_DestinoFinal, DbType.String, ParameterDirection.Input);
+            parametros.Add("@meto_Id", item.meto_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@pedi_UsuCreacion", item.pedi_UsuCreacion, DbType.Int32, ParameterDirection.Input);
 
             var result = db.QueryFirst<RequestStatus>(ScriptsDataBase.PedidosInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);

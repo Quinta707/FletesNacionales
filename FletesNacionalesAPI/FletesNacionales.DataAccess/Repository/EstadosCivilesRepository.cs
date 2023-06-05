@@ -53,6 +53,7 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@eciv_Descripcion", item.eciv_Descripcion, DbType.String, ParameterDirection.Input);
             parametros.Add("@eciv_UsuCreacion", 1, DbType.String, ParameterDirection.Input);
 
+  
             var resultado = db.QueryFirst<int>(ScriptsDataBase.EstadosCivileseInsert, parametros, commandType: CommandType.StoredProcedure);
 
             RequestStatus request = new()

@@ -55,6 +55,8 @@ namespace FletesNacionales.DataAccess.Repository
             //parametros.Add("@depa_UsuCreacion", item.depa_UsuCreacion, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@depa_UsuCreacion", item.depa_UsuCreacion, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@depa_Id", item.depa_Id, DbType.String, ParameterDirection.Input);
+            // parametros.Add("@depa_Id", item.depa_Id, DbType.String, ParameterDirection.Input);
+            //parametros.Add("@depa_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
 
             var resultado = db.QueryFirst<int>(ScriptsDataBase.DepartamentosInsert, parametros, commandType: CommandType.StoredProcedure);
 

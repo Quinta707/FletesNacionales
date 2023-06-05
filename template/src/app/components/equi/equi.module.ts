@@ -11,6 +11,7 @@ import { ModelosIndexComponent } from './modelos/modelos-index/modelos-index.com
 import { VehiculosListComponent } from './vehiculos/vehiculos-list/vehiculos-list.component';
 
 import { EquiRoutingModule } from './equi-routing.module';
+import { MarcasDetailsComponent } from './marcas/marcas-details/marcas-details.component';
 
 @NgModule({
   declarations: [

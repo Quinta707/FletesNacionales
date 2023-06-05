@@ -252,6 +252,10 @@ namespace FletesNacionales.BusinessLogic.Services
                 if (map.CodeStatus == 1)
                 {
                     return result.Ok(map);
+                } 
+                else if (map.CodeStatus == 0)
+                {
+                    return result.SetMessage("ErrorInespero", ServiceResultType.Error);
                 }
                 else if (map.CodeStatus == 0)
                 {

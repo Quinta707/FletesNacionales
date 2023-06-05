@@ -8,6 +8,7 @@ namespace FletesNacionales.API.Models
     public class PedidoDetallesViewModel
     {
         public int pdet_Id { get; set; }
+        public int pedi_Id { get; set; }
         public int item_Id { get; set; }
         public int pdet_Cantidad { get; set; }
         public int pdet_UsuCreacion { get; set; }

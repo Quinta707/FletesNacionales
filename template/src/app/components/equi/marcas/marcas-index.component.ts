@@ -7,8 +7,10 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Global } from 'config';
-
+import { Global, Idioma } from 'config';
+import { CellClickedEvent, ColDef, DomLayoutType } from 'ag-grid-community';
+import { FormGroup } from '@angular/forms';
+import { AgGridAngular } from 'ag-grid-angular';
 
 @Component({
   selector: 'app-marcas-index',
@@ -16,7 +18,8 @@ import { Global } from 'config';
   styleUrls: ['./marcas-index.component.scss']
 })
 export class MarcasIndexComponent implements OnInit{
-    public selected = [];
+  paginationPageSize: number = 10;
+     public selected = [];
     marcas!: Marcas[];
     paginationPageSize: number = 10;
  
@@ -38,7 +41,6 @@ export class MarcasIndexComponent implements OnInit{
     total$: Observable<number>;
     
     constructor(public service:MarcasService,  private modalService: NgbModal, private router:Router, private http: HttpClient){
-
       this.tableMarca$ = service.tableMarca$;
       this.total$ = service.total$;
       this.service.setUserData(this.marcas)
@@ -47,27 +49,26 @@ export class MarcasIndexComponent implements OnInit{
     onSearchInputChange(searchTerm: string) {
       this.service.searchTerm = searchTerm;
     }
-  
-    @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
-  
-    onSort({ column, direction }: SortEvent) {
-      this.headers.forEach((header) => {
-        if (header.sortable !== column) {
-          header.direction = '';
-        }
-      });
-  
-      this.service.sortColumn = column;
-      this.service.sortDirection = direction;
-  
-    }
+      @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
 
-    deleteData(id: number){
-      this.tableMarca$.subscribe((data: any)=> {      
-        data.map((elem: any,i: any)=>{elem.id == id && data.splice(i,1)})
-        
-      })
-    }
+      onSort({ column, direction }: SortEvent) {
+        this.headers.forEach((header) => {
+          if (header.sortable !== column) {
+            header.direction = '';
+          }
+        });
+
+        this.service.sortColumn = column;
+        this.service.sortDirection = direction;
+      }
+
+      deleteData(id: number){
+        this.tableMarca$.subscribe((data: any)=> {      
+          data.map((elem: any,i: any)=>{elem.id == id && data.splice(i,1)})
+          
+        })
+      }
+
 
     open(content: any) {
       this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {

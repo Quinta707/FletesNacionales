@@ -62,6 +62,14 @@ namespace FletesNacionales.API.Controllers
             return Ok(result);
         }
 
+        [HttpPut("Eliminar")]
+        public IActionResult Delete(PedidosViewModel Pedidos)
+        {
+            var item = _mapper.Map<tbPedidos>(Pedidos);
+            var result = _fletService.EliminarPedidos(item);
+            return Ok(result);
+        }
+
         [HttpGet("Buscar")]
         public IActionResult Find(int? id)
         {

@@ -21,6 +21,8 @@ export class Pedidos{
       pedi_DestinoFinal !: String;
       estp_Id !: number;
       estp_Nombre !: String;
+      meto_Id !: number;
+      meto_Descripcion !: String;
       pedi_UsuCreacion !: number;
       pedi_FechaCreacion !: String;
       pedi_UsuModificacion !: number;

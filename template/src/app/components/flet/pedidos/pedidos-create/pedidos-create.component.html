@@ -1,1 +1,222 @@
-<p>pedidos-create works!</p>
+<div class="container">
+    <app-breadcrumb [title]="'Pedidos'" [items]="['Fletes']" [active_item]="'Pedidos'"></app-breadcrumb>
+    <div class="row widget-grid">
+      <div class="col-sm-12">
+        <div class="card">
+            <img class="card-img-top" src="../../../../../assets/images/equipo/headers/agregar-headers/IngresarPedido.png" alt="Card image cap">
+        <div class="card-body">
+          <form class="form-wizard" id="regForm">
+            <aw-wizard [disableNavigationBar]='true'>
+              <aw-wizard-step>
+          <div>
+            <form [formGroup]="firstFormGroup">
+              <div class="row">
+                <div class="col-sm-8">
+                    <h2 style="color: #6a368a;">Datos generales</h2> 
+                   
+                </div> <hr>
+              </div>
+              <div>
+                    <label for="name">Cliente</label>
+                  <ng-select  placeholder="Seleccione un cliente" [items]="clienteDdl" required
+                  class="js-example-placeholder-multiple" formControlName="clie_Id" [(ngModel)]="SelectCliente.clie_NombreCompleto" bindValue="value" name="ClientValue" [ngClass]="{ 'is-invalid': submitted && !ClientValue }"></ng-select>
+                  <ng-container class="invalid text-danger"
+                  *ngIf="firstFormGroup.get('clie_Id').hasError('required') && (firstFormGroup.get('clie_Id').touched || submitted)">
+                  <label style="color:red">Este campo es requerido</label></ng-container>
+                  <br>
+              <div class="row">
+                  <div class="col-sm-6">
+                      <label class="form-label">Origen del pedido</label>
+                      <ng-select formControlName="muni_Origen" placeholder="Seleccione el origen"  [items]="municipiosDdl1" required
+                      class="js-example-placeholder-multiple" [(ngModel)]="MuniOrigen.muni_Origen" bindValue="value" groupBy="job" name="OrigenValue" [ngClass]="{ 'is-invalid': submitted && !OrigenValue }"></ng-select>
+                      <ng-container class="invalid"
+                      *ngIf="firstFormGroup.get('muni_Origen').hasError('required') && (firstFormGroup.get('muni_Origen').touched || submitted)">
+                      <label style="color:red">Este campo es requerido</label></ng-container>
+                  </div>
+                  <div class="col-sm-6">
+                      <label class="form-label">Destino del pedido</label>
+                      <ng-select formControlName="muni_Destino" placeholder="Seleccione el destino" [items]="municipiosDdl2" required
+                      class="js-example-placeholder-multiple" [(ngModel)]="MuniDestino.muni_Destino" bindValue="value" groupBy="job" name="DestinoValue" [ngClass]="{ 'is-invalid': submitted && !DestinoValue }"></ng-select>
+                      <ng-container class="invalid"
+                      *ngIf="firstFormGroup.get('muni_Destino').hasError('required') && (firstFormGroup.get('muni_Destino').touched || submitted)">
+                      <label style="color:red">Este campo es requerido</label></ng-container>
+                  </div>
+              </div><br>
+              
+              <div>
+                  <label class="form-label">Dirección exacta del destino del pedido</label>
+                  <textarea formControlName="DireccionPedido" class="form-control" id="direcInput" name="DirecValue" required rows="3" [(ngModel)]="DirecValue" name="DirecValue"
+                  [ngClass]="{ 'is-invalid': submitted && !DirecValue }"></textarea>
+                  <ng-container class="invalid"
+                      *ngIf="firstFormGroup.get('DireccionPedido').hasError('required') && (firstFormGroup.get('DireccionPedido').touched || submitted)">
+                      <label style="color:red">Este campo es requerido</label></ng-container>
+              </div>
+                
+            <br>
+            <div class="text-center">
+              <button class="btn btn-primary pull-right" type="submit" (click)="ValidarPedido()">Siguiente</button>
+            </div>
+            <br>
+            <br>
+              </div>
+              
+            </form>
+          </div>
+          </aw-wizard-step>
+          <aw-wizard-step>
+              <div>
+                <form [formGroup]="secondFormGroup">
+                  <div class="row">
+                    <div class="col-sm-7">
+                        <h2 style="color: #6a368a;">Seleccione productos</h2> 
+                    </div>
+                </div>
+                <hr>
+                
+
+                <div class="row">
+                    <div class="col-sm-9"></div>
+                    <div class="col-sm-3">
+                        <button class="btn btn-square btn-primary btn-sm" (click)="goToPreviousPage()" [disabled]="!showPreviousButton()"><<</button>
+                        <button class="btn btn-square btn-secondary btn-sm" (click)="goToNextPage()" [disabled]="!showNextButton()">>></button>
+                    </div>
+                </div>
+
+                
+                <div class="mega-inline row mt-3">
+                  <div class="col-6" *ngFor="let item of getCurrentPageItems()">
+                    <div class="card">
+                      <div class="media p-20">
+                        <div class="form-check checkbox checkbox-primary me-3">
+                          <input class="form-check-input" [id]="item.item_Id" type="checkbox" (change)="toggleSelection(item)" [checked]="selectedCardIds.includes(item.item_Id)"/>
+                          <label class="form-check-label" [for]="item.item_Id"></label>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="mt-0 mega-title-badge h5-primary">{{ item.item_Nombre }}<span class="badge badge-primary pull-right digits">{{ item.pedi_Id }}</span></h6>
+                          <p>
+                            <br>{{item.item_Descripcion}}
+                            <br><span>Peso de: </span>{{item.item_Peso}} Kg
+                            <br><span>Volumen de: </span>{{item.item_Volumen}} mtª
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br><br>
+                <div class="row">
+                  <div class="col-sm-12">
+                      <h2 style="color: #6a368a;">Método de pago</h2> 
+                  </div> <hr>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <label for="name">Método de pago</label>
+                    <ng-select  placeholder="Seleccione un método de pago" [items]="metodoDdl" required
+                    class="js-example-placeholder-multiple" formControlName="meto_Id" [(ngModel)]="SelectMetodo.meto_Descripcion" bindValue="value" name="MetodoValue" [ngClass]="{ 'is-invalid': submitted && !MetodoValue }"></ng-select>
+                    <ng-container class="invalid text-danger"
+                    *ngIf="secondFormGroup.get('meto_Id').hasError('required') && (secondFormGroup.get('meto_Id').touched || submitted)">
+                    <label style="color:red">Este campo es requerido</label></ng-container>
+                  </div>
+                  <br>
+                </div><br>
+
+                <button class="btn btn-primary pull-right" type="button" (click)="ValidarItems()" >Completar el pedido</button>
+                <button class="btn btn-secondary pull-right" (click)="Regresar1()" type="button" style="margin-left: 30px;" >Regresar</button>
+
+                </form>
+              </div>
+            </aw-wizard-step>
+            <div>
+              <!-- <aw-wizard-step>
+              <form [formGroup]="thirdFormGroup">
+                <div class="row">
+                  <div class="col-sm-12">
+                      <h2 style="color: #6a368a;">Detalles del pedido</h2> 
+                  </div> <hr>
+                </div>
+                <div class="px-4">
+                  <div class="row mt-4">
+                    <div class="col-sm-6" style="border-right: 2px solid black;">
+                      <div class="map-height" leaflet [leafletOptions]="options4" (leafletMapReady)="onMapReady4($event)"></div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="row mt-6 d-flex justify-content-between">
+                      <div class="col">
+                        <h4 class="h4 txt-primary">Pedido</h4>
+                      </div>
+                      <div class="col text-end">
+                        <h4>Nº {{pedidos.codeStatus}}</h4>
+                      </div>
+                    </div>
+                    <div class="row mt-4 d-flex justify-content-between">
+                      <div class="col">
+                        <h6>Cliente:</h6>
+                      </div>
+                      <div class="col text-end">
+                        <h6>{{pedidos.clie_NombreCompleto}}</h6>
+                      </div>
+                    </div>
+                    <div class="row mt-2 d-flex justify-content-between">
+                      <div class="col">
+                        <table>
+                          <tbody>
+                            <tr>
+                              <td><h6>Desde:</h6></td>
+                              <td><h6>{{pedidos.muni_Origen}}</h6></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="col d-flex justify-content-end">
+                        <table>
+                          <tbody>
+                            <tr>
+                              <td><h6>Hasta:</h6></td>
+                              <td><h6>{{pedidos.muni_Destino}}</h6></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                     <div class="row">
+                      <h5>Items</h5>
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Nombre</th>
+                            <th>Modelo</th>
+                            <th>Peso</th>
+                            <th>Volumen</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr  *ngFor="let item2 of itemsArray$ | async">
+                              <ng-container *ngIf="item.pedi_Id === item2.pedi_Id">
+                              <td>{{item2.item_Nombre}}</td>
+                              <td>{{item2.item_Descripcion}}</td>
+                              <td>{{item2.item_Peso}}</td>
+                              <td>{{item2.item_Volumen}}</td>
+                              </ng-container>
+                            </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                    
+                <button class="btn btn-success pull-right mt-4" type="button" (click)="redirectToList()">Completar</button>
+              </div>
+                <div>
+
+                </div>
+              </form>
+            </aw-wizard-step> -->
+            </div>
+            </aw-wizard>
+          </form>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
