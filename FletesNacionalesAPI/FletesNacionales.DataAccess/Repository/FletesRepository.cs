@@ -43,8 +43,17 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@flet_Id", id, DbType.Int32, ParameterDirection.Input);
             return db.QueryFirst<VW_tbFletes>(ScriptsDataBase.FletesFind, parametros, commandType: System.Data.CommandType.StoredProcedure);
         }
+        public IEnumerable<VW_tbTrayectos> Grafica(VW_Grafica item)
+        {
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+            var parametros = new DynamicParameters();
+            parametros.Add("@flet_Inicio", item.flet_Inicio, DbType.String, ParameterDirection.Input);
+            parametros.Add("@flet_Fin", item.flet_Fin, DbType.String, ParameterDirection.Input);
+            parametros.Add("@depa_Id", item.depa_Id, DbType.String, ParameterDirection.Input);
+            return db.Query<VW_tbTrayectos>(ScriptsDataBase.FletesGrafica, parametros, commandType: System.Data.CommandType.StoredProcedure);
+        }
 
-    public RequestStatus Insert(tbFletes item)
+        public RequestStatus Insert(tbFletes item)
         {
             RequestStatus result = new RequestStatus();
 

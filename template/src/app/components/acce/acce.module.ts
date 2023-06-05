@@ -14,6 +14,8 @@ import { RolesporPantallaCreateComponent } from './rolesPorPantalla/rolesPorPant
 import { UsuariosComponent } from './usuarios/usuarios/usuarios.component'
 import { AgGridModule } from 'ag-grid-angular';
 
+import { AngularDualListBoxModule } from 'angular-dual-listbox';
+
 @NgModule({
   declarations: [
     RolesporPantallaListComponent,
@@ -30,7 +32,8 @@ import { AgGridModule } from 'ag-grid-angular';
     AgGridModule,
     NgbModule,
     SharedModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    AngularDualListBoxModule
   ]
 })
 export class AcceModule { }

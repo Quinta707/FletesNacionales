@@ -12,30 +12,22 @@
       <div class="card-body">
         <form class="needs-validation" novalidate [ngClass]="{ 'was-validated': validate }">
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <input placeholder="Nombre rol" [(ngModel)]="updateRol.role_Nombre" class="form-control" id="validationCustom01" type="text" required >
             </div>
             
-            <div class="col-sm-6">
-              <ng-multiselect-dropdown
-              [placeholder]="'Seleccione las Pantallas'"
-              [settings]="dropdownSettings"
-              [data]="dropdownList"
-              [(ngModel)]="selectedItems"
-              (onSelect)="onItemSelect($event)"
-              (onSelectAll)="onSelectAll($event)"
-              required
-            >
-            </ng-multiselect-dropdown>
+            <div class="col-sm-12 mt-3">
+              <dual-list [source]="dropdownList" [(destination)]="selectedItems" [format]="format" display="pant_Nombre" key="pant_Id"></dual-list>
           </div>
          
         </div>
         <div class="row mt-3">
           <div class="col-sm-6">
-            <button (click)="Update()" class="btn btn-primary">Actualizar</button>
+           
+            <button type="button" (click)="Index()" class="btn btn-primary">Volver</button>
           </div>
           <div class="col-sm-6">
-            <button type="button" (click)="Index()" class="btn btn-primary">Volver</button>
+            <button (click)="Update()" class="btn btn-primary">Actualizar</button>
           </div>
           </div>
         </form>

@@ -13,32 +13,30 @@ VALUES
 		('Motorista', 1);
 --****************************************PANTALLAS****************************************--
 INSERT INTO acce.tbPantallas (pant_Nombre, pant_Url, pant_Menu, pant_Icono, pant_UsuCreacion)
-VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','maps',1),
-	   ('Estado Civiles',		'/gral/EstadosCiviles/List',		'gral','bookmark',1),
-	   ('Municipios',			'/gral/Municipios/List',			'gral','gallery',1),
-	   ('Metodos de Pagos',		'/gral/MetodosDePago/List',			'gral','blog',1) ,
-	   ('Cargos',				'/gral/Cargos/List',				'gral','social',1) ,
+VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','flag-icon flag-icon-hn',1),
+	   ('Estado Civiles',		'/gral/EstadosCiviles/List',		'gral','fa fa-list',1),
+	   ('Municipios',			'/gral/Municipios/List',			'gral','fa fa-tag',1),
+	   ('Tipo de Pagos',		'/gral/TiposDePago/List',			'gral','fa fa-credit-card-alt',1) ,
+	   ('Cargos',				'/gral/Cargos/List',				'gral','fa fa-user-plus',1) ,
 
-	   ('Clientes',				'/flet/Clientes/List',				'flet','user',1),
-	   ('Fletes',				'/flet/Fletes/List',				'flet','bonus-kit',1),
-	   ('Mis Fletes',			'/flet/Mis-Fletes/List',			'flet','bonus-kit',1),
-	   ('Calendario',			'/flet/Calendario',					'flet','calender',1),
-	   ('Items',				'/flet/Items/List',					'flet','ecommerce',1),
-	   ('Pedidos',				'/flet/Pedidos/List',				'flet','task',1),
-	   ('Sucursales',			'/flet/Sucursales/List',			'flet','others',1),
-	   ('Estados del Pedido',	'/flet/EstadosdelPedido/List',		'flet','social',1),
-	   ('Trayectos',			'/flet/Trayectos/List',				'flet','learning',1),
-	   ('Empleados',			'/flet/Empleados/List',				'flet','social',1),
+	   ('Clientes',				'/flet/Clientes/List',				'flet','fa fa-users',1),
+	   ('Fletes',				'/flet/Fletes/List',				'flet','fa fa-industry',1),
+	   ('Items',				'/flet/Items/List',					'flet','fa fa-paper-plane-o',1),
+	   ('Pedidos',				'/flet/Pedidos/List',				'flet','fa fa-briefcase',1),
+	   ('Sucursales',			'/flet/Sucursales/List',			'flet','fa fa-building-o',1),
+	   ('Trayectos',			'/flet/Trayectos/List',				'flet','fa fa-map',1),
+	   ('Estados del Pedido',	'/flet/EstadosdelPedido/List',		'flet','fa fa-check-circle-o',1),
+	   ('Empleados',			'/flet/Empleados/List',				'flet','fa fa-address-card',1),
+	   ('Grafica',				'/flet/Grafica/List',				'acce','icofont icofont-chart-bar-graph',1),
 
-	   ('Modelos',				'/equi/Modelos/List',				'equi','faq',1),
-	   ('Marcas',				'/equi/Marcas/List',				'equi','job-search',1),
-	   ('Vehiculos',			'/flet/Vehiculos/List',				'equi','project',1),
-	   ('Tipos de Vehiculos',	'/flet/TipodeVehiculo/List',		'equi','icons',1),
+	   ('Modelos',				'/equi/Modelos/List',				'equi','fa fa-car',1),
+	   ('Marcas',				'/equi/Marcas/List',				'equi','fa fa-truck',1),
+	   ('Vehiculos',			'/equi/Vehiculos/List',				'equi','fa fa-truck',1),
+	   ('Tipos de Vehiculos',	'/equi/TipodeVehiculo/List ',		'equi','fa fa-car',1),
 
- 	   ('Usuarios',				'/acce/Usuarios/List',				'acce','user',1),
-        ('Roles',				'/acce/RolesPorPantalla/List ',		'acce','learning',1),
- 	   --('Pantallas',			'/acce/Pantallas/List',				'acce','',1),
- 	   ('Grafica',				'/acce/Grafica/List',				'acce','charts',1)
+	   ('Usuarios',				'/acce/Usuarios/List',				'acce','fa fa-user',1),
+       ('Roles Por Pantalla',	'/acce/Roles/List',					'acce','fa fa-credit-card-alt',1),
+	   ('Pantallas',			'/acce/Pantallas/List',				'acce','fa fa-credit-card-alt',1)
 GO
 	    
 --****************************************ROLES POR PANTALLAS****************************************--
@@ -68,8 +66,7 @@ VALUES	--Admin
 		(19,1 ,1),
 		--acceso
 		(20,1 ,1),
-		(21,1,1),
-		(22,1,1),
+		(21,1 ,1),
 	
 		--Digitador
 		--generales
@@ -639,7 +636,8 @@ VALUES	('Lavadora Samsung','Modelo X$/AE LGBT',700,20.8, 1),
 
 --****************************************SUCURSALES****************************************--
 INSERT INTO flet.tbSucursales (sucu_Nombre, muni_Id, sucu_Direccion, sucu_UsuCreacion)
-VALUES	('Fletes Horizon San Pedro Sula','0501','123 Calle Ficticia, Barrio Imaginario, San Pedro Sula, Honduras',1),
+VALUES	
+('Fletes Horizon San Pedro Sula','0501','123 Calle Ficticia, Barrio Imaginario, San Pedro Sula, Honduras',1),
 ('Fletes Horizon Tegucigalpa','0801','Avenida Ejemplo 123, Colonia Imaginaria, Tegucigalpa, Honduras',1),
 ('Fletes Horizon Santa Rosa De Copan', '0401','Calle Ficticia 456, Barrio Imaginario, Santa Rosa de Copán, Honduras',1),
 ('Fletes Horizon Puerto Cortes','0506','Avenida Imaginaria 789, Colonia Ficticia, Puerto Cortés, Honduras',1),

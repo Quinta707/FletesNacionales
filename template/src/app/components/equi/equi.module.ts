@@ -8,13 +8,16 @@ import { AgGridModule } from 'ag-grid-angular';
 
 import { MarcasIndexComponent } from '././marcas/marcas-index.component';
 import { ModelosIndexComponent } from './modelos/modelos-index/modelos-index.component';
+import { VehiculosListComponent } from './vehiculos/vehiculos-list/vehiculos-list.component';
 
 import { EquiRoutingModule } from './equi-routing.module';
+import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
   declarations: [
     MarcasIndexComponent,
     ModelosIndexComponent,
+    VehiculosListComponent,
   ],
   imports: [
     CommonModule,
@@ -23,7 +26,8 @@ import { EquiRoutingModule } from './equi-routing.module';
     NgSelectModule,
     FormsModule,
     NgbModule,
-    SharedModule
+    SharedModule,
+    AgGridModule
   ]
 })
 export class EquiModule { }

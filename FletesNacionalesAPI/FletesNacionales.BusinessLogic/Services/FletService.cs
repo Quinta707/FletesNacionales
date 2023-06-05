@@ -662,6 +662,20 @@ namespace FletesNacionales.BusinessLogic.Services
             }
         }
 
+        public IEnumerable<VW_tbTrayectos> GraficaFletes(VW_Grafica id)
+        {
+            try
+            {
+                var list = _fletesRepository.Grafica(id);
+                return list;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
         public ServiceResult EmpezarFlete(tbFletes id)
         {
             var result = new ServiceResult();

@@ -13,7 +13,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditarComponent } from './CLientes/editar/editar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { DataTablesModule } from "angular-datatables";
-import { MyComponent } from './DataTable/list/list.component';
+import { ListBoxModule } from '@syncfusion/ej2-angular-dropdowns';
+  import { AngularDualListBoxModule } from 'angular-dual-listbox';
 
 import { CommonModule } from '@angular/common';
 @NgModule({
@@ -22,7 +23,6 @@ import { CommonModule } from '@angular/common';
     ListComponent,
     CreateComponent,
     EditarComponent,
-    MyComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +33,8 @@ import { CommonModule } from '@angular/common';
     MatSlideToggleModule,
     FormsModule,
     DataTablesModule,
-    CommonModule
+    CommonModule,
+    ListBoxModule,AngularDualListBoxModule
 
   ],
   providers: [],

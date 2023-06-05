@@ -18,8 +18,9 @@ namespace FletesNacionales.DataAccess.Repository
             using var db = new SqlConnection(FleteContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@vehi_Id", item.vehi_Id, DbType.Int32, ParameterDirection.Input);
+            RequestStatus result = new();
+            result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.VehiculosDelete, parametros, commandType: System.Data.CommandType.StoredProcedure);
 
-            var result = db.QueryFirst<RequestStatus>(ScriptsDataBase.VehiculosDelete, parametros, commandType: System.Data.CommandType.StoredProcedure);
             return result;
         }
 
@@ -40,7 +41,7 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@vehi_PesoMaximo", item.vehi_PesoMaximo, DbType.String, ParameterDirection.Input);
             parametros.Add("@vehi_VolumenMaximo", item.vehi_VolumenMaximo, DbType.String, ParameterDirection.Input);
             parametros.Add("@vehi_Placa", item.vehi_Placa, DbType.String, ParameterDirection.Input);
-            parametros.Add("@vehi_UsuCreacion", item.vehi_UsuCreacion, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@vehi_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
 
             var result = db.QueryFirst<RequestStatus>(ScriptsDataBase.VehiculosInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
             return result;
@@ -61,7 +62,7 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@vehi_PesoMaximo", item.vehi_PesoMaximo, DbType.String, ParameterDirection.Input);
             parametros.Add("@vehi_VolumenMaximo", item.vehi_VolumenMaximo, DbType.String, ParameterDirection.Input);
             parametros.Add("@vehi_Placa", item.vehi_Placa, DbType.String, ParameterDirection.Input);
-            parametros.Add("@vehi_UsuModificacion", item.vehi_UsuModificacion, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@vehi_UsuModificacion", 1, DbType.Int32, ParameterDirection.Input);
 
             var result = db.QueryFirst<RequestStatus>(ScriptsDataBase.VehiculosUpdate, parametros, commandType: System.Data.CommandType.StoredProcedure);
             return result;
