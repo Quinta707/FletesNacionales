@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   usuario: string = '';
   password: string = '';
   submitted: boolean = false;
+  user:any = JSON.parse(localStorage.getItem("user"))
 
   constructor(
     private router: Router,
@@ -23,6 +24,12 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.user);
+    if(this.user !== null){
+    this.router.navigateByUrl('dashboard/default');
+    }
+
+
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     this.submitted = false;
   }

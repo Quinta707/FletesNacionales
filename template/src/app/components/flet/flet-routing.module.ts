@@ -47,6 +47,10 @@ const routes: Routes = [
       },
       {
         path: "Mis-Fletes",
+        canActivate: [AccesoGuard],
+        data: {
+          parametro: "Mis Fletes" // Aquí puedes definir el valor del parámetro que quieres enviar
+        },
         children:[
           {
             path:"List",
@@ -60,6 +64,10 @@ const routes: Routes = [
       },
       {
         path: "Calendario",
+        canActivate: [AccesoGuard],
+        data: {
+          parametro: "Calendario" // Aquí puedes definir el valor del parámetro que quieres enviar
+        },
         component: CalenderComponent,
       },
       {
@@ -152,6 +160,10 @@ const routes: Routes = [
       },
       {
         path: "TipodeVehiculo",
+        canActivate: [AccesoGuard],
+        data: {
+          parametro: "Tipos de Vehiculos" // Aquí puedes definir el valor del parámetro que quieres enviar
+        },
         children: [
           {
             path: "List",
@@ -184,20 +196,6 @@ const routes: Routes = [
           {
             path: "List",
             component: PedidosIndexComponent,
-          },
-        ],
-        
-      },
-      {
-        path: "TipodeVehiculo",
-        canActivate: [AccesoGuard],
-        data: {
-          parametro: "TipodeVehiculo" // Aquí puedes definir el valor del parámetro que quieres enviar
-        },
-        children: [
-          {
-            path: "List",
-            component: TipodevehiculoListComponent,
           },
         ],
         

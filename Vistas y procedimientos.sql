@@ -3572,6 +3572,7 @@ AS
 SELECT T1.[user_Id]
       ,T1.[user_NombreUsuario]
       ,T1.[user_EsAdmin]
+	  ,T1.[user_Contrasena]
 	  ,T1.user_Url
       ,T1.[role_Id]
 	  ,T4.role_Nombre
@@ -3768,32 +3769,37 @@ END
 
 --*************Segusridad***************---
 GO
-CREATE OR ALTER PROCEDURE ACCE.UDP_tbRolesPorPantalla_ValidarRolTienePantalla
+CREATE OR ALTER PROCEDURE ACCE.UDP_tbRolesPorPantalla_ValidarRolTienePantalla 
 	@role_Id		INT,
 	@pant_Nombre	NVARCHAR(150)
 AS
 BEGIN
 	DECLARE @pant_Id INT, @prol_Id INT
 
-	SELECT @pant_Id = pant_Id
-	  FROM acce.tbPantallas
-	 WHERE pant_Nombre = pant_Nombre
-	   AND pant_Estado = 1
-
-	SELECT @prol_Id = prol_Id
-	  FROM [acce].[tbPantallasPorRoles]
-	 WHERE role_Id = @role_Id
-	   AND pant_Id = @pant_Id
-	   AND [prol_Estado] = 1
-
-	IF @prol_Id > 0
-	BEGIN
-		SELECT @prol_Id
-	END
+	IF EXISTS(select * FROM acce.VW_tbPantallasPorRoles where pant_Nombre = @pant_Nombre AND role_Id = @role_Id)
+		SELECT 1
 	ELSE
-	BEGIN
 		SELECT 0
-	END
+
+	--set @pant_Id = (SELECT *
+	--  FROM acce.tbPantallas
+	-- WHERE pant_Nombre = pant_Nombre
+	--   AND pant_Estado = 1)
+
+	--SET @prol_Id = (SELECT prol_Id
+	--  FROM [acce].[tbPantallasPorRoles]
+	-- WHERE role_Id = @role_Id
+	--   AND pant_Id = @pant_Id
+	--   AND [prol_Estado] = 1)
+
+	--IF @prol_Id > 0
+	--BEGIN
+	--	SELECT @prol_Id
+	--END
+	--ELSE
+	--BEGIN
+	--	SELECT 0
+	--END
 END
 GO
 
@@ -4259,10 +4265,8 @@ AS
 BEGIN
     DECLARE @Password NVARCHAR(MAX) = (HASHBYTES('SHA2_512', @user_Contrasena))
 
-    SELECT [user_Id], [user_NombreUsuario], [user_Contrasena], [user_EsAdmin], empe.empe_Id,
-           CONCAT(empe.[empe_Nombres], empe.[empe_Apellidos]) AS empe_NombreCompleto, [role_Id]
-    FROM acce.tbUsuarios usua
-    INNER JOIN [flet].[tbEmpleados] empe ON usua.empe_Id = empe.empe_Id
+    SELECT *
+    FROM acce.VW_tbUsuarios
     WHERE user_Contrasena = @Password
         AND user_NombreUsuario = @user_NombreUsuario
         AND [user_Estado] = 1

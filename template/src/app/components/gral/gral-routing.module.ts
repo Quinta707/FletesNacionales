@@ -70,7 +70,7 @@ const routes: Routes = [
      path: "EstadosCiviles",
      canActivate: [AccesoGuard],
      data: {
-       parametro: "EstadosCiviles" // Aquí puedes definir el valor del parámetro que quieres enviar
+       parametro: "Estado Civiles" // Aquí puedes definir el valor del parámetro que quieres enviar
      },
      children: [
        {
@@ -83,7 +83,7 @@ const routes: Routes = [
      path: "MetodosDePago",
      canActivate: [AccesoGuard],
      data: {
-       parametro: "MetodosDePago" // Aquí puedes definir el valor del parámetro que quieres enviar
+       parametro: "Metodos de Pagos" // Aquí puedes definir el valor del parámetro que quieres enviar
      },
      children: [
        {

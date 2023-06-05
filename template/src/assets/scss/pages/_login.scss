@@ -9,8 +9,13 @@
   justify-content: center;
   margin: 0 auto;
   background: url('../../images/login/login_bg.jpg');
-  background-position: center;
+  background-position: left;
   padding: 30px 12px;
+
+.fondo{
+  background: rgb(180,2,255);
+background: linear-gradient(130deg, rgba(180,2,255,1) 0%, rgba(57,8,237,1) 23%, rgba(114,0,145,1) 100%);
+}
 
   .logo {
     display: block;

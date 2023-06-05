@@ -28,9 +28,8 @@ export class AccesoGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<boolean> {
-    console.log("entra Acceso");
     let user = JSON.parse(localStorage.getItem("user"));
-    let parametro = next.params["parametro"];
+    let parametro = next.data["parametro"];
 
     if (!user) {
       // Si no hay un usuario válido, redirigir al dashboard
@@ -39,16 +38,15 @@ export class AccesoGuard implements CanActivate {
     }
 
     if (!user.user_EsAdmin) {
-      const ropaAcceso = new RolesporPantalla();
+      let ropaAcceso = new RolesporPantalla();
       ropaAcceso.role_Id = user.role_Id;
       ropaAcceso.pant_Nombre = parametro;
 
       try {
-        const data = await this.rolService.validarRolTienePantalla(ropaAcceso).toPromise();
-        const response = data as ValidarRolResponse;
-
+        let data = await this.rolService.validarRolTienePantalla(ropaAcceso).toPromise();
+        let response = data as ValidarRolResponse;
         if (response.code === 200) {
-          if (response.data.codeStatus === 0) {
+          if (response.data.codeStatus > 0) {
             // Si el usuario tiene permisos para acceder a la pantalla, permitir el acceso
             return true;
           } else {

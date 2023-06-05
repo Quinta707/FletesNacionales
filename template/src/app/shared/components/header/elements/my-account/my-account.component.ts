@@ -7,6 +7,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./my-account.component.scss"],
 })
 export class MyAccountComponent implements OnInit {
+  user:any = JSON.parse(localStorage.getItem("user"))
   public userName: string;
   public profileImg: "assets/images/dashboard/profile.jpg";
 
@@ -19,6 +20,7 @@ export class MyAccountComponent implements OnInit {
   ngOnInit() {}
 
   logoutFunc() {
+    localStorage.clear();
     this.router.navigateByUrl('auth/login');
   }
 }
