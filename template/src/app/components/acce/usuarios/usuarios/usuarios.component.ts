@@ -187,8 +187,8 @@ export class UsuariosComponent {
       console.log(params.data)
       this.submitted = false;
       this.usuarios.user_Id = params.data.user_Id;
-      this.EditGroup.get('user_NombreUsuario').setValue(params.data.user_NombreUsuario);
-      this.EditGroup.get('user_Contrasena').disable();
+      this.EditGroup.get('user_Contrasena').setValue(params.data.user_Contrasena);
+      this.EditGroup.get('user_NombreUsuario').disable();
       this.Usuarios = params.data;
     
       this.modalRef = this.modalService.open(this.modalEditar, { centered: true });
@@ -267,9 +267,9 @@ export class UsuariosComponent {
   EditarModelo() {
     this.sumit = true;
     if (this.EditGroup.valid) {
-      let datoTrim = this.EditGroup.value['user_NombreUsuario'].trim();
-      this.EditGroup.get("user_NombreUsuario").setValue(datoTrim);
-      this.usuarios.user_NombreUsuario = datoTrim;
+      let datoTrim = this.EditGroup.value['user_Contrasena'].trim();
+      this.EditGroup.get("user_Contrasena").setValue(datoTrim);
+      this.usuarios.user_Contrasena = datoTrim;
       this.usuarios.user_UsuModificacion = this.user.user_Id;
       this.usuarios.role_Id = this.EditGroup.value['role_Id'];
       this.usuarios.user_EsAdmin = this.EditGroup.value['user_EsAdmin'] ? true : false; 

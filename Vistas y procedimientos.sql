@@ -3518,30 +3518,33 @@ GO
 ----*********** UPDATE  ****************--
 GO
 CREATE OR ALTER PROCEDURE acce.UDP_tbusuarios_Update
-(@user_Id INT,
- @user_EsAdmin INT,
- @role_Id INT,
- @empe_Id INT,
- @user_UsuModificacion INT)
+    (@user_Id INT,
+     @user_EsAdmin INT,
+     @usua_Contraseña NVARCHAR(MAX),
+     @role_Id INT,
+     @empe_Id INT,
+     @user_UsuModificacion INT)
 AS
 BEGIN
-	BEGIN TRY
-		UPDATE [acce].[tbUsuarios]
-		SET [user_EsAdmin] = @user_EsAdmin,
-			[role_Id] = @role_Id,
-			[empe_Id] = @empe_Id,
-			[user_UsuModificacion] = @user_UsuModificacion,
-			[user_FechaModificacion] = GETDATE()
-		WHERE [user_Id] = @user_Id;
-		SELECT 1Proceso;
+    BEGIN TRY
+        DECLARE @Pass AS NVARCHAR(MAX);
+        SET @Pass = CONVERT(NVARCHAR(MAX), HASHBYTES('sha2_512', @usua_Contraseña));
 
-	END TRY
-	BEGIN CATCH
-		SELECT 0Proceso;
+        UPDATE [acce].[tbUsuarios]
+        SET [user_EsAdmin] = @user_EsAdmin,
+            [role_Id] = @role_Id,
+            [empe_Id] = @empe_Id,
+            user_Contrasena = @Pass, -- Encripta la nueva contraseña antes de asignarla
+            [user_UsuModificacion] = @user_UsuModificacion,
+            [user_FechaModificacion] = GETDATE()
+        WHERE [user_Id] = @user_Id;
 
-	END CATCH
+        SELECT 1 AS Proceso;
+    END TRY
+    BEGIN CATCH
+        SELECT 0 AS Proceso;
+    END CATCH
 END
-
 
 ----********** DELETE ***********--
 GO
@@ -3574,6 +3577,7 @@ SELECT T1.[user_Id]
       ,T1.[user_EsAdmin]
 	  ,T1.[user_Contrasena]
 	  ,T1.user_Url
+	  ,T1.user_Contrasena
       ,T1.[role_Id]
 	  ,T4.role_Nombre
       ,T1.[empe_Id]
@@ -4289,3 +4293,43 @@ BEGIN
 		INNER JOIN [acce].[tbPantallasPorRoles] T2 ON T1.pant_Id = T2.pant_Id
 		WHERE T2.role_Id = @role_Id
 END
+GO
+
+CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_ListarInforById 
+    @pedi_Id      INT
+ AS
+ BEGIN
+ BEGIN TRY
+		SELECT	t1.pedi_Id,
+		        t2.pdet_Id,
+				T2.pdet_Cantidad,
+				t5.item_Id,
+				t5.item_Peso,
+				--SUM(t5.item_Peso) AS PesoTotal,
+				--SUM(t5.item_Volumen) AS VolumenTotal,
+				t5.item_Descripcion,
+				t5.item_Volumen,
+				t5.item_Nombre,
+				T6.muni_Nombre AS muni_InicioNombre,
+                T7.muni_Nombre AS muni_FinalNombre,
+				t4.clie_Id,
+				t4.clie_Identidad,
+				t4.clie_Nombres +' '+ t4.clie_Apellidos as clie_NombreCompleto,
+				t4.clie_Telefono,
+				t8.estp_Nombre,
+				T1.*
+		FROM    flet.VW_tbPedidos t1 INNER JOIN flet.tbPedidoDetalles t2
+		ON		t1.pedi_Id = t2.pedi_Id  INNER JOIN flet.tbClientes t4
+		ON		t1.clie_Id = t4.clie_Id INNER JOIN flet.tbItems t5
+		ON		t2.item_Id = t5.item_Id INNER JOIN Gral.tbMunicipios t6
+		ON		t1.muni_Destino = t6.muni_Id INNER JOIN gral.tbMunicipios t7
+		ON      t1.muni_Destino = t7.muni_Id INNER JOIN flet.tbEstadosDelPedido t8
+		ON      t1.estp_Id = t8.estp_Id
+		WHERE	t1.pedi_Id = @pedi_Id 
+		AND     t1.pedi_Estado = 1
+	END TRY
+	BEGIN CATCH
+		SELECT 0
+	END CATCH
+END
+GO

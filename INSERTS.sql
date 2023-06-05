@@ -14,7 +14,7 @@ VALUES
 --****************************************PANTALLAS****************************************--
 INSERT INTO acce.tbPantallas (pant_Nombre, pant_Url, pant_Menu, pant_Icono, pant_UsuCreacion)
 VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','maps',1),
-	   ('Estado Civiles',		'/gral/Municipios/List',			'gral','bookmark',1),
+	   ('Estado Civiles',		'/gral/EstadosCiviles/List',		'gral','bookmark',1),
 	   ('Municipios',			'/gral/Municipios/List',			'gral','gallery',1),
 	   ('Metodos de Pagos',		'/gral/MetodosDePago/List',			'gral','blog',1) ,
 	   ('Cargos',				'/gral/Cargos/List',				'gral','social',1) ,
@@ -26,38 +26,19 @@ VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','maps',1),
 	   ('Items',				'/flet/Items/List',					'flet','ecommerce',1),
 	   ('Pedidos',				'/flet/Pedidos/List',				'flet','task',1),
 	   ('Sucursales',			'/flet/Sucursales/List',			'flet','others',1),
+	   ('Estados del Pedido',	'/flet/EstadosdelPedido/List',		'flet','social',1),
 	   ('Trayectos',			'/flet/Trayectos/List',				'flet','learning',1),
 	   ('Empleados',			'/flet/Empleados/List',				'flet','social',1),
 
 	   ('Modelos',				'/equi/Modelos/List',				'equi','faq',1),
 	   ('Marcas',				'/equi/Marcas/List',				'equi','job-search',1),
 	   ('Vehiculos',			'/flet/Vehiculos/List',				'equi','project',1),
-	   ('Tipos de Vehiculos',	'/flet/TipodeVehiculo/List ',		'equi','icons',1),
-	   
--- VALUES ('Departamentos',		'/gral/Departamentos/List',			'gral','flag-icon flag-icon-hn',1),
--- 	   ('Estado Civiles',		'/gral/EstadosCiviles/List',			'gral','fa fa-list',1),
--- 	   ('Municipios',			'/gral/Municipios/List',			'gral','fa fa-tag',1),
--- 	   ('Tipo de Pagos',		'/gral/TiposDePago/List',			'gral','fa fa-credit-card-alt',1) ,
--- 	   ('Cargos',				'/gral/Cargos/List',				'gral','fa fa-user-plus',1) ,
+	   ('Tipos de Vehiculos',	'/flet/TipodeVehiculo/List',		'equi','icons',1),
 
--- 	   ('Clientes',				'/flet/Clientes/List',				'flet','fa fa-users',1),
--- 	   ('Fletes',				'/flet/Fletes/List',				'flet','fa fa-industry',1),
--- 	   ('Items',				'/flet/Items/List',					'flet','fa fa-paper-plane-o',1),
--- 	   ('Pedidos',				'/flet/Pedidos/List',				'flet','fa fa-briefcase',1),
--- 	   ('Sucursales',			'/flet/Sucursales/List',			'flet','fa fa-building-o',1),
--- 	   ('Trayectos',			'/flet/Trayectos/List',				'flet','fa fa-map',1),
--- 	   ('Estados del Pedido',	'/flet/EstadosdelPedido/List',		'flet','fa fa-check-circle-o',1),
--- 	   ('Empleados',			'/flet/Empleados/List',				'flet','fa fa-address-card',1),
-
--- 	   ('Modelos',				'/equi/Modelos/List',				'equi','fa fa-car',1),
--- 	   ('Marcas',				'/equi/Marcas/List',				'equi','fa fa-truck',1),
--- 	   ('Vehiculos',			'/flet/Vehiculos/List',				'equi','fa fa-truck',1),
--- 	   ('Tipos de Vehiculos',	'/flet/TipodeVehiculo/List',		'equi','fa fa-car',1),
-
--- 	   ('Usuarios',				'/acce/Usuarios/List',				'acce','user',1),
---        ('Roles',				'/acce/RolesPorPantalla/List ',		'acce','learning',1),
--- 	   --('Pantallas',			'/acce/Pantallas/List',				'acce','',1),
--- 	   ('Grafica',				'/acce/Grafica/List',				'acce','charts',1)
+ 	   ('Usuarios',				'/acce/Usuarios/List',				'acce','user',1),
+        ('Roles',				'/acce/RolesPorPantalla/List ',		'acce','learning',1),
+ 	   --('Pantallas',			'/acce/Pantallas/List',				'acce','',1),
+ 	   ('Grafica',				'/acce/Grafica/List',				'acce','charts',1)
 GO
 	    
 --****************************************ROLES POR PANTALLAS****************************************--
@@ -78,38 +59,42 @@ VALUES	--Admin
 		(11,1 ,1),
 		(12,1 ,1),
 		(13,1 ,1),
-		--equipo
 		(14,1 ,1),
 		(15,1 ,1),
+		--equipo
 		(16,1 ,1),
 		(17,1 ,1),
-		--acceso
 		(18,1 ,1),
 		(19,1 ,1),
+		--acceso
 		(20,1 ,1),
-		(21,1 ,1),
+		(21,1,1),
+		(22,1,1),
 	
 		--Digitador
 		--generales
-		(1 ,2,1),
-		(2 ,2,1),
-		(3 ,2,1),
-		(4 ,2,1),
-		(5 ,2,1),
-		--fl3es
-		(6 ,2,1),
-		(7 ,2,1),
-		(8 ,2,1),
-		(9 ,2,1),
-		(10,2,1),
-		(11,2,1),
-		(12,2,1),
-		(13,2,1),
-		--eq3po
-		(14,2,1),
-		(15,2,1),
-		(16,2,1),
-		(17,2,1),
+		--generales
+		(1 ,2 ,1),
+		(2 ,2 ,1),
+		(3 ,2 ,1),
+		(4 ,2 ,1),
+		(5 ,2 ,1),
+		--fletes
+		(6 ,2 ,1),
+		(7 ,2 ,1),
+		(8 ,2 ,1),
+		(9 ,2 ,1),
+		(10,2 ,1),
+		(11,2 ,1),
+		(12,2 ,1),
+		(13,2 ,1),
+		(14,2 ,1),
+		(15,2 ,1),
+		--equipo
+		(16,2 ,1),
+		(17,2 ,1),
+		(18,2 ,1),
+		(19,2 ,1),
 
 		--Empleado
 		--generales
@@ -119,10 +104,10 @@ VALUES	--Admin
 		(4 ,3 ,1),
 		(5 ,3 ,1),
 		--eq4ipo
-		(14,3 ,1),
-		(15,3 ,1),
 		(16,3 ,1),
-		(17,3 ,1)
+		(17,3 ,1),
+		(18,3 ,1),
+		(19,3 ,1);
 GO
 
 
@@ -679,17 +664,17 @@ VALUES	('Maria Antonia', 'Aguilar', '0101-1990-01238', '02-08-1990', 'F', '4', '
 		('Jesús', 'Barreda', '0501-1975-27394', '10-08-1975', 'M', '1', '0501', 'Ticamaya, San Pedro Sula', '+504 7293-8567', '2', '2', '1'),
 		('Jessica', 'Ángeles', '0501-1995-83923', '11-05-1995', 'F', '2', '0501', 'Casa Maya 3, San Pedro Sula', '+504 4729-8395', '2', '2', '1'),
 		----
-		('Wiliam', 'Afton', '0801-1985-03647', '10-05-1985', 'M', '1', '0801', 'Kennedy, Tegucigalpa', '+504 6473-7483', '3', '3', '1'),
-		('Roberto', 'Contreras', '0801-1974-00947', '04-08-1974', 'M', '1', '0801', 'Col. Ulloa, Tegucigalpa', '+504 9858-8465', '3', '3', '1'),
-		('Karen', 'Mejía', '0801-1995-09273', '03-08-1995', 'F', '1', '0801', 'Col. Divino Paraíso, Tegucigalpa', '+504 7234-8212', '3', '3', '1'),
-		('Roxana', 'Martínez', '0801-1980-15263', '08-08-1980', 'F', '1', '0801', 'Col. Arturo Quezada, Tegucigalpa', '+504 7483-9837', '3', '3', '1'),
-		('Julia', 'Calderón', '0801-1981-11823', '09-09-1981', 'F', '1', '0801', 'Col. Arturo Quezada, Tegucigalpa', '+504 8790-9085', '3', '3', '1'),
+		('Wiliam', 'Afton', '0801-1985-03647', '10-05-1985', 'M', '1', '0801', 'Kennedy, Tegucigalpa', '+504 6473-7483', '3', '2', '1'),
+		('Roberto', 'Contreras', '0801-1974-00947', '04-08-1974', 'M', '1', '0801', 'Col. Ulloa, Tegucigalpa', '+504 9858-8465', '3', '2', '1'),
+		('Karen', 'Mejía', '0801-1995-09273', '03-08-1995', 'F', '1', '0801', 'Col. Divino Paraíso, Tegucigalpa', '+504 7234-8212', '3', '2', '1'),
+		('Roxana', 'Martínez', '0801-1980-15263', '08-08-1980', 'F', '1', '0801', 'Col. Arturo Quezada, Tegucigalpa', '+504 7483-9837', '3', '2', '1'),
+		('Julia', 'Calderón', '0801-1981-11823', '09-09-1981', 'F', '1', '0801', 'Col. Arturo Quezada, Tegucigalpa', '+504 8790-9085', '3', '2', '1'),
 		----
-		('Sheila', 'Torres', '0503-1981-09283', '02-09-1981', 'F', '1', '0503', 'Buena Vista, Omoa', '+504 7384-8974', '4', '3', '1'),
-		('Victor', 'Mateo', '0503-1997-00829', '03-09-1997', 'M', '1', '0503', 'Corinto, Omoa', '+504 9087-9056', '4', '3', '1'),
-		('Amelia', 'Lara', '0503-1998-00023', '04-09-1998', 'F', '1', '0503', 'La Venada, Omoa', '+504 9585-7456', '4', '3', '1'),
-		('Laura', 'Serrano', '0503-1999-01724', '05-09-1999', 'F', '1', '0503', 'Col. La Loma, Omoa', '+504 8869-9504', '3', '3', '1'),
-		('Karla', 'Menjivar', '0503-2000-72834', '06-09-2000', 'F', '1', '0503', 'Chivana, Omoa', '+504 9090-2524', '4', '3', '1'),
+		('Sheila', 'Torres', '0503-1981-09283', '02-09-1981', 'F', '1', '0503', 'Buena Vista, Omoa', '+504 7384-8974', '4', '2', '1'),
+		('Victor', 'Mateo', '0503-1997-00829', '03-09-1997', 'M', '1', '0503', 'Corinto, Omoa', '+504 9087-9056', '4', '2', '1'),
+		('Amelia', 'Lara', '0503-1998-00023', '04-09-1998', 'F', '1', '0503', 'La Venada, Omoa', '+504 9585-7456', '4', '2', '1'),
+		('Laura', 'Serrano', '0503-1999-01724', '05-09-1999', 'F', '1', '0503', 'Col. La Loma, Omoa', '+504 8869-9504', '3', '2', '1'),
+		('Karla', 'Menjivar', '0503-2000-72834', '06-09-2000', 'F', '1', '0503', 'Chivana, Omoa', '+504 9090-2524', '4', '2', '1'),
 		----
 		('Laura', 'Marano', '1804-1995-83629', '11-08-1995', 'F', '1', '1804', 'Arenas Blancas, El Progreso', '+504 7384-9382', '5', '1', '1'),
 		('Ross', 'Lynch', '1804-1995-18294', '12-08-1995', 'M', '1', '1804', 'Diez Alborotos, El Progreso', '+504 9283-9472', '5', '2', '1'),

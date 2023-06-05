@@ -75,5 +75,12 @@ namespace FletesNacionales.API.Controllers
             var list = _fletService.PedidosPorMunicipio(muni);
             return Ok(list);
         }
+
+        [HttpGet("ListarPedidos/{id}")]
+        public IActionResult ListarPedidos(int id)
+        {
+            var listado = _fletService.ListarPedidos(id);
+            return Ok(listado);
+        }
     }
 }

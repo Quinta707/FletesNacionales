@@ -52,6 +52,14 @@ namespace FletesNacionales.DataAccess.Repository
             return db.Query<VW_tbPedidos>(ScriptsDataBase.PedidosIndex, null, commandType: System.Data.CommandType.StoredProcedure);
         }
 
+        public IEnumerable<VW_tbPedidos> ListarPedidos(int id)
+        {
+            using var db = new SqlConnection(FleteContext.ConnectionString);
+            var parametros = new DynamicParameters();
+            parametros.Add("@pedi_Id", id, DbType.Int32, ParameterDirection.Input);
+            return db.Query<VW_tbPedidos>(ScriptsDataBase.ListarPedidos, parametros, commandType: CommandType.StoredProcedure);
+        }
+
         public IEnumerable<VW_tbPedidos> PedidosPorMunicipio(int id)
         {
             using var db = new SqlConnection(FleteContext.ConnectionString);

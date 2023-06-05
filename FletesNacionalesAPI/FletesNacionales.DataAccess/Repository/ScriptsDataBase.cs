@@ -185,7 +185,7 @@
         public static string PedidosUpdateEstado = "flet.UDP_tbPedidos_UpdateEstado";
         public static string PedidosDelete = "flet.UDP_tbPedidos_Delete";
         public static string PedidosPorMunicipio = "flet.UDP_tbPedidos_PedidosPorMunicipio";
-
+        public static string ListarPedidos = "flet.UDP_tbPedidos_ListarInforById";
         #endregion
 
         #region Sucursales
