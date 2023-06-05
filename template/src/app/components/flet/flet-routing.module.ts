@@ -20,6 +20,7 @@ import { AccesoGuard } from '../../shared/guard/acceso.guard';
 
 import { ReporteComponent } from './reporte/reporte/reporte.component';
 import { FleteDetailsPropioComponent } from "./fletes/fletes-details-propio/fletes-details-propio.component";
+import { ClientesEditComponent } from "./clientes/clientes-edit/clientes-edit.component";
 const routes: Routes = [
   {
     path: "",
@@ -98,6 +99,10 @@ const routes: Routes = [
           {
             path: "Create",
             component: ClientesCreateComponent,
+          },
+          {
+            path: "Edit",
+            component: ClientesEditComponent,
           },
           
         ],

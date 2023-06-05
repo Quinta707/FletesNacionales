@@ -46,11 +46,11 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@clie_FechaNacimiento", item.clie_FechaNacimiento, DbType.Date, ParameterDirection.Input);
             parametros.Add("@clie_Sexo", item.clie_Sexo, DbType.String, ParameterDirection.Input);
             parametros.Add("@eciv_Id", item.eciv_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@muni_Id", item.muni_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@muni_Id", item.muni_Id, DbType.String, ParameterDirection.Input);
             parametros.Add("@clie_DireccionExacta", item.clie_DireccionExacta, DbType.String, ParameterDirection.Input);
             parametros.Add("@clie_Telefono", item.clie_Telefono, DbType.String, ParameterDirection.Input);
             parametros.Add("@clie_UsuCreacion", item.clie_UsuCreacion, DbType.Int32, ParameterDirection.Input);
-            result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.UsuraiosInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
+            result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.ClientesInsert, parametros, commandType: System.Data.CommandType.StoredProcedure);
 
             return result;
         }
@@ -74,11 +74,11 @@ namespace FletesNacionales.DataAccess.Repository
             parametros.Add("@clie_FechaNacimiento", item.clie_FechaNacimiento, DbType.Date, ParameterDirection.Input);
             parametros.Add("@clie_Sexo", item.clie_Sexo, DbType.String, ParameterDirection.Input);
             parametros.Add("@eciv_Id", item.eciv_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@muni_Id", item.muni_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@muni_Id", item.muni_Id, DbType.String, ParameterDirection.Input);
             parametros.Add("@clie_DireccionExacta", item.clie_DireccionExacta, DbType.String, ParameterDirection.Input);
             parametros.Add("@clie_Telefono", item.clie_Telefono, DbType.String, ParameterDirection.Input);
             parametros.Add("@clie_UsuModificacion", item.clie_UsuModificacion, DbType.Int32, ParameterDirection.Input);
-            result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.UsuraiosUpdate, parametros, commandType: System.Data.CommandType.StoredProcedure);
+            result.CodeStatus = db.QueryFirst<int>(ScriptsDataBase.ClientesUpdate, parametros, commandType: System.Data.CommandType.StoredProcedure);
 
             return result;
         }

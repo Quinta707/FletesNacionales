@@ -1440,7 +1440,7 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbClientes_Insert
 @clie_FechaNacimiento	DATE, 
 @clie_Sexo				CHAR(1),
 @eciv_Id					INT,
-@muni_Id				INT, 
+@muni_Id				CHAR(4), 
 @clie_DireccionExacta	NVARCHAR(250),
 @clie_Telefono			NVARCHAR(20),
 @clie_UsuCreacion		INT
@@ -1477,7 +1477,7 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbClientes_Update
 @clie_FechaNacimiento	DATE, 
 @clie_Sexo				CHAR(1),
 @eciv_Id				INT,
-@muni_Id				INT, 
+@muni_Id				CHAR(4), 
 @clie_DireccionExacta	NVARCHAR(250),
 @clie_Telefono			NVARCHAR(20),
 @clie_UsuModificacion	INT

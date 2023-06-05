@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import Inputmask from "inputmask";
 import { ClientService } from "../../../../shared/services/clientes.service";
 import {
@@ -26,11 +26,11 @@ import { Clientes } from "../../../../shared/model/clientes.model";
 import Swal from "sweetalert2";
 
 @Component({
-  selector: "app-clientes-create",
-  templateUrl: "./clientes-create.component.html",
-  styleUrls: ["./clientes-create.component.scss"],
+  selector: "app-clientes-edit",
+  templateUrl: "./clientes-edit.component.html",
+  styleUrls: ["./clientes-edit.component.scss"],
 })
-export class ClientesCreateComponent implements OnInit {
+export class ClientesEditComponent implements OnInit {
   user: any = JSON.parse(localStorage.getItem("user"));
 
   public validate = false;
@@ -46,10 +46,15 @@ export class ClientesCreateComponent implements OnInit {
   constructor(
     private router: Router,
     private service: ClientService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private route: ActivatedRoute
   ) {}
   ngOnInit(): void {
+
+    const id = this.route.snapshot.queryParams["id"];
+
     this.CreateGroup = this._formBuilder.group({
+      clie_Id: ["", Validators.required],
       clie_Nombres: ["", Validators.required],
       clie_Apellidos: ["", Validators.required],
       clie_Identidad: ["", Validators.required],
@@ -79,9 +84,26 @@ export class ClientesCreateComponent implements OnInit {
     .subscribe((data:any) => {
       this.EstadosCiDDL = data.data
     })
+
+    this.service.getClientesBuscar(id)
+    .subscribe((data:any)=> {
+      this.CreateGroup.get('clie_Id').setValue(data.clie_Id);
+      this.CreateGroup.get('clie_Nombres').setValue(data.clie_Nombres);
+      this.CreateGroup.get('clie_Apellidos').setValue(data.clie_Apellidos);
+      this.CreateGroup.get('clie_Identidad').setValue(data.clie_Identidad);
+      this.CreateGroup.get('clie_FechaNacimiento').setValue(data.clie_FechaNacimiento.toString().replace('T00:00:00', ''));
+      this.CreateGroup.get('clie_Sexo').setValue(data.clie_Sexo);
+      this.CreateGroup.get('eciv_Id').setValue(data.eciv_Id);
+      this.CreateGroup.get('muni_Id').setValue(data.muni_Id);
+      this.CreateGroup.get('clie_Telefono').setValue(data.clie_Telefono);
+      this.CreateGroup.get('clie_DireccionExacta').setValue(data.clie_DireccionExacta);
+    })
   
   }
 
+  Regresar(){
+    this.router.navigate(['/flet/Clientes/List']);
+  }
 
   public Guardar() {
     this.sumit = true;
@@ -89,6 +111,7 @@ export class ClientesCreateComponent implements OnInit {
     if(this.CreateGroup.valid){
       
       let data = {
+        clie_Id: this.CreateGroup.value['clie_Id'],
         clie_Nombres: this.CreateGroup.value['clie_Nombres'],
         clie_Apellidos: this.CreateGroup.value['clie_Apellidos'],
         clie_Identidad: this.CreateGroup.value['clie_Identidad'],
@@ -98,10 +121,10 @@ export class ClientesCreateComponent implements OnInit {
         muni_Id: this.CreateGroup.value['muni_Id'].toString(),
         clie_DireccionExacta: this.CreateGroup.value['clie_DireccionExacta'],
         clie_Telefono: this.CreateGroup.value['clie_Telefono'],
-        clie_UsuCreacion: this.user.user_Id
+        clie_UsuModificacion: this.user.user_Id
       }
       console.log("Data",data)
-      this.service.postCreateCliente(data)
+      this.service.putEditarCliente(data)
       .subscribe((data:any)=>{
         console.log("response",data)
         if(data.message === "Exitoso"){
