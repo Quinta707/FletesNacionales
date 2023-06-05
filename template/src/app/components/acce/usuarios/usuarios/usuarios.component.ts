@@ -165,7 +165,10 @@ export class UsuariosComponent {
             }
           }
         });
-  
+        this.service.getUsuarios()
+        .subscribe((data: any) => {
+          this.Usuarios = data.data;
+        })
     }
   }
 
@@ -262,6 +265,10 @@ export class UsuariosComponent {
       })
 
     })
+    this.service.getUsuarios()
+      .subscribe((data: any) => {
+        this.Usuarios = data.data;
+      })
  }
 
   EditarModelo() {
@@ -291,6 +298,10 @@ export class UsuariosComponent {
     } else {
       this.alertaCamposVacios();
     }
+    this.service.getUsuarios()
+      .subscribe((data: any) => {
+        this.Usuarios = data.data;
+      })
   }
   
   
@@ -313,13 +324,14 @@ export class UsuariosComponent {
       title: messageBody,
       icon: 'success',
     }).then(() => {
-      this.modalRef?.close(); // Cerrar el modal
-      this.submitted = false; // Reiniciar el estado del formulario
-      this.service.getUsuarios()
-        .subscribe((data: any) => {
-        });
-      this.modalService.dismissAll();
+     
     });;
+    this.modalRef?.close(); // Cerrar el modal
+    this.submitted = false; // Reiniciar el estado del formulario
+    this.service.getUsuarios()
+      .subscribe((data: any) => {
+      });
+    this.modalService.dismissAll();
   }
 
   mensajeWarning(messageBody: string) {

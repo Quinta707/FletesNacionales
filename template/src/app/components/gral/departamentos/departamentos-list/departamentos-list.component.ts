@@ -8,6 +8,7 @@ import { CellClickedEvent, ColDef, DomLayoutType, GridReadyEvent } from 'ag-grid
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { NgbCalendar, NgbDateStruct, NgbModal, NgbModalRef, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
+import { CustomValidator } from 'src/app/shared/validators/OnlyNumbers';
 @Component({
   selector: 'app-departamentos-list',
   templateUrl: './departamentos-list.component.html',
@@ -109,12 +110,12 @@ export class DepartamentosListComponent implements OnInit {
     
       this.CreateGroup = this._formBuilder.group({
         depa_Nombre: ['', Validators.required],
-        depa_Id: ['', Validators.required],
+        depa_Id: ['', [CustomValidator.numeric, Validators.required]],
       });
        
       this.EditGroup = this._formBuilder.group({
         depa_Nombre: ['', Validators.required],
-        depa_Id: ['', Validators.required],
+        depa_Id: ['', [CustomValidator.numeric, Validators.required]],
       });
 
     }

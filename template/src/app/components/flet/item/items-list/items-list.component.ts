@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { Items } from '../../../../shared/model/items.model';
 import { ItemsService } from '../../../../shared/services/items.service';
 import { Router } from '@angular/router';
+import { CustomValidator } from 'src/app/shared/validators/OnlyNumbers';
 @Component({
   selector: 'app-items-list',
   templateUrl: './items-list.component.html',
@@ -110,15 +111,15 @@ export class ItemListComponent implements OnInit {
       this.CreateGroup = this._formBuilder.group({
         item_Nombre: ['', Validators.required],
         item_Descripcion: ['', Validators.required],
-        item_Peso: ['', Validators.required],
-        item_Volumen: ['', Validators.required],
+        item_Peso: ['', [CustomValidator.numeric, Validators.required]],
+        item_Volumen: ['', [CustomValidator.numeric, Validators.required]],
       });
        
       this.EditGroup = this._formBuilder.group({
         item_Nombre: ['', Validators.required],
         item_Descripcion: ['', Validators.required],
-        item_Peso: ['', Validators.required],
-        item_Volumen: ['', Validators.required],
+        item_Peso: ['', [CustomValidator.numeric, Validators.required]],
+        item_Volumen: ['', [CustomValidator.numeric, Validators.required]],
       });
 
     }

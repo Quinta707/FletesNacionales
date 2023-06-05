@@ -483,7 +483,8 @@ VALUES	('Casado(a)', '1', 1, GETDATE(), NULL, NULL),
 --****************************************CARGOS****************************************--
 INSERT INTO gral.tbCargos(carg_Descripcion, carg_UsuCreacion)
 VALUES	('Supervisor', '1'),
-		('Dependiente', '1');
+		('Dependiente', '1'),
+		('Morotista', '1');
 
 --****************************************METODO DE PAGO****************************************--
 INSERT INTO gral.tbMetodosdePago (meto_Descripcion,meto_UsuCreacion) 
@@ -652,11 +653,11 @@ GO
 
 --****************************************EMPLEADO****************************************--
 INSERT INTO flet.tbEmpleados(empe_Nombres, empe_Apellidos, empe_Identidad, empe_FechaNacimiento, empe_Sexo, eciv_Id, muni_Id, empe_DireccionExacta, empe_Telefono, sucu_Id, carg_Id, empe_UsuCreacion)
-VALUES	('Maria Antonia', 'Aguilar', '0101-1990-01238', '02-08-1990', 'F', '4', '0101', 'Col. El Sauce, La Ceiba', '+504 3892-0126', '1', '1', '1'),
-		('Oscar', 'Blanco', '0101-1992-23743', '12-08-1992', 'M', '1', '0101', 'Col. La Esperanza, La Ceiba', '+504 7892-2839', '1', '2', '1'),
-		('Lisa', 'Caballero', '0101-1989-73982', '04-08-1989', 'F', '1', '0101', 'Col. La Flor, La Ceiba', '+504 6389-2948', '1', '2', '1'),
-		('José', 'Antúnez', '0101-2000-00021', '01-01-2000', 'M', '1', '0101', 'Col. Libertad, La Ceiba', '+504 8946-3846', '1', '2', '1'),
-		('Lorna', 'Chaín', '0101-2002-00293', '02-05-2002', 'F', '1', '0101', 'Residencial El Toronjal, La Ceiba', '+504 3628-3826', '1', '2', '1'),
+VALUES	('Maria Antonia', 'Aguilar', '0101-1990-01238', '02-08-1990', 'F', '4', '0101', 'Col. El Sauce, La Ceiba', '+504 3892-0126', '1', '3', '1'),
+		('Oscar', 'Blanco', '0101-1992-23743', '12-08-1992', 'M', '1', '0101', 'Col. La Esperanza, La Ceiba', '+504 7892-2839', '1', '3', '1'),
+		('Lisa', 'Caballero', '0101-1989-73982', '04-08-1989', 'F', '1', '0101', 'Col. La Flor, La Ceiba', '+504 6389-2948', '1', '3', '1'),
+		('José', 'Antúnez', '0101-2000-00021', '01-01-2000', 'M', '1', '0101', 'Col. Libertad, La Ceiba', '+504 8946-3846', '1', '3', '1'),
+		('Lorna', 'Chaín', '0101-2002-00293', '02-05-2002', 'F', '1', '0101', 'Residencial El Toronjal, La Ceiba', '+504 3628-3826', '1', '3', '1'),
 		----
 		('Rafael', 'Caballero', '0501-2005-00293', '01-08-2005', 'M', '1', '0501', 'Col. Santa Marta, San Pedro Sula', '+504 6372-3792', '2', '1', '1'),
 		('Melissa', 'Torres', '0501-2000-02353', '05-08-2000', 'F', '1', '0501', 'Col. El Carmen, San Pedro Sula', '+504 5739-3827', '2', '2', '1'),
@@ -664,7 +665,7 @@ VALUES	('Maria Antonia', 'Aguilar', '0101-1990-01238', '02-08-1990', 'F', '4', '
 		('Jesús', 'Barreda', '0501-1975-27394', '10-08-1975', 'M', '1', '0501', 'Ticamaya, San Pedro Sula', '+504 7293-8567', '2', '2', '1'),
 		('Jessica', 'Ángeles', '0501-1995-83923', '11-05-1995', 'F', '2', '0501', 'Casa Maya 3, San Pedro Sula', '+504 4729-8395', '2', '2', '1'),
 		----
-		('Wiliam', 'Afton', '0801-1985-03647', '10-05-1985', 'M', '1', '0801', 'Kennedy, Tegucigalpa', '+504 6473-7483', '3', '2', '1'),
+		('Wiliam', 'Afton', '0801-1985-03647', '10-05-1985', 'M', '1', '0801', 'Kennedy, Tegucigalpa', '+504 6473-7483', '3', '3', '1'),
 		('Roberto', 'Contreras', '0801-1974-00947', '04-08-1974', 'M', '1', '0801', 'Col. Ulloa, Tegucigalpa', '+504 9858-8465', '3', '2', '1'),
 		('Karen', 'Mejía', '0801-1995-09273', '03-08-1995', 'F', '1', '0801', 'Col. Divino Paraíso, Tegucigalpa', '+504 7234-8212', '3', '2', '1'),
 		('Roxana', 'Martínez', '0801-1980-15263', '08-08-1980', 'F', '1', '0801', 'Col. Arturo Quezada, Tegucigalpa', '+504 7483-9837', '3', '2', '1'),

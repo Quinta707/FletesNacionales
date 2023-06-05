@@ -116,7 +116,7 @@
             <label for="">Codigo</label>
             <input type="text" [(ngModel)]="departamentos.depa_Id" name="depa_Id" id="depa_Id" formControlName="depa_Id" maxlength="2" pattern="[0-9]*" class="form-control" >
             <ng-container class="invalid text-danger"
-            *ngIf="EditGroup.get('depa_Id').hasError('required') && (EditGroup.get('depa_Id').touched || sumit)">
+            *ngIf="CreateGroup.get('depa_Id').hasError('required') && (CreateGroup.get('depa_Id').touched || sumit)">
             <p class="text-danger">El campo es necesario</p></ng-container>
           </div>
         </div>
@@ -125,7 +125,7 @@
             <label for="">Departamento</label>
             <input type="text" [(ngModel)]="departamentos.depa_Nombre" name="depa_Nombre" id="depa_Nombre" formControlName="depa_Nombre" class="form-control">
             <ng-container class="invalid text-danger"
-            *ngIf="EditGroup.get('depa_Nombre').hasError('required') && (EditGroup.get('depa_Nombre').touched || sumit)">
+            *ngIf="CreateGroup.get('depa_Nombre').hasError('required') && (CreateGroup.get('depa_Nombre').touched || sumit)">
             <p class="text-danger">El campo es necesario</p></ng-container>
           </div>
         </div>

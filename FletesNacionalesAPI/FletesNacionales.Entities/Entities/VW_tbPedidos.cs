@@ -23,6 +23,7 @@ namespace FletesNacionales.Entities.Entities
         public string clie_Sexo { get; set; }
         public int eciv_Id { get; set; }
         public decimal? pedi_Peso { get; set; }
+        public decimal tray_Precio { get; set; }
         public decimal? pedi_Volumen { get; set; }
         public string clie_DireccionExacta { get; set; }
         public string clie_Telefono { get; set; }

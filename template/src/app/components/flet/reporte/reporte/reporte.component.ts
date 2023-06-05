@@ -40,18 +40,6 @@ export class ReporteComponent implements OnInit {
     const doc = new jsPDF();
     const header = [['Id', 'Item Nombre', 'Item Descripcion', 'Peso', 'Volumen', 'Cantidad']];
 
-    // const header2 = function (doc: any) {
-    //   doc.setFontSize(18);
-    //   const pageWidth = doc.internal.pageSize.width;
-    //   doc.setTextColor(40);
-    //   // Agregar imagen
-
-
-    //   // Agregar texto
-    //   doc.setFontSize(30);
-    //   doc.setFont('Pacifico', 'normal');
-    //   doc.text('FACTURA', 10, 30);
-    // };
 
     // Obtener los datos de los empleados desde el servicio
     this.service2.getPedidosListado(this.id).subscribe(
@@ -79,19 +67,19 @@ export class ReporteComponent implements OnInit {
         const precioPorKG : number = 1.5
 
         const existingRows = [
+          [null,null,null,null,null, null],
+          [null,null,null,null,'Tipo', "Total"],
           [null,null,null,null,'Precio por kg:', precioPorKG],
-          [null,null,null,null,'SubTotal:', pesoTotal* precioPorKG],
-          [null,null,null,null,'IVA:', (pesoTotal * precioPorKG)* 0.10],
-          [null,null,null,null,'Total:', (pesoTotal* precioPorKG) * ((pesoTotal * precioPorKG)* 0.10)],
+          [null,null,null,null,'Precio del trayecto:', data[0].tray_Precio],
+          [null,null,null,null,'SubTotal:', pesoTotal* precioPorKG + data[0].tray_Precio],
+          [null,null,null,null,'IVA:', (pesoTotal * precioPorKG + data[0].tray_Precio)* 0.10],
+          [null,null,null,null,'Total:', (pesoTotal* precioPorKG + data[0].tray_Precio ) * ((pesoTotal * precioPorKG + data[0].tray_Precio)* 0.10)],
         ];
         
         rows.push(...existingRows);
         
         console.log(rows);
-
-        // Agregar el título "Listado de Empleados"
         doc.setFontSize(18);
-        // Agregar imagen en el footer
 
         const footerHeight = 65;
         const imageUrl = 'https://i.ibb.co/jzbQb6B/14064375-5439134.jpg';
@@ -106,44 +94,19 @@ export class ReporteComponent implements OnInit {
           // doc.text(`Origen: ${data[0].pedi_OrigenNombre}, ${data[0].pedi_DepaOrigen}`, 15, 25);
           // doc.text(`Destino: ${data[0].pedi_DestinoNombre}, ${data[0].pedi_DepaDestino}`, 50, 25);
           // doc.text(`Direccion Exacta: ${data[0].pedi_DestinoFinal}`, 15, 35);
-          const textWidth = 180; // Ancho en unidades de medida de jsPDF
-
-
-          // Define el ancho de la línea que divide las columnas
-
-          // Calcula el ancho de cada columna
+          const textWidth = 180;
           const columnWidth = (doc.internal.pageSize.getWidth() - 0.1) / 2;
-
-          // Establece el grosor de la línea
-
-          // Dibuja la línea vertical que divide las columnas
-
-          // Establece el tamaño de fuente para la columna 1
           doc.setFontSize(12);
-          // Agrega texto a la columna 1
           doc.text(`Origen: ${data[0].pedi_OrigenNombre}, ${data[0].pedi_DepaOrigen}`, 15, 25, { maxWidth: columnWidth - 20 });
-
-          // Establece el tamaño de fuente para la columna 2
           doc.setFontSize(12);
-          // Agrega texto a la columna 2
           doc.text(`Destino: ${data[0].pedi_DestinoNombre}, ${data[0].pedi_DepaDestino}`, columnWidth + 0, 25, { maxWidth: columnWidth - 20 });
 
-
-
-
-          // Texto que deseas mostrar
           const longText = `Direccion Exacta: ${data[0].pedi_DestinoFinal}`;
-
-          // Divide el texto en varias líneas si no cabe en el ancho especificado
           const lines = doc.splitTextToSize(longText, textWidth);
 
-          // Agrega las líneas al documento
           doc.text(lines, 15, 35);
         };
         encabezado(doc);
-        // header2(doc);
-        // Generar la tabla usando autoTable
-
 
         doc.text(`Items`, 15, 53);
         (doc as any).autoTable({
@@ -151,8 +114,7 @@ export class ReporteComponent implements OnInit {
           body: rows,
 
           didDrawPage: function (data: any) {
-            // Código para personalizar el encabezado y pie de página
-            const pageCount = doc.getNumberOfPages(); // Obtener el número de páginas
+            const pageCount = doc.getNumberOfPages();
             const currentPage = data.pageNumber;
             const pageWidth = doc.internal.pageSize.width;
             const date = new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
@@ -166,7 +128,6 @@ export class ReporteComponent implements OnInit {
           margin: { top: 55, bottom: 20 }
         });
 
-        // Mostrar el PDF en el visor
         const pdfDataUri = doc.output('datauristring');
         this.pdfViewer.nativeElement.src = pdfDataUri;
 

@@ -7,6 +7,7 @@ import { ColDef, DomLayoutType } from 'ag-grid-community';
 import { Idioma } from 'config';
 import { Trayectos } from 'src/app/shared/model/trayectos.model';
 import { TrayectosService } from 'src/app/shared/services/trayectos.service';
+import { CustomValidator } from 'src/app/shared/validators/OnlyNumbers';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -124,13 +125,13 @@ export class TrayectosIndexComponent {
       this.CreateGroup = this._formBuilder.group({
         muni_Inicio: ['', Validators.required],
         muni_Final: ['', Validators.required],
-        tray_Precio: ['', Validators.required],
+        tray_Precio: ['', [CustomValidator.numeric, Validators.required]],
       });
        
       this.EditGroup = this._formBuilder.group({
         muni_Inicio: ['', Validators.required],
         muni_Final: ['', Validators.required],
-        tray_Precio: ['', Validators.required],
+        tray_Precio: ['', [CustomValidator.numeric, Validators.required]],
       });
 
     }

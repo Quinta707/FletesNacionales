@@ -4316,6 +4316,7 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_ListarInforById
 				t4.clie_Nombres +' '+ t4.clie_Apellidos as clie_NombreCompleto,
 				t4.clie_Telefono,
 				t8.estp_Nombre,
+				T9.tray_Precio,
 				T1.*
 		FROM    flet.VW_tbPedidos t1 INNER JOIN flet.tbPedidoDetalles t2
 		ON		t1.pedi_Id = t2.pedi_Id  INNER JOIN flet.tbClientes t4
@@ -4323,7 +4324,8 @@ CREATE OR ALTER PROCEDURE flet.UDP_tbPedidos_ListarInforById
 		ON		t2.item_Id = t5.item_Id INNER JOIN Gral.tbMunicipios t6
 		ON		t1.muni_Destino = t6.muni_Id INNER JOIN gral.tbMunicipios t7
 		ON      t1.muni_Destino = t7.muni_Id INNER JOIN flet.tbEstadosDelPedido t8
-		ON      t1.estp_Id = t8.estp_Id
+		ON      t1.estp_Id = t8.estp_Id INNER JOIN flet.tbTrayectos T9
+		ON		t1.muni_Origen = T9.muni_Inicio AND T1.muni_Destino = T9.muni_Final
 		WHERE	t1.pedi_Id = @pedi_Id 
 		AND     t1.pedi_Estado = 1
 	END TRY
