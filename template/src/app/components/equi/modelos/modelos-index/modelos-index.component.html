@@ -1,166 +1,181 @@
 <div class="container">
   <app-breadcrumb [title]="'Modelos'" [items]="['Equipo']" [active_item]="'Modelos'"></app-breadcrumb>
-  <div class="row widget-grid">
+  <div class="row">
     <div class="col-sm-12">
-        <div class="card">
-          <div class="card card-border">
-            <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/Modelos.png" alt="Card image cap">
-    
-      <div class="card-body">
-        <div class="row d-flex justify-content-center">
-          <div class="col-4">
-            <button (click)="OpenModalCreate()" class="btn btn-block btn-primary">
-              + Nuevo
-            </button>
-          </div>
-        </div>
-        <div class="d-flex justify-content-between mb-2 mt-4">
-        <table>
-          <thead>
-            <tr>
-              <td>Mostrar:</td>
-              <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
-                  [(ngModel)]="paginationPageSize">
-                  <option [ngValue]="5">5</option>
-                  <option [ngValue]="10">10</option>
-                  <option [ngValue]="25">25</option>
-                  <option [ngValue]="50">50</option>
-                </select>
-              </td>
-            </tr>
-          </thead>
-        </table>
-        <div class="col-4">
-          <div class="input-group">
-            <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
-            <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
-              placeholder="Buscar..." />
-          </div>
-        </div>
-      </div>
-        <ag-grid-angular class="ag-theme-alpine" [columnDefs]="columnDefs" [pagination]="true"
-            [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
-            [rowData]="modeloslist" [rowSelection]="'multiple'" [domLayout]="domLayout"
-            [animateRows]="true"></ag-grid-angular>
-          <!-- (cellClicked)="onCellClicked($event)" -->
+
+      <div class="card">
+        <div class="card card-border">
+          <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;"
+            src="../../../../assets//images/equipo/headers/Modelos.png" alt="Card image cap">
+
+          <div class="card-body">
+            <div class="d-flex justify-content-between mb-2 ">
+              <div class="col-3">
+                <div class="input-group">
+                  <table class="form-control d-flex justify-content-center">
+                    <thead>
+                      <tr>
+                        <td>Mostrar</td>
+                        <td>
+                          <select class="selectPhynomo" name="pageSize" [(ngModel)]="paginationPageSize">
+                            <option [ngValue]="5">5</option>
+                            <option [ngValue]="10">10</option>
+                            <option [ngValue]="25">25</option>
+                            <option [ngValue]="50">50</option>
+                          </select>
+                        </td>
+                        <td>elementos</td>
+                      </tr>
+                    </thead>
+                  </table>
+                  <span class="input-group-text"><i style="color: #3c334d; " class="fa fa-list-ol"></i></span>
+                </div>
+              </div>
+              <div class="col-4">
+                <button (click)="OpenModalCreate()" class="btn btn-block btn-primary">
+                  + Nuevo
+                </button>
+              </div>
+              <div class="col-3">
+                <div class="input-group" style="height:100%;">
+                  <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
+                  <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
+                    placeholder="Buscar..." />
+                </div>
+              </div>
+            </div>
+
+            <ag-grid-angular class="ag-theme-alpine" [columnDefs]="columnDefs" [pagination]="true"
+              [paginationPageSize]="paginationPageSize" [defaultColDef]="defaultColDef" [localeText]="idioma"
+              [rowData]="modeloslist" [rowSelection]="'multiple'" [domLayout]="domLayout"
+              [animateRows]="true"></ag-grid-angular>
+            <!-- (cellClicked)="onCellClicked($event)" -->
 
 
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  </div>
-</div>
 
 
-<ng-template #delete let-c="close" let-d="dismiss" class="text-center">
-  <div class="modal-header d-flex justify-content-center">
-    <h4 class="modal-title" id="modal-basic-title">Eliminar</h4>
-  </div>
-  <div class="modal-body text-center">
-    <h6>Parece que deseas eliminar un registro</h6> <br>
-    <h6>¿Estas seguro de esta accion?</h6>
-  </div>
-  <div class="modal-footer d-flex justify-content-center">
-    <button type="button" class="btn btn-dark" (click)="closeModal()">No</button>
-    <button type="button" class="btn btn-danger" (click)="EliminarModelo()" >Si</button>
-  </div>
-</ng-template>
-
-
-<form [formGroup]="EditGroup">
-  <ng-template #edit let-c="close" let-d="dismiss" class="">
+  <ng-template #delete let-c="close" let-d="dismiss" class="text-center">
     <div class="modal-header d-flex justify-content-center">
-      <h4 class="modal-title" id="modal-basic-title">Editar</h4>
+      <h4 class="modal-title" id="modal-basic-title">Eliminar</h4>
     </div>
-    <div class="modal-body ">
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label for="">Nombre del modelo</label>
-            <input type="text" [(ngModel)]="modelo.mode_Nombre" name="mode_Nombre" id="mode_Nombre" formControlName="mode_Nombre" class="form-control">
-            <ng-container class="invalid text-danger"
-            *ngIf="EditGroup.get('mode_Nombre').hasError('required') && (EditGroup.get('mode_Nombre').touched || sumit)">
-            <p class="text-danger">El campo es necesario</p></ng-container>
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label for="">Marca del modelo</label>
-            <ng-select [items]="marcasDDL" class="" formControlName="marc_Id"
-                      [(ngModel)]="modelo.marc_Id" bindLabel="marc_Nombre" bindValue="marc_Id" placeholder="Marca del modelo"></ng-select>
-            <ng-container class="invalid text-danger"
-            *ngIf="EditGroup.get('marc_Id').hasError('required') && (EditGroup.get('marc_Id').touched || sumit)">
-            <p class="text-danger">El campo es necesario</p></ng-container>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label for="">Tipo de vehiculo</label>
-            <ng-select [items]="tipoVehiDDL" class="" formControlName="tipv_Id"
-                      [(ngModel)]="modelo.tipv_Id" bindLabel="tipv_Descripcion" bindValue="tipv_Id" placeholder="Tipo de vehiculo"></ng-select>
-            <ng-container class="invalid text-danger"
-            *ngIf="EditGroup.get('tipv_Id').hasError('required') && (EditGroup.get('tipv_Id').touched || sumit)">
-            <p class="text-danger">El campo es necesario</p></ng-container>
-          </div>
-        </div>
-        <div class="col">
-        </div>
-      </div>
+    <div class="modal-body text-center">
+      <h6>Parece que deseas eliminar un registro</h6> <br>
+      <h6>¿Estas seguro de esta accion?</h6>
     </div>
     <div class="modal-footer d-flex justify-content-center">
-      <button type="button" class="btn btn-dark" (click)="closeModal()">Cancelar</button>
-    <button type="button" class="btn btn-primary" (click)="EditarModelo()" >Guardar</button>
-  </div>
-</ng-template>
-</form>
+      <button type="button" class="btn btn-dark" (click)="closeModal()">No</button>
+      <button type="button" class="btn btn-danger" (click)="EliminarModelo()">Si</button>
+    </div>
+  </ng-template>
 
-<form [formGroup]="CreateGroup">
-  <ng-template #create let-c="close" let-d="dismiss" class="">
-    <div class="modal-header d-flex justify-content-center">
-      <h4 class="modal-title" id="modal-basic-title">Crear</h4>
-    </div>
-    <div class="modal-body ">
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label for="">Nombre del modelo</label>
-            <input type="text" placeholder="Modelo" [(ngModel)]="modelo.mode_Nombre" name="mode_Nombre" id="mode_Nombre" formControlName="mode_Nombre" class="form-control">
-            <ng-container class="invalid text-danger"
-            *ngIf="CreateGroup.get('mode_Nombre').hasError('required') && (CreateGroup.get('mode_Nombre').touched || sumit)">
-            <p class="text-danger">El campo es necesario</p></ng-container>
+
+  <form [formGroup]="EditGroup">
+    <ng-template #edit let-c="close" let-d="dismiss" class="">
+      <div class="modal-header d-flex justify-content-center">
+        <h4 class="modal-title" id="modal-basic-title">Editar</h4>
+      </div>
+      <div class="modal-body ">
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="">Nombre del modelo</label>
+              <input type="text" [(ngModel)]="modelo.mode_Nombre" name="mode_Nombre" id="mode_Nombre"
+                formControlName="mode_Nombre" class="form-control">
+              <ng-container class="invalid text-danger"
+                *ngIf="EditGroup.get('mode_Nombre').hasError('required') && (EditGroup.get('mode_Nombre').touched || sumit)">
+                <p class="text-danger">El campo es necesario</p>
+              </ng-container>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="">Marca del modelo</label>
+              <ng-select [items]="marcasDDL" class="" formControlName="marc_Id" [(ngModel)]="modelo.marc_Id"
+                bindLabel="marc_Nombre" bindValue="marc_Id" placeholder="Marca del modelo"></ng-select>
+              <ng-container class="invalid text-danger"
+                *ngIf="EditGroup.get('marc_Id').hasError('required') && (EditGroup.get('marc_Id').touched || sumit)">
+                <p class="text-danger">El campo es necesario</p>
+              </ng-container>
+            </div>
           </div>
         </div>
-        <div class="col">
-          <div class="form-group">
-            <label for="">Marca del modelo</label>
-            <ng-select [items]="marcasDDL" class="" formControlName="marc_Id"
-                      [(ngModel)]="modelo.marc_Id" bindLabel="marc_Nombre" bindValue="marc_Id" placeholder="Marca del modelo"></ng-select>
-            <ng-container class="invalid text-danger"
-            *ngIf="CreateGroup.get('marc_Id').hasError('required') && (CreateGroup.get('marc_Id').touched || sumit)">
-            <p class="text-danger">El campo es necesario</p></ng-container>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="">Tipo de vehiculo</label>
+              <ng-select [items]="tipoVehiDDL" class="" formControlName="tipv_Id" [(ngModel)]="modelo.tipv_Id"
+                bindLabel="tipv_Descripcion" bindValue="tipv_Id" placeholder="Tipo de vehiculo"></ng-select>
+              <ng-container class="invalid text-danger"
+                *ngIf="EditGroup.get('tipv_Id').hasError('required') && (EditGroup.get('tipv_Id').touched || sumit)">
+                <p class="text-danger">El campo es necesario</p>
+              </ng-container>
+            </div>
+          </div>
+          <div class="col">
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label for="">Tipo de vehiculo</label>
-            <ng-select [items]="tipoVehiDDL" class="" formControlName="tipv_Id"
-                      [(ngModel)]="modelo.tipv_Id" bindLabel="tipv_Descripcion" bindValue="tipv_Id" placeholder="Tipo de vehiculo"></ng-select>
-            <ng-container class="invalid text-danger"
-            *ngIf="CreateGroup.get('tipv_Id').hasError('required') && (CreateGroup.get('tipv_Id').touched || sumit)">
-            <p class="text-danger">El campo es necesario</p></ng-container>
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-dark" (click)="closeModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="EditarModelo()">Guardar</button>
+      </div>
+    </ng-template>
+  </form>
+
+  <form [formGroup]="CreateGroup">
+    <ng-template #create let-c="close" let-d="dismiss" class="">
+      <div class="modal-header d-flex justify-content-center">
+        <h4 class="modal-title" id="modal-basic-title">Crear</h4>
+      </div>
+      <div class="modal-body ">
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="">Nombre del modelo</label>
+              <input type="text" placeholder="Modelo" [(ngModel)]="modelo.mode_Nombre" name="mode_Nombre"
+                id="mode_Nombre" formControlName="mode_Nombre" class="form-control">
+              <ng-container class="invalid text-danger"
+                *ngIf="CreateGroup.get('mode_Nombre').hasError('required') && (CreateGroup.get('mode_Nombre').touched || sumit)">
+                <p class="text-danger">El campo es necesario</p>
+              </ng-container>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="">Marca del modelo</label>
+              <ng-select [items]="marcasDDL" class="" formControlName="marc_Id" [(ngModel)]="modelo.marc_Id"
+                bindLabel="marc_Nombre" bindValue="marc_Id" placeholder="Marca del modelo"></ng-select>
+              <ng-container class="invalid text-danger"
+                *ngIf="CreateGroup.get('marc_Id').hasError('required') && (CreateGroup.get('marc_Id').touched || sumit)">
+                <p class="text-danger">El campo es necesario</p>
+              </ng-container>
+            </div>
           </div>
         </div>
-        <div class="col">
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="">Tipo de vehiculo</label>
+              <ng-select [items]="tipoVehiDDL" class="" formControlName="tipv_Id" [(ngModel)]="modelo.tipv_Id"
+                bindLabel="tipv_Descripcion" bindValue="tipv_Id" placeholder="Tipo de vehiculo"></ng-select>
+              <ng-container class="invalid text-danger"
+                *ngIf="CreateGroup.get('tipv_Id').hasError('required') && (CreateGroup.get('tipv_Id').touched || sumit)">
+                <p class="text-danger">El campo es necesario</p>
+              </ng-container>
+            </div>
+          </div>
+          <div class="col">
+          </div>
         </div>
       </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-dark" (click)="closeModal()">Cancelar</button>
-    <button type="button" class="btn btn-primary" (click)="CrearModelo()" >Guardar</button>
-  </div>
-</ng-template>
-</form>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" (click)="closeModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="CrearModelo()">Guardar</button>
+      </div>
+    </ng-template>
+  </form>

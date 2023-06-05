@@ -26,7 +26,7 @@ export class NavService implements OnDestroy {
   private unsubscriber: Subject<any> = new Subject();
   public screenWidth: BehaviorSubject<number> = new BehaviorSubject(window.innerWidth);
   public search: boolean = false;
-  public language: boolean = true;
+  public language: boolean = false;
   public megaMenu: boolean = false;
   public levelMenu: boolean = false;
   public megaMenuColapse: boolean = window.innerWidth < 1199 ? true : false;

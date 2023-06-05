@@ -1,10 +1,12 @@
 <div class="container">
-  <app-breadcrumb [title]="'Fletes listado'" [items]="['Flet']" [active_item]="'Fletes'"></app-breadcrumb>
+  <app-breadcrumb [title]="'Fletes'" [items]="['Fletes']" [active_item]="'Fletes'"></app-breadcrumb>
   <br>
   <div class="row">
     <div class="col-12">
       <div class="card card-border">
-        <img class="card-img-top" style="border-top-left-radius: 14px; border-top-right-radius: 14px;" src="../../../../assets//images/equipo/headers/Fletes.png" alt="Card image cap">
+        <img class="card-img-top"
+          style="border-top-left-radius: 14px; border-top-right-radius: 14px; border-bottom: 1px solid black;"
+          src="../../../../assets//images/equipo/headers/Fletes.png" alt="Card image cap">
 
         <div class="card-body">
           <ul ngbNav #nav="ngbNav" [(activeId)]="active" (navChange)="onNavChange($event)" class="nav-tabs">
@@ -14,22 +16,28 @@
                 <!-- app.component.html -->
 
                 <div class="d-flex justify-content-between mb-2 mx-1 mt-4">
-                  <table>
-                    <thead>
-                      <tr>
-                        <td>Mostrar:</td>
-                        <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
-                            [(ngModel)]="paginationPageSize">
-                            <option [ngValue]="5">5</option>
-                            <option [ngValue]="10">10</option>
-                            <option [ngValue]="25">25</option>
-                            <option [ngValue]="50">50</option>
-                          </select>
-                        </td>
-                      </tr>
-                    </thead>
-                  </table>
-                  <div class="col-4">
+                  <div class="col-3">
+                    <div class="input-group">
+                      <table class="form-control d-flex justify-content-center">
+                        <thead>
+                          <tr>
+                            <td>Mostrar</td>
+                            <td>
+                              <select class="selectPhynomo" name="pageSize" [(ngModel)]="paginationPageSize">
+                                <option [ngValue]="5">5</option>
+                                <option [ngValue]="10">10</option>
+                                <option [ngValue]="25">25</option>
+                                <option [ngValue]="50">50</option>
+                              </select>
+                            </td>
+                            <td>elementos</td>
+                          </tr>
+                        </thead>
+                      </table>
+                      <span class="input-group-text"><i style="color: #3c334d; " class="fa fa-list-ol"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-3">
                     <div class="input-group">
                       <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
                       <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
@@ -51,22 +59,28 @@
               <ng-template ngbNavContent>
 
                 <div class="d-flex justify-content-between mb-2 mx-1 mt-4">
-                  <table>
-                    <thead>
-                      <tr>
-                        <td>Mostrar:</td>
-                        <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
-                            [(ngModel)]="paginationPageSize">
-                            <option [ngValue]="5">5</option>
-                            <option [ngValue]="10">10</option>
-                            <option [ngValue]="25">25</option>
-                            <option [ngValue]="50">50</option>
-                          </select>
-                        </td>
-                      </tr>
-                    </thead>
-                  </table>
-                  <div class="col-4">
+                  <div class="col-3">
+                    <div class="input-group">
+                      <table class="form-control d-flex justify-content-center">
+                        <thead>
+                          <tr>
+                            <td>Mostrar</td>
+                            <td>
+                              <select class="selectPhynomo" name="pageSize" [(ngModel)]="paginationPageSize">
+                                <option [ngValue]="5">5</option>
+                                <option [ngValue]="10">10</option>
+                                <option [ngValue]="25">25</option>
+                                <option [ngValue]="50">50</option>
+                              </select>
+                            </td>
+                            <td>elementos</td>
+                          </tr>
+                        </thead>
+                      </table>
+                      <span class="input-group-text"><i style="color: #3c334d; " class="fa fa-list-ol"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-3">
                     <div class="input-group">
                       <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
                       <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
@@ -79,7 +93,7 @@
                   [columnDefs]="columnDefsEnProceso" [pagination]="true" [paginationPageSize]="paginationPageSize"
                   [defaultColDef]="defaultColDef" [localeText]="idioma" [rowData]="fletesEnProceso"
                   [domLayout]="domLayout" [rowSelection]="'multiple'" [animateRows]="true"></ag-grid-angular>
-                 
+
                 <!-- (cellClicked)="onCellClicked($event)" -->
 
               </ng-template>
@@ -89,22 +103,28 @@
               <ng-template ngbNavContent>
 
                 <div class="d-flex justify-content-between mb-2 mx-1 mt-4">
-                  <table>
-                    <thead>
-                      <tr>
-                        <td>Mostrar:</td>
-                        <td> <select class="form-control" style="color: #3c334d; width: auto" name="pageSize"
-                            [(ngModel)]="paginationPageSize">
-                            <option [ngValue]="5">5</option>
-                            <option [ngValue]="10">10</option>
-                            <option [ngValue]="25">25</option>
-                            <option [ngValue]="50">50</option>
-                          </select>
-                        </td>
-                      </tr>
-                    </thead>
-                  </table>
-                  <div class="col-4">
+                  <div class="col-3">
+                    <div class="input-group">
+                      <table class="form-control d-flex justify-content-center">
+                        <thead>
+                          <tr>
+                            <td>Mostrar</td>
+                            <td>
+                              <select class="selectPhynomo" name="pageSize" [(ngModel)]="paginationPageSize">
+                                <option [ngValue]="5">5</option>
+                                <option [ngValue]="10">10</option>
+                                <option [ngValue]="25">25</option>
+                                <option [ngValue]="50">50</option>
+                              </select>
+                            </td>
+                            <td>elementos</td>
+                          </tr>
+                        </thead>
+                      </table>
+                      <span class="input-group-text"><i style="color: #3c334d; " class="fa fa-list-ol"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-3">
                     <div class="input-group">
                       <span class="input-group-text"><i style="color: #3c334d;" class="fa fa-search"></i></span>
                       <input class="form-control" type="text" [(ngModel)]="searchText" (input)="onSearchInputChange()"
