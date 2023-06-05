@@ -242,9 +242,10 @@ ValidarItems(){
               this.pedidos = response;
             });
               const apiUrl2 = Global + 'PedidoDetalles/Insertar';
+              const aidi = response.codeStatus
               this.selectedCardIds.forEach(element => {
                 const requestBody2 = {
-                  pedi_Id:            response.codeStatus,
+                  pedi_Id:            aidi,
                   item_Id:            this.selectedCardIds,
                   pdet_UsuCreacion:   1
                 };
