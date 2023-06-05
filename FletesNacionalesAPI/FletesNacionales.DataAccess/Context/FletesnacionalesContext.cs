@@ -2059,7 +2059,7 @@ namespace FletesNacionales.DataAccess.Context
 
                 entity.ToTable("tbRoles", "acce");
 
-                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82EA14F9FE2")
+                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E7A62F6DC")
                     .IsUnique();
 
                 entity.Property(e => e.role_Estado)

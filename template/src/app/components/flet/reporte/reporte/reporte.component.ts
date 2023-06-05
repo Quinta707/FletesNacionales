@@ -9,7 +9,7 @@ import { Items } from '../../../../shared/model/items.model';
 import { ItemsService } from '../../../../shared/services/items.service';
 import { Clientes } from '../../../../shared/model/clientes.model';
 import { ClientService } from '../../../../shared/services/clientes.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-reporte',
   templateUrl: './reporte.component.html',
@@ -25,7 +25,8 @@ export class ReporteComponent implements OnInit {
     public service2: ServiceService,
     public service3: ItemsService,
     public service4: ClientService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
 
@@ -176,4 +177,8 @@ export class ReporteComponent implements OnInit {
       }
     );
   }
+Regresar(){
+  this.router.navigate(['/flet/Pedidos/List']);
+}
+
 }

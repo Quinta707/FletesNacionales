@@ -1,6 +1,22 @@
-<iframe #pdfViewer width="100%" height="600px"></iframe>
-<div *ngIf="errorMessage">
-  <p>{{ errorMessage }}</p>
-</div>
 
+<div class="container">
+  <div class="card card-border">
+    <img class="card-img-top" 
+    style="border-top-left-radius: 14px; border-top-right-radius: 14px; border-bottom: 1px solid black;"
+    src="../../../../assets//images/equipo/headers/Reporte.png" alt="Card image cap">
+
+    <div class="card-body">
+      <div class="row mb-4 d-flex justify-content-end">
+        <div class="col-3">
+          <button class="btn btn-block btn-dark" (click)="Regresar()">Regresar</button>
+        </div>
+
+      </div>
+      <iframe #pdfViewer width="100%" height="600px"></iframe>
+      <div *ngIf="errorMessage">
+        <p>{{ errorMessage }}</p>
+      </div>
+    </div>
+  </div>
+</div>
   
