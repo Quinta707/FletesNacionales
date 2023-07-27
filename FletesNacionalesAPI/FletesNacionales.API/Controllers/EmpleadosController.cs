@@ -38,25 +38,25 @@ namespace FletesNacionales.API.Controllers
         }
 
         [HttpPost("Insertar")]
-        public IActionResult Insert(EmpleadoViewModel Pedidos)
+        public IActionResult Insert(EmpleadoViewModel Empleados)
         {
-            var item = _mapper.Map<tbEmpleados>(Pedidos);
+            var item = _mapper.Map<tbEmpleados>(Empleados);
             var response = _fletService.InsertarEmpleados(item);
             return Ok(response);
         }
 
         [HttpPut("Editar")]
-        public IActionResult Update(EmpleadoViewModel Pedidos)
+        public IActionResult Update(EmpleadoViewModel Empleados)
         {
-            var item = _mapper.Map<tbEmpleados>(Pedidos);
+            var item = _mapper.Map<tbEmpleados>(Empleados);
             var response = _fletService.EditarEmpleados(item);
             return Ok(response);
         }
 
         [HttpPut("Eliminar")]
-        public IActionResult Delete(EmpleadoViewModel Pedidos)
+        public IActionResult Delete(EmpleadoViewModel Empleados)
         {
-            var item = _mapper.Map<tbEmpleados>(Pedidos);
+            var item = _mapper.Map<tbEmpleados>(Empleados);
             var result = _fletService.EliminarEmpleados(item);
             return Ok(result);
         }

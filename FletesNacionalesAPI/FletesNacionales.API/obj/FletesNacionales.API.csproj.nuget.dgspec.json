@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.API\\FletesNacionales.API.csproj": {}
+    "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.API\\FletesNacionales.API.csproj": {}
   },
   "projects": {
-    "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.API\\FletesNacionales.API.csproj": {
+    "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.API\\FletesNacionales.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.API\\FletesNacionales.API.csproj",
+        "projectUniqueName": "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.API\\FletesNacionales.API.csproj",
         "projectName": "FletesNacionales.API",
-        "projectPath": "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.API\\FletesNacionales.API.csproj",
-        "packagesPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\.nuget\\packages\\",
-        "outputPath": "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.API\\obj\\",
+        "projectPath": "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.API\\FletesNacionales.API.csproj",
+        "packagesPath": "C:\\Users\\ED_Ge\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\LAB01.DESKTOP-36LBO8D\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ED_Ge\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -32,8 +34,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj": {
-                "projectPath": "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj"
+              "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj": {
+                "projectPath": "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj"
               }
             }
           }
@@ -99,22 +101,24 @@
         }
       }
     },
-    "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj": {
+    "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj",
+        "projectUniqueName": "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj",
         "projectName": "FletesNacionales.BusinessLogic",
-        "projectPath": "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj",
-        "packagesPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\.nuget\\packages\\",
-        "outputPath": "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\obj\\",
+        "projectPath": "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\FletesNacionales.BusinessLogic.csproj",
+        "packagesPath": "C:\\Users\\ED_Ge\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.BusinessLogic\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\LAB01.DESKTOP-36LBO8D\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ED_Ge\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -127,8 +131,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj": {
-                "projectPath": "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj"
+              "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj": {
+                "projectPath": "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj"
               }
             }
           }
@@ -161,22 +165,24 @@
         }
       }
     },
-    "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj": {
+    "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj",
+        "projectUniqueName": "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj",
         "projectName": "FletesNacionales.DataAccess",
-        "projectPath": "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj",
-        "packagesPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\.nuget\\packages\\",
-        "outputPath": "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\obj\\",
+        "projectPath": "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\FletesNacionales.DataAccess.csproj",
+        "packagesPath": "C:\\Users\\ED_Ge\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.DataAccess\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\LAB01.DESKTOP-36LBO8D\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ED_Ge\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -189,8 +195,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj": {
-                "projectPath": "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj"
+              "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj": {
+                "projectPath": "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj"
               }
             }
           }
@@ -245,22 +251,24 @@
         }
       }
     },
-    "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj": {
+    "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
+        "projectUniqueName": "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
         "projectName": "FletesNacionales.Entities",
-        "projectPath": "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
-        "packagesPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\.nuget\\packages\\",
-        "outputPath": "C:\\GitHub\\FUNCIONA\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\obj\\",
+        "projectPath": "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\FletesNacionales.Entities.csproj",
+        "packagesPath": "C:\\Users\\ED_Ge\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ED_Ge\\OneDrive\\Documentos\\GitHub\\FletesNacionales\\FletesNacionalesAPI\\FletesNacionales.Entities\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\LAB01.DESKTOP-36LBO8D\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ED_Ge\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"

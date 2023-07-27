@@ -228,7 +228,7 @@ export class FleteCreateComponent implements OnInit {
 
   firstFormGroup: FormGroup; // primer formulario
   secondFormGroup: FormGroup; //selects del segundo
-  trayectoriaFormGroup: FormGroup; //formulario de la tratectoria
+  trayectoriaFormGroup: FormGroup; //formulario de la trayectoria
 
   //datos del ddl
   public municipiosDdl = [];

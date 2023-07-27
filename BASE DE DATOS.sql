@@ -3,10 +3,10 @@ USE master
 DROP DATABASE FletesNacionales
 */
 
---CREATE DATABASE FletesNacionales
---GO
---USE FletesNacionales
---GO
+CREATE DATABASE FletesNacionales
+GO
+USE FletesNacionales
+GO
 CREATE SCHEMA acce
 GO
 CREATE SCHEMA gral

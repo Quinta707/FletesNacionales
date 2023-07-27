@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import Swal from 'sweetalert2';
 import { NavService } from "src/app/shared/services/nav.service";
+import { Global } from "config";
 
 @Component({
   selector: "app-login",
@@ -36,7 +37,7 @@ export class LoginComponent implements OnInit {
 
   onLoggedin(e: MouseEvent) {
     e.preventDefault();
-    const apiUrl = 'https://localhost:44339/api/Usuarios/Login';
+    const apiUrl =  Global + 'Usuarios/Login';
 
     if (!this.usuario || !this.password) {
       this.submitted = true;

@@ -3,7 +3,8 @@ USE master
 DROP DATABASE FletesNacionales
 */
 GO
---USE FletesNacionales
+USE FletesNacionales
+GO
 -------------------------------------------------
 ----------------TABLAS GENERALES-----------------
 -------------------------------------------------

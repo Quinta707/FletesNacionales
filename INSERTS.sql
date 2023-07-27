@@ -2,8 +2,8 @@
 USE master
 DROP DATABASE FletesNacionales
 */
-
---USE FletesNacionales
+USE FletesNacionales
+GO
 --****************************************INSERTS ACCESO****************************************--
 --****************************************ROLES****************************************--
 INSERT INTO acce.tbRoles (role_Nombre,role_UsuCreacion)
